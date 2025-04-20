@@ -70,7 +70,9 @@ function updateCompute(i) {
 }
 
 function handleNextInCompute() {
-  if (currentComputeStep >= totalComputeSteps) {
+  if (currentComputeStep >= totalComputeSteps-1) {
+    step++;
+    updatesWithStep();
     return;
   }
   currentComputeStep++;

@@ -25,7 +25,7 @@ function childWithCustomAttribute(
 function updateHeader() {
   const progressPoints = document.querySelectorAll(".steps .step");
   const fill = document.querySelector(".progress-fill");
-  fill.style.width = `${step * 25}%`;
+  fill.style.width = `${Math.min(step,3) * 25}%`;
   for (let i = 0; i < progressPoints.length; i++) {
     if (i < step) {
       progressPoints[i].classList.add("completed");
@@ -43,6 +43,14 @@ const setGlobalSubstep = function () {
     
     currentSubstep = currentQuestionIndex + 1;
     totalSubsteps = connectQuestions.length;
+  }
+  else if(step == 3){
+    currentSubstep = currentComputeStep+1;
+    totalSubsteps = totalComputeSteps;
+  }
+  else if(step == 4){
+    currentSubstep = 1;
+    totalSubsteps = 2;
   }
 };
 
@@ -64,6 +72,9 @@ const updateLeftTitle = function () {
   title.textContent = leftTitles[step - 1];
 };
 const updateLeftTextArea = function () {
+  if(step==4){
+    return;
+  }
   const leftDivs = document.querySelectorAll("#equationArea > div");
   leftDivs.forEach((div) => {
     div.classList.add("hidden");
