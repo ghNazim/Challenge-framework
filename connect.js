@@ -4,7 +4,6 @@ const updateInfoConnect = function (i) {
   if (i > connectQuestions.length) {
     return;
   }
-  console.log("updateInfoConnect", i);
   const data = connectQuestions[i],
     leftConnect = document.getElementById("leftConnect");
 

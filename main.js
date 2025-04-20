@@ -2,6 +2,7 @@
 const handleNextClick = function (step) {
     if(step==1) handleNextInComprehend();
     else if(step==2) handleNextInConnect();
+    else if(step==3) handleNextInCompute();
     setGlobalSubstep();
     updateFooter();
 };
@@ -17,3 +18,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 setupConnectSummary();
 showConnectCard(false);
+updateCompute(0);

@@ -2,7 +2,17 @@ function enableButton(id, enable) {
   const button = document.getElementById(id);
   button.disabled = !enable;
 }
-
+function returnIndexes(rightGroups, index) {
+  let i = 0,
+    j = index;
+  while (i < rightGroups.length) {
+    j -= rightGroups[i];
+    if (j < 0) {
+      return [i, j + rightGroups[i]];
+    }
+    i++;
+  }
+}
 function childWithCustomAttribute(
   parentElement,
   attributeName,

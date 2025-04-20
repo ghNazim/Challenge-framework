@@ -44,13 +44,17 @@
         <div class="row row-3">
           <div id="equationArea" class="card">
             <h3 class="info-title">Key Information</h3>
-            <div id="leftComprehend"></div>
+            <div id="leftComprehend" class=""></div>
             <div id="leftConnect" class="hidden"></div>
-            <div id="leftCompute" class="hidden"></div>
+            <div id="leftCompute" class="hidden">
+              <!-- <div class="info-block show bordered">
+                <p class="info-text show"> Radius = Diameter / 2</p>
+              </div> -->
+            </div>
             <div id="leftCheck" class="hidden"></div>
           </div>
           <div id="diagramArea" class="card">
-            <div id="rightComprehend" ></div>
+            <div id="rightComprehend" class=""></div>
             <div id="rightConnect" class="hidden">
               <h3 class="info-title">Select the correct option</h3>
               <p class="connect-question">
@@ -65,17 +69,34 @@
               </div>
               <p class="connect-question feedback">Thats Correct, yoohoo.</p>
             </div>
-            
-            <div id="rightCompute" class="hidden"></div>
+
+            <div id="rightCompute" class="hidden">
+              <div class="computeBlock" id="formulaBox">
+                <div class="orange chip">Formula</div>
+                <p class="formula"></p>
+              </div>
+              <div class="computeBlock" id="solutionBox">
+                <div class="violet chip">Solution</div>
+                <p class="formula">
+                  
+                </p>
+                <p class="description">
+                  
+                </p>
+              </div>
+            </div>
             <div id="rightCheck" class="hidden"></div>
           </div>
           <div id="connectFinal" class="hidden">
             <h3 class="info-title">Our Approach</h3>
-          <div id="connectSummary">
-            <div>Radius = Diameter / 2</div>
-            <div>Area of circle =  π × Radius</div>
-            <p>We’ll solve for Radius, and using Radius calculate the Area of the Circle</p>
-          </div>
+            <div id="connectSummary">
+              <div>Radius = Diameter / 2</div>
+              <div>Area of circle = π × Radius</div>
+              <p>
+                We’ll solve for Radius, and using Radius calculate the Area of
+                the Circle
+              </p>
+            </div>
           </div>
         </div>
         <div class="card row row-4">

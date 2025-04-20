@@ -18,7 +18,7 @@ const teacherNotes = [
   "Recall students about the relationship between radius and area for circles",
   "Update students about the relationship between area and diameter for circles",
   "Verify students about the relationship between area and radius for circles",
-]
+];
 const connectQuestions = [
   {
     header: "Area",
@@ -55,6 +55,63 @@ const connectQuestions = [
   },
 ];
 const connectCardInfo = {
-  summary: ["Radius = Diameter / 2", "Area of circle = π × Radius","Anything Random"],
+  summary: [
+    "Radius = Diameter / 2",
+    "Area of circle = π × Radius",
+    "Anything Random",
+  ],
   text: "These are the summaries and this is the text that appears after it.",
 };
+
+const computeSteps = [
+  {
+    formula: "Area = π × Radius2",
+    steps: [
+      {
+        left: "step 1",
+        right: "Radius  =  Diameter/2",
+        description: "Description one",
+      },
+      {
+        left: "step 2",
+        right: " = 12/2",
+        description: "Description two.",
+      },
+      {
+        left: "step 3",
+        right: " = 6",
+        description: "Description three.",
+      },
+    ],
+  },
+  {
+    formula: "Radius = Diameter / 2",
+    steps: [
+      {
+        left: "step 4",
+        right: "Area  =  π × Radius2 ",
+        description: "Description four",
+      },
+      {
+        left: "step 5",
+        right: " =  π × 62",
+        description: "Description five.",
+      },
+      {
+        left: "step 6",
+        right: " = 3.14 × 62",
+        description: "Description six.",
+      },
+      {
+        left: "step 7",
+        right: " = 3.14 × 36",
+        description: "Description seven.",
+      },
+      {
+        left: "step 8",
+        right: " = 113.04 m",
+        description: "Description eight.",
+      },
+    ],
+  },
+];

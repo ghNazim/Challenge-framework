@@ -33,7 +33,7 @@ body {
   gap: 12px;
 }
 #equationArea {
-  width: 40%;
+  width: 32%;
   height: 100%;
   overflow-y: auto;
 }
@@ -200,7 +200,7 @@ body {
   border-radius: 0.5rem;
   padding: 0.67rem 1rem;
   margin-bottom: 0.5rem;
-  width: 70%;
+  width: 100%;
   transition: all 0.3s ease-in-out;
 }
 
@@ -246,6 +246,7 @@ body {
   color: #3733a2;
   background-color: #f6f5ff;
   border-radius: 0.33rem;
+  font-weight: 600;
 }
 
 /* mcq place */
@@ -330,4 +331,46 @@ body {
   font-size: 1.66rem;
   border: 2px dashed #30A750;
   white-space: nowrap;
+}
+
+
+/* Compute */
+
+.bordered{
+  border-left: 4px solid #3733A2;
+}
+
+.computeBlock{
+  border: 1px solid #7E7E7E;
+  border-radius: .7rem;
+  padding: 1rem;
+  margin-bottom: .8rem;
+
+}
+.chip{
+  display: inline-block;
+ padding: 2px 8px;
+ border-radius: 4px;
+ margin-bottom: .8rem;
+ font-weight: 600;
+}
+.orange{
+ background-color: #FFFAF5;
+ color: #E29032;
+}
+.violet{
+background-color: #FDF6FF;
+ color: #A24AB8
+}
+.formula{
+  font-size: 1.67rem;
+  margin-bottom: .5rem;
+}
+
+.greenbg{
+  background-color: #EFFFF3;
+  border-color: #30A750;
+}
+.greentext{
+  color: #30A750;
 }
