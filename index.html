@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Framework</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="contentArea">
+        <div class="card row row-1">
+          <div class="title">Practice Problem</div>
+          <div class="steps">
+            <div class="step completed">
+              <div class="circle"></div>
+              <span>Comprehend</span>
+            </div>
+            <div class="step">
+              <div class="circle"></div>
+              <span>Connect</span>
+            </div>
+            <div class="step">
+              <div class="circle"></div>
+              <span>Compute</span>
+            </div>
+            <div class="step">
+              <div class="circle"></div>
+              <span>Check</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-line progress-fill"></div>
+          </div>
+        </div>
+        <div class="card row row-2" id="question">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis at
+          sapiente in <span>inventore distinctio</span> architecto, illum autem
+          consequuntur hic ab aperiam unde
+          <span>libero dolorum</span> recusandae ullam, tempora similique
+          repellendus quae eum eligendi beatae <span>incidunt error</span>.
+          Maxime reiciendis sit ad alias optio quo, tempore id mollitia omnis
+          incidunt <span>harum cum soluta!</span>
+        </div>
+        <div class="row row-3">
+          <div id="equationArea" class="card">
+            <h3 class="info-title">Key Information</h3>
+            <div id="leftComprehend"></div>
+            <div id="leftConnect" class="hidden"></div>
+            <div id="leftCompute" class="hidden"></div>
+            <div id="leftCheck" class="hidden"></div>
+          </div>
+          <div id="diagramArea" class="card">
+            <div id="rightComprehend" ></div>
+            <div id="rightConnect" class="hidden">
+              <h3 class="info-title">Select the correct option</h3>
+              <p class="connect-question">
+                What is the relation between the Radius and Diameter of a
+                Circle?
+              </p>
+              <div class="options">
+                <div class="option">Radius = Diameter / 2</div>
+                <div class="option">Radius = Diameter × 2</div>
+                <div class="option">Radius = π / 2</div>
+                <div class="option">Radius = Diameter + 2</div>
+              </div>
+              <p class="connect-question feedback">Thats Correct, yoohoo.</p>
+            </div>
+            
+            <div id="rightCompute" class="hidden"></div>
+            <div id="rightCheck" class="hidden"></div>
+          </div>
+          <div id="connectFinal" class="hidden">
+            <h3 class="info-title">Our Approach</h3>
+          <div id="connectSummary">
+            <div>Radius = Diameter / 2</div>
+            <div>Area of circle =  π × Radius</div>
+            <p>We’ll solve for Radius, and using Radius calculate the Area of the Circle</p>
+          </div>
+          </div>
+        </div>
+        <div class="card row row-4">
+          <p class="teacher-note">
+            <strong>Teacher Notes:</strong> Remind students about the
+            relationship between diameter and radius for circles
+          </p>
+          <div class="footer-controls">
+            <button class="nav-button" disabled id="prevBtn">Previous</button>
+            <div>
+              <span class="step-status">Comprehend</span>
+              <span class="step-count"></span>
+            </div>
+            <button class="nav-button" id="nextBtn">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let step = 1,
+        totalSubsteps = 3,
+        currentSubstep = 0;
+    </script>
+    <script src="data.js"></script>
+    <script src="maps.js"></script>
+    <script src="utility.js"></script>
+    <script src="check.js"></script>
+    <script src="compute.js"></script>
+    <script src="connect.js"></script>
+    <script src="comprehend.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
