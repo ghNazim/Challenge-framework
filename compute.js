@@ -52,6 +52,10 @@ function apppendInSolutionBox(text) {
   const span = document.createElement("span");
   span.textContent = text;
   formula.appendChild(span);
+  void span.offsetWidth;
+  requestAnimationFrame(() => {
+    span.classList.add("show");
+  });
 }
 function updateCompute(i) {
   console.log("inside updateCompute");

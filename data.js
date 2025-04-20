@@ -14,11 +14,20 @@ const questioninfo = [
 ];
 
 const teacherNotes = [
-  ["note 1", "note 2", "note 3","note 4"],
+  ["note 1", "note 2", "note 3", "note 4"],
   ["note 5", "note 6", "note 7", "note 8"],
-  ["note 9", "note 10", "note 11","note 12","note 13","note 14", "note 15", "note 16"],
-  ["note 17", "note 18"]
-]
+  [
+    "note 9",
+    "note 10",
+    "note 11",
+    "note 12",
+    "note 13",
+    "note 14",
+    "note 15",
+    "note 16",
+  ],
+  ["note 17", "note 18"],
+];
 const connectQuestions = [
   {
     header: "Area",
@@ -131,7 +140,7 @@ const computeSteps = [
         left: "step 600",
         right: " = 3.14 × 62",
         description: "Description six.",
-      }
+      },
     ],
   },
 ];
