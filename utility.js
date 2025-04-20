@@ -1,6 +1,6 @@
-function enableButton(id,enable){
-    const button = document.getElementById(id);
-    button.disabled = !enable;
+function enableButton(id, enable) {
+  const button = document.getElementById(id);
+  button.disabled = !enable;
 }
 
 function childWithCustomAttribute(
@@ -15,14 +15,12 @@ function childWithCustomAttribute(
 function updateHeader() {
   const progressPoints = document.querySelectorAll(".steps .step");
   const fill = document.querySelector(".progress-fill");
-    fill.style.width = `${step * 25}%`;
+  fill.style.width = `${step * 25}%`;
   for (let i = 0; i < progressPoints.length; i++) {
     if (i < step) {
       progressPoints[i].classList.add("completed");
-      
     } else {
       progressPoints[i].classList.remove("completed");
-      
     }
   }
 }
@@ -32,6 +30,7 @@ const setGlobalSubstep = function () {
     currentSubstep = comprehendSubStep;
     totalSubsteps = questioninfo.length;
   } else if (step == 2) {
+    
     currentSubstep = currentQuestionIndex + 1;
     totalSubsteps = connectQuestions.length;
   }
@@ -44,19 +43,23 @@ const updateFooter = function () {
 
   note.innerHTML = "<strong>Teacher Notes:</strong> " + teacherNotes[step - 1];
   status.textContent = stepNames[step - 1];
-  count.textContent = `Step: ${currentSubstep} of ${totalSubsteps}`;
+  if (currentSubstep > totalSubsteps) {
+    count.textContent = "";
+  } else {
+    count.textContent = `Step: ${currentSubstep} of ${totalSubsteps}`;
+  }
 };
 const updateLeftTitle = function () {
   const title = document.querySelector(".info-title");
   title.textContent = leftTitles[step - 1];
 };
 const updateLeftTextArea = function () {
-const leftDivs = document.querySelectorAll("#equationArea > div");
-leftDivs.forEach((div) => {
-  div.classList.add("hidden");
-})
-leftDivs[step - 1].classList.remove("hidden");
-}
+  const leftDivs = document.querySelectorAll("#equationArea > div");
+  leftDivs.forEach((div) => {
+    div.classList.add("hidden");
+  });
+  leftDivs[step - 1].classList.remove("hidden");
+};
 const updateRightArea = function () {
   const rightDivs = document.querySelectorAll("#diagramArea > div");
   rightDivs.forEach((div) => {
