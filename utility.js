@@ -53,13 +53,27 @@ const setGlobalSubstep = function () {
     totalSubsteps = 2;
   }
 };
-
-const updateFooter = function () {
+function updateTeacherNotes() {
+  let text,i=step-1,j=currentSubstep-1;
+  if(j<0){
+    j=0;
+  }
+  
+    text = teacherNotes[i][j];
+    if(!text) return;
+    text = text.trim();
+  
+  
+  if(!text) return;
   const note = document.querySelector(".teacher-note");
+  note.innerHTML = "<strong>Teacher Notes:</strong> " + text;
+}
+const updateFooter = function () {
+  updateTeacherNotes();
   const status = document.querySelector(".step-status");
   const count = document.querySelector(".step-count");
 
-  note.innerHTML = "<strong>Teacher Notes:</strong> " + teacherNotes[step - 1];
+  
   status.textContent = stepNames[step - 1];
   if (currentSubstep > totalSubsteps) {
     count.textContent = "";

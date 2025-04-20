@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     nextButton.addEventListener("click", handleNextClick);
   }
 });
+updateTeacherNotes()
 setupConnectSummary();
 showConnectCard(false);
 updateCompute(0);

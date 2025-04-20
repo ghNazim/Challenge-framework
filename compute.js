@@ -16,6 +16,7 @@ function addLeftCalcTile(text) {
   content.textContent = text;
   infoBlock.appendChild(content);
   leftCompute.appendChild(infoBlock);
+  leftCompute.scrollTop = leftCompute.scrollHeight;
   requestAnimationFrame(() => {
     infoBlock.classList.add("show");
   });

@@ -14,11 +14,11 @@ const questioninfo = [
 ];
 
 const teacherNotes = [
-  "Remind students about the relationship between diameter and radius for circles",
-  "Recall students about the relationship between radius and area for circles",
-  "Update students about the relationship between area and diameter for circles",
-  "Verify students about the relationship between area and radius for circles",
-];
+  ["note 1", "note 2", "note 3","note 4"],
+  ["note 5", "note 6", "note 7", "note 8"],
+  ["note 9", "note 10", "note 11","note 12","note 13","note 14", "note 15", "note 16"],
+  ["note 17", "note 18"]
+]
 const connectQuestions = [
   {
     header: "Area",
@@ -112,6 +112,26 @@ const computeSteps = [
         right: " = 113.04 m",
         description: "Description eight.",
       },
+    ],
+  },
+  {
+    formula: "Radius = Anything Random",
+    steps: [
+      {
+        left: "step 100",
+        right: "Area  =  π × Radius2 ",
+        description: "Description four",
+      },
+      {
+        left: "step 500",
+        right: " =  π × 62",
+        description: "Description five.",
+      },
+      {
+        left: "step 600",
+        right: " = 3.14 × 62",
+        description: "Description six.",
+      }
     ],
   },
 ];
