@@ -242,7 +242,12 @@ body {
 }
 
 /* Question */
-
+#question b{
+  background-color: #F5F5F5;
+  color: #2F2F2F;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
 #question span {
   transition: all 0.3s ease-in-out;
 }

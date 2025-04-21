@@ -56,15 +56,10 @@ const handleNextInComprehend = function () {
 };
 
 const handlePrevInComprehend = function () {
-  if (comprehendSubStep <= 0) {
-    // If we're at the beginning, there's nothing to go back to
-    return;
+  if (comprehendSubStep <= 1) {
+    enableButton("prevBtn", false);
   }
-
-  // Decrement the comprehendSubStep to move to the previous step
   comprehendSubStep--;
-
-  // Remove the last appended content element from the infoBlock
   const data = questioninfo[comprehendSubStep];
   const eqnArea = document.getElementById("leftComprehend");
   const infoBlock = childWithCustomAttribute(eqnArea, "data-tag", data.tag);
