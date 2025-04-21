@@ -149,6 +149,7 @@ function setupConnectSummary() {
   const paragraph = document.createElement("p");
   paragraph.textContent = info.text;
   container.appendChild(paragraph);
+
 }
 
 function handlePrevInConnect() {
@@ -163,12 +164,14 @@ function handlePrevInConnect() {
     showConnectCard(false);
     currentQuestionIndex--;
     setupQuestion();
+    setPreviousInfoPreSolve()
     return;
   }
 
   currentQuestionIndex--;
 
   removeLastInfoBlock()
+  setPreviousInfoPreSolve()
   setupQuestion();
   fadePastInfo(currentQuestionIndex);
 }
@@ -178,5 +181,13 @@ function removeLastInfoBlock() {
   const lastInfoBlock = leftConnect.querySelector(".info-block:last-child");
   if (lastInfoBlock) {
     leftConnect.removeChild(lastInfoBlock);
+  }
+}
+
+function setPreviousInfoPreSolve(){
+  const leftConnect = document.getElementById("leftConnect");
+  const lastInfoBlock = leftConnect.querySelector(".info-block:last-child");
+  if (lastInfoBlock) {
+    lastInfoBlock.querySelector(".info-text").textContent = connectQuestions[currentQuestionIndex].left;
   }
 }
