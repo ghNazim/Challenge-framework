@@ -9,4 +9,5 @@ const leftTitles = [
   "Key Information",
   "Concepts to Use",
   "Solution Steps",
+  "Solution Steps",
 ];
