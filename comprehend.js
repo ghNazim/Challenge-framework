@@ -44,11 +44,45 @@ const handleNextInComprehend = function () {
   if (comprehendSubStep >= questioninfo.length) {
     step++;
     updatesWithStep();
-    setupQuestion();
-    updateInfoConnect(0);
+    enableButton("nextBtn", false);
     return;
+  }
+  if(comprehendSubStep===1){
+    enableButton("prevBtn", true);
   }
   updateInfoBlock(comprehendSubStep);
   highlightQuestionSpans(comprehendSubStep);
   comprehendSubStep++;
+};
+
+const handlePrevInComprehend = function () {
+  if (comprehendSubStep <= 0) {
+    // If we're at the beginning, there's nothing to go back to
+    return;
+  }
+
+  // Decrement the comprehendSubStep to move to the previous step
+  comprehendSubStep--;
+
+  // Remove the last appended content element from the infoBlock
+  const data = questioninfo[comprehendSubStep];
+  const eqnArea = document.getElementById("leftComprehend");
+  const infoBlock = childWithCustomAttribute(eqnArea, "data-tag", data.tag);
+
+  if (infoBlock) {
+    const lastContent = infoBlock.querySelector(".info-text:last-child");
+    if (lastContent) {
+      infoBlock.removeChild(lastContent);
+    }
+  }
+  const lastContent = infoBlock.querySelector(".info-text:last-child");
+  if(!lastContent) {
+    eqnArea.removeChild(infoBlock);
+  }
+
+  // Remove the highlight from the spans
+  const spans = questioninfo[comprehendSubStep].spans;
+  for (let j = 0; j < spans.length; j++) {
+    spansArray[spans[j] - 1].classList.remove("highlightSpan");
+  }
 };

@@ -24,6 +24,17 @@ function addLeftCalcTile(text) {
     content.classList.add("show");
   });
 }
+function removeLastCalcTile() {
+  // Remove the last appended info-block from the leftCompute
+  const leftCompute = document.getElementById("leftCompute");
+  const lastInfoBlock = leftCompute.querySelector(".info-block:last-child");
+  if (lastInfoBlock) {
+    leftCompute.removeChild(lastInfoBlock);
+  }
+
+  // Update the border of the last tile
+  borderTheLastTile();
+}
 
 function borderTheLastTile() {
   const tiles = document.querySelectorAll("#leftCompute .info-block");
@@ -75,14 +86,14 @@ function updateCompute(i) {
 }
 
 function handleNextInCompute() {
-  if (currentComputeStep >= totalComputeSteps-1) {
+  if (currentComputeStep >= totalComputeSteps - 1) {
     step++;
     updatesWithStep();
     return;
   }
   currentComputeStep++;
   updateCompute(currentComputeStep);
-  if(currentComputeStep === totalComputeSteps-1){
+  if (currentComputeStep === totalComputeSteps - 1) {
     greenFix();
   }
 }
@@ -95,4 +106,55 @@ function greenFix() {
 
   lastInfoBlock.classList.add("greenbg");
   formula.classList.add("greentext");
+}
+
+function removeGreenFix() {
+  const lastInfoBlock = document.querySelector(
+    "#leftCompute .info-block:last-of-type"
+  );
+  const formula = document.querySelector("#solutionBox .formula");
+
+  lastInfoBlock.classList.remove("greenbg");
+  formula.classList.remove("greentext");
+}
+
+function handlePrevInCompute() {
+  if (currentComputeStep <= 0) {
+    // If we're at the first step, there's nothing to go back to
+    return;
+  }
+  if (currentComputeStep === totalComputeSteps - 1) {
+    removeGreenFix();
+  }
+  removeLastCalcTile();
+  const [x, y] = returnIndexes(rightGroups, currentComputeStep);
+  // Decrement the currentComputeStep to move to the previous step
+  currentComputeStep--;
+  // Update the solution description to the previous step
+  updateSolutionDescription(descriptions[currentComputeStep]);
+
+  // Update the formula and solution box
+
+  if (y === 0) {
+    updateFormulaBox(computeSteps[x - 1].formula);
+    fullWriteInSolutionBox(x - 1);
+  } else {
+    // Remove the last appended span in the solution box
+    const formula = document.querySelector("#solutionBox .formula");
+    const lastSpan = formula.querySelector("span:last-child");
+    if (lastSpan) {
+      console.log("last span", lastSpan);
+      formula.removeChild(lastSpan);
+    }
+  }
+}
+
+function fullWriteInSolutionBox(x) {
+  const formula = document.querySelector("#solutionBox .formula");
+  const textArray = computeSteps[x].steps.map((i) => i.right);
+  let text = textArray[0];
+  for (let i = 1; i < textArray.length; i++) {
+    text = text + `<span class="show">${textArray[i]}</span>`;
+  }
+  formula.innerHTML = text;
 }

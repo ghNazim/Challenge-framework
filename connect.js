@@ -92,7 +92,7 @@ function handleNextInConnect() {
     currentQuestionIndex++;
     setupQuestion();
     updateInfoConnect(currentQuestionIndex);
-  } else if (currentQuestionIndex == connectQuestions.length - 1) {
+  } else if (currentQuestionIndex === connectQuestions.length - 1) {
     showConnectCard(true);
     currentQuestionIndex++;
   } else {
@@ -136,4 +136,25 @@ function setupConnectSummary() {
   const paragraph = document.createElement("p");
   paragraph.textContent = info.text;
   container.appendChild(paragraph);
+}
+
+
+function handlePrevInConnect() {
+  if (currentQuestionIndex <= 0) {
+    step--;
+    updatesWithStep();
+    enableButton("nextBtn", true);
+    return
+  }
+
+  currentQuestionIndex--;
+
+  // Remove the last appended info-block from the leftConnect
+  const leftConnect = document.getElementById("leftConnect");
+  const lastInfoBlock = leftConnect.querySelector(".info-block:last-child");
+  if (lastInfoBlock) {
+    leftConnect.removeChild(lastInfoBlock);
+  }
+  setupQuestion();
+  fadePastInfo(currentQuestionIndex);
 }
