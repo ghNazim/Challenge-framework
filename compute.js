@@ -121,6 +121,9 @@ function removeGreenFix() {
 function handlePrevInCompute() {
   if (currentComputeStep <= 0) {
     // If we're at the first step, there's nothing to go back to
+    step--;
+    updatesWithStep();
+    showConnectCard(true);
     return;
   }
   if (currentComputeStep === totalComputeSteps - 1) {

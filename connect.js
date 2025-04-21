@@ -42,6 +42,7 @@ const replacePostSolve = function (i) {
 };
 function setupQuestion() {
   enableButton("nextBtn", false);
+  enableButton("prevBtn", true);
   const questionContainer = document.getElementById("rightConnect");
   const questionData = connectQuestions[currentQuestionIndex];
 
@@ -75,6 +76,7 @@ function checkAnswer(selectedIndex) {
     feedback.textContent = questionData.correctText;
     replacePostSolve(currentQuestionIndex);
     enableButton("nextBtn", true);
+    enableButton("prevBtn", false);
     options.forEach((option) => {
       option.style.pointerEvents = "none";
     });
@@ -93,6 +95,7 @@ function handleNextInConnect() {
     setupQuestion();
     updateInfoConnect(currentQuestionIndex);
   } else if (currentQuestionIndex === connectQuestions.length - 1) {
+    enableButton("prevBtn", true);
     showConnectCard(true);
     currentQuestionIndex++;
   } else {
@@ -146,10 +149,15 @@ function handlePrevInConnect() {
     enableButton("nextBtn", true);
     return
   }
+  if(currentQuestionIndex===connectQuestions.length){
+    showConnectCard(false);
+    currentQuestionIndex--;
+    setupQuestion();
+    return;
+  }
 
   currentQuestionIndex--;
 
-  // Remove the last appended info-block from the leftConnect
   const leftConnect = document.getElementById("leftConnect");
   const lastInfoBlock = leftConnect.querySelector(".info-block:last-child");
   if (lastInfoBlock) {
