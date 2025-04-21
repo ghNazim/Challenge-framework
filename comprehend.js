@@ -44,7 +44,8 @@ const handleNextInComprehend = function () {
   if (comprehendSubStep >= questioninfo.length) {
     step++;
     updatesWithStep();
-    enableButton("nextBtn", false);
+    setupQuestion();
+    updateInfoConnect(0);
     return;
   }
   if(comprehendSubStep===1){

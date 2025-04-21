@@ -38,6 +38,7 @@ function removeLastCalcTile() {
 
 function borderTheLastTile() {
   const tiles = document.querySelectorAll("#leftCompute .info-block");
+  if(tiles.length === 0) return
   if (tiles.length > 1) {
     tiles[tiles.length - 2].classList.remove("bordered");
   }
@@ -47,6 +48,7 @@ function borderTheLastTile() {
 function updateFormulaBox(formulaText) {
   const formula = document.querySelector("#formulaBox .formula");
   formula.textContent = formulaText;
+  animateIn(formula, "right");
 }
 
 function updateSolutionDescription(text) {
@@ -57,6 +59,7 @@ function updateSolutionDescription(text) {
 function freshWriteInSolutionBox(text) {
   const formula = document.querySelector("#solutionBox .formula");
   formula.textContent = text;
+  animateIn(formula, "right");
 }
 function apppendInSolutionBox(text) {
   const formula = document.querySelector("#solutionBox .formula");
@@ -120,6 +123,7 @@ function removeGreenFix() {
 
 function handlePrevInCompute() {
   if (currentComputeStep <= 0) {
+    removeLastCalcTile();
     // If we're at the first step, there's nothing to go back to
     step--;
     updatesWithStep();

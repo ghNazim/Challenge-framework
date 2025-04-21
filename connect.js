@@ -4,9 +4,10 @@ const updateInfoConnect = function (i) {
   if (i > connectQuestions.length) {
     return;
   }
+  
   const data = connectQuestions[i],
     leftConnect = document.getElementById("leftConnect");
-
+  
   let infoBlock = document.createElement("div");
   infoBlock.className = "info-block";
 
@@ -47,9 +48,9 @@ function setupQuestion() {
   const questionData = connectQuestions[currentQuestionIndex];
 
   // Set question text
-  questionContainer.querySelector(".connect-question").textContent =
-    questionData.question;
-
+  const questionText = questionContainer.querySelector(".connect-question");
+  questionText.textContent = questionData.question;
+  animateIn(questionText, "top");
   // Set options
   const optionsContainer = questionContainer.querySelector(".options");
   optionsContainer.innerHTML = ""; // Clear previous options
@@ -59,6 +60,12 @@ function setupQuestion() {
     optionDiv.textContent = optionText;
     optionDiv.addEventListener("click", () => checkAnswer(index));
     optionsContainer.appendChild(optionDiv);
+    if(index%2 === 0){
+      animateIn(optionDiv, "left");
+    }
+    else{
+      animateIn(optionDiv, "right");
+    }
   });
 
   // Hide feedback initially
@@ -86,6 +93,7 @@ function checkAnswer(selectedIndex) {
   }
 
   feedback.style.display = "block";
+  animateIn(feedback, "bottom");
   questionData.answered = true;
 }
 
@@ -99,7 +107,9 @@ function handleNextInConnect() {
     showConnectCard(true);
     currentQuestionIndex++;
   } else {
+
     showConnectCard(false);
+    updateCompute(0);
     step++;
     updatesWithStep();
     return;
@@ -141,15 +151,15 @@ function setupConnectSummary() {
   container.appendChild(paragraph);
 }
 
-
 function handlePrevInConnect() {
   if (currentQuestionIndex <= 0) {
+    removeLastInfoBlock()
     step--;
     updatesWithStep();
     enableButton("nextBtn", true);
-    return
+    return;
   }
-  if(currentQuestionIndex===connectQuestions.length){
+  else if (currentQuestionIndex === connectQuestions.length) {
     showConnectCard(false);
     currentQuestionIndex--;
     setupQuestion();
@@ -158,11 +168,15 @@ function handlePrevInConnect() {
 
   currentQuestionIndex--;
 
+  removeLastInfoBlock()
+  setupQuestion();
+  fadePastInfo(currentQuestionIndex);
+}
+
+function removeLastInfoBlock() {
   const leftConnect = document.getElementById("leftConnect");
   const lastInfoBlock = leftConnect.querySelector(".info-block:last-child");
   if (lastInfoBlock) {
     leftConnect.removeChild(lastInfoBlock);
   }
-  setupQuestion();
-  fadePastInfo(currentQuestionIndex);
 }

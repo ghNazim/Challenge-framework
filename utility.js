@@ -22,6 +22,28 @@ function childWithCustomAttribute(
   const child = parentElement.querySelector(selector);
   return child;
 }
+function animateIn(element, type) {
+  if (!element) return;
+  const transformMap = {
+    left: "translateX(-10px)",
+    right: "translateX(10px)",
+    top: "translateY(-10px)",
+    bottom: "translateY(10px)",
+  }
+  element.animate(
+    [
+      { opacity: 0, transform: transformMap[type] },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    {
+      duration: 300,
+      delay: 0,
+      easing: "ease-in-out",
+      fill: "forwards",
+    }
+  );
+}
+
 function updateHeader() {
   const progressPoints = document.querySelectorAll(".steps .step");
   const fill = document.querySelector(".progress-fill");

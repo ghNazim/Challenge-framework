@@ -27,9 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 updateTeacherNotes()
 setupConnectSummary();
-setupQuestion();
-updateInfoConnect(0);
+
 showConnectCard(false);
-updateCompute(0);
+
 enableButton("prevBtn", false);
 enableButton("nextBtn", true);
