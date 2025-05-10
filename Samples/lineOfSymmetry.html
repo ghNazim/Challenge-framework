@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Symmetry Learning Applet</title>
+  <style>
+    /********************************************
+      1) GLOBAL & BODY STYLES
+    *********************************************/
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /********************************************
+      2) APPLET CONTAINER (16:9 Aspect Ratio)
+    *********************************************/
+    .applet-container {
+      aspect-ratio: 16 / 9;    
+      max-width: 100%;
+      width: 100%;
+      height: 100vh;
+      max-height: 56.25vw; /* 9/16 = 0.5625 */
+      min-height: 480px;
+      display: flex;           
+      flex-direction: column;  
+      margin: 0 auto;
+      overflow: hidden; /* Prevent outer scrolling */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background-color: #fff;
+      border-radius: 8px;
+      position: relative; /* For overlay positioning */
+    }
+
+    /********************************************
+      3) TITLE BAR
+    *********************************************/
+    .titleBar {
+      background: linear-gradient(to right, #4169E1, #6389FF); /* RoyalBlue gradient */
+      padding: 12px 20px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    .titleBar h1 {
+      font-size: calc(1.5rem + 0.75vw);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .titleBar p {
+      font-size: calc(0.95rem + 0.75vw);
+      font-weight: 300;
+      opacity: 0.9;
+    }
+
+    /********************************************
+      4) ASSETS REGION
+      (Working Area + Context Box)
+    *********************************************/
+    .assets {
+      flex: 1;           
+      display: flex;     
+      flex-direction: row;
+      align-items: stretch;
+      overflow: hidden;
+    }
+
+    /********************************************
+      5) WORKING AREA (2/3)
+    *********************************************/
+    .workingArea-container {
+      flex: 2; 
+      display: flex;
+      flex-direction: column; 
+      padding: 16px;
+      background-color: #fafafa;
+      overflow: hidden;
+      position: relative; /* For highlighting & overlays */
+    }
+
+    /* Upper & Lower Controls share styling */
+    .upperControls,
+    .lowerControls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      gap: 16px;
+      color: #555;
+      font-size: calc(0.95rem + 0.75vw);
+      min-height: 60px;
+      position: relative; /* For highlighting */
+      transition: background-color 0.3s ease;
+    }
+
+    /* Child-friendly hover effect for control areas */
+    .upperControls:hover,
+    .lowerControls:hover {
+      background-color: rgba(65,105,225,0.05);
+      box-shadow: inset 0 0 0 1px rgba(65,105,225,0.1);
+      border-radius: 8px;
+    }
+
+    /********************************************
+      6) WORKING AREA CONTENT (Scrollable if needed)
+    *********************************************/
+    .workingArea {
+      flex: 1; 
+      border: 2px solid #4169E1;
+      border-radius: 8px;
+      background-color: #fff;
+      margin: 8px 0; 
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+      transition: all 0.3s ease;
+      min-height: 200px; /* Ensure minimum height */
+    }
+
+    /* Child-friendly hover effect for working area */
+    .workingArea:hover {
+      border-color: #6389FF;
+      box-shadow: 0 0 0 4px rgba(65,105,225,0.1);
+    }
+
+    /* Use the full working area for the canvas – no extra container */
+    .workingArea-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Ensure canvas fills the working area and its internal coordinate system is updated */
+    canvas {
+      border: 2px solid #333;
+      background: #fff;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Overlay (uses template design) */
+    .overlay {
+      position: absolute;
+      z-index: 50;
+      background-color: rgba(25,45,100,0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .workingArea-overlay {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 8px;
+    }
+    .overlay-content {
+      background-color: white;
+      font-size: calc(0.95rem + 0.75vw);
+      padding: 24px;
+      border-radius: 8px;
+      max-width: 80%;
+      max-height: 80%;
+      overflow: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .overlay.show .overlay-content {
+      transform: translateY(0);
+    }
+    .overlay-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    .overlay-close:hover {
+      transform: scale(1.1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+    .overlay-close::before,
+    .overlay-close::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      background-color: #4169E1;
+      border-radius: 1px;
+    }
+    .overlay-close::before {
+      transform: rotate(45deg);
+    }
+    .overlay-close::after {
+      transform: rotate(-45deg);
+    }
+
+    /********************************************
+      7) CONTEXT BOX (1/3 - Scrollable if needed)
+    *********************************************/
+    .contextBox {
+      flex: 1;
+      background-color: #f8f9fa;
+      border-left: 1px solid #e0e0e0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+      transition: background-color 0.3s ease;
+    }
+
+    .contextBox:hover {
+      background-color: #f0f4ff;
+    }
+
+    .context-section {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .context-section:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .context-section h2 {
+      font-size: calc(1.2rem + 0.75vw);
+      color: #4169E1;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .context-section p {
+      font-size: calc(0.95rem + 0.75vw);
+      margin-bottom: 12px;
+      color: #555;
+    }
+
+    .highlight {
+      background-color: rgba(65,105,225,0.1);
+      color: #4169E1;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .highlight:hover {
+      background-color: rgba(65,105,225,0.2);
+      box-shadow: 0 0 0 2px rgba(65,105,225,0.1);
+      transform: translateY(-1px);
+    }
+    .highlight:active {
+      transform: translateY(0);
+    }
+
+    .highlight-gold {
+      background-color: rgba(255,193,7,0.15);
+      color: #FF9800;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .highlight-gold:hover {
+      background-color: rgba(255,193,7,0.25);
+      box-shadow: 0 0 0 2px rgba(255,193,7,0.1);
+      transform: translateY(-1px);
+    }
+
+    .highlight-green {
+      background-color: rgba(46,139,87,0.15);
+      color: #2E8B57;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .highlight-green:hover {
+      background-color: rgba(46,139,87,0.25);
+      box-shadow: 0 0 0 2px rgba(46,139,87,0.1);
+      transform: translateY(-1px);
+    }
+
+    .highlight-red {
+      background-color: rgba(220,53,69,0.15);
+      color: #DC3545;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .highlight-red:hover {
+      background-color: rgba(220,53,69,0.25);
+      box-shadow: 0 0 0 2px rgba(220,53,69,0.1);
+      transform: translateY(-1px);
+    }
+
+    .highlight-purple {
+      background-color: rgba(123,97,255,0.15);
+      color: #7B61FF;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .highlight-purple:hover {
+      background-color: rgba(123,97,255,0.25);
+      box-shadow: 0 0 0 2px rgba(123,97,255,0.1);
+      transform: translateY(-1px);
+    }
+
+    /* Color palette display */
+    .color-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 12px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .color-swatch {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: calc(0.7rem + 0.75vw);
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .color-swatch .color-name {
+      margin-top: 4px;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .color-swatch .color-hex {
+      position: absolute;
+      bottom: 4px;
+      font-size: calc(0.65rem + 0.75vw);
+      opacity: 0.9;
+    }
+
+    .primary-blue { background-color: #4169E1; }
+    .light-blue { background-color: #6389FF; }
+    .dark-blue { background-color: #3558C0; }
+    .gold { background-color: #FF9800; }
+    .green { background-color: #2E8B57; }
+    .red { background-color: #DC3545; }
+    .purple { background-color: #7B61FF; }
+
+    /********************************************
+      8) BUTTONS & SLIDERS (Touch Friendly)
+    *********************************************/
+    .btn {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: calc(0.95rem + 0.75vw);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary {
+      background-color: #4169E1;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #3558C0;
+      box-shadow: 0 4px 12px rgba(65,105,225,0.4);
+    }
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .btn-secondary {
+      background-color: #e0e0e0;
+      color: #555;
+    }
+    .btn-secondary:hover {
+      background-color: #d0d0d0;
+    }
+
+    .btn[disabled] {
+      background-color: #e0e0e0;
+      color: #9e9e9e;
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.7;
+      transform: none;
+    }
+
+    /********************************************
+      9) STEP COUNTER - DOT PROGRESS INDICATOR
+    *********************************************/
+    .step-counter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 4px 12px;
+      border-radius: 22px;
+      background-color: rgba(255,255,255,0.9);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .step-counter:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transform: translateY(-1px);
+    }
+
+    .step-counter .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ddd;
+      transition: all 0.3s ease;
+    }
+
+    .step-counter .dot.active {
+      background-color: #4169E1;
+      transform: scale(1.2);
+    }
+
+    .step-counter .dot:hover {
+      transform: scale(1.1);
+      background-color: #bbb;
+    }
+
+    .step-counter .dot.active:hover {
+      background-color: #3558C0;
+    }
+
+    /********************************************
+      10) COUNTER INPUT (PLUS/MINUS BUTTONS)
+    *********************************************/
+    .counter-input {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+      min-width: 140px;
+      border-radius: 22px;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .counter-input:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .counter-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background-color: #f0f0f0;
+      color: #555;
+      font-size: calc(1.2rem + 0.75vw);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .counter-btn:hover {
+      background-color: #e0e0e0;
+      transform: scale(1.05);
+    }
+
+    .counter-btn:active {
+      transform: scale(0.95);
+    }
+
+    .counter-btn.plus {
+      background-color: #4169E1;
+      color: white;
+    }
+
+    .counter-btn.plus:hover {
+      background-color: #3558C0;
+    }
+
+    .counter-value {
+      flex: 0 0 auto;
+      text-align: center;
+      font-size: calc(1.1rem + 0.75vw);
+      font-weight: 500;
+      color: #333;
+      padding: 0 12px;
+      min-width: 2ch;
+    }
+
+    .counter-label {
+      margin-left: 8px;
+      font-size: calc(0.9rem + 0.75vw);
+      color: #777;
+    }
+
+    /********************************************
+      11) HIGHLIGHTS FOR REGIONS
+    *********************************************/
+    .region-highlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 5;
+      border-radius: 8px;
+    }
+
+    .workingArea-highlight {
+      background-color: rgba(65,105,225,0.4);
+    }
+
+    .contextBox-highlight {
+      background-color: rgba(65,105,225,0.4);
+      border-radius: 0;
+      top: 0; 
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+    }
+
+    .controls-highlight {
+      background-color: rgba(65,105,225,0.4);
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 0;
+      }
+      20%, 80% {
+        opacity: 0.85;
+      }
+    }
+
+    /********************************************
+      12) OVERLAYS
+    *********************************************/
+    .overlay {
+      position: absolute;
+      z-index: 50;
+      background-color: rgba(65, 105, 225, 0.9);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .workingArea-overlay {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 8px;
+    }
+
+    .fullscreen-overlay {
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 0 4000px rgba(0,0,0,0.3);
+    }
+
+    .overlay-content {
+      background-color: white;
+      padding: 24px;
+      border-radius: 8px;
+      max-width: 80%;
+      max-height: 80%;
+      overflow: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .overlay.show .overlay-content {
+      transform: translateY(0);
+    }
+
+    .overlay-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    .overlay-close:hover {
+      transform: scale(1.1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .overlay-close::before,
+    .overlay-close::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      background-color: #4169E1;
+      border-radius: 1px;
+    }
+
+    .overlay-close::before {
+      transform: rotate(45deg);
+    }
+
+    .overlay-close::after {
+      transform: rotate(-45deg);
+    }
+
+    /********************************************
+      13) RESPONSIVE ADJUSTMENTS
+    *********************************************/
+    @media (max-width: 768px) {
+      .assets {
+        flex-direction: column;
+      }
+      
+      .contextBox, .workingArea-container {
+        flex: none;
+      }
+      
+      .workingArea-container {
+        height: 60%;
+      }
+      
+      .contextBox {
+        height: 40%;
+      }
+
+      .step-counter {
+        padding: 4px 8px;
+      }
+      
+      .step-counter .dot {
+        width: 10px;
+        height: 10px;
+      }
+      
+      .counter-input {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .upperControls, .lowerControls {
+        flex-wrap: wrap;
+      }
+      
+      .btn {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      .fullscreen-overlay {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="applet-container">
+    <!-- TITLE BAR -->
+    <div class="titleBar">
+      <h1>Symmetry Learning Applet</h1>
+      <p>Discover the hidden line of symmetry in each shape!</p>
+    </div>
+    <!-- ASSETS REGION -->
+    <div class="assets">
+      <!-- CONTEXT BOX -->
+      <div class="contextBox">
+        <div class="context-section">
+          <h2>Step 1: Set the Line</h2>
+          <p>Click anywhere in the <span class="highlight" id="highlightSpace">space</span> to the right to set the reflection line.</p>
+        </div>
+        <div class="context-section">
+          <h2>Step 2: See the Reflection</h2>
+          <p>Notice the <span class="highlight" id="highlightReflection">reflection</span> generated – click at another place to move the line.</p>
+        </div>
+        <div class="context-section">
+          <h2>Step 3: Find the Symmetry</h2>
+          <p>Use the buttons <b>↺</b> and <b>↻</b> (above the shape area) to rotate the line to identify where the <span class="highlight" id="highlightLOS">line of symmetry</span> is.</p>
+        </div>
+      </div>
+      <!-- WORKING AREA CONTAINER -->
+      <div class="workingArea-container">
+        <!-- UPPER CONTROLS -->
+        <div class="upperControls">
+          <button class="btn btn-primary" id="rotateLeftUpper">Rotate to the left ↺</button>
+          <button class="btn btn-primary" id="rotateRightUpper">Rotate to the right ↻</button>
+        </div>
+        <!-- WORKING AREA (Canvas takes full available space) -->
+        <div class="workingArea">
+          <canvas id="myCanvas"></canvas>
+          <!-- Overlay for hints and congratulatory messages -->
+          <div class="overlay workingArea-overlay" id="workingOverlay">
+            <div class="overlay-close" id="closeOverlay"></div>
+            <div class="overlay-content" id="overlayContent"></div>
+          </div>
+        </div>
+        <!-- LOWER CONTROLS -->
+        <div class="lowerControls">
+          <button class="btn btn-secondary" id="prevButton">Previous</button>
+          <!-- Static Step Counter: 12 dots -->
+          <div class="step-counter" id="stepCounter">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <button class="btn btn-primary" id="nextButton">Next</button>
+        </div>
+      </div>
+    </div>
+    <!-- Full Screen Overlay (preserved from template) -->
+    <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
+      <div class="overlay-close"></div>
+      <div class="overlay-content">
+        <h2>Full Screen Overlay</h2>
+        <p>This overlay covers the entire applet with margins.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***************************************
+     * Global Variables & App State
+     ***************************************/
+    let shapeHistory = [];
+    let currentShapeIndex = -1;
+    let isDragging = false;
+
+    /***************************************
+     * Canvas & Drawing Setup
+     ***************************************/
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+    
+    let polygon = [];          // current shape's polygon (array of points)
+    let trueLine = null;       // { point: {x, y}, angle } for the shape's actual symmetry
+    let candidateLine = null;  // { point: {x, y}, angle } set by the user
+
+    // Ensure canvas dimensions match the workingArea size
+    function resizeCanvas() {
+      const workingArea = document.querySelector('.workingArea');
+      canvas.width = workingArea.clientWidth;
+      canvas.height = workingArea.clientHeight;
+      draw();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Rotation increment (15° in radians)
+    const rotationIncrement = Math.PI / 12;
+    // Tolerances
+    const angleTol = 0.001;    // radians tolerance for angle matching
+    const posTol = 10;         // pixels tolerance for candidate anchor proximity
+    const snapTolerance = 15;  // pixels tolerance for snapping clicks
+
+    /***************************************
+     * Predefined Base Shapes
+     ***************************************/
+    const predefinedShapes = [
+      {
+        name: "Letter A",
+        polygon: [
+          { x: 220, y: 400 },
+          { x: 240, y: 250 },
+          { x: 245, y: 220 },
+          { x: 250, y: 200 },
+          { x: 255, y: 220 },
+          { x: 260, y: 250 },
+          { x: 280, y: 400 },
+          { x: 265, y: 400 },
+          { x: 250, y: 320 },
+          { x: 235, y: 400 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Letter M",
+        polygon: [
+          { x: 200, y: 400 },
+          { x: 200, y: 200 },
+          { x: 250, y: 300 },
+          { x: 300, y: 200 },
+          { x: 300, y: 400 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Letter V",
+        polygon: [
+          { x: 220, y: 200 },
+          { x: 240, y: 350 },
+          { x: 250, y: 400 },
+          { x: 260, y: 350 },
+          { x: 280, y: 200 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Letter H",
+        polygon: [
+          { x: 200, y: 400 },
+          { x: 200, y: 200 },
+          { x: 220, y: 200 },
+          { x: 220, y: 280 },
+          { x: 280, y: 280 },
+          { x: 280, y: 200 },
+          { x: 300, y: 200 },
+          { x: 300, y: 400 },
+          { x: 220, y: 400 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "House",
+        polygon: [
+          { x: 200, y: 400 },
+          { x: 200, y: 300 },
+          { x: 250, y: 250 },
+          { x: 300, y: 300 },
+          { x: 300, y: 400 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Heart",
+        polygon: [
+          { x: 250, y: 400 },
+          { x: 200, y: 300 },
+          { x: 225, y: 250 },
+          { x: 250, y: 230 },
+          { x: 275, y: 250 },
+          { x: 300, y: 300 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Letter T",
+        polygon: [
+          { x: 210, y: 200 },
+          { x: 290, y: 200 },
+          { x: 290, y: 220 },
+          { x: 260, y: 220 },
+          { x: 260, y: 350 },
+          { x: 240, y: 350 },
+          { x: 240, y: 220 },
+          { x: 210, y: 220 }
+        ],
+        trueLine: { point: { x: 250, y: 275 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Letter U",
+        polygon: [
+          { x: 210, y: 200 },
+          { x: 210, y: 320 },
+          { x: 230, y: 350 },
+          { x: 270, y: 350 },
+          { x: 290, y: 320 },
+          { x: 290, y: 200 }
+        ],
+        trueLine: { point: { x: 250, y: 275 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Arrow",
+        polygon: [
+          { x: 240, y: 350 },
+          { x: 240, y: 300 },
+          { x: 220, y: 300 },
+          { x: 250, y: 250 },
+          { x: 280, y: 300 },
+          { x: 260, y: 300 },
+          { x: 260, y: 350 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      },
+      {
+        name: "Letter Y",
+        polygon: [
+          { x: 245, y: 400 },
+          { x: 245, y: 300 },
+          { x: 230, y: 250 },
+          { x: 250, y: 220 },
+          { x: 270, y: 250 },
+          { x: 255, y: 300 },
+          { x: 255, y: 400 }
+        ],
+        trueLine: { point: { x: 250, y: 300 }, angle: Math.PI/2 }
+      }
+    ];
+
+    /***************************************
+     * Utility Functions
+     ***************************************/
+    function rotatePoint(pt, center, angle) {
+      const cosA = Math.cos(angle);
+      const sinA = Math.sin(angle);
+      const dx = pt.x - center.x;
+      const dy = pt.y - center.y;
+      return {
+        x: center.x + dx * cosA - dy * sinA,
+        y: center.y + dx * sinA + dy * cosA
+      };
+    }
+    function snapToLine(Q, line, tolerance) {
+      const P = line.point;
+      const d = { x: Math.cos(line.angle), y: Math.sin(line.angle) };
+      const n = { x: -d.y, y: d.x };
+      const diff = { x: Q.x - P.x, y: Q.y - P.y };
+      const distance = Math.abs(diff.x * n.x + diff.y * n.y);
+      if (distance < tolerance) {
+        const projScalar = diff.x * d.x + diff.y * d.y;
+        return { x: P.x + projScalar * d.x, y: P.y + projScalar * d.y };
+      }
+      return Q;
+    }
+
+    /***************************************
+     * Shape Generation & History
+     ***************************************/
+     function generateNewShape() {
+      candidateLine = null;
+      const idx = Math.floor(Math.random() * predefinedShapes.length);
+      const baseShape = JSON.parse(JSON.stringify(predefinedShapes[idx]));
+      const randomRotation = Math.floor(Math.random() * 12) * rotationIncrement;
+
+      // Calculate the canvas center
+      const canvasCenter = { x: canvas.width / 2, y: canvas.height / 2 };
+      // Base shapes are designed for a base center (for example, {x:250, y:300})
+      const baseCenter = { x: 250, y: 300 };
+      // Calculate a scale factor based on a base design size (e.g., 500x500)
+      const baseWidth = 500, baseHeight = 500;
+      const scaleFactor = Math.min(canvas.width / baseWidth, canvas.height / baseHeight);
+
+      // Rotate each point about baseCenter, then scale and translate to canvasCenter.
+      polygon = baseShape.polygon.map(pt => {
+        let rotatedPt = rotatePoint(pt, baseCenter, randomRotation);
+        return {
+          x: (rotatedPt.x - baseCenter.x) * scaleFactor + canvasCenter.x,
+          y: (rotatedPt.y - baseCenter.y) * scaleFactor + canvasCenter.y
+        };
+      });
+
+      // Update trueLine: use the canvas center as the center point.
+      trueLine = {
+        point: { x: canvasCenter.x, y: canvasCenter.y },
+        angle: baseShape.trueLine.angle + randomRotation
+      };
+
+      shapeHistory.push({
+        polygon: polygon,
+        trueLine: trueLine,
+        name: baseShape.name,
+        baseShape: baseShape // optional: store base shape for recalculations on resize
+      });
+      currentShapeIndex = shapeHistory.length - 1;
+      updateStaticStepDots();
+    }
+
+    function loadShapeFromHistory(index) {
+      const shape = shapeHistory[index];
+      polygon = shape.polygon;
+      trueLine = shape.trueLine;
+      currentShapeIndex = index;
+      candidateLine = null;
+      updateStaticStepDots();
+    }
+    function updateStaticStepDots() {
+      const stepCounter = document.getElementById("stepCounter");
+      const dots = stepCounter.querySelectorAll(".dot");
+      dots.forEach((dot, i) => {
+        if (i === (currentShapeIndex % 10)) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+    }
+
+    /***************************************
+     * Drawing Functions
+     ***************************************/
+    function drawShape() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!polygon.length) return;
+      ctx.beginPath();
+      ctx.moveTo(polygon[0].x, polygon[0].y);
+      for (let i = 1; i < polygon.length; i++) {
+        ctx.lineTo(polygon[i].x, polygon[i].y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = "#ffcc66";
+      ctx.fill();
+      ctx.strokeStyle = "#cc6600";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
+    function drawCandidateLine() {
+      if (!candidateLine) return;
+      const P = candidateLine.point;
+      const angle = candidateLine.angle;
+      const d = { x: Math.cos(angle), y: Math.sin(angle) };
+      const p1 = { x: P.x - 1000 * d.x, y: P.y - 1000 * d.y };
+      const p2 = { x: P.x + 1000 * d.x, y: P.y + 1000 * d.y };
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([8, 4]);
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.strokeStyle = "#0088cc";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
+    function clipPolygonCandidate(poly, candidateLine) {
+      let clipped = [];
+      const nPoints = poly.length;
+      const P = candidateLine.point;
+      const angle = candidateLine.angle;
+      const n = { x: -Math.sin(angle), y: Math.cos(angle) };
+      for (let i = 0; i < nPoints; i++) {
+        const curr = poly[i];
+        const next = poly[(i + 1) % nPoints];
+        const currVal = (curr.x - P.x) * n.x + (curr.y - P.y) * n.y;
+        const nextVal = (next.x - P.x) * n.x + (next.y - P.y) * n.y;
+        if (currVal > 0 && nextVal > 0) {
+          clipped.push(next);
+        } else if (currVal > 0 && nextVal <= 0) {
+          let inter = computeIntersectionCandidate(curr, next, candidateLine, n);
+          if (inter) clipped.push(inter);
+        } else if (currVal <= 0 && nextVal > 0) {
+          let inter = computeIntersectionCandidate(curr, next, candidateLine, n);
+          if (inter) {
+            clipped.push(inter);
+            clipped.push(next);
+          }
+        }
+      }
+      return clipped;
+    }
+    function computeIntersectionCandidate(p1, p2, candidateLine, n) {
+      const P = candidateLine.point;
+      const f1 = (p1.x - P.x) * n.x + (p1.y - P.y) * n.y;
+      const f2 = (p2.x - P.x) * n.x + (p2.y - P.y) * n.y;
+      const t = -f1 / (f2 - f1);
+      return {
+        x: p1.x + t * (p2.x - p1.x),
+        y: p1.y + t * (p2.y - p1.y)
+      };
+    }
+    function reflectPointCandidate(p, candidateLine) {
+      const P = candidateLine.point;
+      const d = { x: Math.cos(candidateLine.angle), y: Math.sin(candidateLine.angle) };
+      const vx = p.x - P.x;
+      const vy = p.y - P.y;
+      const dot = vx * d.x + vy * d.y;
+      return {
+        x: P.x + 2 * dot * d.x - vx,
+        y: P.y + 2 * dot * d.y - vy
+      };
+    }
+    function drawReflectedShapeCandidate() {
+      if (!candidateLine) return;
+      const clippedPoly = clipPolygonCandidate(polygon, candidateLine);
+      if (!clippedPoly.length) return;
+      const reflectedPoly = clippedPoly.map(pt => reflectPointCandidate(pt, candidateLine));
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(reflectedPoly[0].x, reflectedPoly[0].y);
+      for (let i = 1; i < reflectedPoly.length; i++) {
+        ctx.lineTo(reflectedPoly[i].x, reflectedPoly[i].y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = "rgba(255, 100, 100, 0.5)";
+      ctx.fill();
+      ctx.strokeStyle = "#aa0000";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+    }
+    function isCandidateCorrect() {
+      if (!candidateLine || !trueLine) return false;
+      // Compute the absolute difference.
+      let angleDiff = Math.abs(candidateLine.angle - trueLine.angle) % Math.PI;
+      // Make sure we take the smaller difference.
+      if (angleDiff > Math.PI/2) {
+        angleDiff = Math.PI - angleDiff;
+      }
+      if (angleDiff > angleTol) return false;
+      
+      // Check candidate line's anchor proximity as before.
+      const P = trueLine.point;
+      const d = { x: Math.cos(trueLine.angle), y: Math.sin(trueLine.angle) };
+      const n = { x: -d.y, y: d.x };
+      const diff = { x: candidateLine.point.x - P.x, y: candidateLine.point.y - P.y };
+      const distance = Math.abs(diff.x * n.x + diff.y * n.y);
+      return distance <= posTol;
+    }
+    function updateFeedback() {
+      const overlay = document.getElementById("workingOverlay");
+      const overlayContent = document.getElementById("overlayContent");
+      if (isCandidateCorrect()) {
+        overlayContent.innerHTML = "Congratulations! You found the line of symmetry!<br><br>Try another shape by clicking the Next button below.";
+        // Set the overlay background to the template green for congratulatory messages:
+        overlay.style.backgroundColor = "rgba(46, 139, 87,0.7)"; 
+        overlay.classList.add("show");
+      } else {
+        // Reset back to template blue for normal overlays
+        overlay.style.backgroundColor = "rgba(46, 139, 87,0.7)";
+        overlay.classList.remove("show");
+      }
+    }
+    function draw() {
+      drawShape();
+      if (candidateLine) {
+        drawCandidateLine();
+        drawReflectedShapeCandidate();
+      }
+      updateFeedback();
+    }
+
+    /***************************************
+     * Drag-to-Move Candidate Line
+     ***************************************/
+    // When the user mouses down on the canvas, start dragging the candidate line.
+    canvas.addEventListener("mousedown", function(event) {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      // If candidateLine doesn't exist, create it.
+      if (!candidateLine) {
+        candidateLine = { point: { x, y }, angle: 0 };
+      }
+      isDragging = true;
+    });
+    canvas.addEventListener("mousemove", function(event) {
+      if (isDragging) {
+        const rect = canvas.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+        // Snap the candidate point if close enough.
+        const snappedPoint = snapToLine({ x, y }, trueLine, snapTolerance);
+        candidateLine.point = { x: snappedPoint.x, y: snappedPoint.y };
+        draw();
+      }
+    });
+    canvas.addEventListener("mouseup", function(event) {
+      isDragging = false;
+    });
+    canvas.addEventListener("mouseleave", function(event) {
+      isDragging = false;
+    });
+
+    canvas.addEventListener("click", function(event) {
+      const rect = canvas.getBoundingClientRect();
+      let x = event.clientX - rect.left;
+      let y = event.clientY - rect.top;
+      let clickPoint = { x, y };
+      if (trueLine) {
+        clickPoint = snapToLine(clickPoint, trueLine, snapTolerance);
+        x = clickPoint.x;
+        y = clickPoint.y;
+      }
+      // Create candidate line if it doesn't exist, or update its anchor.
+      candidateLine = candidateLine || { point: { x, y }, angle: 0 };
+      candidateLine.point = { x, y };
+      draw();
+    });
+
+    /***************************************
+     * Event Listeners for Buttons & Highlights
+     ***************************************/
+    document.getElementById("rotateLeftUpper").addEventListener("click", function() {
+      if (candidateLine) {
+        candidateLine.angle -= rotationIncrement;
+        draw();
+      }
+    });
+    document.getElementById("rotateRightUpper").addEventListener("click", function() {
+      if (candidateLine) {
+        candidateLine.angle += rotationIncrement;
+        draw();
+      }
+    });
+    document.getElementById("nextButton").addEventListener("click", function() {
+      if (currentShapeIndex === shapeHistory.length - 1) {
+        generateNewShape();
+      } else {
+        loadShapeFromHistory(currentShapeIndex + 1);
+      }
+      draw();
+    });
+    document.getElementById("prevButton").addEventListener("click", function() {
+      if (currentShapeIndex > 0) {
+        loadShapeFromHistory(currentShapeIndex - 1);
+        draw();
+      }
+    });
+    document.getElementById("closeOverlay").addEventListener("click", function() {
+      document.getElementById("workingOverlay").classList.remove("show");
+    });
+    document.getElementById("highlightSpace").addEventListener("click", function() {
+      showWorkingOverlay("Click anywhere near the shape to bring the line there.");
+    });
+    document.getElementById("highlightReflection").addEventListener("click", function() {
+      showWorkingOverlay("Move the line to see how one side of the line reflects the shape, like a mirror.<br><br>You can rotate the line to check where you get a symmetrical reflection!");
+    });
+    document.getElementById("highlightLOS").addEventListener("click", function() {
+      showWorkingOverlay("When you find the line that perfectly symmetrically reflects a half of the shape and overlaps it with the shape, this is the line of symmetry!");
+    });
+    function showWorkingOverlay(message) {
+      const overlay = document.getElementById("workingOverlay");
+      const overlayContent = document.getElementById("overlayContent");
+      overlayContent.innerHTML = message;
+      overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)"; 
+      overlay.classList.add("show");
+    }
+
+    /***************************************
+     * Initialization
+     ***************************************/
+    generateNewShape();
+    draw();
+  </script>
+</body>
+</html>
