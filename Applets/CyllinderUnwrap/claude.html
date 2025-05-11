@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unwrap Cylinder</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: pink;
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      canvas {
+        /* these were overriding renderer.setSize causing blurriness */
+        /* width: 100%; */
+        /* height: 100%; */
+      }
+      #container {
+        width: 650px;
+        height: 400px;
+        border: 3px solid black;
+      }
+      input {
+        display: block;
+        margin-top: 5px;
+      }
+      button {
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <input id="rotateAngle" type="range" min="0" max="360" value="0" step="1" />
+    <input
+      id="translateSlider"
+      type="range"
+      min="0"
+      max="5"
+      value="0"
+      step="0.1"
+    />
+    <button id="nextButton">Next</button>
+    <button id="combineButton">Combine</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="three.min.js"></script>
+
+    <script>
+      const container = document.getElementById("container");
+      const rotateSlider = document.getElementById("rotateAngle");
+      const translateSlider = document.getElementById("translateSlider");
+      const nextButton = document.getElementById("nextButton");
+      const combineButton = document.getElementById("combineButton");
+      const numberOfSectors = 12; // How many pieces to make the cylinder
+      const cylinderRadius = 1.5;
+      const cylinderHeight = 1; // This will be the extrusion depth
+      const anglePerSector = (2 * Math.PI) / numberOfSectors;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        650 / 400, // aspect ratio matches div
+        0.1,
+        1000
+      );
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(650, 400);
+      renderer.setPixelRatio(window.devicePixelRatio); // for crispness
+      container.appendChild(renderer.domElement);
+      renderer.setClearColor(0xffffff); // White background
+
+      // Create a plane geometry (width, height) - Not strictly necessary for the cylinder but good for orientation
+      const planeGeometry = new THREE.PlaneGeometry(10, 10);
+      const planeMaterial = new THREE.MeshStandardMaterial({
+        color: 0xeeeeee,
+        side: THREE.DoubleSide
+      });
+      const backgroundPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+      backgroundPlane.position.z = -cylinderHeight/2 -0.1; // Place it behind the cylinder
+      // scene.add(backgroundPlane); // Optional: uncomment to see the plane
+
+      // --- Parameters for the cylinder and sectors ---
+      
+
+      function createPie(radius, startAngle, endAngle, height, index) {
+        const group = new THREE.Group();
+        const shape = new THREE.Shape();
+        shape.moveTo(0, 0);
+        const x1 = radius * Math.cos(startAngle),
+          y1 = radius * Math.sin(startAngle),
+          x2 = radius * Math.cos(endAngle),
+          y2 = radius * Math.sin(endAngle);
+        shape.lineTo(x1, y1);
+        shape.absarc(0, 0, radius, startAngle, endAngle, false); // Use 'radius' passed to function
+        shape.lineTo(0, 0);
+        const extrudeSettings = {
+          steps: 1,
+          depth: height,
+          bevelEnabled: false,
+        };
+        const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        const material = new THREE.MeshStandardMaterial({
+          color: new THREE.Color().setHSL(index / numberOfSectors, 0.7, 0.5),
+          roughness: 0.5,
+          metalness: 0.2,
+          side: THREE.DoubleSide,
+        });
+        const sectorMesh = new THREE.Mesh(geometry, material);
+
+        const z0 = 0;
+        const z1 = height;
+        const p1_vec = new THREE.Vector3(x1, y1, z0);
+        const p2_vec = new THREE.Vector3(x2, y2, z0);
+        const p3_vec = new THREE.Vector3(x1, y1, z1);
+        const p4_vec = new THREE.Vector3(x2, y2, z1);
+        const c0_vec = new THREE.Vector3(0, 0, z0);
+        const c1_vec = new THREE.Vector3(0, 0, z1);
+
+        const edgePoints = [
+          c1_vec, p3_vec, p4_vec, c1_vec, // Top face triangle (center to arc points)
+          c0_vec, p2_vec, p1_vec, c0_vec, // Bottom face triangle (center to arc points)
+          p1_vec, p3_vec, // Vertical edge 1
+          p2_vec, p4_vec, // Vertical edge 2
+        ];
+
+        const edgeGeometry = new THREE.BufferGeometry().setFromPoints(
+          edgePoints
+        );
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 1.5 }); // Thicker lines
+        const lines = new THREE.LineSegments(edgeGeometry, lineMaterial);
+        group.add(lines);
+
+        const arcCurveTop = new THREE.ArcCurve(0,0,radius,startAngle,endAngle,false);
+        const pointsTop = arcCurveTop.getPoints(20).map((p) => new THREE.Vector3(p.x, p.y, height));
+        const arcGeometryTop = new THREE.BufferGeometry().setFromPoints(pointsTop);
+        const arcMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+        const arcLineTop = new THREE.Line(arcGeometryTop, arcMaterial);
+        group.add(arcLineTop);
+
+        const arcCurveBottom = new THREE.ArcCurve(0,0,radius,startAngle,endAngle,false);
+        const pointsBottom = arcCurveBottom.getPoints(20).map((p) => new THREE.Vector3(p.x, p.y, 0));
+        const arcGeometryBottom = new THREE.BufferGeometry().setFromPoints(pointsBottom);
+        const arcLineBottom = new THREE.Line(arcGeometryBottom, arcMaterial);
+        group.add(arcLineBottom);
+
+        group.add(sectorMesh);
+        // Store original orientation for reset or other transformations
+        group.userData.originalRotation = group.rotation.clone();
+        group.userData.originalPosition = group.position.clone();
+        return group;
+      }
+
+      const divisionPoints = Array.from( // Renamed from pointsArray for clarity
+        { length: numberOfSectors },
+        (_, i) => (i * 2 * Math.PI) / numberOfSectors
+      );
+      const midAngles = divisionPoints.map((a) => a + anglePerSector / 2);
+      // divisionPoints.push(divisionPoints[0]); // This was making one extra pie if used directly in loop limit
+
+      const pieArray = Array.from({ length: numberOfSectors }, (_, i) =>
+        createPie(
+          cylinderRadius,
+          divisionPoints[i],
+          divisionPoints[(i + 1) % numberOfSectors], // Use modulo for wrapping
+          cylinderHeight,
+          i
+        )
+      );
+
+      const bottomHalf = pieArray.slice(0, numberOfSectors / 2);
+      const topHalf = pieArray.slice(numberOfSectors / 2);
+      pieArray.forEach((pie) => scene.add(pie));
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7); // Slightly brighter ambient
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // Slightly brighter directional
+      directionalLight.position.set(5, 10, 7.5);
+      scene.add(directionalLight);
+
+      camera.up.set(0, 0, 1);
+      camera.position.set(0, cylinderRadius * -3, cylinderHeight * 2.5); // Adjusted camera position for better initial view
+      camera.lookAt(0, 0, cylinderHeight / 2);
+
+      const animationDuration = 1.0; // seconds
+      const easeType = "power2.inOut"; // A nice smooth ease
+
+      function handleNext() {
+        const halfWedgeWidth = cylinderRadius * Math.sin(anglePerSector / 2);
+        // Calculate total width to center the laid out pieces
+        const totalWidth = (numberOfSectors / 2) * 2 * halfWedgeWidth;
+        const startX = -totalWidth / 2 + halfWedgeWidth; // Centering logic
+
+        bottomHalf.forEach((pie, i) => {
+          const targetRotationZ = Math.PI / 2 - midAngles[i];
+          const targetPositionX = startX + (2 * halfWedgeWidth * i);
+          const targetPositionY = cylinderRadius * Math.cos(anglePerSector/2); // Move them "out" slightly to separate
+          
+          gsap.to(pie.rotation, { z: targetRotationZ, duration: animationDuration, ease: easeType });
+          gsap.to(pie.position, { x: targetPositionX, y: targetPositionY, z:0, duration: animationDuration, ease: easeType });
+        });
+
+        topHalf.forEach((pie, i) => {
+          // The original index for this pie in the full pieArray and midAngles array
+          const originalIndex = i + numberOfSectors / 2;
+          const targetRotationZ = Math.PI / 2 - midAngles[originalIndex];
+          // Position top half pieces in line with bottom half, but shifted slightly
+          const targetPositionX = startX + (2 * halfWedgeWidth * i) ;
+          const targetPositionY = -cylinderRadius * Math.cos(anglePerSector/2); // Move them "out" other way
+
+          gsap.to(pie.rotation, { z: targetRotationZ, duration: animationDuration, ease: easeType });
+          gsap.to(pie.position, { x: targetPositionX, y: targetPositionY, z:0, duration: animationDuration, ease: easeType });
+        });
+      }
+
+      nextButton.addEventListener("click", handleNext);
+
+      function handleCombine() {
+        // Target y positions for combining (bring them closer)
+        const combineOffsetY = cylinderRadius * Math.cos(anglePerSector / 2) * 0.5; // Tweak for desired closeness
+
+        // We need to know the "laid out" positions from handleNext to animate FROM those
+        // This assumes handleNext has been called. If not, this combine won't make sense visually.
+        // For a more robust solution, you might store the "laid out" state.
+
+        const halfWedgeWidth = cylinderRadius * Math.sin(anglePerSector / 2);
+        const totalWidth = (numberOfSectors / 2) * 2 * halfWedgeWidth;
+        const startX = -totalWidth / 2 + halfWedgeWidth;
+
+
+        bottomHalf.forEach((pie, i) => {
+          const currentTargetX = startX + (2 * halfWedgeWidth * i); // Recalculate target X from 'Next' state
+          gsap.to(pie.position, { y: -combineOffsetY, x: currentTargetX, duration: animationDuration, ease: easeType });
+          // Rotation remains as set by handleNext
+        });
+
+        topHalf.forEach((pie, i) => {
+          const currentTargetX = startX + (2 * halfWedgeWidth * i); // Recalculate target X from 'Next' state
+          gsap.to(pie.position, { y: combineOffsetY, x: currentTargetX, duration: animationDuration, ease: easeType });
+          // Rotation remains as set by handleNext
+        });
+      }
+      combineButton.addEventListener("click", handleCombine);
+
+      // Initial render is handled by the animate loop
+      // renderer.render(scene, camera); // This line is no longer needed here
+
+      // Add a function to reset to original cylinder
+      const resetButton = document.createElement('button');
+      resetButton.id = "resetButton";
+      resetButton.textContent = "Reset";
+      document.body.insertBefore(resetButton, nextButton.nextSibling.nextSibling); // Place after combine
+
+      resetButton.addEventListener("click", () => {
+        pieArray.forEach(pie => {
+            gsap.to(pie.rotation, {
+                x: pie.userData.originalRotation.x,
+                y: pie.userData.originalRotation.y,
+                z: pie.userData.originalRotation.z,
+                duration: animationDuration,
+                ease: easeType
+            });
+            gsap.to(pie.position, {
+                x: pie.userData.originalPosition.x,
+                y: pie.userData.originalPosition.y,
+                z: pie.userData.originalPosition.z,
+                duration: animationDuration,
+                ease: easeType
+            });
+        });
+      });
+      
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        // Update controls if you add them (e.g. OrbitControls)
+        // controls.update();
+        renderer.render(scene, camera);
+      }
+      animate(); // Start the loop
+    </script>
+  </body>
+</html>

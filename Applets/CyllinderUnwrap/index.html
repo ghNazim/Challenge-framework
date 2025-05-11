@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Three.js Basic Scene</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: pink;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="three.min.js"></script>
+    <script>
+      // Three.js core components
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75, // Field of View
+        window.innerWidth / window.innerHeight, // Aspect Ratio
+        0.1, // Near clipping plane
+        1000 // Far clipping plane
+      );
+
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      document.body.appendChild(renderer.domElement);
+      renderer.setClearColor(0xffffff);
+      // Create a cube
+      // 1. Geometry and material for the filled cube
+      // Create a cylinder geometry (small height, like a disk)
+      const geometry = new THREE.CylinderGeometry(1, 1, 0.2, 128); // radiusTop, radiusBottom, height, radial segments
+      const material = new THREE.MeshBasicMaterial({ color: 0x808080 }); // gray fill
+      const cylinder = new THREE.Mesh(geometry, material);
+      scene.add(cylinder);
+
+      // Add edges (black lines around the cylinder)
+      const edges = new THREE.EdgesGeometry(geometry);
+      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+      const lineSegments = new THREE.LineSegments(edges, lineMaterial);
+      cylinder.add(lineSegments);
+
+      // Position the cylinder at the center of the scene
+      cylinder.position.set(0, 0, 0);
+
+      // Create a small red sphere at (0, 0, 0)
+      const pointGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+      const pointMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const pointMesh = new THREE.Mesh(pointGeometry, pointMaterial);
+      scene.add(pointMesh);
+      // Position camera
+      const gridHelper = new THREE.GridHelper(10, 10); // 10x10 grid
+      scene.add(gridHelper);
+      camera.position.set(0, 1, 3);
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+      // Animation loop
+    </script>
+  </body>
+</html>
