@@ -9,8 +9,8 @@ let numberOfSectors = 12;
 const cylinderRadius = 1.5;
 const cylinderHeight = 1;
 let anglePerSector = (2 * Math.PI) / numberOfSectors;
-const aspectRatio = 650 / 400,
-  d = 3;
+const aspectRatio = 800 / 500,
+  d = 2;
 let step = 0;
 const xx = (Math.PI * cylinderRadius) / 2,
   yy = cylinderRadius / 2,
@@ -28,14 +28,14 @@ const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(
   -d * aspectRatio,
   d * aspectRatio,
-  d,
-  -d,
+  d+.4,
+  -d-.4,
   0.1,
   1000
 );
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(650, 400);
+renderer.setSize(800, 500);
 renderer.setPixelRatio(window.devicePixelRatio); // for crispness
 container.appendChild(renderer.domElement);
 
@@ -134,12 +134,6 @@ const labelAnchors2d = labelAnchors3d.map((anchor3D) => {
 
   return get2Dfrom3D(anchor3D, camera, renderer.domElement);
 }); 
-const geometry = new THREE.PlaneGeometry(10, 10);
-const material = new THREE.MeshStandardMaterial({
-  color: 0xeeeeee,
-});
-const plane = new THREE.Mesh(geometry, material);
-scene.add(plane);
 
 //Create a pie group
 function createPie(radius, startAngle, endAngle, height, index) {
