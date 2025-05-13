@@ -9,32 +9,44 @@
   <div class="applet-container">
     <!-- TITLE BAR -->
     <div class="titleBar">
-      <h1>Volume of a Cylinder</h1>
-      <p>Observe how a cylinder unwraps into a cuboid</p>
+      <h1>Area of a cylinder</h1>
+      <p>Observe how a cylinder unwraps and find its area</p>
     </div>
     <!-- ASSETS REGION -->
     <div class="assets">
       <!-- CONTEXT BOX -->
       <div class="contextBox">
         <div class="context-section">
-          <h2>Step 1: Segmentize the cylinder</h2>
-          <p>Cut the cylinder into <span class="highlight">pie like segments</span> pieces by clicking 'Next'.</p>
+          <h2>Step 1: Customize Your Cylinder</h2>
+          <p>Use the sliders to fine-tune the cylinder’s height and radius to your liking.</p>
         </div>
         <div class="context-section">
-          <h2>Step 2: Separate the two halves</h2>
-          <p>Rearrange the pieces in two halves by clicking 'Next'.</p>
+          <h2>Step 2: Unwrap the Shape</h2>
+          <p>Slide to gradually unwrap the cylinder and explore its surface.</p>
         </div>
         <div class="context-section">
-          <h2>Step 3: Form the cuboid</h2>
-          <p>Bring the two halves together to form a <span class="highlight">cuboid</span> by clicking 'Next'.  </p>
+          <h2>Step 3: View the Surface Area</h2>
+          <p>Click 'Next' to calculate and view the total surface area of your cylinder.</p>
         </div>
       </div>
+      
       <!-- WORKING AREA CONTAINER -->
       <div class="workingArea-container">
         <!-- UPPER CONTROLS -->
         <div class="upperControls">
-          <p>Number of segments</p>
-          <input type="range" id="open" min="0" max="50" value="12" step="2" class="slider"/>
+          <div class="slider-box">
+            <p>Radius</p>
+          <input type="range" id="radiusSlider" min="1.2" max="1.7" value="1.5" step=".001" class="slider"/>
+          </div>
+          <div class="slider-box">
+            <p>Height</p>
+          <input type="range" id="heightSlider" min="1" max="2.2" value="2" step=".001" class="slider"/>
+          </div>
+          <div class="slider-box">
+            <p>Unwrap</p>
+          <input type="range" id="unwrapSlider" min="0" max="2" value="0" step=".001" class="slider"/>
+          </div>
+          
         </div>
         <!-- WORKING AREA (Canvas takes full available space) -->
         <div class="workingArea">

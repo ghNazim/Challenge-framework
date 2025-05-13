@@ -95,3 +95,22 @@ const removeLabels = () => {
     overlay.removeChild(overlay.lastChild);
   }
 };
+
+function renderShape(shape){
+  const points = shape.getPoints(50);
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+  const line = new THREE.Line(geometry, material);
+  return line
+}
+
+function getShapeData(s,r){
+  const halfPerimeter = Math.PI*r
+  const length = halfPerimeter*s
+  const l = halfPerimeter - length;
+  const T = l/r;
+  return {
+    angle: T,
+    length
+  }
+}
