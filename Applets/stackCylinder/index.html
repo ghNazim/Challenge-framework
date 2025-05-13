@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stack Plates</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="applet-container">
+    <!-- TITLE BAR -->
+    <div class="titleBar">
+      <h1>Volume of a Cylinder</h1>
+      <p>Observe how circular plates are stacked to form a cylinder</p>
+    </div>
+    <!-- ASSETS REGION -->
+    <div class="assets">
+      <!-- CONTEXT BOX -->
+      <div class="contextBox">
+        <div class="context-section">
+          <h2>Step 1: Customize Your Cylinder</h2>
+          <p>You can change the radius of the plates and number of plates stacked using the sliders at the top.</p>
+        </div>
+        <div class="context-section">
+          <h2>Step 2: Check the Volume</h2>
+          <p>The volume of the cylinder becomes Area of the plates times number of plates stacked. </p>
+        </div>
+        
+      </div>
+      
+      <!-- WORKING AREA CONTAINER -->
+      <div class="workingArea-container">
+        <!-- UPPER CONTROLS -->
+        <div class="upperControls">
+          
+          <div class="slider-box">
+            <p>Radius</p>
+          <input type="range" id="radiusSlider" min=".8" max="1.8" value="1" step="0.001" class="slider"/>
+          </div>
+          <div class="slider-box">
+            <p>No of plates</p>
+          <input type="range" id="heightSlider" min="1" max="40" value="1" step="1" class="slider"/>
+          </div>
+          
+          
+        </div>
+        <!-- WORKING AREA (Canvas takes full available space) -->
+        <div class="workingArea">
+          <div id="wrapper" >
+            <div id="container"></div>
+            <svg id="labelOverlay" width="800" height="500" ></svg>
+          </div>
+          <!-- Overlay for hints and congratulatory messages -->
+          <div class="overlay workingArea-overlay" id="workingOverlay">
+            <div class="overlay-close" id="closeOverlay"></div>
+            <div class="overlay-content" id="overlayContent"></div>
+          </div>
+        </div>
+        <!-- LOWER CONTROLS -->
+        <div class="lowerControls">
+          <button class="btn btn-secondary" id="prevButton">Previous</button>
+          
+          <button class="btn btn-primary" id="nextButton">Next</button>
+        </div>
+      </div>
+    </div>
+    <!-- Full Screen Overlay (preserved from template) -->
+    <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
+      <div class="overlay-close"></div>
+      <div class="overlay-content">
+        <h2>Full Screen Overlay</h2>
+        <p>This overlay covers the entire applet with margins.</p>
+      </div>
+    </div>
+  </div>
+  <script src="packages/three.min.js"></script>
+  <script src="logic/utility.js"></script>
+  <script src="logic/applet.js"></script>
+  <script>
+    
+    document.getElementById("closeOverlay").addEventListener("click", function() {
+      document.getElementById("workingOverlay").classList.remove("show");
+    });
+    function showWorkingOverlay(message) {
+      const overlay = document.getElementById("workingOverlay");
+      const overlayContent = document.getElementById("overlayContent");
+      overlayContent.innerHTML = message;
+      overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)"; 
+      overlay.classList.add("show");
+    }
+  </script>
+</body>
+</html>
