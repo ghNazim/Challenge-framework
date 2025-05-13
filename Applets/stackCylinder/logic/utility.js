@@ -1,4 +1,4 @@
-function drawArrowSVG(overlay, start, end, color = "grey") {
+function drawArrowSVG(overlay, start, end, color = "#333333") {
   const arrowHeadLength = 10; // Length of the arrowhead
   const arrowHeadWidth = 7; // Width of the arrowhead
   const dx = end.x - start.x;
@@ -41,24 +41,29 @@ function drawArrowSVG(overlay, start, end, color = "grey") {
   createArrowhead(start.x, start.y, angle , -1);
 }
 
-function writeTextSVG(overlay, x, y, label,size="16") {
+function writeTextSVG(overlay, point, label,size="16",color="#333333") {
+  const x= point.x, y = point.y;
     const ns = "http://www.w3.org/2000/svg";
     const text = document.createElementNS(ns, "text");
     text.setAttribute("x", x);
     text.setAttribute("y", y);
-    text.setAttribute("fill", "grey");
+    text.setAttribute("fill", color);
     text.setAttribute("font-size", size);
     text.setAttribute("text-anchor", "middle");
     text.textContent = label;
     overlay.appendChild(text);
 }
-function get2Dfrom3D(anchor3D, camera, canvas) {
-  const vector = anchor3D.clone();
-  vector.project(camera);
-  const x = (vector.x * 0.5 + 0.5) * canvas.width;
-  const y = (1 - (vector.y * 0.5 + 0.5)) * canvas.height; 
-  return { x, y };
+function vectorToScreenPosition(vector3, camera, canvas) {
+  const vector = vector3.clone().project(camera);
+  const widthHalf = 0.5 * canvas.clientWidth;
+  const heightHalf = 0.5 * canvas.clientHeight;
+  return {
+    x: vector.x * widthHalf + widthHalf,
+    y: -(vector.y * heightHalf) + heightHalf,
+  }
 }
+
+
 
 function linearAnimate(obj, prop, start, end, duration) {
   let startTime = null;
@@ -79,7 +84,7 @@ function linearAnimate(obj, prop, start, end, duration) {
   window.requestAnimationFrame(step);
 }
 
-const removeLabels = () => {
+const clearLabelOverlay = () => {
   const overlay = document.getElementById("labelOverlay");
   while (overlay.lastChild) {
     overlay.removeChild(overlay.lastChild);
@@ -95,4 +100,49 @@ function getShapeData(s,r){
     angle: T,
     length
   }
+}
+
+function revealVolumeFormula() {
+  const container = document.getElementById("volumeFormula");
+  container.style.display = "block";
+  const originalHTML = container.innerHTML;
+
+  // Step 1: Extract text from child elements
+  const lines = Array.from(container.children).map((p) => p.innerHTML);
+  container.innerHTML = ""; // Clear for animation
+
+  let allChars = [];
+
+  // Step 2: Wrap each character in spans
+  lines.forEach((line) => {
+    const p = document.createElement("p");
+
+    for (let char of line) {
+      const span = document.createElement("span");
+      span.textContent = char;
+      p.appendChild(span);
+      allChars.push(span);
+    }
+
+    container.appendChild(p);
+  });
+
+  // Step 3: Animate characters
+  const delay = 30; // ms per character
+  allChars.forEach((span, i) => {
+    setTimeout(() => {
+      span.classList.add("show");
+    }, i * delay);
+  });
+
+  // Step 4: Restore original HTML after the animation
+  const totalDuration = allChars.length * delay + 300; // Add buffer
+  setTimeout(() => {
+    container.innerHTML = originalHTML;
+  }, totalDuration);
+}
+
+function hideVolumeFormula() {
+  const container = document.getElementById("volumeFormula");
+  container.style.display = "none";
 }

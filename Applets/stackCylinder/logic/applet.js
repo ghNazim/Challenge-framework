@@ -4,6 +4,7 @@ const radiusSlider = document.getElementById("radiusSlider");
 const nextButton = document.getElementById("nextButton");
 const prevButton = document.getElementById("prevButton");
 const overlay = document.getElementById("labelOverlay");
+const wrapper = document.getElementById("wrapper");
 
 let radius = 1.5;
 let height = 2;
@@ -15,7 +16,7 @@ const plateThickness = 0.001,plateSpacing=0.1;
 // Set up the scene ********************
 const aspectRatio = 800 / 500,
   d = 3;
-let step = 0;
+let step = 1;
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(
   -d * aspectRatio,
@@ -38,11 +39,17 @@ scene.add(directionalLight);
 camera.position.set(0, height * 1, radius * 4);
 camera.lookAt(0, 0, 0);
 
+camera.updateMatrixWorld();
+camera.updateProjectionMatrix();
+
+
 //********************* Scene set up end ************************ */
 
 
 
 // **************** Set up Objects *********************
+
+
 
 function updateCylinder(numCircles,r) {
 
@@ -98,23 +105,81 @@ function updateCylinder(numCircles,r) {
     scene.add(plateEdges);
     stackedPlates.push({ plate: plate, edges: plateEdges });
   }
-  
 }
 
 
 //********************* Event handlers *********************
-
-function handleNextClick() {
-  return;
+function drawArrows(){
+  const points = getLabelPoints(parseInt(heightSlider.value),parseFloat(radiusSlider.value));
+  drawArrowSVG(overlay, points[0], points[1]);
+  drawArrowSVG(overlay, points[2], points[3]);
+  writeTextSVG(overlay, points[4], "r");
+  writeTextSVG(overlay, points[5], "h");
 }
-function handlePrevClick() {}
+
+function getLabelPoints(n, r) {
+  const h = (n - 1) * plateSpacing + plateThickness * n;
+  const points = [
+    new THREE.Vector3(0, h, 0),
+    new THREE.Vector3(r, h, 0),
+    new THREE.Vector3(r + 0.2, 0, 0),
+    new THREE.Vector3(r + 0.2, h, 0),
+    new THREE.Vector3(r/2, h, -.2),
+    new THREE.Vector3(r+.4, h/2, 0)
+  ];
+  const points2d = points.map((p) =>
+    vectorToScreenPosition(p, camera, renderer.domElement)
+  );
+  return points2d;
+}
+function atStep1(){
+  wrapper.style.translate = '0%';
+  overlay.style.opacity = 0;
+  hideVolumeFormula();
+}
+function atStep2(){
+  wrapper.style.translate = '-30%';
+  setTimeout(() => {
+    overlay.style.opacity = 1;
+    revealVolumeFormula();
+  },600)
+  
+}
+function handleNextClick() {
+  atStep2();
+  nextButton.disabled = true;
+  prevButton.disabled = false;
+}
+function handlePrevClick() {
+  atStep1();
+  nextButton.disabled = false;
+  prevButton.disabled = true;
+}
 
 nextButton.addEventListener("click", handleNextClick);
 prevButton.addEventListener("click", handlePrevClick);
 
-function animate() {
-  updateCylinder(parseInt(heightSlider.value),parseFloat(radiusSlider.value));
-  requestAnimationFrame(animate);
+prevButton.disabled = true;
+nextButton.disabled = true;
+updateCylinder(parseInt(heightSlider.value), parseFloat(radiusSlider.value));
+
+heightSlider.addEventListener("input", function () {
+  if(heightSlider.value > 1) nextButton.disabled = false;
+  else nextButton.disabled = true;
+  updateCylinder(parseInt(heightSlider.value), parseFloat(radiusSlider.value));
+  clearLabelOverlay();
+  drawArrows();
+  render3()
+});
+radiusSlider.addEventListener("input", function () {
+  updateCylinder(parseInt(heightSlider.value), parseFloat(radiusSlider.value));
+  clearLabelOverlay();
+  drawArrows();
+  render3()
+});
+
+function render3(){
   renderer.render(scene, camera);
 }
-animate();
+
+render3()

@@ -284,119 +284,7 @@
       transform: translateY(0);
     }
 
-    .highlight-gold {
-      background-color: rgba(255,193,7,0.15);
-      color: #FF9800;
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .highlight-gold:hover {
-      background-color: rgba(255,193,7,0.25);
-      box-shadow: 0 0 0 2px rgba(255,193,7,0.1);
-      transform: translateY(-1px);
-    }
-
-    .highlight-green {
-      background-color: rgba(46,139,87,0.15);
-      color: #2E8B57;
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .highlight-green:hover {
-      background-color: rgba(46,139,87,0.25);
-      box-shadow: 0 0 0 2px rgba(46,139,87,0.1);
-      transform: translateY(-1px);
-    }
-
-    .highlight-red {
-      background-color: rgba(220,53,69,0.15);
-      color: #DC3545;
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .highlight-red:hover {
-      background-color: rgba(220,53,69,0.25);
-      box-shadow: 0 0 0 2px rgba(220,53,69,0.1);
-      transform: translateY(-1px);
-    }
-
-    .highlight-purple {
-      background-color: rgba(123,97,255,0.15);
-      color: #7B61FF;
-      padding: 2px 4px;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .highlight-purple:hover {
-      background-color: rgba(123,97,255,0.25);
-      box-shadow: 0 0 0 2px rgba(123,97,255,0.1);
-      transform: translateY(-1px);
-    }
-
-    /* Color palette display */
-    .color-palette {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-      padding: 12px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .color-swatch {
-      width: 60px;
-      height: 60px;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: calc(0.7rem + 0.75vw);
-      font-weight: 500;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .color-swatch:hover {
-      transform: scale(1.05);
-    }
-
-    .color-swatch .color-name {
-      margin-top: 4px;
-      text-align: center;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    }
-
-    .color-swatch .color-hex {
-      position: absolute;
-      bottom: 4px;
-      font-size: calc(0.65rem + 0.75vw);
-      opacity: 0.9;
-    }
-
-    .primary-blue { background-color: #4169E1; }
-    .light-blue { background-color: #6389FF; }
-    .dark-blue { background-color: #3558C0; }
-    .gold { background-color: #FF9800; }
-    .green { background-color: #2E8B57; }
-    .red { background-color: #DC3545; }
-    .purple { background-color: #7B61FF; }
+   
 
     /********************************************
       8) BUTTONS & SLIDERS (Touch Friendly)
@@ -445,6 +333,7 @@
     }
 
     .btn:disabled {
+      border: none;
       pointer-events: none;
       background-color: #e0e0e0;
       color: #9e9e9e;
@@ -526,170 +415,51 @@
       #container {
         width: 800px;
         height: 500px;
+        
       }
       #wrapper {
         position: relative;
+        transition: all 0.6s ease;
       }
       #labelOverlay {
         position: absolute;
         top: 0;
         left: 0;
         pointer-events: none;
-      }
-
-    /********************************************
-      9) STEP COUNTER - DOT PROGRESS INDICATOR
-    *********************************************/
-    .step-counter {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 4px 12px;
-      border-radius: 22px;
-      background-color: rgba(255,255,255,0.9);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .step-counter:hover {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      transform: translateY(-1px);
-    }
-
-    .step-counter .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #ddd;
-      transition: all 0.3s ease;
-    }
-
-    .step-counter .dot.active {
-      background-color: #4169E1;
-      transform: scale(1.2);
-    }
-
-    .step-counter .dot:hover {
-      transform: scale(1.1);
-      background-color: #bbb;
-    }
-
-    .step-counter .dot.active:hover {
-      background-color: #3558C0;
-    }
-
-    /********************************************
-      10) COUNTER INPUT (PLUS/MINUS BUTTONS)
-    *********************************************/
-    .counter-input {
-      display: flex;
-      align-items: center;
-      min-height: 44px;
-      min-width: 140px;
-      border-radius: 22px;
-      background-color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 4px;
-      transition: all 0.3s ease;
-    }
-
-    .counter-input:hover {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-
-    .counter-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: none;
-      background-color: #f0f0f0;
-      color: #555;
-      font-size: calc(1.2rem + 0.75vw);
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .counter-btn:hover {
-      background-color: #e0e0e0;
-      transform: scale(1.05);
-    }
-
-    .counter-btn:active {
-      transform: scale(0.95);
-    }
-
-    .counter-btn.plus {
-      background-color: #4169E1;
-      color: white;
-    }
-
-    .counter-btn.plus:hover {
-      background-color: #3558C0;
-    }
-
-    .counter-value {
-      flex: 0 0 auto;
-      text-align: center;
-      font-size: calc(1.1rem + 0.75vw);
-      font-weight: 500;
-      color: #333;
-      padding: 0 12px;
-      min-width: 2ch;
-    }
-
-    .counter-label {
-      margin-left: 8px;
-      font-size: calc(0.9rem + 0.75vw);
-      color: #777;
-    }
-
-    /********************************************
-      11) HIGHLIGHTS FOR REGIONS
-    *********************************************/
-    .region-highlight {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      z-index: 5;
-      border-radius: 8px;
-    }
-
-    .workingArea-highlight {
-      background-color: rgba(65,105,225,0.4);
-    }
-
-    .contextBox-highlight {
-      background-color: rgba(65,105,225,0.4);
-      border-radius: 0;
-      top: 0; 
-      left: 0;
-      right: 0;
-      bottom: 0;
-      position: absolute;
-    }
-
-    .controls-highlight {
-      background-color: rgba(65,105,225,0.4);
-    }
-
-    @keyframes blink {
-      0%, 100% {
         opacity: 0;
+        transition: all 0.4s ease;
       }
-      20%, 80% {
-        opacity: 0.85;
+      #textOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
       }
-    }
 
+      #volumeFormula{
+        font-size: 22px;
+        position: absolute;
+        width: 50%;
+        right: 0px;
+        top: 30%;
+        display: none;
+      }
+      #volumeFormula > p{
+        margin-bottom: .6rem;
+      }
+
+      #volumeFormula span {
+        opacity: 0;
+        transition: opacity 0.05s ease-in;
+      }
+    
+      #volumeFormula span.show {
+        opacity: 1;
+      }
+
+    
     /********************************************
       12) OVERLAYS
     *********************************************/
