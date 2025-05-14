@@ -144,11 +144,5 @@ function highlightContextSection(stepNumber) {
     }
   });
 }
-function showWorkingOverlay(message) {
-  const overlay = document.getElementById("workingOverlay");
-  const overlayContent = document.getElementById("overlayContent");
-  overlayContent.innerHTML = message;
-  overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)";
-  overlay.classList.add("show");
-}
+
 

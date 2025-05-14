@@ -235,6 +235,10 @@ radiusSlider.addEventListener("input", updateCylinder);
 heightSlider.addEventListener("input", updateCylinder);
 
 function handleNextClick() {
+  if (overlayUp) {
+    closeOverlay();
+    return;
+  }
   if (step == 3) return;
   step++;
   if (step == 2) {
@@ -245,6 +249,10 @@ function handleNextClick() {
   }
 }
 function handlePrevClick() {
+  if (overlayUp) {
+    closeOverlay();
+    return;
+  }
   if (step == 1) return;
   step--;
   if (step == 1) {

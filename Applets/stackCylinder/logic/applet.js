@@ -146,11 +146,19 @@ function atStep2(){
   
 }
 function handleNextClick() {
+  if (overlayUp) {
+    closeOverlay();
+    return;
+  }
   atStep2();
   nextButton.disabled = true;
   prevButton.disabled = false;
 }
 function handlePrevClick() {
+  if (overlayUp) {
+    closeOverlay();
+    return;
+  }
   atStep1();
   nextButton.disabled = false;
   prevButton.disabled = true;

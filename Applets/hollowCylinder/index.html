@@ -22,13 +22,13 @@
         </div>
         <div class="context-section">
           <h2>Step 2: Unwrap the Cylinder</h2>
-          <p>Use the Unwrap slider to gradually unfold the cylinder. Fully unwrap it to proceed to the next step.
+          <p>Use the Unwrap slider to gradually <span class="highlight" data-def="unfold">unfold</span>the cylinder. Fully unwrap it to proceed to the next step.
           </p>
         </div>
         <div class="context-section">
           <h2>Step 3: View the Surface Area</h2>
           <p>A cylinder can be unwrapped into 2 circles and a rectangle.</p>
-          <p>Sum these areas to find the total surface area of the cylinder.</p>
+          <p>Sum these areas to find the <span class="highlight" data-def="area">total surface area</span> of the cylinder.</p>
         </div>
       </div>
       
@@ -88,20 +88,38 @@
     </div>
   </div>
   <script src="packages/three.min.js"></script>
+  <script src="data.js"></script>
   <script src="logic/utility.js"></script>
-  <script src="logic/applet.js"></script>
+  
   <script>
-    
-    document.getElementById("closeOverlay").addEventListener("click", function() {
-      document.getElementById("workingOverlay").classList.remove("show");
-    });
+    let overlayUp = false;
     function showWorkingOverlay(message) {
-      const overlay = document.getElementById("workingOverlay");
-      const overlayContent = document.getElementById("overlayContent");
-      overlayContent.innerHTML = message;
-      overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)"; 
-      overlay.classList.add("show");
+        const overlay = document.getElementById("workingOverlay");
+        const overlayContent = document.getElementById("overlayContent");
+        overlayContent.innerHTML = message;
+        overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)";
+        overlay.classList.add("show");
+      }
+    function closeOverlay() {
+      overlayUp = false;
+      document.getElementById("workingOverlay").classList.remove("show");
     }
+    document
+      .getElementById("closeOverlay")
+      .addEventListener("click", closeOverlay);
+    function setUpListenersForHighlights() {
+      const keys = Object.keys(definitions);
+      keys.forEach((key) => {
+        document
+          .querySelector(`[data-def="${key}"]`)
+          .addEventListener("click", () => {
+            showWorkingOverlay(definitions[key]);
+            overlayUp = true;
+          });
+      });
+    }
+    setUpListenersForHighlights();
   </script>
+  <script src="logic/applet.js"></script>
 </body>
 </html>

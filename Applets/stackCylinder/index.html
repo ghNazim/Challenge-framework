@@ -19,17 +19,19 @@
           <div class="context-section">
             <h2>Step 1: Customize Your Cylinder</h2>
             <p>
-              Use the sliders above to adjust the radius of the plates and the number of plates stacked.
+              Use the sliders above to adjust the radius of the
+              <span class="highlight" data-def="plate">plates</span> and the
+              number of plates stacked.
             </p>
           </div>
           <div class="context-section">
             <h2>Step 2: Calculate the Volume</h2>
             <p>
-              The cylinder’s volume is calculated by multiplying the area of each plate by the number of plates stacked.
+              The cylinder’s volume is calculated by multiplying the area of
+              each plate by the number of plates stacked.
             </p>
           </div>
         </div>
-        
 
         <!-- WORKING AREA CONTAINER -->
         <div class="workingArea-container">
@@ -98,14 +100,11 @@
       </div>
     </div>
     <script src="packages/three.min.js"></script>
+    <script src="data.js"></script>
     <script src="logic/utility.js"></script>
-    <script src="logic/applet.js"></script>
+
     <script>
-      document
-        .getElementById("closeOverlay")
-        .addEventListener("click", function () {
-          document.getElementById("workingOverlay").classList.remove("show");
-        });
+      let overlayUp = false;
       function showWorkingOverlay(message) {
         const overlay = document.getElementById("workingOverlay");
         const overlayContent = document.getElementById("overlayContent");
@@ -113,6 +112,26 @@
         overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)";
         overlay.classList.add("show");
       }
+      function closeOverlay() {
+        overlayUp = false;
+        document.getElementById("workingOverlay").classList.remove("show");
+      }
+      document
+        .getElementById("closeOverlay")
+        .addEventListener("click", closeOverlay);
+      function setUpListenersForHighlights() {
+        const keys = Object.keys(definitions);
+        keys.forEach((key) => {
+          document
+            .querySelector(`[data-def="${key}"]`)
+            .addEventListener("click", () => {
+              showWorkingOverlay(definitions[key]);
+              overlayUp = true;
+            });
+        });
+      }
+      setUpListenersForHighlights();
     </script>
+    <script src="logic/applet.js"></script>
   </body>
 </html>
