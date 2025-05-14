@@ -1,93 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Symmetry Learning Applet</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="applet-container">
-    <!-- TITLE BAR -->
-    <div class="titleBar">
-      <h1>Volume of a Cylinder</h1>
-      <p>Observe how a cylinder unwraps into a cuboid</p>
-    </div>
-    <!-- ASSETS REGION -->
-    <div class="assets">
-      <!-- CONTEXT BOX -->
-      <div class="contextBox">
-        <div class="context-section">
-          <h2>Step 1: Segmentize the cylinder</h2>
-          <p>Cut the cylinder into <span class="highlight">pie like segments</span> pieces by clicking 'Next'.</p>
-        </div>
-        <div class="context-section">
-          <h2>Step 2: Separate the two halves</h2>
-          <p>Rearrange the pieces in two halves by clicking 'Next'.</p>
-        </div>
-        <div class="context-section">
-          <h2>Step 3: Form the cuboid</h2>
-          <p>Bring the two halves together to form a <span class="highlight">cuboid</span> by clicking 'Next'.  </p>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Symmetry Learning Applet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="applet-container">
+      <!-- TITLE BAR -->
+      <div class="titleBar">
+        <h1>Volume of a Cylinder</h1>
+        <p>Observe how a cylinder unwraps into a cuboid</p>
       </div>
-      <!-- WORKING AREA CONTAINER -->
-      <div class="workingArea-container">
-        <!-- UPPER CONTROLS -->
-        <div class="upperControls">
-          <p>Number of segments</p>
-          <input type="range" id="segments" min="12" max="50" value="12" step="2" class="slider"/>
-        </div>
-        <!-- WORKING AREA (Canvas takes full available space) -->
-        <div class="workingArea">
-          <div id="wrapper" >
-            <div id="container"></div>
-            <svg id="labelOverlay" width="800" height="500" ></svg>
+      <!-- ASSETS REGION -->
+      <div class="assets">
+        <!-- CONTEXT BOX -->
+        <div class="contextBox">
+          <div class="context-section">
+            <h2>Step 1: Slice the Cylinder</h2>
+            <p>
+              Click 'Next' to slice the cylinder into multiple
+              <span class="highlight" data-def="wedge">wedges</span>.
+            </p>
           </div>
-          <div id="textOverlay">
-            <div id="volumeFormula">
-              <p>Volume of the cylinder</p>
-              <p>= width × breadth × height</p>
-              <p>= π r × r × h</p>
-              <p>= π r ² h</p>
+
+          <div class="context-section">
+            <h2>Step 2: Adjust Segment Count</h2>
+            <p>
+              Use the slider above to change how many segments the cylinder is
+              divided into.
+            </p>
+          </div>
+
+          <div class="context-section">
+            <h2>Step 3: Split the Cylinder</h2>
+            <p>Click 'Next' to separate the cylinder into two equal halves.</p>
+          </div>
+
+          <div class="context-section">
+            <h2>Step 4: Rearrange into a Cuboid</h2>
+            <p>
+              Click 'Next' to bring the two halves together and form a shape
+              resembling a
+              <span class="highlight" data-def="cuboid">cuboid</span>. As you
+              increase the number of slices, the shape more closely approximates
+              a true cuboid.
+            </p>
+          </div>
+
+          <div class="context-section">
+            <h2>Step 5: Calculate Volume</h2>
+            <p>
+              To find the volume of the cuboid, multiply its width, breadth, and
+              height. Click 'Next' to calculate the volume.
+            </p>
+          </div>
+        </div>
+
+        <!-- WORKING AREA CONTAINER -->
+        <div class="workingArea-container">
+          <!-- UPPER CONTROLS -->
+          <div class="upperControls">
+            <p>Number of segments</p>
+            <input
+              type="range"
+              id="segments"
+              min="12"
+              max="50"
+              value="12"
+              step="2"
+              class="slider"
+            />
+          </div>
+          <!-- WORKING AREA (Canvas takes full available space) -->
+          <div class="workingArea">
+            <div id="wrapper">
+              <div id="container"></div>
+              <svg id="labelOverlay" width="800" height="500"></svg>
+            </div>
+            <div id="textOverlay">
+              <div id="volumeFormula">
+                <p>Volume of the cylinder</p>
+                <p>= width × breadth × height</p>
+                <p>= π r × r × h</p>
+                <p>= π r ² h</p>
+              </div>
+            </div>
+            <!-- Overlay for hints and congratulatory messages -->
+            <div class="overlay workingArea-overlay" id="workingOverlay">
+              <div class="overlay-close" id="closeOverlay"></div>
+              <div class="overlay-content" id="overlayContent"></div>
             </div>
           </div>
-          <!-- Overlay for hints and congratulatory messages -->
-          <div class="overlay workingArea-overlay" id="workingOverlay">
-            <div class="overlay-close" id="closeOverlay"></div>
-            <div class="overlay-content" id="overlayContent"></div>
+          <!-- LOWER CONTROLS -->
+          <div class="lowerControls">
+            <button class="btn btn-secondary" id="prevButton">Previous</button>
+
+            <button class="btn btn-primary" id="nextButton">Next</button>
           </div>
         </div>
-        <!-- LOWER CONTROLS -->
-        <div class="lowerControls">
-          <button class="btn btn-secondary" id="prevButton">Previous</button>
-          
-          <button class="btn btn-primary" id="nextButton">Next</button>
+      </div>
+      <!-- Full Screen Overlay (preserved from template) -->
+      <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
+        <div class="overlay-close"></div>
+        <div class="overlay-content">
+          <h2>Full Screen Overlay</h2>
+          <p>This overlay covers the entire applet with margins.</p>
         </div>
       </div>
     </div>
-    <!-- Full Screen Overlay (preserved from template) -->
-    <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
-      <div class="overlay-close"></div>
-      <div class="overlay-content">
-        <h2>Full Screen Overlay</h2>
-        <p>This overlay covers the entire applet with margins.</p>
-      </div>
-    </div>
-  </div>
-  <script src="packages/three.min.js"></script>
-  <script src="logic/utility.js"></script>
-  <script src="logic/applet.js"></script>
-  <script>
-    
-    document.getElementById("closeOverlay").addEventListener("click", function() {
-      document.getElementById("workingOverlay").classList.remove("show");
-    });
-    function showWorkingOverlay(message) {
-      const overlay = document.getElementById("workingOverlay");
-      const overlayContent = document.getElementById("overlayContent");
-      overlayContent.innerHTML = message;
-      overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)"; 
-      overlay.classList.add("show");
-    }
-  </script>
-</body>
+    <script src="packages/three.min.js"></script>
+    <script src="data.js"></script>
+    <script src="logic/utility.js"></script>
+
+    <script>
+      let overlayUp = false;
+      function closeOverlay() {
+        overlayUp = false;
+        document.getElementById("workingOverlay").classList.remove("show");
+      }
+      document
+        .getElementById("closeOverlay")
+        .addEventListener("click", closeOverlay);
+      function setUpListenersForHighlights() {
+        const keys = Object.keys(definitions);
+        keys.forEach((key) => {
+          document
+            .querySelector(`[data-def="${key}"]`)
+            .addEventListener("click", () => {
+              showWorkingOverlay(definitions[key]);
+              overlayUp = true;
+            });
+        });
+      }
+      setUpListenersForHighlights();
+    </script>
+    <script src="logic/applet.js"></script>
+  </body>
 </html>

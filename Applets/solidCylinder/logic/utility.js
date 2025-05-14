@@ -41,7 +41,7 @@ function drawArrowSVG(overlay, start, end, color = "grey") {
   createArrowhead(start.x, start.y, angle , -1);
 }
 
-function writeTextSVG(overlay, point, label, size = "16", color = "grey") {
+function writeTextSVG(overlay, point, label, size = "22", color = "grey") {
   const x = point.x,
     y = point.y;
   const ns = "http://www.w3.org/2000/svg";
@@ -132,3 +132,23 @@ const removeLabels = () => {
     overlay.removeChild(overlay.lastChild);
   }
 };
+
+function highlightContextSection(stepNumber) {
+  const sections = document.querySelectorAll(".contextBox .context-section");
+
+  sections.forEach((section, index) => {
+    if (index === stepNumber - 1) {
+      section.classList.add("context-highlight");
+    } else {
+      section.classList.remove("context-highlight");
+    }
+  });
+}
+function showWorkingOverlay(message) {
+  const overlay = document.getElementById("workingOverlay");
+  const overlayContent = document.getElementById("overlayContent");
+  overlayContent.innerHTML = message;
+  overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)";
+  overlay.classList.add("show");
+}
+

@@ -271,22 +271,26 @@ function placePiesTogether() {
 function callWithStep(step) {
   switch (step) {
     case 0:
+      highlightContextSection(1)
       removePies(pieArray, scene);
       renderSolidCylinder(scene, cylinderRadius, cylinderHeight);
       break;
     case 1:
+      highlightContextSection(2)
       removeSolidCylinder();
       removePies(pieArray, scene);
       renderPies(segmentSlider.value);
       prevButton.disabled = false;
       break;
     case 2:
+      highlightContextSection(4)
       removeLabels()
       removePies(pieArray, scene);
       renderPies(segmentSlider.value);
       placePiesApart();
       break;
     case 3:
+      highlightContextSection(5)
       removePies(pieArray, scene);
       renderPies(segmentSlider.value);
       placePiesApart();
@@ -296,6 +300,7 @@ function callWithStep(step) {
       nextButton.disabled = false;
       break;
     case 4:
+      highlightContextSection(6)
       wrapper.style.transform = "translateX(-25%)";
       revealVolumeFormula();
       nextButton.disabled = true;
@@ -342,12 +347,18 @@ function animateApart() {
 }
 
 function handleNextClick() {
+  if (overlayUp) {
+    closeOverlay();
+    return;
+  }
   step++;
   if (step === 2) {
+    highlightContextSection(4)
     animateApart();
     return;
   }
   if (step === 3) {
+    highlightContextSection(5)
     animateTogether();
     setTimeout(() => {
       drawLabels3(overlay);
@@ -358,6 +369,10 @@ function handleNextClick() {
   }
 }
 function handlePrevClick() {
+  if(overlayUp) {
+    closeOverlay();
+    return;
+  }
   if(step==0) return;
   step--;
   callWithStep(step);
@@ -379,6 +394,7 @@ prevButton.addEventListener("click", handlePrevClick);
 segmentSlider.addEventListener("input", () => {
   switch (step) {
     case 1:
+      highlightContextSection(3)
       removePies(pieArray, scene);
       renderPies(segmentSlider.value);
       break;
@@ -418,8 +434,8 @@ function drawLabels3(overlay) {
     new THREE.Vector3(-xx+s - .05, -yy, 0),
     new THREE.Vector3(-xx+s - .05, -yy, zz),
     new THREE.Vector3(0, yy + 1, 0),
-    new THREE.Vector3(-xx -.18 +s/2, 0, 0),
-    new THREE.Vector3(-xx -.18+s/2, -yy, zz / 2),
+    new THREE.Vector3(-xx -.22 +s/2, 0, 0),
+    new THREE.Vector3(-xx -.13+s/2, -yy, zz / 2),
   ];
   const labelAnchors2d = labelAnchors3d.map((anchor3D) => {
     return vectorToScreenPosition(anchor3D, camera, renderer.domElement);
@@ -433,7 +449,6 @@ function drawLabels3(overlay) {
 }
 
 prevButton.disabled = true;
-
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
