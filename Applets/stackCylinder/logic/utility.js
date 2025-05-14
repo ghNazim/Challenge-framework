@@ -41,7 +41,7 @@ function drawArrowSVG(overlay, start, end, color = "#333333") {
   createArrowhead(start.x, start.y, angle , -1);
 }
 
-function writeTextSVG(overlay, point, label,size="16",color="#333333") {
+function writeTextSVG(overlay, point, label,size="22",color="#333333") {
   const x= point.x, y = point.y;
     const ns = "http://www.w3.org/2000/svg";
     const text = document.createElementNS(ns, "text");
@@ -143,4 +143,16 @@ function revealVolumeFormula() {
 function hideVolumeFormula() {
   const container = document.getElementById("volumeFormula");
   container.style.display = "none";
+}
+
+function highlightContextSection(stepNumber) {
+  const sections = document.querySelectorAll(".contextBox .context-section");
+
+  sections.forEach((section, index) => {
+    if (index === stepNumber - 1) {
+      section.classList.add("context-highlight");
+    } else {
+      section.classList.remove("context-highlight");
+    }
+  });
 }

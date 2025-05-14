@@ -49,18 +49,25 @@ camera.updateProjectionMatrix();
 
 // **************** Set up Objects *********************
 
-
+const plateMaterial = new THREE.MeshStandardMaterial({
+  color: 0x73b9ee,
+  metalness: 0.2,
+  roughness: 0.7,
+  flatShading: false, // Use smooth shading for the plates
+});
+const edgeMaterial = new THREE.LineBasicMaterial({
+  color: 0x003396,
+  linewidth: 1,
+});
 
 function updateCylinder(numCircles,r) {
 
   stackedPlates.forEach((item) => {
     scene.remove(item.plate);
     item.plate.geometry.dispose();
-    item.plate.material.dispose();
     if (item.edges) {
       scene.remove(item.edges);
       item.edges.geometry.dispose();
-      item.edges.material.dispose();
     }
   });
   stackedPlates = [];
@@ -80,16 +87,7 @@ function updateCylinder(numCircles,r) {
       plateThickness,
       128
     );
-    const plateMaterial = new THREE.MeshStandardMaterial({
-      color: 0x73b9ee,
-      metalness: 0.2,
-      roughness: 0.7,
-      flatShading: false, // Use smooth shading for the plates
-    });
-    const edgeMaterial = new THREE.LineBasicMaterial({
-      color: 0x003396,
-      linewidth: 1,
-    }); 
+     
     const plate = new THREE.Mesh(plateGeometry, plateMaterial);
     plate.position.y = startY + i * (plateThickness + plateSpacing);
     scene.add(plate);
@@ -109,7 +107,7 @@ function updateCylinder(numCircles,r) {
 
 
 //********************* Event handlers *********************
-function drawArrows(){
+function drawLabels(){
   const points = getLabelPoints(parseInt(heightSlider.value),parseFloat(radiusSlider.value));
   drawArrowSVG(overlay, points[0], points[1]);
   drawArrowSVG(overlay, points[2], points[3]);
@@ -124,7 +122,7 @@ function getLabelPoints(n, r) {
     new THREE.Vector3(r, h, 0),
     new THREE.Vector3(r + 0.2, 0, 0),
     new THREE.Vector3(r + 0.2, h, 0),
-    new THREE.Vector3(r/2, h, -.2),
+    new THREE.Vector3(r/2, h, -.35),
     new THREE.Vector3(r+.4, h/2, 0)
   ];
   const points2d = points.map((p) =>
@@ -133,11 +131,13 @@ function getLabelPoints(n, r) {
   return points2d;
 }
 function atStep1(){
+  highlightContextSection(1)
   wrapper.style.translate = '0%';
   overlay.style.opacity = 0;
   hideVolumeFormula();
 }
 function atStep2(){
+  highlightContextSection(2)
   wrapper.style.translate = '-30%';
   setTimeout(() => {
     overlay.style.opacity = 1;
@@ -158,7 +158,7 @@ function handlePrevClick() {
 
 nextButton.addEventListener("click", handleNextClick);
 prevButton.addEventListener("click", handlePrevClick);
-
+atStep1();
 prevButton.disabled = true;
 nextButton.disabled = true;
 updateCylinder(parseInt(heightSlider.value), parseFloat(radiusSlider.value));
@@ -168,13 +168,13 @@ heightSlider.addEventListener("input", function () {
   else nextButton.disabled = true;
   updateCylinder(parseInt(heightSlider.value), parseFloat(radiusSlider.value));
   clearLabelOverlay();
-  drawArrows();
+  drawLabels();
   render3()
 });
 radiusSlider.addEventListener("input", function () {
   updateCylinder(parseInt(heightSlider.value), parseFloat(radiusSlider.value));
   clearLabelOverlay();
-  drawArrows();
+  drawLabels();
   render3()
 });
 

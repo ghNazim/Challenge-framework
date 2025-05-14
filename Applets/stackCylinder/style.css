@@ -265,6 +265,9 @@
       margin-bottom: 12px;
       color: #555;
     }
+    .context-highlight{
+      background-color: #c3cff6;
+    }
 
     .highlight {
       background-color: rgba(65,105,225,0.1);
