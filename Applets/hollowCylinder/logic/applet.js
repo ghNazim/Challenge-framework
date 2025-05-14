@@ -1,10 +1,11 @@
 const container = document.getElementById("container");
-const openSlider = document.getElementById("unwrapSlider");
+const unwrapSlider = document.getElementById("unwrapSlider");
 const radiusSlider = document.getElementById("radiusSlider");
 const heightSlider = document.getElementById("heightSlider");
 const nextButton = document.getElementById("nextButton");
 const prevButton = document.getElementById("prevButton");
 const overlay = document.getElementById("labelOverlay");
+const wrappper = document.getElementById("wrapper");
 
 let radius = 1.5;
 let height = 2;
@@ -15,7 +16,7 @@ const lineColor = 0x888888;
 // Set up the scene ********************
 const aspectRatio = 800 / 500,
   d = 5;
-let step = 0;
+let step = 1;
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(
   -d * aspectRatio,
@@ -37,7 +38,8 @@ directionalLight.position.set(-10, 7, 5);
 scene.add(directionalLight);
 camera.position.set(0, height * 1, radius * 4);
 camera.lookAt(0, 0, 0);
-
+camera.updateMatrixWorld();
+camera.updateProjectionMatrix();
 //********************* Scene set up end ************************ */
 
 // **************** Set up Objects *********************
@@ -58,19 +60,10 @@ const surfaceMaterial = new THREE.MeshStandardMaterial({
 });
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
-// const geo = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, 32);
-// const mesh = new THREE.Mesh(geo, baseMaterial);
-
-// scene.add(mesh);
 const s = 0;
 
-//flaps
 let surface = createSurface(scene, radius, height, s);
 let [topPivot, bottomPivot] = createFlaps(scene, radius, height, 0);
-// removeFlaps(scene, topPivot, bottomPivot);
-// removeSurface(scene, surface);
-// topPivot.rotation.x = -.4;
-// bottomPivot.rotation.x = .4;
 
 //********************* Objects set up end ****************** *//
 
@@ -123,8 +116,8 @@ function createSurface(scene, radius, height, s) {
 
   return group;
 }
-function removeSurface(scene,group) {
-  disposeGroup(scene,group);
+function removeSurface(scene, group) {
+  disposeGroup(scene, group);
 }
 function createFlaps(scene, radius, height, p) {
   const flapGeo = new THREE.CircleGeometry(radius, 128);
@@ -150,10 +143,10 @@ function createFlaps(scene, radius, height, p) {
   return [topPivot, bottomPivot];
 }
 function removeFlaps(scene, topPivot, bottomPivot) {
-  disposeGroup(scene,topPivot);
-  disposeGroup(scene,bottomPivot);
+  disposeGroup(scene, topPivot);
+  disposeGroup(scene, bottomPivot);
 }
-function disposeGroup(scene,group) {
+function disposeGroup(scene, group) {
   group.traverse((child) => {
     if (child.isMesh) {
       if (child.geometry) child.geometry.dispose();
@@ -162,16 +155,14 @@ function disposeGroup(scene,group) {
   scene.remove(group);
 }
 
-
-
 //********************* Event handlers *********************
 
-function updateCylinder(){
+function updateCylinder() {
   const r = radiusSlider.value;
   const h = heightSlider.value;
-  const t = openSlider.value;
-  let p =Math.min(1,t);
-  let s = Math.max(0,t-1);
+  const t = unwrapSlider.value;
+  let p = Math.min(1, t);
+  let s = Math.max(0, t - 1);
   radius = r;
   height = h;
   removeFlaps(scene, topPivot, bottomPivot);
@@ -182,25 +173,113 @@ function updateCylinder(){
   camera.lookAt(0, 0, 0);
 }
 
+function atStep1() {
+  highlightContextSection(1)
+  unwrapSlider.parentElement.style.display = "none";
+  prevButton.disabled = true;
+}
+function atStep2() {
+  highlightContextSection(2)
+  unwrapSlider.parentElement.style.display = "block";
+  prevButton.disabled = true;
+  nextButton.disabled = true;
+  wrappper.style.transform = "translatex(0%)";
+  removeLabels();
+  hideVolumeFormula();
+}
+function atStep3() {
+  highlightContextSection(3)
+  unwrapSlider.parentElement.style.display = "none";
+  nextButton.disabled = true;
+  wrappper.style.transform = "translatex(-25%)";
+  prevButton.disabled = false;
+  revealVolumeFormula();
+  drawLabels();
+}
 
+function drawLabels() {
+  removeLabels();
+  const r = parseFloat(radiusSlider.value);
+  const h = parseFloat(heightSlider.value);
+  const hw = Math.PI * r;
+  const anchorPoints = [
+    new THREE.Vector3(-hw, -h / 2 - 0.1, -r),
+    new THREE.Vector3(hw, -h / 2 - 0.1, -r),
+    new THREE.Vector3(hw + 0.1, -h / 2, -r),
+    new THREE.Vector3(hw + 0.1, h / 2, -r),
+    new THREE.Vector3(0, h / 2 + r, -r),
+    new THREE.Vector3(r, h / 2 + r, -r),
+    new THREE.Vector3(0, -(h / 2) - r, -r),
+    new THREE.Vector3(r, -(h / 2) - r, -r), //arrrow end
+    new THREE.Vector3(r / 2, h / 2 + r + 0.16, -r),
+    new THREE.Vector3(r / 2, -(h / 2) - r - 0.4, -r),
+    new THREE.Vector3(0, -h / 2 - 0.5, -r),
+    new THREE.Vector3(hw + 0.42, 0, -r),
+  ];
+
+  const anchors2d = anchorPoints.map((p) => {
+    return vectorToScreenPosition(p, camera, renderer.domElement);
+  });
+  drawArrowSVG(overlay, anchors2d[0], anchors2d[1]);
+  drawArrowSVG(overlay, anchors2d[2], anchors2d[3]);
+  drawArrowSVG(overlay, anchors2d[4], anchors2d[5]);
+  drawArrowSVG(overlay, anchors2d[6], anchors2d[7]);
+  writeTextSVG(overlay, anchors2d[8], "r");
+  writeTextSVG(overlay, anchors2d[9], "r");
+  writeTextSVG(overlay, anchors2d[10], "2πr");
+  writeTextSVG(overlay, anchors2d[11], "h");
+}
+atStep1();
 
 radiusSlider.addEventListener("input", updateCylinder);
 heightSlider.addEventListener("input", updateCylinder);
-openSlider.addEventListener("input", updateCylinder);
+
 function handleNextClick() {
-  return;
+  if (step == 3) return;
+  step++;
+  if (step == 2) {
+    atStep2();
+  } else if (step == 3) {
+    nextButton.disabled = true;
+    atStep3();
+  }
 }
-function handlePrevClick() {}
+function handlePrevClick() {
+  if (step == 1) return;
+  step--;
+  if (step == 1) {
+    atStep1();
+  } else if (step == 2) {
+    atStep2();
+    nextButton.disabled = false;
+  }
+}
 
 nextButton.addEventListener("click", handleNextClick);
 prevButton.addEventListener("click", handlePrevClick);
-openSlider.addEventListener("input", () => {
-  return;
+radiusSlider.addEventListener("input", () => {
+  if (unwrapSlider.value == 2) drawLabels();
+
+  render3()
+});
+heightSlider.addEventListener("input", () => {
+  if (unwrapSlider.value == 2) drawLabels();
+  render3()
+});
+unwrapSlider.addEventListener("input", () => {
+  updateCylinder();
+  if (unwrapSlider.value == 2) {
+    drawLabels();
+    overlay.style.opacity = 1;
+    nextButton.disabled = false;
+  } else {
+    removeLabels();
+    nextButton.disabled = true;
+  }
+  render3()
 });
 
-function animate() {
-  requestAnimationFrame(animate);
+function render3(){
   renderer.render(scene, camera);
 }
-
-animate();
+render3()

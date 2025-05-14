@@ -22,11 +22,13 @@
         </div>
         <div class="context-section">
           <h2>Step 2: Unwrap the Shape</h2>
-          <p>Slide to gradually unwrap the cylinder and explore its surface.</p>
+          <p>Use the Unwrap slider to gradually unfold the cylinder. Fully unwrap it to proceed to the next step.
+          </p>
         </div>
         <div class="context-section">
           <h2>Step 3: View the Surface Area</h2>
-          <p>Click 'Next' to calculate and view the total surface area of your cylinder.</p>
+          <p>A cylinder can be unwrapped into 2 circles and a rectangle.</p>
+          <p>Sum these areas to find the total surface area of the cylinder.</p>
         </div>
       </div>
       
@@ -52,7 +54,15 @@
         <div class="workingArea">
           <div id="wrapper" >
             <div id="container"></div>
-            <svg id="labelOverlay" width="650" height="400" ></svg>
+            <svg id="labelOverlay" width="800" height="500" ></svg>
+          </div>
+          <div id="textOverlay">
+            <div id="volumeFormula">
+              <p>Surface Area of a cylinder</p>
+              <p>= Area of the curved surface</p> <p>&nbsp;&nbsp;&nbsp;+ 2 × Area of the base </p>
+              <p>= 2πr × h + πr² +</p>
+              <p>= πr (2h + r)</p>
+            </div>
           </div>
           <!-- Overlay for hints and congratulatory messages -->
           <div class="overlay workingArea-overlay" id="workingOverlay">
