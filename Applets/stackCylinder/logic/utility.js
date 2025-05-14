@@ -63,8 +63,6 @@ function vectorToScreenPosition(vector3, camera, canvas) {
   }
 }
 
-
-
 function linearAnimate(obj, prop, start, end, duration) {
   let startTime = null;
   const change = end - start;

@@ -34,13 +34,21 @@
         <!-- UPPER CONTROLS -->
         <div class="upperControls">
           <p>Number of segments</p>
-          <input type="range" id="segments" min="4" max="50" value="12" step="2" class="slider"/>
+          <input type="range" id="segments" min="12" max="50" value="12" step="2" class="slider"/>
         </div>
         <!-- WORKING AREA (Canvas takes full available space) -->
         <div class="workingArea">
           <div id="wrapper" >
             <div id="container"></div>
-            <svg id="labelOverlay" width="650" height="400" ></svg>
+            <svg id="labelOverlay" width="800" height="500" ></svg>
+          </div>
+          <div id="textOverlay">
+            <div id="volumeFormula">
+              <p>Volume of the cylinder</p>
+              <p>= width × breadth × height</p>
+              <p>= π r × r × h</p>
+              <p>= π r ² h</p>
+            </div>
           </div>
           <!-- Overlay for hints and congratulatory messages -->
           <div class="overlay workingArea-overlay" id="workingOverlay">

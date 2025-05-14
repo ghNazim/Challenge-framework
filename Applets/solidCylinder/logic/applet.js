@@ -5,24 +5,16 @@ const segmentSlider = document.getElementById("segments");
 const nextButton = document.getElementById("nextButton");
 const prevButton = document.getElementById("prevButton");
 const overlay = document.getElementById("labelOverlay");
+const wrapper = document.getElementById("wrapper");
 let numberOfSectors = 12;
 const cylinderRadius = 1.5;
 const cylinderHeight = 1;
 let anglePerSector = (2 * Math.PI) / numberOfSectors;
 const aspectRatio = 800 / 500,
-  d = 2;
+  d = 3;
 let step = 0;
-const xx = (Math.PI * cylinderRadius) / 2,
-  yy = cylinderRadius / 2,
-  zz = cylinderHeight,
-  offset = 0.2;
-const labelAnchors3d = [
-  new THREE.Vector3(xx, yy + offset, 0),
-  new THREE.Vector3(-xx, yy + offset, 0),
-  new THREE.Vector3(-xx - offset, yy, 0),
-  new THREE.Vector3(-xx, -yy, 0),
-  new THREE.Vector3(-xx, -yy, zz),
-];
+
+ 
 
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(
@@ -49,6 +41,8 @@ scene.add(directionalLight);
 camera.up.set(0, 0, 1);
 camera.position.set(-1, cylinderRadius * 2, cylinderHeight * 1.25);
 camera.lookAt(0, 0, 0);
+camera.updateMatrixWorld();
+camera.updateProjectionMatrix();
 
 let solidCylinderGroup = null;
 function removeSolidCylinder() {
@@ -130,10 +124,7 @@ function renderSolidCylinder(
   return solidCylinderGroup;
 }
 
-const labelAnchors2d = labelAnchors3d.map((anchor3D) => {
 
-  return get2Dfrom3D(anchor3D, camera, renderer.domElement);
-}); 
 
 //Create a pie group
 function createPie(radius, startAngle, endAngle, height, index) {
@@ -287,6 +278,7 @@ function callWithStep(step) {
       removeSolidCylinder();
       removePies(pieArray, scene);
       renderPies(segmentSlider.value);
+      prevButton.disabled = false;
       break;
     case 2:
       removeLabels()
@@ -299,8 +291,17 @@ function callWithStep(step) {
       renderPies(segmentSlider.value);
       placePiesApart();
       placePiesTogether();
-      
+      hideVolumeFormula();
+      wrapper.style.transform = "translateX(0%)";
+      nextButton.disabled = false;
       break;
+    case 4:
+      wrapper.style.transform = "translateX(-25%)";
+      revealVolumeFormula();
+      nextButton.disabled = true;
+      break;
+    default:
+        return;
   }
 }
 function animateApart() {
@@ -341,7 +342,6 @@ function animateApart() {
 }
 
 function handleNextClick() {
-  if (step === 3) return;
   step++;
   if (step === 2) {
     animateApart();
@@ -358,6 +358,7 @@ function handleNextClick() {
   }
 }
 function handlePrevClick() {
+  if(step==0) return;
   step--;
   callWithStep(step);
 }
@@ -373,6 +374,7 @@ function animateTogether() {
     linearAnimate(pie.position, "y", pie.position.y, offset, 1000);
   });
 }
+
 prevButton.addEventListener("click", handlePrevClick);
 segmentSlider.addEventListener("input", () => {
   switch (step) {
@@ -390,13 +392,47 @@ segmentSlider.addEventListener("input", () => {
       renderPies(segmentSlider.value);
       placePiesApart();
       placePiesTogether();
+      drawLabels3(overlay)
+      break;
+    case 4:
+      removePies(pieArray, scene);
+      renderPies(segmentSlider.value);
+      placePiesApart();
+      placePiesTogether();
+      drawLabels3(overlay)
       break;
   }
   
 });
+function drawLabels3(overlay) {
+  removeLabels();
+  const xx = (Math.PI * cylinderRadius) / 2,
+    yy = cylinderRadius / 2,
+    zz = cylinderHeight
+  const offset = 0.2,s =cylinderRadius*Math.sin(anglePerSector/2) ;
+  const labelAnchors3d = [
+    new THREE.Vector3(xx, yy + .2, 0),
+    new THREE.Vector3(-xx, yy + .2, 0),
+    new THREE.Vector3(-xx - .1, yy, 0),
+    new THREE.Vector3(-xx+s - .1, -yy, 0),
+    new THREE.Vector3(-xx+s - .05, -yy, 0),
+    new THREE.Vector3(-xx+s - .05, -yy, zz),
+    new THREE.Vector3(0, yy + 1, 0),
+    new THREE.Vector3(-xx -.18 +s/2, 0, 0),
+    new THREE.Vector3(-xx -.18+s/2, -yy, zz / 2),
+  ];
+  const labelAnchors2d = labelAnchors3d.map((anchor3D) => {
+    return vectorToScreenPosition(anchor3D, camera, renderer.domElement);
+  }); 
+  drawArrowSVG(overlay, labelAnchors2d[0], labelAnchors2d[1]);
+  drawArrowSVG(overlay, labelAnchors2d[2], labelAnchors2d[3]);
+  drawArrowSVG(overlay, labelAnchors2d[4], labelAnchors2d[5]);
+  writeTextSVG(overlay, labelAnchors2d[6], "width = π r");
+ writeTextSVG(overlay, labelAnchors2d[7], "r");
+  writeTextSVG(overlay, labelAnchors2d[8], "h");
+}
 
-
-
+prevButton.disabled = true;
 
 function animate() {
   requestAnimationFrame(animate);

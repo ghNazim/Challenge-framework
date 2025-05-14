@@ -41,23 +41,27 @@ function drawArrowSVG(overlay, start, end, color = "grey") {
   createArrowhead(start.x, start.y, angle , -1);
 }
 
-function writeTextSVG(overlay, x, y, label,size="16") {
-    const ns = "http://www.w3.org/2000/svg";
-    const text = document.createElementNS(ns, "text");
-    text.setAttribute("x", x);
-    text.setAttribute("y", y);
-    text.setAttribute("fill", "grey");
-    text.setAttribute("font-size", size);
-    text.setAttribute("text-anchor", "middle");
-    text.textContent = label;
-    overlay.appendChild(text);
+function writeTextSVG(overlay, point, label, size = "16", color = "grey") {
+  const x = point.x,
+    y = point.y;
+  const ns = "http://www.w3.org/2000/svg";
+  const text = document.createElementNS(ns, "text");
+  text.setAttribute("x", x);
+  text.setAttribute("y", y);
+  text.setAttribute("fill", color);
+  text.setAttribute("font-size", size);
+  text.setAttribute("text-anchor", "middle");
+  text.textContent = label;
+  overlay.appendChild(text);
 }
-function get2Dfrom3D(anchor3D, camera, canvas) {
-  const vector = anchor3D.clone();
-  vector.project(camera);
-  const x = (vector.x * 0.5 + 0.5) * canvas.width;
-  const y = (1 - (vector.y * 0.5 + 0.5)) * canvas.height; 
-  return { x, y };
+function vectorToScreenPosition(vector3, camera, canvas) {
+  const vector = vector3.clone().project(camera);
+  const widthHalf = 0.5 * canvas.clientWidth;
+  const heightHalf = 0.5 * canvas.clientHeight;
+  return {
+    x: vector.x * widthHalf + widthHalf,
+    y: -(vector.y * heightHalf) + heightHalf,
+  };
 }
 
 function linearAnimate(obj, prop, start, end, duration) {
@@ -79,16 +83,49 @@ function linearAnimate(obj, prop, start, end, duration) {
   window.requestAnimationFrame(step);
 }
 
-function drawLabels3(overlay) {
-  console.log("draw labels 3");
-  drawArrowSVG(overlay, { x: 160, y: 210 }, { x: 460, y: 244 });
-  drawArrowSVG(overlay, { x: 490, y: 190 }, { x: 490, y: 140 });
-  drawArrowSVG(overlay, { x: 486, y: 234 }, { x: 496, y: 190 });
-  writeTextSVG(overlay, 310, 244, "width = π × r", "16");
-  writeTextSVG(overlay, 499, 212, "r", "16");
-  writeTextSVG(overlay, 499, 170, "h", "16");
-}
+function revealVolumeFormula() {
+  const container = document.getElementById("volumeFormula");
+  container.style.display = "block";
+  const originalHTML = container.innerHTML;
 
+  // Step 1: Extract text from child elements
+  const lines = Array.from(container.children).map((p) => p.innerHTML);
+  container.innerHTML = ""; // Clear for animation
+
+  let allChars = [];
+
+  // Step 2: Wrap each character in spans
+  lines.forEach((line) => {
+    const p = document.createElement("p");
+
+    for (let char of line) {
+      const span = document.createElement("span");
+      span.textContent = char;
+      p.appendChild(span);
+      allChars.push(span);
+    }
+
+    container.appendChild(p);
+  });
+
+  // Step 3: Animate characters
+  const delay = 30; // ms per character
+  allChars.forEach((span, i) => {
+    setTimeout(() => {
+      span.classList.add("show");
+    }, i * delay);
+  });
+
+  // Step 4: Restore original HTML after the animation
+  const totalDuration = allChars.length * delay + 300; // Add buffer
+  setTimeout(() => {
+    container.innerHTML = originalHTML;
+  }, totalDuration);
+}
+function hideVolumeFormula() {
+  const container = document.getElementById("volumeFormula");
+  container.style.display = "none";
+}
 const removeLabels = () => {
   const overlay = document.getElementById("labelOverlay");
   while (overlay.lastChild) {
