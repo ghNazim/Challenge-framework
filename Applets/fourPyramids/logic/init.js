@@ -48,8 +48,8 @@ function initializeTextContent() {
     button.textContent = appTextContent.controls.buttons[i];
   })
 
+  document.getElementById("note").textContent = appTextContent.note;
 
-  // Fullscreen overlay
 
 }
 

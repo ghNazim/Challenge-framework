@@ -15,7 +15,7 @@ const PyramidTypes = {
   CIRCLE: "circle",
   TRIANGLE: "triangle",
 }
-let baseType = PyramidTypes.SQUARE, currentPyramid = null,topMark=null;
+let baseType = PyramidTypes.SQUARE, currentPyramid = null,topMark=null,currentStep=1,noteOn=false;
 // Set up the scene ********************
 const aspectRatio = 800 / 500,
   d = 2;
@@ -234,16 +234,28 @@ function markTop(h){
   scene.add(sphere);
   topMark = sphere;
 }
-createPyramid(baseType, heightSlider.value, formSlider.value);
+// createPyramid(baseType, heightSlider.value, formSlider.value);
+addContextSection(1);
 //********************* Objects set up end ****************** *//
 
 //********************* Create objects functions ****************** *//
 
 //********************* Event handlers *********************//
-formSlider.addEventListener("input", () => {
-  createPyramid(baseType, heightSlider.value, formSlider.value);
-  render3();
-});
+function onSelectingBase(){
+  currentStep=2;
+  addContextSection(2);
+  heightSlider.parentElement.style.visibility = "visible";
+  // heightSlider.parentElement.style.display = "block";
+}
+function onAdjustingheight(){
+  currentStep=3;
+  addContextSection(3);
+  formSlider.parentElement.style.visibility = "visible";
+  // formSlider.parentElement.style.display = "block";
+  heightSlider.removeEventListener("change", onAdjustingheight);
+}
+
+heightSlider.addEventListener("change", onAdjustingheight)
 heightSlider.addEventListener("input", () => {
   createPyramid(baseType, heightSlider.value, formSlider.value);
   render3();
@@ -251,6 +263,13 @@ heightSlider.addEventListener("input", () => {
 formSlider.addEventListener("input", () => {
   createPyramid(baseType, heightSlider.value, formSlider.value);
   render3();
+  if(baseType===PyramidTypes.CIRCLE && formSlider.value==1 && !noteOn){
+    formSlider.disabled = true;
+    noteOn = true;
+    revealNote("note",()=>{
+      formSlider.disabled = false;
+    });
+  }
 });
 function markCurrentButtonActive(btn){
   buttons.forEach((button) => {
@@ -262,6 +281,13 @@ function markCurrentButtonActive(btn){
 }
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
+    if(currentStep===1){
+      onSelectingBase();
+    }
+    if(noteOn){
+      noteOn = false;
+      hideNote("note");
+    }
     baseType = button.id;
     markCurrentButtonActive(button);
     heightSlider.value = 1.5;

@@ -29,10 +29,6 @@
           <h2></h2>
           <p></p>
         </div>
-        <div class="context-section">
-          <h2></h2>
-          <p></p>
-        </div>
       </div>
       
       <!-- WORKING AREA CONTAINER -->
@@ -57,7 +53,7 @@
             <svg id="labelOverlay" width="800" height="500" ></svg>
           </div>
           <div id="textOverlay">
-            <div id="volumeFormula">
+            <div id="note">
               
             </div>
           </div>
@@ -69,7 +65,7 @@
         </div>
         <!-- LOWER CONTROLS -->
         <div class="lowerControls">
-          <button class="btn btn-primary" id="square"></button>
+          <button class="btn btn-secondary" id="square"></button>
           <button class="btn btn-secondary" id="rectangle"></button>
           <button class="btn btn-secondary" id="circle"></button>
           <button class="btn btn-secondary" id="triangle"></button>
@@ -112,6 +108,11 @@
         document
           .querySelector(`[data-def="${key}"]`)
           .addEventListener("click", () => {
+            if(overlayUp) {
+              overlayUp = false;
+              closeOverlay();
+              return;
+            }
             showWorkingOverlay(definitions[key]);
             overlayUp = true;
           });

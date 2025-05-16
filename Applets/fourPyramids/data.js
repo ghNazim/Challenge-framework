@@ -1,67 +1,48 @@
 const appTextContent = {
   titleBar: {
     heading: "Pyramids",
-    subheading: "Observe how a pyramid is formed fromits 2D base",
+    subheading: "Explore how a pyramid is formed from its 2D base",
   },
   contextSteps: [
     {
-      title: "Customize the radius",
-      text: "Adjust the radius of the cylinder by playing with the 'Radius' slider.",
+      title: "Step 1: Select the base",
+      text: "Select the base of your pyramid by clicking on any of the buttons below.",
       highlights: [
         {
-          word: "radius",
-          def: "radius",
+          word: "base",
+          def: "base",
           instance: 1,
           description:
-            "The radius of a cylinder is the distance from the center of the circular base to the edge of the circle.",
+            "The base of a pyramid is the polygonal face of the pyramid that lies opposite the apex. It is the foundation upon which the pyramid is built.",
         },
       ],
     },
     {
-      title: "Customize the height",
-      text: "Adjust the height of the cylinder by playing with the 'Height' slider.",
+      title: "Step 2: Adjust the height",
+      text: "Adjust the position of the apex by playing with the 'Height' slider.",
       highlights: [
         {
-          word: "height",
-          def: "height",
+          word: "apex",
+          def: "apex",
           instance: 1,
           description:
-            "The height of a cylinder is the distance from the center of the circular base to the center of the circular top.",
+            "The apex of a pyramid is the single point where all the lateral faces (triangular sides) meet. It is the topmost vertex of the pyramid, opposite the base. ",
         },
       ],
     },
     {
-      title: "Unravel the Cylinder",
-      text: "Use the 'Unwrap' slider to gradually unravel the cylinder. ",
+      title: "Step 3: Form the pyramid",
+      text: "Drag the 'Form pyramid' slider all the way to the right to complete the pyramid. ",
       highlights: [],
     },
-    {
-      title: "Observe",
-      text: "The cylinder can be unwrapped into one rectangle and two circles.",
-      highlights: [
-        {
-          word: "rectangle",
-          def: "rectangle",
-          instance: 1,
-          description:
-            "A rectangle is a two-dimensional shape that has four straight sides and four right angles. Opposite sides are equal in length and parallel.",
-        },
-        {
-          word: "circles",
-          def: "circle",
-          instance: 1,
-          description:
-            "A circle is a round shape where every point on the edge is the same distance from the center.",
-        },
-      ],
-    },
   ],
+  note:"Note: This isn't technically a pyramid, as circle is not a polygon. It is known as a 'cone'.",
   controls: {
     sliderLabels: {
       height: "Height",
       form: "Form Pyramid",
     },
-    buttons:["Square", "Rectangle", "Circle", "Triangle"],
+    buttons: ["Square", "Rectangle", "Circle", "Triangle"],
   },
   fullscreenOverlay: {
     title: "Full Screen Overlay",

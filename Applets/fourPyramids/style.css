@@ -94,7 +94,7 @@ body {
 .upperControls,
 .lowerControls {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   padding: 12px;
   gap: 16px;
@@ -104,9 +104,9 @@ body {
   position: relative; /* For highlighting */
   transition: background-color 0.3s ease;
 }
-.lowerControls{
+/* .lowerControls{
   justify-content: space-around;
-}
+} */
 
 /* Child-friendly hover effect for control areas */
 .upperControls:hover,
@@ -358,6 +358,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  visibility: hidden;
 }
 .slider-box > p {
   font-size: 20px;
@@ -448,24 +449,22 @@ canvas {
   height: 100%;
 }
 
-#volumeFormula {
+#note {
   font-size: 22px;
   position: absolute;
-  width: 30%;
-  right: 0px;
-  top: 30%;
+  width: 100%;
+  padding: 0 2rem;
+  bottom: 1.5rem;
   display: none;
-}
-#volumeFormula > p {
-  margin-bottom: 0.6rem;
+  text-align: center;
 }
 
-#volumeFormula span {
+#note span {
   opacity: 0;
   transition: opacity 0.05s ease-in;
 }
 
-#volumeFormula span.show {
+#note span.show {
   opacity: 1;
 }
 

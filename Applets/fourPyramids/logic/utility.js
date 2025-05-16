@@ -91,63 +91,37 @@ const removeLabels = () => {
     overlay.removeChild(overlay.lastChild);
   }
 };
-
-function getShapeData(s, r) {
-  const halfPerimeter = Math.PI * r;
-  const length = halfPerimeter * s;
-  const l = halfPerimeter - length;
-  const T = l / r;
-  return {
-    angle: T,
-    length,
-  };
-}
-
-function revealVolumeFormula() {
-  const container = document.getElementById("volumeFormula");
+function revealNote(note,callback) {
+  const container = document.getElementById(note);
   container.style.display = "block";
   const originalHTML = container.innerHTML;
-
-  // Step 1: Extract text from child elements
-  const lines = Array.from(container.children).map((p) => p.innerHTML);
-  container.innerHTML = ""; // Clear for animation
+  const line = container.textContent;
+  container.innerHTML = "";
 
   let allChars = [];
-
-  // Step 2: Wrap each character in spans
-  lines.forEach((line) => {
-    line = line.replaceAll("&nbsp;","%")
-    console.log(line)
-    const p = document.createElement("p");
-
-    for (let char of line) {
-      const span = document.createElement("span");
-      if(char === "%") char = "&nbsp;";
-      span.innerHTML = char;
-      p.appendChild(span);
-      allChars.push(span);
-    }
-
-    container.appendChild(p);
-  });
-
+  for (let char of line) {
+    const span = document.createElement("span");
+    span.innerHTML = char;
+    container.appendChild(span);
+    allChars.push(span);
+  }
   // Step 3: Animate characters
-  const delay = 30; // ms per character
+  const delay = 15; // ms per character
   allChars.forEach((span, i) => {
     setTimeout(() => {
       span.classList.add("show");
     }, i * delay);
   });
-
   // Step 4: Restore original HTML after the animation
   const totalDuration = allChars.length * delay + 300; // Add buffer
   setTimeout(() => {
     container.innerHTML = originalHTML;
+    callback()
   }, totalDuration);
 }
 
-function hideVolumeFormula() {
-  const container = document.getElementById("volumeFormula");
+function hideNote(note) {
+  const container = document.getElementById(note);
   container.style.display = "none";
 }
 
