@@ -17,19 +17,15 @@
         <!-- CONTEXT BOX -->
         <div class="contextBox">
           <div class="context-section">
-            <h2>Step 1: Customize Your Cylinder</h2>
+            <h2>Instructions</h2>
             <p>
-              Use the sliders above to adjust the radius of the
-              <span class="highlight" data-def="plate">plates</span> and the
-              number of plates stacked.
+              Look at the picture below and answer the question on the right
+              panel.
             </p>
           </div>
-          <div class="context-section">
-            <h2>Step 2: Calculate the Volume</h2>
-            <p>
-              The cylinder’s volume is calculated by multiplying the area of
-              each plate by the number of plates stacked.
-            </p>
+          <div class="context-section" id="imageContainer">
+            <h2>Object: Sugar cube</h2>
+            <img src="images/sugarCube.jpg" alt="Sugar cube" height="300" />
           </div>
         </div>
 
@@ -37,7 +33,23 @@
         <div class="workingArea-container">
           <!-- WORKING AREA (Canvas takes full available space) -->
           <div class="workingArea">
-            <div id="wrapper"></div>
+            <div id="wrapper">
+              <div class="question">
+                <p>
+                  What would be the appropriate unit of measurement for the
+                  volume of a juice carton?
+                </p>
+              </div>
+              <div class="options">
+                <button class="option">Cubic centimeter (cm³)</button>
+                <button class="option">Cubic meter (m³)</button>
+                <button class="option">Milliliter (mL)</button>
+                <button class="option">Liter (L)</button>
+              </div>
+              <div class="feedback">
+                <p></p>
+              </div>
+            </div>
             <!-- Overlay for hints and congratulatory messages -->
             <div class="overlay workingArea-overlay" id="workingOverlay">
               <div class="overlay-close" id="closeOverlay"></div>
@@ -47,50 +59,58 @@
           <!-- LOWER CONTROLS -->
           <div class="lowerControls">
             <button class="btn btn-secondary" id="prevButton">Previous</button>
-
+            <div id="dotsContainer"></div>
             <button class="btn btn-primary" id="nextButton">Next</button>
           </div>
         </div>
       </div>
       <!-- Full Screen Overlay (preserved from template) -->
       <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
-        <div class="overlay-close"></div>
         <div class="overlay-content">
-          <h2>Full Screen Overlay</h2>
-          <p>This overlay covers the entire applet with margins.</p>
+          <h2>Congratulations !!</h2>
+          <p>You have successfully answered all the questions.</p>
         </div>
+        <button class="btn btn-primary" id="resetButton">Reset</button>
       </div>
     </div>
 
     <script>
-      let overlayUp = false;
-      function showWorkingOverlay(message) {
-        const overlay = document.getElementById("workingOverlay");
-        const overlayContent = document.getElementById("overlayContent");
-        overlayContent.innerHTML = message;
-        overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)";
+      // let overlayUp = false;
+      // function showWorkingOverlay(message) {
+      //   const overlay = document.getElementById("workingOverlay");
+      //   const overlayContent = document.getElementById("overlayContent");
+      //   overlayContent.innerHTML = message;
+      //   overlay.classList.add("show");
+      // }
+      // function closeOverlay() {
+      //   overlayUp = false;
+      //   document.getElementById("workingOverlay").classList.remove("show");
+      // }
+      // document
+      //   .getElementById("closeOverlay")
+      //   .addEventListener("click", closeOverlay);
+      // function setUpListenersForHighlights() {
+      //   const keys = Object.keys(definitions);
+      //   keys.forEach((key) => {
+      //     document
+      //       .querySelector(`[data-def="${key}"]`)
+      //       .addEventListener("click", () => {
+      //         showWorkingOverlay(definitions[key]);
+      //         overlayUp = true;
+      //       });
+      //   });
+      // }
+      function showFullScreenOverlay() {
+        const overlay = document.getElementById("fullscreenOverlay");
         overlay.classList.add("show");
       }
-      function closeOverlay() {
-        overlayUp = false;
-        document.getElementById("workingOverlay").classList.remove("show");
+      function hideFullScreenOverlay() {
+        const overlay = document.getElementById("fullscreenOverlay");
+        overlay.classList.remove("show");
       }
-      document
-        .getElementById("closeOverlay")
-        .addEventListener("click", closeOverlay);
-      function setUpListenersForHighlights() {
-        const keys = Object.keys(definitions);
-        keys.forEach((key) => {
-          document
-            .querySelector(`[data-def="${key}"]`)
-            .addEventListener("click", () => {
-              showWorkingOverlay(definitions[key]);
-              overlayUp = true;
-            });
-        });
-      }
-      
     </script>
-    <script src="logic/applet.js"></script>
+    <script src="data.js"></script>
+    <script src="utility.js"></script>
+    <script src="applet.js"></script>
   </body>
 </html>
