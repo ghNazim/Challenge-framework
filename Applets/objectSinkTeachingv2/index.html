@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Volume measurement</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="applet-container">
+      <!-- TITLE BAR -->
+      <div class="titleBar">
+        <h1>Volume measurement</h1>
+        <p>Explore how to measure volume of any irregular shape</p>
+      </div>
+      <!-- ASSETS REGION -->
+      <div class="assets">
+        <!-- CONTEXT BOX -->
+        <div class="contextBox">
+          <div class="context-section">
+            <h2>Select a shape</h2>
+            <p>Select a shape to measure its volume</p>
+          </div>
+          <div class="context-section">
+            <h2>Chosen shape</h2>
+            <p>You have chosen a shape.</p>
+          </div>
+          <div class="context-section">
+            <h2>Drop the shape</h2>
+            <p>Click the 'Next' button to drop the shape into the container.</p>
+          </div>
+          <div class="context-section">
+            <h2>Note the rise in water level</h2>
+            <p>
+              Observe how the water level rises as the shape is dropped. The
+              volume of the displaced water is the volume of the shape.
+            </p>
+          </div>
+          <div class="context-section">
+            <h2>Calculate the volume</h2>
+            <p>
+              Calculate the volme of displaced water by multiplying the rise in
+              water level by the area of the container base.
+            </p>
+          </div>
+        </div>
+
+        <!-- WORKING AREA CONTAINER -->
+        <div class="workingArea-container">
+          <!-- UPPER CONTROLS -->
+
+          <!-- WORKING AREA (Canvas takes full available space) -->
+          <div class="workingArea">
+            <div id="chooseShapeBox">
+              <div class="shapeCard">
+                <img
+                  src="images/watermelon.png"
+                  alt="watermelon"
+                  data-name="watermelon"
+                />
+              </div>
+              <div class="shapeCard">
+                <img
+                  src="images/pumpkin.png"
+                  alt="pumpkin"
+                  data-name="pumpkin"
+                />
+              </div>
+              <div class="shapeCard">
+                <img
+                  src="images/coconut.png"
+                  alt="coconut"
+                  data-name="coconut"
+                />
+              </div>
+            </div>
+            <div id="wrapper">
+              <div id="container">
+                <svg width="800" height="500" id="svg">
+                  <g id="everything">
+                  <g id="beaker">
+                    <polygon id="beakerBack" stroke="black" fill="none" />
+                    <polygon
+                      id="back"
+                      fill="blue"
+                      stroke="black"
+                      fill-opacity="0.5"
+                    />
+                    <polygon
+                      id="topBack"
+                      fill="blue"
+                      stroke="none"
+                      fill-opacity="0.7"
+                    />
+                    <polygon
+                      id="bottom"
+                      fill="blue"
+                      stroke="black"
+                      fill-opacity="0.5"
+                    />
+                    <polygon
+                      id="left"
+                      fill="blue"
+                      stroke="black"
+                      fill-opacity="0.5"
+                    />
+                    <image
+                      href="images/watermelon.png"
+                      height="100"
+                      id="watermelon"
+                    />
+                    <image
+                      href="images/pumpkin.png"
+                      height="100"
+                      transform="translate(-25,0)"
+                      id="pumpkin"
+                    />
+                    <image
+                      href="images/coconut.png"
+                      height="100"
+                      transform="translate(0,0)"
+                      id="coconut"
+                    />
+                    <polygon
+                      id="right"
+                      fill="blue"
+                      stroke="black"
+                      fill-opacity="0.5"
+                    />
+                    <polygon
+                      id="topFront"
+                      fill="blue"
+                      stroke="none"
+                      fill-opacity="0.7"
+                    />
+                    <polygon
+                      id="front"
+                      fill="blue"
+                      stroke="black"
+                      fill-opacity="0.5"
+                    />
+                    <polygon id="beakerFront" fill="none" stroke="black" />
+                  </g>
+                  
+                  <polygon
+                    id="waterLevelMarker"
+                    fill="red"
+                    points="0,0 10,5 0,10"
+                  />
+                  <polygon
+                    id="dynamicMarker"
+                    fill="red"
+                    points="0,0 10,5 0,10"
+                  />
+                
+                  <g id="ruler"></g>
+                  <g id="labels"></g>
+
+                  
+                </g>
+                  <defs>
+                    <clipPath id="zoomClip">
+                      <circle cx="250" cy="225" r="60" />
+                    </clipPath>
+                  </defs>
+                  <g id="clip" transform="scale(1.6) translate(-180, -140)">
+                  <use clip-path="url(#zoomClip)" href="#everything"  />
+                  <circle
+                  cx="250"
+                  cy="225"
+                  r="60"
+                  fill="none"
+                  stroke="black"
+                  stroke-width="1"
+                />
+                </g>
+                  
+                 
+                </svg>
+              </div>
+              <svg id="labelOverlay" width="800" height="500"></svg>
+            </div>
+            <div id="textOverlay">
+              <div id="volumeFormula">
+                <p>Volume of the Displaced Water</p>
+                <p>= Area of the base x Rise in water level</p>
+                <p>= 30 x 20 x 5 cc</p>
+                <p>= 3000 cc</p>
+              </div>
+            </div>
+            <!-- Overlay for hints and congratulatory messages -->
+            <div class="overlay workingArea-overlay" id="workingOverlay">
+              <div class="overlay-close" id="closeOverlay"></div>
+              <div class="overlay-content" id="overlayContent"></div>
+            </div>
+          </div>
+          <!-- LOWER CONTROLS -->
+          <div class="lowerControls">
+            <button class="btn btn-secondary" id="prevButton" disabled>
+              Previous
+            </button>
+
+            <button class="btn btn-primary" id="nextButton" disabled>
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Full Screen Overlay (preserved from template) -->
+      <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
+        <div class="overlay-close"></div>
+        <div class="overlay-content">
+          <h2>Full Screen Overlay</h2>
+          <p>This overlay covers the entire applet with margins.</p>
+        </div>
+      </div>
+    </div>
+    <script src="data.js"></script>
+    <script src="logic/utility.js"></script>
+
+    <script>
+      let overlayUp = false;
+      function showWorkingOverlay(message) {
+        const overlay = document.getElementById("workingOverlay");
+        const overlayContent = document.getElementById("overlayContent");
+        overlayContent.innerHTML = message;
+        overlay.style.backgroundColor = "rgba(65, 105, 225, 0.7)";
+        overlay.classList.add("show");
+      }
+      function closeOverlay() {
+        overlayUp = false;
+        document.getElementById("workingOverlay").classList.remove("show");
+      }
+      document
+        .getElementById("closeOverlay")
+        .addEventListener("click", closeOverlay);
+      function setUpListenersForHighlights() {
+        const keys = Object.keys(definitions);
+        keys.forEach((key) => {
+          document
+            .querySelector(`[data-def="${key}"]`)
+            .addEventListener("click", () => {
+              showWorkingOverlay(definitions[key]);
+              overlayUp = true;
+            });
+        });
+      }
+      // setUpListenersForHighlights();
+    </script>
+    <script src="logic/applet.js"></script>
+  </body>
+</html>
