@@ -1,5 +1,3 @@
-
-
 const appTextContent = {
   titleBar: {
     heading: "Volume of a Cylinder",
@@ -14,7 +12,8 @@ const appTextContent = {
           word: "plates",
           def: "plate",
           instance: 1,
-          description:"Identical circular plates stacked on top of each other combine to form a cylinder. "
+          description:
+            "Identical circular plates stacked on top of each other combine to form a cylinder. ",
         },
       ],
     },
@@ -25,21 +24,27 @@ const appTextContent = {
     },
   ],
   controls: {
-    sliderLabels: {
-      radius: "Radius",
-      height: "No of plates",
-    },
     prevButton: "Previous",
     nextButton: "Next",
   },
-  volumeFormula: [
-    "Volume of the cylinder",
-    "= Area of the base × height formed by plates",
-    "= π r ² × h",
-    "= π r ² h",
-  ],
-  fullscreenOverlay: {
-    title: "Full Screen Overlay",
-    text: "This overlay covers the entire applet with margins.",
+  volumeFormula: {
+    watermelon: [
+      "Volume of the Displaced Water",
+      "=Area of the base x Rise in water level",
+      "= 30 x 20 x 5 cc",
+      "= 3000 cc",
+    ],
+    pumpkin: [
+      "Volume of the Displaced Water",
+      "=Area of the base x Rise in water level",
+      "= 30 x 20 x 4 cc",
+      "= 2400 cc",
+    ],
+    coconut: [
+      "Volume of the Displaced Water",
+      "=Area of the base x Rise in water level",
+      "= 30 x 20 x 2 cc",
+      "= 1200 cc",
+    ],
   },
 };

@@ -124,6 +124,7 @@ function setUpStep1() {
 
 function onShapeSelection(shape) {
   addContextSection(2);
+  setVolumeFormula(shape);
   // get second .context-section element
   const contextSection = document.querySelectorAll(
     ".contextBox .context-section"

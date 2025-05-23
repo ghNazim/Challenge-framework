@@ -271,3 +271,10 @@ function animateObjectPosition(
    });
  }
 
+ function setVolumeFormula(object){
+  const formulaContainer = document.querySelector("#volumeFormula");
+  formulaContainer.innerHTML = appTextContent.volumeFormula[object]
+    .map((line) => `<p>${line}</p>`)
+    .join("");
+ }
+
