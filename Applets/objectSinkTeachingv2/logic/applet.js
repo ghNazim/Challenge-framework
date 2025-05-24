@@ -2,7 +2,7 @@ const wrapper = document.getElementById("wrapper");
 const shapeBox = document.getElementById("chooseShapeBox");
 const nextButton = document.getElementById("nextButton");
 const prevButton = document.getElementById("prevButton");
-const labelsOverlay = document.getElementById("labels")
+const labelsOverlay = document.getElementById("labels");
 const clip = document.getElementById("clip");
 const jarWidth = 300,
   jarHeight = 300,
@@ -16,8 +16,8 @@ const duration = 2000,
   objectStartX = 400,
   objectStartY = 50,
   objectEndY = 340,
-  pivot = 230-objectHeight;
-  
+  pivot = 230 - objectHeight;
+
 let currentObject = null;
 let step = 0;
 const sinkData = {
@@ -27,7 +27,7 @@ const sinkData = {
     objectStartY: 10,
     objectEndY: 290,
     pivot: 80,
-    waterLevel: 50,
+    waterLevel: 40,
   },
   pumpkin: {
     objectHeight: 100,
@@ -35,7 +35,7 @@ const sinkData = {
     objectStartY: 10,
     objectEndY: 290,
     pivot: 80,
-    waterLevel: 40,
+    waterLevel: 30,
   },
   coconut: {
     objectHeight: 200,
@@ -61,26 +61,20 @@ function callWithStep(step) {
     wrapper.style.display = "block";
     shapeBox.style.display = "none";
     setUpStep1();
-  } 
-  else if(step===2){
-    removeLabels()
+  } else if (step === 2) {
+    removeLabels();
     hideVolumeFormula();
     nextButton.disabled = false;
     wrapper.style.transform = "translateX(0)";
-    clip.style.opacity = "1";
-    
-  }
-  
-  else if (step === 3) {
-    addContextSection(5);
+  } else if (step === 3) {
+    addContextSection(6);
     nextButton.disabled = true;
     prevButton.disabled = true;
-    wrapper.style.transform = "translateX(-30%)";
-    clip.style.opacity = "0";
-    
+    wrapper.style.transform = "translateX(26%)";
+
     setTimeout(() => {
-      drawLabels()
-      revealVolumeFormula(()=>{
+      drawLabels();
+      revealVolumeFormula(() => {
         prevButton.disabled = false;
       });
     }, 600);
@@ -103,6 +97,7 @@ document.querySelectorAll(".shapeCard").forEach((card) => {
 function handleNext() {
   step++;
   if (step === 2) {
+    addContextSection(4);
     animateObjectPosition(
       currentObject,
       objectStartY,
@@ -111,10 +106,9 @@ function handleNext() {
       pivot,
       sinkData[currentObject].waterLevel,
       objectHeight,
-      [x0,y0,dx,dy,jarWidth]
+      [x0, y0, dx, dy, jarWidth]
     );
-  }
-  else{
+  } else {
     callWithStep(step);
   }
 }
@@ -143,23 +137,49 @@ function onShapeSelection(shape) {
   p.textContent = text;
 }
 
-function drawLabels(){
-  const d=8;
-  drawArrowSVG(labelsOverlay,{x:x0+jarWidth+d,y:y0+5},{x:x0+jarWidth+dx+d,y:y0-dy+5});
-  drawArrowSVG(labelsOverlay,{x:x0,y:y0+d},{x:x0+jarWidth,y:y0+d});
-  writeTextSVG(labelsOverlay,{x:x0+jarWidth/2,y:y0+3.5*d},"30 cm");
+function drawLabels() {
+  const d = 8;
+  drawArrowSVG(
+    labelsOverlay,
+    { x: x0 + jarWidth + d, y: y0 + 5 },
+    { x: x0 + jarWidth + dx + d, y: y0 - dy + 5 }
+  );
+  drawArrowSVG(
+    labelsOverlay,
+    { x: x0, y: y0 + d },
+    { x: x0 + jarWidth, y: y0 + d }
+  );
   writeTextSVG(
     labelsOverlay,
-    { x: x0 + jarWidth + dx / 2 + 2*d, y: y0  + 5 },
+    { x: x0 + jarWidth / 2, y: y0 + 3.5 * d },
+    "30 cm"
+  );
+  writeTextSVG(
+    labelsOverlay,
+    { x: x0 + jarWidth + dx / 2 + 2 * d, y: y0 + 5 },
     "20 cm",
     "start"
   );
-  drawArrowSVG(labelsOverlay,{x:x0-d,y:y0-initialWaterLevel},{x:x0-d,y:y0-initialWaterLevel-sinkData[currentObject].waterLevel});
-  writeTextSVG(labelsOverlay,{x:x0-4*d,y:5+y0-initialWaterLevel-sinkData[currentObject].waterLevel/2},sinkData[currentObject].waterLevel/10+" cm");
-  labelsOverlay.style.opacity="1";
+  drawArrowSVG(
+    labelsOverlay,
+    { x: x0 - d, y: y0 - initialWaterLevel },
+    {
+      x: x0 - d,
+      y: y0 - initialWaterLevel - sinkData[currentObject].waterLevel,
+    }
+  );
+  writeTextSVG(
+    labelsOverlay,
+    {
+      x: x0 - 4 * d,
+      y: 5 + y0 - initialWaterLevel - sinkData[currentObject].waterLevel / 2,
+    },
+    sinkData[currentObject].waterLevel / 10 + " cm"
+  );
+  labelsOverlay.style.opacity = "1";
 }
 
-function removeLabels(){
+function removeLabels() {
   labelsOverlay.replaceChildren();
-  labelsOverlay.style.opacity="0";
+  labelsOverlay.style.opacity = "0";
 }

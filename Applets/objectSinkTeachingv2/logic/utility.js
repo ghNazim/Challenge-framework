@@ -175,7 +175,7 @@ function animateObjectPosition(
       requestAnimationFrame(animate);
     }
     if (progress >= 1) {
-      addContextSection(4);
+      addContextSection(5);
     }
   }
   requestAnimationFrame(animate);

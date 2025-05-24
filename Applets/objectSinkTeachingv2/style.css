@@ -126,7 +126,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  overflow: hidden;
   transition: all 0.3s ease;
   min-height: 200px; /* Ensure minimum height */
 }
@@ -486,8 +486,8 @@ body {
   font-size: 22px;
   position: absolute;
   width: 40%;
-  right: 0px;
-  top: 30%;
+  left: 1.5rem;
+  top: 50%;
   display: none;
 }
 #volumeFormula > p {

@@ -31,30 +31,11 @@ function initializeTextContent() {
     p.innerHTML = processedText;
   });
 
-  // Slider Labels
-  const sliderBoxes = document.querySelectorAll(".slider-box");
-  sliderBoxes[0].querySelector("p").textContent =
-    appTextContent.controls.sliderLabels.radius;
-  sliderBoxes[1].querySelector("p").textContent =
-    appTextContent.controls.sliderLabels.height;
-
-  // Buttons
   document.getElementById("prevButton").textContent =
     appTextContent.controls.prevButton;
   document.getElementById("nextButton").textContent =
     appTextContent.controls.nextButton;
 
-  // Volume Formula
-  const formulaContainer = document.querySelector("#volumeFormula");
-  formulaContainer.innerHTML = appTextContent.volumeFormula
-    .map((line) => `<p>${line}</p>`)
-    .join("");
-
-  // Fullscreen Overlay
-  document.querySelector("#fullscreenOverlay h2").textContent =
-    appTextContent.fullscreenOverlay.title;
-  document.querySelector("#fullscreenOverlay p").textContent =
-    appTextContent.fullscreenOverlay.text;
 }
 
 function extractDefinitionsFromContent(content) {

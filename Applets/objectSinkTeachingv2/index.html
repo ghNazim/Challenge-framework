@@ -42,6 +42,13 @@
               water level by the area of the container base.
             </p>
           </div>
+          <div class="context-section">
+            <h2>Calculate the volume</h2>
+            <p>
+              Calculate the volme of displaced water by multiplying the rise in
+              water level by the area of the container base.
+            </p>
+          </div>
         </div>
 
         <!-- WORKING AREA CONTAINER -->
@@ -153,10 +160,10 @@
                   />
                 
                   <g id="ruler"></g>
-                  <g id="labels"></g>
-
+                  
                   
                 </g>
+                <g id="labels"></g>
                   <defs>
                     <clipPath id="zoomClip">
                       <circle cx="250" cy="225" r="60" />
@@ -215,6 +222,7 @@
       </div>
     </div>
     <script src="data.js"></script>
+    <script src="logic/init.js"></script>
     <script src="logic/utility.js"></script>
 
     <script>
@@ -239,12 +247,17 @@
           document
             .querySelector(`[data-def="${key}"]`)
             .addEventListener("click", () => {
+              if (overlayUp) {
+                overlayUp = false;
+                closeOverlay();
+                return
+              }
               showWorkingOverlay(definitions[key]);
               overlayUp = true;
             });
         });
       }
-      // setUpListenersForHighlights();
+      setUpListenersForHighlights();
     </script>
     <script src="logic/applet.js"></script>
   </body>
