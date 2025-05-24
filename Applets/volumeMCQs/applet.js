@@ -34,6 +34,7 @@ function handlePreviousClick(){
 function handleResetClick(){
     hideFullScreenOverlay();
     currentQuestion = 0;
+    questions.forEach((q) => (q.answered = false));
     loadWithStep(currentQuestion);
 }
 nextButton.addEventListener("click", handleNextClick);
