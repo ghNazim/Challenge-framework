@@ -67,7 +67,7 @@ function drawPrism(x0, y0, dx, dy, w, h) {
   setWaterLevelMarker("dynamicMarker", 450 - h);
 }
 
-function drawBeaker(x0, y0, dx, dy, w, h) {
+function drawBeaker(x0, y0, dx, dy, w, h,initialWaterLevel) {
   function drawFront() {
     const polygon = document.getElementById("beakerFront");
     const points = `${x0},${y0} ${x0 + w},${y0} ${x0 + w},${y0 - h} ${x0},${
@@ -91,7 +91,7 @@ function drawBeaker(x0, y0, dx, dy, w, h) {
   drawFront();
   drawBack();
   addRuler(y0-h,y0,10,x0);
-  setWaterLevelMarker("waterLevelMarker", 250);
+  setWaterLevelMarker("waterLevelMarker", 450-initialWaterLevel);
 }
 function addRuler(startY = 150, endY = 450, interval = 10, x = 250) {
   const rulerGroup = document.getElementById("ruler");
@@ -152,6 +152,7 @@ function animateObjectPosition(
   end,
   duration,
   pivot,
+  initialWaterLevel,
   waterlevel,
   objectHeight,
   arr,cb
@@ -166,10 +167,10 @@ function animateObjectPosition(
     setImagePos(object, 400, newY);
     if (newY >= pivot && newY <= htosink + pivot) {
       const hh = ((newY - pivot) / htosink) * waterlevel;
-      drawPrism(...arr, 200 + hh);
+      drawPrism(...arr, initialWaterLevel + hh);
     }
     else if (newY >= htosink + pivot) {
-      drawPrism(...arr, 200 + waterlevel);
+      drawPrism(...arr, initialWaterLevel + waterlevel);
     }
     if (progress < 1) {
       requestAnimationFrame(animate);
@@ -323,4 +324,12 @@ function highlightCurrentStep(step) {
   dots.forEach((dot, index) => {
     dot.classList.toggle("active", index === step);
   });
+}
+
+function setFocusOfMag(initialWaterLevel){
+  const clipCircle = document.querySelector("#zoomClip circle");
+  const clip = document.querySelector("#clip use");
+  clipCircle.setAttribute("cy", 425-initialWaterLevel);
+  clip.setAttribute("y", initialWaterLevel-200);
+  
 }

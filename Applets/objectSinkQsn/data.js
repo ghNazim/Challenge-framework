@@ -19,26 +19,6 @@ const appTextContent = {
     prevButton: "Previous",
     nextButton: "Next",
   },
-  volumeFormula: {
-    watermelon: [
-      "Volume of the Displaced Water",
-      "= Area of the base x Rise in water level",
-      "= 30 x 20 x 4 cc",
-      "= 2400 cc",
-    ],
-    pumpkin: [
-      "Volume of the Displaced Water",
-      "= Area of the base x Rise in water level",
-      "= 30 x 20 x 3 cc",
-      "= 1800 cc",
-    ],
-    coconut: [
-      "Volume of the Displaced Water",
-      "= Area of the base x Rise in water level",
-      "= 30 x 20 x 2 cc",
-      "= 1200 cc",
-    ],
-  },
 };
 
 const questions = [
@@ -67,3 +47,18 @@ const questions = [
     wrongFeedback: "Oops! That's not the correct volume of the brick.",
   },
 ];
+
+const beakerProp = {
+  watermelon:{
+    width:30,
+    height:20
+  },
+  pumpkin:{
+    width:40,
+    height:30
+  },
+  coconut:{
+    width:50,
+    height:30
+  }
+}

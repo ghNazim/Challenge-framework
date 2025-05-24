@@ -5,38 +5,35 @@ const resetButton = document.getElementById("resetButton");
 const labelsOverlay = document.getElementById("labels");
 const clip = document.getElementById("clip");
 const mcqContainer = document.getElementById("mcqContainer");
-const jarWidth = 300,
+const dotsContainer = document.getElementById("dotsContainer");
+let jarWidth = 300,
   jarHeight = 300,
   x0 = 250,
   y0 = 450,
   dx = 80,
   dy = 40,
-  initialWaterLevel = 200;
+  initialWaterLevel = 200,waterLevel=40;
 const objectHeight = 100;
-const duration = 2000,
+let duration = 2000,
   objectStartX = 400,
   objectStartY = 50,
   objectEndY = 340,
-  pivot = 230 - objectHeight;
+  pivot = 130;
 
 let currentObject = null;
 let step = 0;
 const sinkData = {
   watermelon: {
     objectHeight: 100,
-    objectStartX: 400,
-    objectStartY: 10,
     objectEndY: 290,
-    pivot: 80,
+    pivot: 130,
     waterLevel: 40,
     initialWaterLevel: 200,
   },
   pumpkin: {
     objectHeight: 100,
-    objectStartX: 400,
-    objectStartY: 10,
     objectEndY: 290,
-    pivot: 80,
+    pivot: 180,
     waterLevel: 30,
     initialWaterLevel: 150,
   },
@@ -45,7 +42,7 @@ const sinkData = {
     objectStartX: 400,
     objectStartY: 10,
     objectEndY: 290,
-    pivot: 80,
+    pivot: 150,
     waterLevel: 20,
     initialWaterLevel: 180,
   },
@@ -54,11 +51,13 @@ callWithStep(0);
 
 function callWithStep(step) {
   if (step === 0) {
+    dotsContainer.style.display = "none";
     nextButton.disabled = false;
     prevButton.disabled = true;
     wrapper.style.display = "none";
     mcqContainer.style.display = "none";
     addContextSection(1);
+    removeLabels()
   } else {
     highlightCurrentStep(step-1);
     setUpVariables(step);
@@ -73,10 +72,12 @@ function callWithStep(step) {
       objectEndY,
       duration,
       pivot,
-      sinkData[currentObject].waterLevel,
+      initialWaterLevel,
+      waterLevel,
       objectHeight,
       [x0, y0, dx, dy, jarWidth],
       ()=>{
+        console.log("pivot", pivot);
         mcqContainer.style.display = "block";
         loadQuestion(step - 1);
       }
@@ -92,6 +93,7 @@ function handleNext() {
   }
   step++;
   if(step===1){
+    dotsContainer.style.display = "flex";
     addContextSection(2);
     generateStepCounter(questions.length);
   }
@@ -114,10 +116,25 @@ prevButton.addEventListener("click", handlePrev);
 function setUpImage() {
   showSelectedObject(currentObject);
   setImagePos(currentObject, objectStartX, objectStartY);
-  drawBeaker(x0, y0, dx, dy, jarWidth, jarHeight);
+  drawBeaker(x0, y0, dx, dy, jarWidth, jarHeight,initialWaterLevel);
   drawPrism(x0, y0, dx, dy, jarWidth, initialWaterLevel);
+  removeLabels()
+  drawLabels(beakerProp[currentObject].width,beakerProp[currentObject].height);
 }
 
+function setUpVariables(step) {
+  if (step === 1) {
+    currentObject = "watermelon";
+  } else if (step === 2) {
+    currentObject = "pumpkin";
+  } else if (step === 3) {
+    currentObject = "coconut";
+  }
+  pivot = sinkData[currentObject].pivot;
+  waterLevel = sinkData[currentObject].waterLevel;
+  initialWaterLevel = sinkData[currentObject].initialWaterLevel;
+  setFocusOfMag(initialWaterLevel);
+}
 function drawLabels(width,height) {
   const d = 8;
   drawArrowSVG(
@@ -149,15 +166,7 @@ function removeLabels() {
   labelsOverlay.style.opacity = "0";
 }
 
-function setUpVariables(step) {
-  if (step === 1) {
-    currentObject = "watermelon";
-  } else if (step === 2) {
-    currentObject = "pumpkin";
-  } else if (step === 3) {
-    currentObject = "coconut";
-  }
-}
+
 
 
 function loadQuestion(index) {
