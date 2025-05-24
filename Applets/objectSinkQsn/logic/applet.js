@@ -12,7 +12,8 @@ let jarWidth = 300,
   y0 = 450,
   dx = 80,
   dy = 40,
-  initialWaterLevel = 200,waterLevel=40;
+  initialWaterLevel = 200,
+  waterLevel = 40;
 const objectHeight = 100;
 let duration = 2000,
   objectStartX = 400,
@@ -27,7 +28,7 @@ const sinkData = {
     objectHeight: 100,
     objectEndY: 290,
     pivot: 130,
-    waterLevel: 40,
+    waterLevel: 10,
     initialWaterLevel: 200,
   },
   pumpkin: {
@@ -57,9 +58,9 @@ function callWithStep(step) {
     wrapper.style.display = "none";
     mcqContainer.style.display = "none";
     addContextSection(1);
-    removeLabels()
+    removeLabels();
   } else {
-    highlightCurrentStep(step-1);
+    highlightCurrentStep(step - 1);
     setUpVariables(step);
     mcqContainer.style.display = "none";
     prevButton.disabled = false;
@@ -76,23 +77,22 @@ function callWithStep(step) {
       waterLevel,
       objectHeight,
       [x0, y0, dx, dy, jarWidth],
-      ()=>{
+      () => {
         console.log("pivot", pivot);
         mcqContainer.style.display = "block";
         loadQuestion(step - 1);
       }
     );
-    
   }
 }
 
 function handleNext() {
-  if(step===questions.length){
-    showFullScreenOverlay()
+  if (step === questions.length) {
+    showFullScreenOverlay();
     return;
   }
   step++;
-  if(step===1){
+  if (step === 1) {
     dotsContainer.style.display = "flex";
     addContextSection(2);
     generateStepCounter(questions.length);
@@ -103,7 +103,7 @@ function handlePrev() {
   step--;
   callWithStep(step);
 }
-function handleReset(){
+function handleReset() {
   hideFullScreenOverlay();
   step = 0;
   callWithStep(step);
@@ -116,10 +116,10 @@ prevButton.addEventListener("click", handlePrev);
 function setUpImage() {
   showSelectedObject(currentObject);
   setImagePos(currentObject, objectStartX, objectStartY);
-  drawBeaker(x0, y0, dx, dy, jarWidth, jarHeight,initialWaterLevel);
+  drawBeaker(x0, y0, dx, dy, jarWidth, jarHeight, initialWaterLevel);
   drawPrism(x0, y0, dx, dy, jarWidth, initialWaterLevel);
-  removeLabels()
-  drawLabels(beakerProp[currentObject].width,beakerProp[currentObject].height);
+  removeLabels();
+  drawLabels(beakerProp[currentObject].width, beakerProp[currentObject].height);
 }
 
 function setUpVariables(step) {
@@ -135,7 +135,7 @@ function setUpVariables(step) {
   initialWaterLevel = sinkData[currentObject].initialWaterLevel;
   setFocusOfMag(initialWaterLevel);
 }
-function drawLabels(width,height) {
+function drawLabels(width, height) {
   const d = 8;
   drawArrowSVG(
     labelsOverlay,
@@ -150,12 +150,12 @@ function drawLabels(width,height) {
   writeTextSVG(
     labelsOverlay,
     { x: x0 + jarWidth / 2, y: y0 + 3.5 * d },
-    width +" cm"
+    width + " cm"
   );
   writeTextSVG(
     labelsOverlay,
     { x: x0 + jarWidth + dx / 2 + 2 * d, y: y0 + 5 },
-    height+" cm",
+    height + " cm",
     "start"
   );
   labelsOverlay.style.opacity = "1";
@@ -166,14 +166,10 @@ function removeLabels() {
   labelsOverlay.style.opacity = "0";
 }
 
-
-
-
 function loadQuestion(index) {
   const nextBtn = document.getElementById("nextButton");
   const q = questions[index];
-  if (!q.answered) nextBtn.disabled = true;
-  else nextBtn.disabled = false;
+  nextBtn.disabled = false;
   const questionText = document.querySelector(".question p");
   questionText.textContent = q.question;
   animateIn(questionText, "top");
@@ -190,33 +186,23 @@ function loadQuestion(index) {
     btn.style.pointerEvents = "auto";
     btn.style.backgroundColor = "";
 
-    if (!q.answered) {
-      btn.onclick = () => {
-        if (i === q.answer) {
-          q.answered = true;
-          nextBtn.disabled = false;
-          document.querySelector(".feedback p").textContent = q.correctFeedback;
-          btn.classList.add("mcqCorrect");
-          optionButtons.forEach((b) => {
-            b.style.pointerEvents = "none";
-          });
-        } else {
-          btn.style.pointerEvents = "none";
-          btn.classList.add("mcqWrong");
-          document.querySelector(".feedback p").textContent = q.wrongFeedback;
-        }
-      };
-    } else {
-      // Disable all options and highlight the correct one
-      btn.style.pointerEvents = "none";
+    btn.onclick = () => {
       if (i === q.answer) {
+        q.answered = true;
+        nextBtn.disabled = false;
+        document.querySelector(".feedback p").textContent = q.correctFeedback;
         btn.classList.add("mcqCorrect");
+        optionButtons.forEach((b) => {
+          b.style.pointerEvents = "none";
+        });
+      } else {
+        btn.style.pointerEvents = "none";
+        btn.classList.add("mcqWrong");
+        document.querySelector(".feedback p").textContent = q.wrongFeedback;
       }
-    }
+    };
   });
 
   // Set feedback if already answered
-  document.querySelector(".feedback p").textContent = q.answered
-    ? q.correctFeedback
-    : "";
+  document.querySelector(".feedback p").textContent = ""
 }
