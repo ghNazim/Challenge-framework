@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prism Light Ray Simulator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #eef1f5;
+            padding-top: 20px;
+        }
+        .container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        .canvas-container {
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+            display: block;
+        }
+        .controls {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        .value-display {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="controls">
+            <h1>Controls</h1>
+            
+            <div class="slider-container">
+                <label for="apexAngle">Prism Apex Angle: <span id="apexAngleValue" class="value-display">60</span>°</label>
+                <input type="range" id="apexAngle" min="30" max="90" value="60">
+            </div>
+
+            <div class="slider-container">
+                <label for="incidentAngle">Incident Angle (from normal): <span id="incidentAngleValue" class="value-display">25</span>°</label>
+                <input type="range" id="incidentAngle" min="0" max="89" value="25">
+            </div>
+
+            <div class="slider-container">
+                <label for="rayYPos">Ray Vertical Position: <span id="rayYPosValue" class="value-display">300</span></label>
+                <input type="range" id="rayYPos" min="200" max="450" value="300">
+            </div>
+
+            <div class="info">
+                <p><b>Index of Refraction:</b></p>
+                <p>Air (n₁): 1.0</p>
+                <p>Glass (n₂): 1.5</p>
+                <p><b>Critical Angle (Glass to Air):</b> <span id="criticalAngleValue" class="value-display">41.8</span>°</p>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="prismCanvas" width="800" height="600"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('prismCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Controls
+        const apexAngleSlider = document.getElementById('apexAngle');
+        const incidentAngleSlider = document.getElementById('incidentAngle');
+        const rayYPosSlider = document.getElementById('rayYPos');
+
+        // Value Displays
+        const apexAngleValue = document.getElementById('apexAngleValue');
+        const incidentAngleValue = document.getElementById('incidentAngleValue');
+        const rayYPosValue = document.getElementById('rayYPosValue');
+        const criticalAngleValue = document.getElementById('criticalAngleValue');
+
+        // Physics Constants
+        const N_AIR = 1.0;
+        const N_GLASS = 1.5;
+        const CRITICAL_ANGLE = Math.asin(N_AIR / N_GLASS);
+        criticalAngleValue.textContent = (CRITICAL_ANGLE * 180 / Math.PI).toFixed(1);
+
+        // Helper Functions
+        const degToRad = (deg) => deg * Math.PI / 180;
+        const radToDeg = (rad) => rad * 180 / Math.PI;
+
+        function drawLine(x1, y1, x2, y2, color, width = 1) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.stroke();
+        }
+
+        function drawText(text, x, y, color = 'black', font = '14px Arial') {
+            ctx.fillStyle = color;
+            ctx.font = font;
+            ctx.fillText(text, x, y);
+        }
+
+        function getLineIntersection(p1, p2, p3, p4) {
+            const { x: x1, y: y1 } = p1;
+            const { x: x2, y: y2 } = p2;
+            const { x: x3, y: y3 } = p3;
+            const { x: x4, y: y4 } = p4;
+
+            const den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+            if (den === 0) return null;
+
+            const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den;
+            const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den;
+            
+            if (t > 0.0001 && u > 0 && u < 1) {
+                 return { x: x1 + t * (x2 - x1), y: y1 + t * (y2 - y1) };
+            }
+            return null;
+        }
+
+        function draw() {
+            const apexAngle = parseInt(apexAngleSlider.value);
+            const incidentAngleDeg = parseInt(incidentAngleSlider.value);
+            const rayY = parseInt(rayYPosSlider.value);
+
+            apexAngleValue.textContent = apexAngle;
+            incidentAngleValue.textContent = incidentAngleDeg;
+            rayYPosValue.textContent = rayY;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Draw Prism
+            const prismHeight = 300;
+            const prismBase = 2 * prismHeight * Math.tan(degToRad(apexAngle) / 2);
+            const centerX = canvas.width / 2;
+            const topVertex = { x: centerX, y: (canvas.height - prismHeight) / 2 };
+            const leftVertex = { x: centerX - prismBase / 2, y: topVertex.y + prismHeight };
+            const rightVertex = { x: centerX + prismBase / 2, y: topVertex.y + prismHeight };
+
+            ctx.beginPath();
+            ctx.moveTo(topVertex.x, topVertex.y);
+            ctx.lineTo(leftVertex.x, leftVertex.y);
+            ctx.lineTo(rightVertex.x, rightVertex.y);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(173, 216, 230, 0.4)';
+            ctx.fill();
+            ctx.strokeStyle = '#003366';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // 2. Incident Ray
+            const leftFaceAngle = Math.atan2(topVertex.y - leftVertex.y, topVertex.x - leftVertex.x);
+            const leftNormalAngle = leftFaceAngle + Math.PI / 2;
+            
+            const incidentAngleRad = degToRad(incidentAngleDeg);
+            const rayAngle = leftNormalAngle + incidentAngleRad;
+
+            const entryPoint = { x: leftVertex.x + (rayY - leftVertex.y) / Math.tan(leftFaceAngle), y: rayY };
+            const startPoint = { x: entryPoint.x - 200 * Math.cos(rayAngle), y: entryPoint.y - 200 * Math.sin(rayAngle) };
+
+            drawLine(startPoint.x, startPoint.y, entryPoint.x, entryPoint.y, 'red', 3);
+            drawText(`θi = ${incidentAngleDeg}°`, entryPoint.x - 70, entryPoint.y - 15);
+
+            // Draw normal at entry
+            const normalEnd = { x: entryPoint.x + 50 * Math.cos(leftNormalAngle), y: entryPoint.y + 50 * Math.sin(leftNormalAngle) };
+            drawLine(entryPoint.x, entryPoint.y, normalEnd.x, normalEnd.y, 'grey', 1);
+
+            // 3. First Refraction
+            const theta1 = incidentAngleRad;
+            const theta2 = Math.asin((N_AIR * Math.sin(theta1)) / N_GLASS);
+            const refractedAngle = leftNormalAngle - theta2;
+            
+            let currentPoint = entryPoint;
+            let currentAngle = refractedAngle;
+            
+            // 4. Ray Tracing inside Prism
+            for(let i=0; i<5; i++) { // Max 5 bounces
+                const rayEndPoint = { x: currentPoint.x + 1000 * Math.cos(currentAngle), y: currentPoint.y + 1000 * Math.sin(currentAngle) };
+
+                // Check intersection with right face and base
+                const intersectionRight = getLineIntersection(currentPoint, rayEndPoint, topVertex, rightVertex);
+                const intersectionBase = getLineIntersection(currentPoint, rayEndPoint, leftVertex, rightVertex);
+                
+                let exitPoint, normalAngle, faceAngle;
+                
+                if (intersectionRight) {
+                    exitPoint = intersectionRight;
+                    faceAngle = Math.atan2(rightVertex.y - topVertex.y, rightVertex.x - topVertex.x);
+                    normalAngle = faceAngle - Math.PI / 2;
+                } else if (intersectionBase) {
+                    exitPoint = intersectionBase;
+                    faceAngle = 0; // Horizontal base
+                    normalAngle = -Math.PI/2; // Pointing up
+                } else {
+                    break; // No intersection found
+                }
+
+                drawLine(currentPoint.x, currentPoint.y, exitPoint.x, exitPoint.y, 'blue', 3);
+
+                // Draw normal at exit point
+                const exitNormalEnd = { x: exitPoint.x + 50 * Math.cos(normalAngle), y: exitPoint.y + 50 * Math.sin(normalAngle) };
+                drawLine(exitPoint.x, exitPoint.y, exitNormalEnd.x, exitNormalEnd.y, 'grey', 1);
+
+                // 5. Second Surface Interaction (Refraction or TIR)
+                const internalIncidentAngle = normalAngle - currentAngle;
+                
+                if (Math.abs(internalIncidentAngle) >= CRITICAL_ANGLE) {
+                    // Total Internal Reflection (TIR)
+                    const reflectionAngle = 2 * normalAngle - currentAngle - Math.PI;
+                    currentPoint = exitPoint;
+                    currentAngle = reflectionAngle;
+                    drawText('TIR', exitPoint.x + 10, exitPoint.y - 10, 'purple');
+                    continue;
+                } else {
+                    // Refraction out
+                    const exitAngle = Math.asin((N_GLASS * Math.sin(internalIncidentAngle)) / N_AIR);
+                    const finalAngle = normalAngle - exitAngle;
+                    const finalEndPoint = { x: exitPoint.x + 500 * Math.cos(finalAngle), y: exitPoint.y + 500 * Math.sin(finalAngle) };
+                    drawLine(exitPoint.x, exitPoint.y, finalEndPoint.x, finalEndPoint.y, 'green', 3);
+                    drawText(`θe = ${radToDeg(Math.abs(exitAngle)).toFixed(1)}°`, exitPoint.x + 10, exitPoint.y + 20);
+                    break;
+                }
+            }
+        }
+
+        // Event Listeners
+        apexAngleSlider.addEventListener('input', draw);
+        incidentAngleSlider.addEventListener('input', draw);
+        rayYPosSlider.addEventListener('input', draw);
+
+        // Initial Draw
+        draw();
+    </script>
+</body>
+</html>

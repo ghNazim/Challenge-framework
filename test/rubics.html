@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Marketing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #ffffff;
+            --accent-color: #8A2BE2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        header .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .hero {
+            text-align: left;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
+
+        .hero h1 span {
+            color: var(--accent-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #6a1eae;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .service-card {
+            background-color: #1a1a1a;
+            padding: 2.5rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            font-weight: 300;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+        
+        #cube-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        @media (max-width: 992px) {
+            #cube-container {
+                width: 100%;
+                opacity: 0.1;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Stellar</a>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div id="cube-container"></div>
+
+    <main class="container">
+        <section class="hero" id="home">
+            <h1>We Craft <span>Stellar</span> Digital Experiences</h1>
+            <p>A marketing agency focused on innovative strategies and impactful results. We help brands shine in the digital universe.</p>
+            <a href="#contact" class="cta-button">Get in Touch</a>
+        </section>
+
+        <section id="about">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Us</h2>
+                    <p>Stellar is a collective of creative minds, strategists, and digital enthusiasts passionate about building brands and telling their stories. We believe in the power of a great idea and the magic of technology to bring it to life.</p>
+                    <p>Our approach is collaborative, data-driven, and always focused on achieving the marketing objectives of our clients. We thrive on challenges and are committed to delivering excellence.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Brand Strategy</h3>
+                    <p>We define and position your brand to resonate with your target audience and stand out in a crowded marketplace.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Digital Marketing</h3>
+                    <p>From SEO and content marketing to social media campaigns, we drive growth and engagement across all digital channels.
+                     
+                    </p>
+                </div>
+                <div class="service-card">
+                    <h3>Web & App Development</h3>
+                    <p>We design and develop beautiful, functional, and high-performing websites and mobile applications.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Let's Create Together</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem auto;">Have a project in mind? We'd love to hear about it. Reach out and let's start a conversation.</p>
+            <div style="text-align: center;">
+                <a href="mailto:hello@stellar.com" class="cta-button">hello@stellar.com</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, cube;
+
+        function init() {
+            const container = document.getElementById('cube-container');
+
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+            
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0xffffff, 0.8);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            // Rubik's Cube
+            const cubeSize = 3;
+            const spacing = 0.15;
+            const pieceSize = 1;
+            const rubiksGroup = new THREE.Group();
+
+            const pieceGeometry = new THREE.BoxGeometry(pieceSize, pieceSize, pieceSize);
+            
+            for (let x = -1; x <= 1; x++) {
+                for (let y = -1; y <= 1; y++) {
+                    for (let z = -1; z <= 1; z++) {
+                        if (x === 0 && y === 0 && z === 0) continue;
+
+                        const steelMaterial = new THREE.MeshStandardMaterial({
+                            color: 0xaaaaaa,
+                            metalness: 1.0,
+                            roughness: 0.4,
+                        });
+                        const piece = new THREE.Mesh(pieceGeometry, steelMaterial);
+                        piece.position.set(x * (pieceSize + spacing), y * (pieceSize + spacing), z * (pieceSize + spacing));
+                        rubiksGroup.add(piece);
+                    }
+                }
+            }
+            
+            cube = rubiksGroup;
+            scene.add(cube);
+
+            // Scroll Animation
+            document.body.onscroll = () => {
+                const t = document.body.getBoundingClientRect().top;
+                cube.rotation.y = t * -0.001;
+                cube.rotation.x = t * -0.001;
+            };
+
+            animate();
+        }
+
+
+        function animate() {
+            requestAnimationFrame(animate);
+            cube.rotation.y += 0.0005;
+            cube.rotation.x += 0.0005;
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('cube-container');
+            if(container) {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+        }
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        init();
+    </script>
+</body>
+</html>

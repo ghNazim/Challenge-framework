@@ -1,0 +1,8 @@
+#bridge{
+    transition: all 0.5s ease-in-out;
+}
+
+svg text {
+    user-select: none;       /* Prevent selection */
+    pointer-events: none;    /* Ignore mouse events */
+  }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Side Scroller</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #87CEEB; /* Sky blue */
+    }
+    svg {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<svg id="game" width="100%" height="400">
+  <!-- Ground -->
+  <rect id="ground" x="0" y="350" width="100%" height="50" fill="#654321"/>
+
+  <!-- Background hills -->
+  <g id="background">
+    <rect x="0" y="300" width="1000" height="50" fill="#228B22"/>
+    <rect x="1000" y="300" width="1000" height="50" fill="#228B22"/>
+  </g>
+
+  <!-- Player -->
+  <rect id="player" x="100" y="300" width="30" height="50" fill="red" rx="5" ry="5"/>
+</svg>
+
+<script>
+  const player = document.getElementById("player");
+  const background = document.getElementById("background");
+
+  let posX = 100;
+  let posY = 300;
+  let velocityY = 0;
+  let jumping = false;
+  const gravity = 1;
+  const groundY = 300;
+
+  const keys = {
+    left: false,
+    right: false,
+    up: false
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "ArrowLeft") keys.left = true;
+    if (e.code === "ArrowRight") keys.right = true;
+    if (e.code === "ArrowUp" && !jumping) {
+      velocityY = -15;
+      jumping = true;
+    }
+  });
+
+  document.addEventListener("keyup", (e) => {
+    if (e.code === "ArrowLeft") keys.left = false;
+    if (e.code === "ArrowRight") keys.right = false;
+  });
+
+  let bgOffset = 0;
+
+  function gameLoop() {
+    // Horizontal movement
+    if (keys.left) {
+      posX -= 4;
+      bgOffset += 2; // Scroll background right
+    }
+    if (keys.right) {
+      posX += 4;
+      bgOffset -= 2; // Scroll background left
+    }
+
+    // Jumping / gravity
+    posY += velocityY;
+    velocityY += gravity;
+
+    if (posY >= groundY) {
+      posY = groundY;
+      velocityY = 0;
+      jumping = false;
+    }
+
+    // Update player position
+    player.setAttribute("x", posX);
+    player.setAttribute("y", posY);
+
+    // Scroll background (wrap around)
+    const bg1 = background.children[0];
+    const bg2 = background.children[1];
+
+    bg1.setAttribute("x", (bgOffset % 2000));
+    bg2.setAttribute("x", (bgOffset % 2000) + 1000);
+
+    requestAnimationFrame(gameLoop);
+  }
+
+  gameLoop();
+</script>
+</body>
+</html>
