@@ -10,12 +10,18 @@
     <div id="gameContainer">
         <svg id="gameSvg" width="750" height="500" >
             <image href="bg.png" x="0" y="0" width="750" height="500" />
+            
             <!-- <line x1="175" y1="350" x2="505" y2="350" stroke="black" stroke-width="2" /> -->
+            <g id="bridgeWrapper">
             <g id="bridge">
 
             </g>
+            </g>
+
+            <rect id="overlay" width="100%" height="100%" fill="black" opacity="0"></rect>
 
         </svg>
+        <button id="nextButton">Next</button>
     </div>
     <script src="utility.js"></script>
     <script src="script.js"></script>

@@ -7,14 +7,39 @@ const bridgeX1 = 175,
   eachWidth = bridgeLength / numberOfBlocks,
   bridgeHeight = eachWidth,
   weightWidth = 30;
-  const problem1 = {
-    numberOfBlocks: 11,
-    q: [3, -2],
-    a: -1,
-    curr:0,
-  };
+  const imgX = 300, imgY = 150;
+  let questionIndex = 0,movingImg=null;
+  
+  const questions = [
+    {
+      numberOfBlocks: 11,
+      q: [3, -2],
+      a: -1,
+      curr: 0,
+    },
+    {
+      numberOfBlocks: 11,
+      q: [4, -5],
+      a: 1,
+      curr: 0,
+    },
+    {
+      numberOfBlocks: 11,
+      q: [1, 3],
+      a: -4,
+      curr: 0,
+    },
+    {
+      numberOfBlocks: 11,
+      q: [5, -1],
+      a: -4,
+      curr: 0,
+    },
+  ];
+  let problem = questions[questionIndex];
   const svg = document.getElementById("gameSvg");
   const bridge = document.getElementById("bridge");
+  const overlay = document.getElementById("overlay");
 createBlockChain(numberOfBlocks, bridgeX1, bridgeX2);
 const texts = bridge.querySelectorAll("text");
 function createBlockChain(count, x1, x2) {
@@ -38,15 +63,20 @@ function createBlockChain(count, x1, x2) {
     group.appendChild(img);
 
     // Index text
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.textContent = Math.abs(i - half);
-    text.setAttribute("x", x1 + i * spacing + blockWidth / 2);
-    text.setAttribute("y", yPosition + blockHeight / 2 + 6); // Slight vertical centering
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("font-size", "20");
-    text.setAttribute("fill", "white");
-    text.setAttribute("font-family", "sans-serif");
-    group.appendChild(text);
+    const num = Math.abs(i - half);
+    
+        const text = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        text.textContent = num!==0?num:"";
+        text.setAttribute("x", x1 + i * spacing + blockWidth / 2);
+        text.setAttribute("y", yPosition + blockHeight / 2 + 6); // Slight vertical centering
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-size", "20");
+        text.setAttribute("fill", "white");
+        text.setAttribute("font-family", "sans-serif");
+        group.appendChild(text);
 
     bridge.appendChild(group);
   }
@@ -55,8 +85,8 @@ function createBlockChain(count, x1, x2) {
 function rotateGroup(id, angle) {
   groupElement = document.getElementById(id);
   const bbox = groupElement.getBBox();
-  const cx = bbox.x + bbox.width / 2;
-  const cy = bbox.y + bbox.height / 2;
+  const cx =bridgeX1+ bridgeLength/2;
+  const cy = bridgeY+bridgeHeight/2
   groupElement.setAttribute("transform", `rotate(${angle}, ${cx}, ${cy})`);
 }
 
@@ -77,6 +107,7 @@ const bridge = document.getElementById("bridge");
   img.setAttributeNS(null, "width", width);
   img.setAttributeNS(null, "height", height);
   img.style.cursor = "grab";
+  movingImg = img;
   svg.appendChild(img);
   const originalX = x;
   const originalY = y;
@@ -99,7 +130,7 @@ const bridge = document.getElementById("bridge");
       img.setAttribute("x", x);
       img.setAttribute("y", y);
       const snapIndex = canBeSnapped(img);
-      const qq = problem1.q.map(i => i + middleBlock);
+      const qq = problem.q.map(i => i + middleBlock);
       if (snapIndex !== -1) {
         setTextsGreen(texts, [snapIndex,...qq]);
       }
@@ -122,37 +153,81 @@ const bridge = document.getElementById("bridge");
       img.setAttribute("x", centerX);
       img.setAttribute("y", belowY);
       bridge.appendChild(img);
-      problem1.curr = snapIndex-middleBlock;
+      problem.curr = snapIndex-middleBlock;
+      
     } else {
       // Reset to original position
-      img.setAttribute("x", originalX);
-      img.setAttribute("y", originalY);
+      setDraggableImage(img, originalX, originalY);
+    }
+    const incl = checkInclination(problem);
+    const delay = incl.sameSide? 0: 500;
+    if(!incl.correct ){
+        setTimeout(vibrateBridge, delay);
     }
   });
   
 }
-  
+function setDraggableImage(img=movingImg,x=imgX,y=imgY){
+    svg.appendChild(movingImg);
+    img.setAttribute("x", x);
+    img.setAttribute("y", y);
+    setTextsGreen(texts, problem.q.map(i => i + middleBlock));
+}
 
 
-placeDraggableImage(svg, "w1.png", 300, 150);
+placeDraggableImage(svg, "w1.png", imgX, imgY);
 
 
-function placeWeight(path, x, y) {
+function placeWeight(path, targetX, targetY) {
+  const startX = 300;
+  const startY = 600;
+  const duration = 500; // ms
+  const startTime = performance.now();
+
   const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
   img.setAttributeNS(null, "href", path);
-  img.setAttributeNS(null, "x", x);
-  img.setAttributeNS(null, "y", y);
   img.setAttributeNS(null, "width", weightWidth);
   img.setAttributeNS(null, "height", weightWidth);
+  img.setAttributeNS(null, "x", startX);
+  img.setAttributeNS(null, "y", startY);
   bridge.appendChild(img);
+
+  function animateWeight(currentTime) {
+    const elapsed = currentTime - startTime;
+    const t = Math.min(elapsed / duration, 1); // 0 to 1
+
+    // Easing (optional): easeOutQuad
+    const ease = 1 - (1 - t) * (1 - t);
+
+    const newX = startX + (targetX - startX) * ease;
+    const newY = startY + (targetY - startY) * ease;
+
+    img.setAttributeNS(null, "x", newX);
+    img.setAttributeNS(null, "y", newY);
+
+    if (t < 1) {
+      requestAnimationFrame(animateWeight);
+    }
+  }
+
+  requestAnimationFrame(animateWeight);
 }
+  
 function placeInitialWeights(){
-    problem1.q.forEach((d) => {
+    if(questionIndex>0){
+        setTextsGreen(texts,[])
+    }
+    const hangingWeights = document.querySelectorAll('image[href="w2.png"]');
+    hangingWeights.forEach((img) => bridge.removeChild(img));
+    problem.q.forEach((d) => {
       const XX =
         bridgeX1 + eachWidth * (5 + d) + eachWidth / 2 - weightWidth / 2;
       placeWeight("w2.png", XX, bridgeY + 5 + eachWidth);
     });
-    setTextsGreen(texts, problem1.q.map(i => i + middleBlock));
+    setTimeout(() => {
+        setTextsGreen(texts, problem.q.map(i => i + middleBlock));
+        checkInclination(problem); 
+    },600)
 }
 placeInitialWeights()
 
@@ -197,6 +272,7 @@ function setTextsGreen(texts,arr){
 }
 
 function checkInclination(problem){
+    
     const addition = problem.q.reduce((prev,curr) => prev + curr);
     const result = addition + problem.curr;
     if(result<0){
@@ -207,12 +283,116 @@ function checkInclination(problem){
     }
     else{
         rotateGroup("bridge", 0);
+        setTimeout(moveZackForward, 600);   
+    }
+    return {
+        correct: result === 0,
+        sameSide:result*addition>0
     }
 }
 
-function update(){
-    checkInclination(problem1);
-    requestAnimationFrame(update)
+let zackIndex = 9;
+let zackX = 60; // initial x position
+let zackY = 250; // y position on bridge level
+let zackImage;
+let isZackWalking = false;
+
+function initializeZack() {
+  if (!zackImage) {
+    zackImage = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+    zackImage.setAttributeNS(null, "x", zackX);
+    zackImage.setAttributeNS(null, "y", zackY);
+    zackImage.setAttributeNS(null, "width", 100);
+    zackImage.setAttributeNS(null, "height", 100);
+    svg.appendChild(zackImage);
+  }
+}
+initializeZack();
+
+function moveZackForward() {
+  
+if(isZackWalking) return;
+  isZackWalking = true;
+  let distance = 560;
+  let frames = 300; // total frames of motion
+  let step = distance / frames;
+  let frame = 0;
+
+  const animation = () => {
+    if (frame >= frames) {
+      isZackWalking = false;
+      setTimeout(() => {
+        setProblem(++questionIndex);
+      }, 600);
+      return;
+    }
+
+    // Animate walk
+    zackIndex = ((zackIndex - 1 + 1) % 25) + 1; // loop from 1 to 25
+    zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+
+    // Move forward
+    zackX += step;
+    zackImage.setAttributeNS(null, "x", zackX);
+
+    frame++;
+    requestAnimationFrame(animation);
+  };
+
+  animation();
 }
 
-update();
+function setZackBack(){
+    zackIndex = 9;
+    zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+    zackX = 60;
+    zackImage.setAttributeNS(null, "x", zackX);
+}
+
+function setProblem(idx) {
+  overlay.setAttribute("opacity", "1"); // Fade to black
+
+  setTimeout(() => {
+    overlay.setAttribute("opacity", "0");
+    svg.appendChild(movingImg)
+    // Update problem while black
+    problem = questions[idx];
+    setDraggableImage(movingImg, imgX, imgY);
+    placeInitialWeights();
+    checkInclination(problem);
+    setZackBack();
+    
+  }, 500); // Wait for fade-in to complete
+}
+svg.appendChild(overlay);
+
+
+const nextButton = document.getElementById("nextButton");
+nextButton.addEventListener("click", () => {
+  setProblem(++questionIndex);
+});
+
+function vibrateBridge(duration = 300, intensity = 3) {
+  const bridgeGroup = document.querySelector("#bridgeWrapper");
+  const startTime = performance.now();
+
+  function animate(time) {
+    const elapsed = time - startTime;
+
+    if (elapsed < duration) {
+      const dx = Math.sin(elapsed * 40) * intensity;
+      bridgeGroup.setAttribute("transform", `translate(${dx}, 0)`);
+      requestAnimationFrame(animate);
+    } else {
+      bridgeGroup.setAttribute("transform", `translate(0, 0)`); // Reset
+      
+      problem.curr = 0;
+      checkInclination(problem);
+      setDraggableImage();
+    }
+  }
+
+  requestAnimationFrame(animate);
+  
+}

@@ -6,3 +6,8 @@ svg text {
     user-select: none;       /* Prevent selection */
     pointer-events: none;    /* Ignore mouse events */
   }
+
+  #overlay {
+    transition: opacity 0.6s ease-in-out;
+    pointer-events: none; /* Let clicks pass through */
+  }
