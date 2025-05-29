@@ -9,7 +9,7 @@ const bridgeX1 = 175,
   weightWidth = 30;
   const imgX = 300, imgY = 150;
   let questionIndex = 0,movingImg=null;
-  
+  let stopZackVibing;
   const questions = [
     {
       numberOfBlocks: 11,
@@ -40,9 +40,11 @@ const bridgeX1 = 175,
   const svg = document.getElementById("gameSvg");
   const bridge = document.getElementById("bridge");
   const overlay = document.getElementById("overlay");
-  const finalOverlay = document.getElementById("finalOverlay");
-createBlockChain(numberOfBlocks, bridgeX1, bridgeX2);
-const texts = bridge.querySelectorAll("text");
+  
+  const bgAudio = document.getElementById("bgAudio");
+  
+
+let texts;
 function createBlockChain(count, x1, x2) {
   const bridge = document.getElementById("bridge");
   bridge.innerHTML = "";
@@ -175,10 +177,6 @@ function setDraggableImage(img=movingImg,x=imgX,y=imgY){
     setTextsGreen(texts, problem.q.map(i => i + middleBlock));
 }
 
-
-placeDraggableImage(svg, "w1.png", imgX, imgY);
-
-
 function placeWeight(path, targetX, targetY) {
   const startX = 300;
   const startY = 600;
@@ -230,7 +228,7 @@ function placeInitialWeights(){
         checkInclination(problem); 
     },600)
 }
-placeInitialWeights()
+
 
 
 function canBeSnapped(img) {
@@ -284,6 +282,7 @@ function checkInclination(problem){
     }
     else{
         rotateGroup("bridge", 0);
+        playAudio("correct");
         setTimeout(moveZackForward, 600);   
     }
     return {
@@ -292,16 +291,16 @@ function checkInclination(problem){
     }
 }
 
-let zackIndex = 9;
+let zackIndex = 0;
 let zackX = 60; // initial x position
-let zackY = 250; // y position on bridge level
+let zackY = 255; // y position on bridge level
 let zackImage;
 let isZackWalking = false;
 
 function initializeZack() {
   if (!zackImage) {
     zackImage = document.createElementNS("http://www.w3.org/2000/svg", "image");
-    zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+    zackImage.setAttributeNS(null, "href", `ZackVibin/vibe (${1}).png`); // set initial imageack/walk (${zackIndex}).png`);
     zackImage.setAttributeNS(null, "x", zackX);
     zackImage.setAttributeNS(null, "y", zackY);
     zackImage.setAttributeNS(null, "width", 100);
@@ -309,14 +308,15 @@ function initializeZack() {
     svg.appendChild(zackImage);
   }
 }
-initializeZack();
+
 
 function moveZackForward() {
+stopZackVibing()
   
 if(isZackWalking) return;
   isZackWalking = true;
-  let distance = 560;
-  let frames = 300; // total frames of motion
+  let distance = 660;
+  let frames = 200;
   let step = distance / frames;
   let frame = 0;
 
@@ -330,7 +330,7 @@ if(isZackWalking) return;
     }
 
     // Animate walk
-    zackIndex = ((zackIndex - 1 + 1) % 25) + 1; // loop from 1 to 25
+    zackIndex = ((zackIndex) % 25) + 1; // loop from 1 to 25
     zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
 
     // Move forward
@@ -345,8 +345,7 @@ if(isZackWalking) return;
 }
 
 function setZackBack(){
-    zackIndex = 9;
-    zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+    zackImage.setAttributeNS(null, "href", `ZackVibin/vibe (${1}).png`);
     zackX = 60;
     zackImage.setAttributeNS(null, "x", zackX);
 }
@@ -366,19 +365,13 @@ function setProblem(idx) {
     setDraggableImage(movingImg, imgX, imgY);
     placeInitialWeights();
     checkInclination(problem);
-    setZackBack();
+    setZackBack()
+    stopZackVibing = animateZackVibin();
     
   }, 500); // Wait for fade-in to complete
 }
-svg.appendChild(overlay);
-
-
-// const nextButton = document.getElementById("nextButton");
-// nextButton.addEventListener("click", () => {
-//   setProblem(++questionIndex);
-// });
-
 function vibrateBridge(duration = 300, intensity = 3) {
+    playAudio("wrong")
   const bridgeGroup = document.querySelector("#bridgeWrapper");
   const startTime = performance.now();
 
@@ -402,8 +395,180 @@ function vibrateBridge(duration = 300, intensity = 3) {
   
 }
 
-function showFinalOverlay(){
-    finalOverlay.style.display = "flex";
-    void finalOverlay.offsetHeight
-    finalOverlay.style.scale=1
+function showFinalOverlay() {
+  const svg = document.getElementById("gameSvg");
+
+  // --- Create blur filter ---
+  const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+  const filter = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "filter"
+  );
+  filter.setAttribute("id", "blurFilter");
+
+  const feGaussianBlur = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "feGaussianBlur"
+  );
+  feGaussianBlur.setAttribute("stdDeviation", "5");
+  filter.appendChild(feGaussianBlur);
+  defs.appendChild(filter);
+  svg.appendChild(defs);
+
+  // --- Blurred dark background ---
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  rect.setAttribute("x", 0);
+  rect.setAttribute("y", 0);
+  rect.setAttribute("width", "100%");
+  rect.setAttribute("height", "100%");
+  rect.setAttribute("fill", "black");
+  rect.setAttribute("opacity", "0.5");
+  rect.setAttribute("filter", "url(#blurFilter)");
+
+  // --- Group to apply scale transform ---
+  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  group.setAttribute("transform", "scale(0.1)");
+  group.setAttribute("opacity", "0");
+
+  // --- Image inside group ---
+  const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+  img.setAttributeNS(null, "href", "congratulation.png");
+  img.setAttributeNS(null, "x", 150);
+  img.setAttributeNS(null, "y", 100);
+  img.setAttributeNS(null, "width", 500);
+  img.setAttributeNS(null, "height", 300);
+
+  group.appendChild(img);
+
+  svg.appendChild(rect);
+  svg.appendChild(group);
+
+  // --- Animate scale from 0.1 to 1 ---
+  let start = null;
+  const duration = 500; // ms
+confettiBurst()
+  function animate(timestamp) {
+    if (!start) start = timestamp;
+    const elapsed = timestamp - start;
+
+    const progress = Math.min(elapsed / duration, 1);
+    const scale = 0.1 + 0.9 * progress;
+    group.setAttribute("transform", `scale(${scale})`);
+    group.setAttribute("opacity", progress);
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+  
+  
+function playAudio(id){
+    const audio = document.getElementById(id);
+    audio.currentTime = 0;
+    audio.play();
+}
+function initializeGame(){
+    createBlockChain(numberOfBlocks, bridgeX1, bridgeX2);
+    texts = bridge.querySelectorAll("text");
+    placeDraggableImage(svg, "w1.png", imgX, imgY);
+    placeInitialWeights();
+    initializeZack();
+    svg.appendChild(overlay);
+}
+
+const playButton = document.getElementById("playButton");
+
+let isBouncing = true;
+let startTime = null;
+
+function bounceButton(time) {
+  if (!isBouncing) return;
+  if (!startTime) startTime = time;
+
+  const elapsed = time - startTime;
+  const bounceY = Math.sin(elapsed / 200) * 3; // small bounce
+  playButton.setAttribute("transform", `translate(0, ${bounceY})`);
+
+  requestAnimationFrame(bounceButton);
+}
+
+// Start bouncing
+requestAnimationFrame(bounceButton);
+
+// Handle click
+playButton.addEventListener("click", () => {
+  isBouncing = false;
+  playButton.remove();
+  bgAudio.volume = 0.2
+  bgAudio.play() 
+  initializeGame();
+  stopZackVibing = animateZackVibin()
+});
+
+function animateClouds() {
+  const cloud1 = document.getElementById("cloud1");
+  const cloud2 = document.getElementById("cloud2");
+
+  let x1 = 0;
+  let x2 = 800;
+  const speed = 0.5;
+
+  function move() {
+    x1 -= speed;
+    x2 -= speed;
+
+    if (x1 <= -800) x1 = 800;
+    if (x2 <= -800) x2 = 800;
+
+    cloud1.setAttribute("x", x1);
+    cloud2.setAttribute("x", x2);
+
+    requestAnimationFrame(move);
+  }
+
+  move();
+}
+animateClouds();
+
+function animateZackVibin(frameCount = 96, fps = 120) {
+  const frameDuration = 4000 / fps;
+  let lastTime = performance.now();
+  let frame = 1;
+  let stopped = false;
+
+  function loop(currentTime) {
+    if (stopped) return;
+
+    if (currentTime - lastTime >= frameDuration) {
+      zackImage.setAttributeNS(null, "href", `ZackVibin/vibe (${frame}).png`);
+      frame = (frame % frameCount) + 1;
+      lastTime = currentTime;
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+
+  // Return a stop function
+  return () => {
+    stopped = true;
+  };
+}
+  
+
+function confettiBurst() {
+  const duration = 2.5 * 1000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({ particleCount: 5, angle: 60, spread: 70, origin: { x: 0,y:.6 } });
+    confetti({ particleCount: 5, angle: 120, spread: 70, origin: { x: .5,y:.6 } });
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 }
