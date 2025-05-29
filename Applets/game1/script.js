@@ -40,6 +40,7 @@ const bridgeX1 = 175,
   const svg = document.getElementById("gameSvg");
   const bridge = document.getElementById("bridge");
   const overlay = document.getElementById("overlay");
+  const finalOverlay = document.getElementById("finalOverlay");
 createBlockChain(numberOfBlocks, bridgeX1, bridgeX2);
 const texts = bridge.querySelectorAll("text");
 function createBlockChain(count, x1, x2) {
@@ -351,6 +352,10 @@ function setZackBack(){
 }
 
 function setProblem(idx) {
+    if(idx>=questions.length){
+        showFinalOverlay()
+        return;
+    }
   overlay.setAttribute("opacity", "1"); // Fade to black
 
   setTimeout(() => {
@@ -368,10 +373,10 @@ function setProblem(idx) {
 svg.appendChild(overlay);
 
 
-const nextButton = document.getElementById("nextButton");
-nextButton.addEventListener("click", () => {
-  setProblem(++questionIndex);
-});
+// const nextButton = document.getElementById("nextButton");
+// nextButton.addEventListener("click", () => {
+//   setProblem(++questionIndex);
+// });
 
 function vibrateBridge(duration = 300, intensity = 3) {
   const bridgeGroup = document.querySelector("#bridgeWrapper");
@@ -395,4 +400,10 @@ function vibrateBridge(duration = 300, intensity = 3) {
 
   requestAnimationFrame(animate);
   
+}
+
+function showFinalOverlay(){
+    finalOverlay.style.display = "flex";
+    void finalOverlay.offsetHeight
+    finalOverlay.style.scale=1
 }
