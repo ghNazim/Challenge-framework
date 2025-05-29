@@ -7,7 +7,7 @@ const bridgeX1 = 175,
   eachWidth = bridgeLength / numberOfBlocks,
   bridgeHeight = eachWidth,
   weightWidth = 30;
-  const imgX = 300, imgY = 150;
+  const imgX = 325, imgY = 230;
   let questionIndex = 0,movingImg=null;
   let stopZackVibing;
   const questions = [
@@ -31,8 +31,8 @@ const bridgeX1 = 175,
     },
     {
       numberOfBlocks: 11,
-      q: [5, -1],
-      a: -4,
+      q: [5, -3],
+      a: -2,
       curr: 0,
     },
   ];
@@ -283,6 +283,14 @@ function checkInclination(problem){
     else{
         rotateGroup("bridge", 0);
         playAudio("correct");
+        createTextOverlay(
+          "woodenPlank.png",
+          150,
+          50,
+          400,
+          90,
+          data.feedback[questionIndex]
+        );
         setTimeout(moveZackForward, 600);   
     }
     return {
@@ -345,6 +353,7 @@ if(isZackWalking) return;
 }
 
 function setZackBack(){
+  
     zackImage.setAttributeNS(null, "href", `ZackVibin/vibe (${1}).png`);
     zackX = 60;
     zackImage.setAttributeNS(null, "x", zackX);
@@ -356,7 +365,7 @@ function setProblem(idx) {
         return;
     }
   overlay.setAttribute("opacity", "1"); // Fade to black
-
+    removeTextOverlay()
   setTimeout(() => {
     overlay.setAttribute("opacity", "0");
     svg.appendChild(movingImg)
@@ -422,7 +431,7 @@ function showFinalOverlay() {
   rect.setAttribute("width", "100%");
   rect.setAttribute("height", "100%");
   rect.setAttribute("fill", "black");
-  rect.setAttribute("opacity", "0.5");
+  rect.setAttribute("opacity", "0.8");
   rect.setAttribute("filter", "url(#blurFilter)");
 
   // --- Group to apply scale transform ---
@@ -506,6 +515,7 @@ playButton.addEventListener("click", () => {
   bgAudio.play() 
   initializeGame();
   stopZackVibing = animateZackVibin()
+  createTextOverlay("woodenPlank.png", 150, 50, 400, 120, data.instruction);
 });
 
 function animateClouds() {
@@ -571,4 +581,57 @@ function confettiBurst() {
       requestAnimationFrame(frame);
     }
   })();
+}
+
+function createTextOverlay(imgHref, x, y, width, height, message) {
+  removeTextOverlay()
+  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  group.setAttribute("id", "overlayGroup");
+
+  // Background image
+  const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+  img.setAttributeNS(null, "href", imgHref);
+  img.setAttributeNS(null, "x", x);
+  img.setAttributeNS(null, "y", y);
+  img.setAttributeNS(null, "preserveAspectRatio", "none");
+  img.setAttributeNS(null, "width", width);
+  img.setAttributeNS(null, "height", height);
+
+  group.appendChild(img);
+
+  // Overlay text
+  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  const centerX = x + width / 2;
+  const centerY = y + height / 2;
+  const lineHeight = 28; // px
+
+  text.setAttribute("text-anchor", "middle");
+  text.setAttribute("fill", "white");
+  text.setAttribute("font-size", "24");
+  text.setAttribute("font-family", "sans-serif");
+  text.setAttribute("font-weight", "bold");
+  
+
+  const totalLines = message.length;
+  const offsetY = centerY - ((totalLines - 1) * lineHeight) / 2;
+
+  message.forEach((line, i) => {
+    const tspan = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "tspan"
+    );
+    tspan.setAttribute("x", centerX);
+    tspan.setAttribute("y", offsetY + i * lineHeight);
+    tspan.textContent = line;
+    text.appendChild(tspan);
+  });
+
+  group.appendChild(text);
+  svg.appendChild(group);
+}
+
+function removeTextOverlay() {
+  const grp = document.getElementById("overlayGroup");
+  console.log(grp)
+  if (grp) grp.remove();
 }
