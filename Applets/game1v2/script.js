@@ -333,38 +333,55 @@ function initializeZack() {
 
 
 function moveZackForward() {
-stopZackVibing()
-  
-if(isZackWalking) return;
+  stopZackVibing();
+
+  if (isZackWalking) return;
   isZackWalking = true;
-  let distance = 660;
-  let frames = 200;
-  let step = distance / frames;
-  let frame = 0;
 
-  const animation = () => {
-    if (frame >= frames) {
-      isZackWalking = false;
-      setTimeout(() => {
-        setProblem(++questionIndex);
-      }, 600);
-      return;
-    }
+  const WALK_DISTANCE = 660; // ⬅️ Replaces hardcoded value
+  const WALK_DURATION = 3000; // in ms (⬅️ replaces 200 frames × 16.67ms)
+  const FRAME_INTERVAL = 15; // for walk sprite update
+  const POST_DELAY = 600;
 
-    // Animate walk
-    zackIndex = ((zackIndex) % 25) + 1; // loop from 1 to 25
-    zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+  const initialZackX = zackX;
+  let startTime = null;
+  let lastFrameTime = 0; // ⬅️ Tracks when to update walk sprite
 
-    // Move forward
-    zackX += step;
+  const animation = (timestamp) => {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / WALK_DURATION, 1); // ⬅️ Time-based progress (0 to 1)
+
+    // Move Zack based on progress
+    zackX = initialZackX + WALK_DISTANCE * progress;
     zackImage.setAttributeNS(null, "x", zackX);
 
-    frame++;
-    requestAnimationFrame(animation);
+    // Animate walking sprite every FRAME_INTERVAL ms
+    if (elapsed - lastFrameTime >= FRAME_INTERVAL) {
+      zackIndex = (zackIndex % 25) + 1;
+      zackImage.setAttributeNS(null, "href", `zack/walk (${zackIndex}).png`);
+      lastFrameTime = elapsed;
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(animation); // continue animation
+    } else {
+      // Snap to final position just in case
+      zackX = initialZackX + WALK_DISTANCE;
+      zackImage.setAttributeNS(null, "x", zackX);
+
+      isZackWalking = false;
+
+      // Proceed to next problem after short delay
+      setTimeout(() => {
+        setProblem(++questionIndex);
+      }, POST_DELAY);
+    }
   };
 
-  animation();
+  requestAnimationFrame(animation); // ⬅️ Start animation
 }
+
 
 function setZackBack(){
   
@@ -568,31 +585,33 @@ function animateClouds() {
 }
 animateClouds();
 
-function animateZackVibin(frameCount = 96, fps = 120) {
-  const frameDuration = 4000 / fps;
-  let lastTime = performance.now();
-  let frame = 1;
+function animateZackVibin() {
+  const frameCount = 96,
+    totalDuration = 4000;
+  let startTime = null;
   let stopped = false;
 
   function loop(currentTime) {
     if (stopped) return;
+    if (!startTime) startTime = currentTime;
 
-    if (currentTime - lastTime >= frameDuration) {
-      zackImage.setAttributeNS(null, "href", `ZackVibin/vibe (${frame}).png`);
-      frame = (frame % frameCount) + 1;
-      lastTime = currentTime;
-    }
+    const elapsed = currentTime - startTime;
+    const progress = (elapsed % totalDuration) / totalDuration; // loops over time
+
+    // Compute current frame based on time progress
+    const frame = Math.floor(progress * frameCount) + 1;
+    zackImage.setAttributeNS(null, "href", `ZackVibin/vibe (${frame}).png`);
 
     requestAnimationFrame(loop);
   }
 
   requestAnimationFrame(loop);
 
-  // Return a stop function
   return () => {
     stopped = true;
   };
 }
+
   
 
 function confettiBurst() {
