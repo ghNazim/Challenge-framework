@@ -338,8 +338,8 @@ function moveZackForward() {
   if (isZackWalking) return;
   isZackWalking = true;
 
-  const WALK_DISTANCE = 660; // ⬅️ Replaces hardcoded value
-  const WALK_DURATION = 3000; // in ms (⬅️ replaces 200 frames × 16.67ms)
+  const WALK_DISTANCE = 730; // ⬅️ Replaces hardcoded value
+  const WALK_DURATION = 3100; // in ms (⬅️ replaces 200 frames × 16.67ms)
   const FRAME_INTERVAL = 15; // for walk sprite update
   const POST_DELAY = 600;
 
@@ -457,10 +457,10 @@ function showFinalOverlay() {
 
   // --- Blurred dark background ---
   const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  rect.setAttribute("x", 0);
-  rect.setAttribute("y", 0);
-  rect.setAttribute("width", "100%");
-  rect.setAttribute("height", "100%");
+  rect.setAttribute("x", -75);
+  rect.setAttribute("y", -10);
+  rect.setAttribute("width", "105%");
+  rect.setAttribute("height", "105%");
   rect.setAttribute("fill", "black");
   rect.setAttribute("opacity", "0.8");
   rect.setAttribute("filter", "url(#blurFilter)");
@@ -678,5 +678,3 @@ function removeTextOverlay() {
   console.log(grp)
   if (grp) grp.remove();
 }
-
-showFinalOverlay()
