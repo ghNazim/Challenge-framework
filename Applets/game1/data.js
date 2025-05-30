@@ -9,6 +9,5 @@ const data = {
     ["4 + 1 = 5", "4  plus  1  equals  5"],
     ["1 + 3 = 4", "1  plus  3  equals  4"],
     ["2 + 3 = 5", "2  plus  3  equals  5"],
-    
   ],
 };
