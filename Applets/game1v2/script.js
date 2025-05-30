@@ -619,8 +619,7 @@ function confettiBurst() {
   const end = Date.now() + duration;
 
   (function frame() {
-    confetti({ particleCount: 5, angle: 60, spread: 70, origin: { x: 0,y:.6 } });
-    confetti({ particleCount: 5, angle: 120, spread: 70, origin: { x: .5,y:.6 } });
+    confetti({ particleCount: 5, angle: 60, spread: 360, origin: { x: .5,y:.5 } });
     if (Date.now() < end) {
       requestAnimationFrame(frame);
     }
@@ -679,3 +678,5 @@ function removeTextOverlay() {
   console.log(grp)
   if (grp) grp.remove();
 }
+
+showFinalOverlay()
