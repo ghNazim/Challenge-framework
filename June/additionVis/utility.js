@@ -188,10 +188,11 @@ function cloneAndTranslateElement(querySelectorString) {
   // Step 6: Apply the CSS transform to translate the cloned element slightly.
   // 'translate(-10px, 10px)' moves it 10 pixels to the left and 10 pixels down
   // from its now absolute position (which mirrors the original's position).
+  document.body.appendChild(clonedElement);
   clonedElement.style.transform = "translate(-25px, 20px)";
 
   // Step 7: Add the cloned element to the document body.
-  document.body.appendChild(clonedElement);
+  
 
   // Step 8: Return the cloned and translated element.
   return clonedElement;
@@ -260,13 +261,27 @@ function animateElementToTarget(
 }
 
 
-function animateHundredToTarget(
+function animateHundredsToTarget(
   sourceElement,
-  targetElement,
+  targetNo,
   onStart,
   onComplete
 ) {
+
   if (onStart) onStart();
+const n = sourceElement.querySelectorAll(".hundred-block").length;
+function onStartInside(){
+  sourceElement.innerHTML = "";
+    const newBlock = document.createElement("div");
+    newBlock.classList.add("hundred-block");
+    newBlock.classList.add("block-color-placeholder");
+    sourceElement.appendChild(newBlock);
+}
+function onCompleteInside(){
+  createHundreds("#row-3 .hundred-block",n,"block-color-active");
+  rearrangeHundreds(3)
+}
+
 
   const config = {
     duration: 500, // milliseconds
@@ -284,7 +299,10 @@ function animateHundredToTarget(
   const sourceRect = sourceElement.getBoundingClientRect();
 
   // Get final position and dimensions of the target element
-  const targetRect = targetElement;
+  const targetElement = document.querySelector(`#row-3 .hundred-block`);
+  const targetRect = targetElement.getBoundingClientRect();
+  targetRect.left -= targetNo * 10;
+  targetRect.top -= targetNo * 10;
 
   // Style the clone for absolute positioning and animation
   clone.style.position = "absolute";
@@ -305,7 +323,7 @@ function animateHundredToTarget(
 
   // Append the clone to the body to start the animation from its initial state
   document.body.appendChild(clone);
-
+  onStartInside();
   // Use a minimal timeout or requestAnimationFrame to ensure the browser
   // has applied initial styles before applying the target styles for transition.
   requestAnimationFrame(() => {
@@ -334,6 +352,8 @@ function animateHundredToTarget(
       if (config.onComplete && typeof config.onComplete === "function") {
         config.onComplete();
       }
+      onCompleteInside();
+
     },
     { once: true }
   );

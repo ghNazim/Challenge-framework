@@ -24,6 +24,8 @@ next.addEventListener("click",function(){
     callWithStep(step);
 });
 previous.addEventListener("click",function(){
-    step--;
-    callWithStep(step);
+    animateHundredsToTarget(
+      document.querySelector("#row-1 .hundreds-cell>.actual-blocks"),
+      3
+    );
 });
