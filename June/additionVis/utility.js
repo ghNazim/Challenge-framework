@@ -1,10 +1,10 @@
-function rearrangeHundreds(row){
-    const hundreds = document.querySelectorAll(`#row-${row} .hundred-block`);
-    hundreds.forEach((block,index) => {
-        block.style.transform = `translate(${-index*10}px, ${-index*10}px)`;
-    })
+function rearrangeHundreds(row) {
+  const hundreds = document.querySelectorAll(`#row-${row} .hundred-block`);
+  hundreds.forEach((block, index) => {
+    block.style.transform = `translate(${-index * 10}px, ${-index * 10}px)`;
+  });
 }
-function createHundreds(q,n,className){
+function createHundreds(q, n, className) {
   const block = document.querySelector(q).parentNode;
   block.innerHTML = "";
   for (let i = 0; i < n; i++) {
@@ -14,31 +14,41 @@ function createHundreds(q,n,className){
     block.appendChild(newBlock);
   }
 }
-function paintActive(q,n,className) {
-    if(q.includes("hundred") && n>1) {
-        createHundreds(q,n,className);
-    }
-    const blocks = document.querySelectorAll(q);
-    const blocksArray = Array.from(blocks);
-    blocks.forEach(block => {
-        block.classList.remove("block-color-active");
-        block.classList.remove("block-color-sum");
-    });
-    blocksArray.slice(0,n).forEach(block => {
-        block.classList.add(className);
-    });
+function paintActive(q, n, className) {
+  if (q.includes("hundred") && n > 1) {
+    createHundreds(q, n, className);
+  }
+  const blocks = document.querySelectorAll(q);
+  const blocksArray = Array.from(blocks);
+  blocks.forEach((block) => {
+    block.classList.remove("block-color-active");
+    block.classList.remove("block-color-sum");
+  });
+  blocksArray.slice(0, n).forEach((block) => {
+    block.classList.add(className);
+  });
+}
+function removePaint(q){
+  const blocks = document.querySelectorAll(q);
+  blocks.forEach((block) => {
+    block.classList.remove("block-color-active");
+    block.classList.remove("block-color-semi");
+  });
 }
 
-function animateCloneToTarget(sourceElement, targetElement, onStart,onComplete) {
+function animateCloneToTarget(
+  sourceElement,
+  targetElement,
+  onStart,
+  onComplete
+) {
+  if (onStart) onStart();
 
-if(onStart) onStart();
-  
   const config = {
     duration: 500, // milliseconds
     easing: "ease-in-out",
     onComplete: onComplete,
   };
-  
 
   // Create a deep clone of the source element
   const clone = sourceElement.cloneNode(true);
@@ -104,36 +114,44 @@ if(onStart) onStart();
       }
     },
     { once: true }
-  ); 
+  );
 }
 
-
-function showChangeButtons(row,show){
-    const stepperButtons = document.querySelectorAll(`#row-${row} .stepper-buttons`);
-    const digitLabels = document.querySelectorAll(`#row-${row} .digit-label`);
-    stepperButtons.forEach(button => {
-        button.style.display = show?"flex":"none";
-    });
-    digitLabels.forEach(label => {
-        label.style.display = show?"block":"none";
-    });
-    const setButton = document.querySelector(`#row-${row} .setButton`);
-    setButton.style.display = show?"block":"none";
+function showChangeButtons(row, show) {
+  const stepperButtons = document.querySelectorAll(
+    `#row-${row} .stepper-buttons`
+  );
+  const digitLabels = document.querySelectorAll(`#row-${row} .digit-label`);
+  stepperButtons.forEach((button) => {
+    button.style.display = show ? "flex" : "none";
+  });
+  digitLabels.forEach((label) => {
+    label.style.display = show ? "block" : "none";
+  });
+  const setButton = document.querySelector(`#row-${row} .setButton`);
+  setButton.style.display = show ? "block" : "none";
 }
 
-function animateUnits1(){
-    const unitsTop = document.querySelectorAll("#row-1 .unit-block.block-color-active");
-    const unitsBottom = document.querySelectorAll("#row-3 .unit-block");
-    unitsTop.forEach((block,index) => {
-        animateCloneToTarget(block,unitsBottom[index],()=>{
-            block.classList.remove("block-color-active");
-            block.classList.add("block-color-semi");
-        },()=>{
-            paintActive("#row-3 .unit-block",index+1,"block-color-active");
-        });
-    })
+function animateUnits1() {
+  const unitsTop = document.querySelectorAll(
+    "#row-1 .unit-block.block-color-active"
+  );
+  const unitsBottom = document.querySelectorAll("#row-3 .unit-block");
+  unitsTop.forEach((block, index) => {
+    animateCloneToTarget(
+      block,
+      unitsBottom[index],
+      () => {
+        block.classList.remove("block-color-active");
+        block.classList.add("block-color-semi");
+      },
+      () => {
+        paintActive("#row-3 .unit-block", index + 1, "block-color-active");
+      }
+    );
+  });
 
-    unitIndex = nums[0][2];
+  unitIndex = nums[0][2];
 }
 function animateTens1() {
   const unitsTop = document.querySelectorAll(
@@ -157,7 +175,33 @@ function animateTens1() {
   tenIndex += nums[0][1];
 }
 
-function cloneAndTranslateElement(querySelectorString) {
+function animateunits2() {
+  let unitsTop = document.querySelectorAll(
+    "#row-2 .unit-block.block-color-active"
+  );
+  unitsTop = Array.from(unitsTop);
+  const length = unitsTop.length;
+  if (unitIndex + length >= 10) {
+    unitsTop = unitsTop.slice(length-10+unitIndex);
+  }
+  const unitsBottom = document.querySelectorAll("#row-3 .unit-block");
+  unitsTop.forEach((block, index) => {
+    animateCloneToTarget(
+      block,
+      unitsBottom[unitIndex + index],
+      () => {
+        block.classList.remove("block-color-active");
+        block.classList.add("block-color-semi");
+      },
+      () => {
+        paintActive("#row-3 .unit-block", unitIndex+index + 1, "block-color-active");
+      }
+    );
+  });
+}
+
+function cloneAndTranslateElement(tag) {
+  const querySelectorString = `#row-3 .${tag}-cell>.actual-blocks`;
   // Step 1: Find the original element using the query selector.
   const originalElement = document.querySelector(querySelectorString);
 
@@ -189,21 +233,19 @@ function cloneAndTranslateElement(querySelectorString) {
   // 'translate(-10px, 10px)' moves it 10 pixels to the left and 10 pixels down
   // from its now absolute position (which mirrors the original's position).
   document.body.appendChild(clonedElement);
-  clonedElement.style.transform = "translate(-25px, 20px)";
+  const q = tag === "tens" ? "#row-3 .ten-bar" : "#row-3 .unit-block";
+  removePaint(q);
+  unitIndex=0;
+  clonedElement.style.top = `${originalRect.top + window.scrollY +20}px`; // Position it where the original was
+  clonedElement.style.left = `${originalRect.left + window.scrollX-25}px`;
 
   // Step 7: Add the cloned element to the document body.
-  
 
   // Step 8: Return the cloned and translated element.
   return clonedElement;
 }
 
-function animateElementToTarget(
-  sourceElement,
-  targetElement,
-  onComplete
-) {
-
+function animateElementToTarget(sourceElement, targetElement, onComplete) {
   const config = {
     duration: 500, // milliseconds
     easing: "ease-in-out",
@@ -211,7 +253,7 @@ function animateElementToTarget(
   };
 
   // Create a deep clone of the source element
-  const clone = sourceElement
+  const clone = sourceElement;
 
   // Remove ID from clone to prevent duplicate IDs in the DOM
 
@@ -233,7 +275,6 @@ function animateElementToTarget(
       // Set target size and position to trigger the animation
       clone.style.top = `${targetRect.top + window.scrollY}px`;
       clone.style.left = `${targetRect.left + window.scrollX}px`;
-      clone.style.transform = "translate(0px, 0px)";
       // Optional: make it slightly transparent during transition, or fade out
       // clone.style.opacity = '0.5'; // Example
     });
@@ -255,33 +296,26 @@ function animateElementToTarget(
       if (config.onComplete && typeof config.onComplete === "function") {
         config.onComplete();
       }
+      
     },
     { once: true }
   );
 }
 
-
-function animateHundredsToTarget(
-  sourceElement,
-  targetNo,
-  onStart,
-  onComplete
-) {
-
+function animateHundredsToTarget(sourceElement, targetNo, onStart, onComplete) {
   if (onStart) onStart();
-const n = sourceElement.querySelectorAll(".hundred-block").length;
-function onStartInside(){
-  sourceElement.innerHTML = "";
+  const n = sourceElement.querySelectorAll(".hundred-block").length;
+  function onStartInside() {
+    sourceElement.innerHTML = "";
     const newBlock = document.createElement("div");
     newBlock.classList.add("hundred-block");
     newBlock.classList.add("block-color-placeholder");
     sourceElement.appendChild(newBlock);
-}
-function onCompleteInside(){
-  createHundreds("#row-3 .hundred-block",n,"block-color-active");
-  rearrangeHundreds(3)
-}
-
+  }
+  function onCompleteInside() {
+    createHundreds("#row-3 .hundred-block", n, "block-color-active");
+    rearrangeHundreds(3);
+  }
 
   const config = {
     duration: 500, // milliseconds
@@ -353,7 +387,6 @@ function onCompleteInside(){
         config.onComplete();
       }
       onCompleteInside();
-
     },
     { once: true }
   );

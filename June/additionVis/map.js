@@ -1,9 +1,10 @@
 let questionIndex = 0;
 let unitIndex = 0,tenIndex=0,hundredIndex=0;
+let cloned = null;
 const questions = [
   [
     [2, 9, 5],
-    [0, 4, 2],
+    [0, 4, 7],
     [3, 3, 7],
   ],
 ];

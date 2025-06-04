@@ -17,6 +17,22 @@ function callWithStep(step){
     else if(step==2){
         animateUnits1()
     }
+    else if(step==3){
+        animateunits2();
+    }
+    else if(step==4){
+        cloned = cloneAndTranslateElement("units");
+    }
+    else if(step==5){
+        animateunits2()
+    }
+    else if(step==6){
+        animateElementToTarget(cloned, document.querySelector("#row-3 .ten-bar"),()=>{
+            paintActive("#row-3 .ten-bar", 1, "block-color-active");
+            tenIndex = 1;
+        });
+    }
+    
 }
 
 next.addEventListener("click",function(){
