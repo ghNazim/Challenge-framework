@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Four Pyramids</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="applet-container">
+    <!-- TITLE BAR -->
+    <div class="titleBar">
+      <h1>Area of a cylinder</h1>
+      <p>Observe how a cylinder unwraps and find its area</p>
+    </div>
+    <!-- ASSETS REGION -->
+    <div class="assets">
+      <!-- CONTEXT BOX -->
+      <div class="contextBox">
+        
+      </div>
+      
+      <!-- WORKING AREA CONTAINER -->
+      <div class="workingArea-container">
+        <!-- UPPER CONTROLS -->
+        <div class="upperControls">
+          
+          <div class="slider-box">
+            <p></p>
+          <input type="range" id="heightSlider" min=".4" max="3" value="1.5" step=".001" class="slider"/>
+          </div>
+          <div class="slider-box">
+            <p></p>
+          <input type="range" id="formSlider" min="0" max="1" value="0" step=".001" class="slider"/>
+          </div>
+          
+        </div>
+        <!-- WORKING AREA (Canvas takes full available space) -->
+        <div class="workingArea">
+          <div id="wrapper" >
+            <div id="container"></div>
+            <svg id="labelOverlay" width="800" height="500" ></svg>
+          </div>
+          <div id="textOverlay">
+            <div id="note">
+              
+            </div>
+          </div>
+          <!-- Overlay for hints and congratulatory messages -->
+          <div class="overlay workingArea-overlay" id="workingOverlay">
+            <div class="overlay-close" id="closeOverlay"></div>
+            <div class="overlay-content" id="overlayContent"></div>
+          </div>
+        </div>
+        <!-- LOWER CONTROLS -->
+        <div class="lowerControls">
+          <button class="btn btn-secondary" id="square"></button>
+          <button class="btn btn-secondary" id="rectangle"></button>
+          <button class="btn btn-secondary" id="circle"></button>
+          <button class="btn btn-secondary" id="triangle"></button>
+        </div>
+      </div>
+    </div>
+    <!-- Full Screen Overlay (preserved from template) -->
+    <div class="overlay fullscreen-overlay" id="fullscreenOverlay">
+      <div class="overlay-close"></div>
+      <div class="overlay-content">
+        <h2>Full Screen Overlay</h2>
+        <p>This overlay covers the entire applet with margins.</p>
+      </div>
+    </div>
+  </div>
+  <script src="packages/three.min.js"></script>
+  <script src="data.js"></script>
+  <script src="logic/init.js"></script>
+  <script src="logic/utility.js"></script>
+  <script src="logic/onStart.js"></script>
+  <script src="logic/applet.js"></script>
+</body>
+</html>
