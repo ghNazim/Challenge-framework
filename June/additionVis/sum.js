@@ -7,6 +7,11 @@ function triggerFlyText(tag,cb){
   const targetRect = targetElement.getBoundingClientRect();
   const clone = sourceElement.cloneNode(true);
 
+  const computed = window.getComputedStyle(sourceElement);
+  for (let prop of computed) {
+    clone.style[prop] = computed.getPropertyValue(prop);
+  }
+
   clone.style.position = "absolute";
   clone.style.margin = "0";
   clone.style.zIndex = "50";

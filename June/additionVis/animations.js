@@ -185,8 +185,6 @@ function animateElementToTarget(sourceElement, targetElement, onComplete) {
   );
 }
 
-
-
 function animateUnits1() {
   const unitsTop = document.querySelectorAll(
     "#row-1 .unit-block.block-color-active"
@@ -210,6 +208,7 @@ function animateUnits1() {
   unitIndex = nums[0][2];
 }
 function animateTens1() {
+    const initialTenindex = tenIndex;
   const unitsTop = document.querySelectorAll(
     "#row-1 .ten-bar.block-color-active"
   );
@@ -217,7 +216,7 @@ function animateTens1() {
   unitsTop.forEach((block, index) => {
     animateCloneToTarget(
       block,
-      unitsBottom[tenIndex + index],
+      unitsBottom[initialTenindex + index],
       () => {
         block.classList.remove("block-color-active");
         block.classList.add("block-color-semi");
@@ -225,7 +224,7 @@ function animateTens1() {
       () => {
         paintActive(
           "#row-3 .ten-bar",
-          tenIndex + index + 1,
+          initialTenindex + index + 1,
           "block-color-active"
         );
         updateDigitLabel("tens");
@@ -236,7 +235,7 @@ function animateTens1() {
   tenIndex += nums[0][1];
 }
 
-function animateunits2() {
+function animateUnits2() {
   let unitsTop = document.querySelectorAll(
     "#row-2 .unit-block.block-color-active"
   );
