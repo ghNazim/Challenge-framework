@@ -68,6 +68,23 @@ function handleSetClick(row) {
   const correct = hundreds && tens && units;
   console.log("correct",correct);
   if (!correct) {
+    if(!units){
+      const el = document.querySelector(`#row-${row+1} .units-cell .actual-blocks`);
+      vibrateElement(el)
+    }
+    if(!tens){
+      const el = document.querySelector(
+        `#row-${row+1} .tens-cell .actual-blocks`
+      );
+      vibrateElement(el);
+    }
+    if(!hundreds){
+      const el = document.querySelector(
+        `#row-${row+1} .hundreds-cell .actual-blocks`
+      );
+      vibrateElement(el);
+      
+    }
     return;
   }
   showChangeButtons(row+1, false);
@@ -76,6 +93,7 @@ function handleSetClick(row) {
   }
   else{
     document.getElementById("nextButton").disabled = false;
+    highlightSum(0);
   }
 }
 
@@ -84,3 +102,55 @@ document.querySelectorAll(".setButton").forEach((button, index) => {
     handleSetClick(index);
   });
 });
+
+
+function fillCalculationDisplay(questionData) {
+  // Assuming 'questionData' is the first element from your 'questions' array,
+  // e.g., questions[0] which is [[2, 9, 5], [2, 4, 7], [5, 4, 2]]
+
+  const firstNumData = questionData[0]; // [2, 9, 5]
+  const secondNumData = questionData[1]; // [2, 4, 7]
+  const sumData = questionData[2]; // [5, 4, 2]
+
+  // --- Populate the first number ---
+  const firstNumWrapper = document.querySelector(".calc-num-wrapper");
+  if (firstNumWrapper) {
+    firstNumWrapper.querySelector(".hundreds-place").textContent =
+      firstNumData[0];
+    firstNumWrapper.querySelector(".tens-place").textContent = firstNumData[1];
+    firstNumWrapper.querySelector(".units-place").textContent = firstNumData[2];
+  } else {
+    console.error("Could not find the .calc-num-wrapper element.");
+  }
+
+  // --- Populate the second number ---
+  const secondNumOpWrapper = document.querySelector(".calc-op-wrapper");
+  if (secondNumOpWrapper) {
+    // Assuming the operator is always '+' as per the HTML.
+    // If the operator can change, you might need to pass it in the data as well.
+    // secondNumOpWrapper.querySelector("span:first-child").textContent = newOperator;
+
+    secondNumOpWrapper.querySelector(".hundreds-place").textContent =
+      secondNumData[0];
+    secondNumOpWrapper.querySelector(".tens-place").textContent =
+      secondNumData[1];
+    secondNumOpWrapper.querySelector(".units-place").textContent =
+      secondNumData[2];
+  } else {
+    console.error("Could not find the .calc-op-wrapper element.");
+  }
+
+  // --- Populate the sum ---
+  const sumWrapper = document.querySelector(".calc-sum-wrapper");
+  if (sumWrapper) {
+    sumWrapper.querySelector(".hundreds").textContent = sumData[0];
+    sumWrapper.querySelector(".tens").textContent = sumData[1];
+    sumWrapper.querySelector(".units").textContent = sumData[2];
+  } else {
+    console.error("Could not find the .calc-sum-wrapper element.");
+  }
+}
+
+fillCalculationDisplay(questions[questionIndex]);
+
+

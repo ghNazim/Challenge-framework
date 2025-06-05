@@ -4,16 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Addition Blocks Layout</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="calculation-display">
       <div class="calc-num-wrapper">
-        <span class="calc-num highlight">293</span>
+        <span class="hundreds-place op">2</span><span class="tens-place op">9</span
+        ><span class="units-place op">5</span>
       </div>
-      <div class="calc-op-wrapper"><span class="calc-op">+ 62</span></div>
+      <div class="calc-op-wrapper">
+        <span>+</span>
+        <span class="hundreds-place op">2</span><span class="tens-place op">4</span
+        ><span class="units-place op">7</span>
+      </div>
       <hr class="calc-hr" />
-      <div class="calc-sum-wrapper"><span class="calc-sum">355</span></div>
+      <div class="calc-sum-wrapper">
+        <span class="hundreds hidden">5</span><span class="tens hidden">4</span
+        ><span class="units hidden">2</span>
+      </div>
     </div>
     <div class="main-layout">
       <div class="blocks-area-columnar">
@@ -251,15 +259,16 @@
           </div>
         </div>
       </div>
-      
     </div>
     <div class="button-container">
       <button class="btn" id="previousButton">Previous</button>
       <button class="btn" id="nextButton">Next</button>
     </div>
-    
+
     <script src="map.js"></script>
     <script src="utility.js"></script>
+    <script src="animations.js"></script>
+    <script src="sum.js"></script>
     <script src="init.js"></script>
     <script src="script.js"></script>
   </body>

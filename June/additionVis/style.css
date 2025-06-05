@@ -43,6 +43,7 @@ body {
   align-items: flex-start;
   background-color: white;
   padding: 25px;
+  padding-left: 50px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -57,13 +58,15 @@ body {
   border-radius: 8px;
   background-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 .calculation-display .calc-num-wrapper,
 .calculation-display .calc-op-wrapper,
 .calculation-display .calc-sum-wrapper {
   letter-spacing: 2px;
   display: flex; /* To help vertical centering if needed */
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   /* Approximate height matching corresponding block rows */
 }
@@ -217,9 +220,13 @@ body {
 }
 .block-color-semi {
   background-color: var(--color-sum) !important;
+  
 }
 .block-color-placeholder {
   background-color: var(--color-placeholder);
+}
+.hundred-block.block-color-semi{
+  border: 1px solid var(--color-border-block);
 }
 
 .setButton {
@@ -257,4 +264,25 @@ body {
 .cloneTransform{
     translate: -10px 10px;
     rotate: -10deg;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.transparent{
+  opacity: 0.5;
+}
+
+@keyframes vibrate-x {
+  0% { left: 0; }
+  20% { left: -2px; }
+  40% { left: 2px; }
+  60% { left: -2px; }
+  80% { left: 2px; }
+  100% { left: 0; }
+}
+
+.vibrate-x {
+  animation: vibrate-x 0.3s ease-in-out;
 }
