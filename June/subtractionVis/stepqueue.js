@@ -12,7 +12,7 @@ function bringUnitsToMiddle() {
   animateUnitsTopToMiddle();
 }
 function bringUnitsBottom() {
-  animateRestUnitsToBottom()
+  animateRestUnitsToBottom();
 }
 
 function cloneUnitOverflow() {
@@ -33,7 +33,7 @@ function translateUnitOverflow() {
   );
 }
 function flyUnitText() {
-  triggerFlyText("units",()=>{
+  triggerFlyText("units", () => {
     setOpaque("tens");
   });
 }
@@ -62,10 +62,9 @@ function translateTensOverflow() {
   );
 }
 function flyTensText() {
-  triggerFlyText("tens",()=>{
+  triggerFlyText("tens", () => {
     setOpaque("hundreds");
   });
-  
 }
 
 function bringHundredsBottom() {
@@ -83,8 +82,6 @@ function flyHundredsText() {
 
 let stepQueue = [];
 
-
-
 const carryAfterUnits = Number(u1 + u2 > 10);
 
 // fill step  queue
@@ -92,27 +89,32 @@ const carryAfterUnits = Number(u1 + u2 > 10);
 stepQueue.push(step0);
 stepQueue.push(step1);
 
-if (u1 > u2) {
+if (u1 >= u2) {
   stepQueue.push(bringUnitsToMiddle);
 }
-stepQueue.push(bringUnitsBottom);
-
+if(u1<u2){
+  stepQueue.push(animateCarryFromTen);
+  stepQueue.push(animateUnitsCloneToMiddle);
+  stepQueue.push(settleCloneUnits);
+}
+if(u1!==u2){
+  stepQueue.push(animateRestUnitsToBottom);
+}
 stepQueue.push(flyUnitText);
 
-stepQueue.push(animateCarry)
+stepQueue.push(animateCarryFromHundred);
 
-stepQueue.push(animateTensCloneToMiddle)
+stepQueue.push(animateTensCloneToMiddle);
 
-stepQueue.push(settleClone)
+stepQueue.push(settleCloneTens);
 
-stepQueue.push(animateRestTensToBottom)
+stepQueue.push(animateRestTensToBottom);
 
-stepQueue.push(flyTensText)
+stepQueue.push(flyTensText);
 
-stepQueue.push(bringRestHundredsToBottom)
+stepQueue.push(bringRestHundredsToBottom);
 
-stepQueue.push(flyHundredsText)
-
+stepQueue.push(flyHundredsText);
 
 next.addEventListener("click", function () {
   step++;

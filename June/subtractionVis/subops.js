@@ -91,7 +91,7 @@ function cloneBlock(tag) {
 const tensClone = cloneBlock("tens");
 const unitsClone = cloneBlock("units");
 
-function animateCarry() {
+function animateCarryFromHundred() {
   const src = document.querySelector("#row-1 .hundred-block:last-of-type");
   const dest = tensClone;
   animateCloneToTarget(
@@ -99,6 +99,24 @@ function animateCarry() {
     dest,
     () => {
       src.remove();
+    },
+    () => {
+      dest.style.visibility = "visible";
+    }
+  );
+}
+
+function animateCarryFromTen() {
+  const allActives = document.querySelectorAll(
+    "#row-1 .ten-bar.block-color-active"
+  );
+  const src = allActives[allActives.length - 1];
+  const dest = unitsClone;
+  animateCloneToTarget(
+    src,
+    dest,
+    () => {
+      src.classList.remove("block-color-active");
     },
     () => {
       dest.style.visibility = "visible";
@@ -126,27 +144,60 @@ function animateTensCloneToMiddle() {
       );
     });
 }
-
-function settleClone() {
-  const blanksInTop = document.querySelectorAll(
-    "#row-1 .ten-bar"
+function animateUnitsCloneToMiddle() {
+  const middleBlocks = document.querySelectorAll(
+    "#row-2 .unit-block.block-color-blank"
   );
+  const topBlocks = unitsClone.querySelectorAll("div");
+  Array.from(topBlocks)
+    .slice(10 - u2)
+    .forEach((block, index) => {
+      animateCloneToTarget(
+        block,
+        middleBlocks[index],
+        () => {
+          block.style.visibility = "hidden";
+        },
+        () => {
+          paintActive("#row-2 .unit-block", index + 1, "block-color-active");
+        }
+      );
+    });
+}
+
+function settleCloneTens() {
+  const blanksInTop = document.querySelectorAll("#row-1 .ten-bar");
   const cloneBlocks = tensClone.querySelectorAll("div");
   Array.from(cloneBlocks)
     .slice(0, 10 - t2)
     .forEach((block, index) => {
       animateCloneToTarget(
         block,
-        blanksInTop[t1+index],
+        blanksInTop[t1 + index],
         () => {
           block.style.visibility = "hidden";
         },
         () => {
-          paintActive(
-            "#row-1 .ten-bar",
-            t1+index + 1,
-            "block-color-active"
-          );
+          paintActive("#row-1 .ten-bar", t1 + index + 1, "block-color-active");
+        }
+      );
+    });
+}
+
+function settleCloneUnits() {
+  const blanksInTop = document.querySelectorAll("#row-1 .unit-block");
+  const cloneBlocks = unitsClone.querySelectorAll("div");
+  Array.from(cloneBlocks)
+    .slice(0, 10 - u2)
+    .forEach((block, index) => {
+      animateCloneToTarget(
+        block,
+        blanksInTop[u1 + index],
+        () => {
+          block.style.visibility = "hidden";
+        },
+        () => {
+          paintActive("#row-1 .unit-block", u1 + index + 1, "block-color-active");
         }
       );
     });
@@ -176,6 +227,6 @@ function animateRestTensToBottom() {
 function bringRestHundredsToBottom() {
   animateHundredsToTarget(
     document.querySelector("#row-1 .hundreds-cell>.actual-blocks"),
-    3,
+    3
   );
 }

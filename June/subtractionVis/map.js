@@ -1,13 +1,13 @@
-let questionIndex = 1;
+let questionIndex = 0;
 let unitIndex = 0,
   tenIndex = 0,
   hundredIndex = 0;
 let cloned = null;
 const questions = [
   [
-    [2, 9, 5],
-    [2, 4, 7],
-    [5, 4, 2],
+    [2, 4, 1],
+    [0, 5, 4],
+    [1, 8, 7],
   ],
   [
     [2, 4, 3],
