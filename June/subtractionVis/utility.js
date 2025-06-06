@@ -16,7 +16,6 @@ function createHundreds(q, n, className) {
   }
 }
 function paintActive(q, n, className) {
-  console.log(q,n)
   if (q.includes("hundred") && n > 0) {
     createHundreds(q, n, className);
   }

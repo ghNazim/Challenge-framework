@@ -1,0 +1,294 @@
+:root {
+  --unit-dim: 20px;
+  --bar-width: var(--unit-dim);
+  --bar-height: calc(var(--unit-dim) * 10); /* 200px */
+  --square-dim: var(--bar-height); /* 200px */
+
+  --color-active: #005a9c; /* Dark Blue for 293 and 62 blocks */
+  --color-sum: #4a90e2; /* Medium Blue for 355 blocks */
+  --color-placeholder: #d8e6f3; /* Light Blue for placeholders */
+
+  --color-border-block: #333333;
+  --color-border-hundred: black;
+  --color-text-calculation: black;
+  --color-text-digit-label: #333333;
+
+  --font-main: "Arial", sans-serif;
+  --calc-font-size: 30px;
+  --label-font-size: 24px;
+
+  --block-margin-stacked: 4px; /* Margin for stacked hundred blocks */
+  --bar-margin-horizontal: 2px; /* Margin between ten-bars */
+
+  --cell-gap: 100px; /* Gap between H, T, U cells in a row */
+  --row-padding-vertical: 15px; /* Padding top/bottom for block rows */
+  --calc-area-padding-right: 40px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 100px;
+  font-family: var(--font-main);
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.main-layout {
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+  padding: 25px;
+  padding-left: 50px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calculation-display {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  padding: 25px;
+  font-size: var(--calc-font-size);
+  color: var(--color-text-calculation);
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.calculation-display .calc-num-wrapper,
+.calculation-display .calc-op-wrapper,
+.calculation-display .calc-sum-wrapper {
+  letter-spacing: 2px;
+  display: flex; /* To help vertical centering if needed */
+  flex-direction: row;
+  justify-content: center;
+  /* Approximate height matching corresponding block rows */
+}
+
+.calculation-display .calc-hr {
+  width: 100%;
+  border: none;
+  border-top: 2px solid var(--color-border-block);
+  margin: 8px 0;
+}
+.calculation-display .highlight {
+  color: var(--color-active);
+  font-weight: bold;
+}
+
+.blocks-area-columnar {
+  display: flex;
+  flex-direction: column;
+}
+
+.blocks-major-row {
+  display: flex;
+  align-items: flex-start; /* Top align content of cells (H,T,U) */
+  gap: var(--cell-gap);
+  padding: var(--row-padding-vertical) 0;
+}
+
+.blocks-row-divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #cccccc;
+  margin: 0;
+}
+.blocks-area-columnar .blocks-major-row:last-of-type + .blocks-row-divider {
+  display: none; /* No divider after the sum row */
+}
+
+.block-cell {
+  margin-right: 25px;
+  display: flex;
+  align-items: flex-start; /* Align blocks and label to the top */
+}
+.block-cell .actual-blocks {
+  display: flex;
+  position: relative;
+}
+
+/* New CSS for the interactive digit area and stepper buttons */
+.digit-interactive-area {
+  display: flex;
+  flex-direction: column; /* Stacks the digit label and buttons vertically */
+  align-items: center; /* Centers them horizontally */
+  padding-top: 2px;
+  width: 42px; /* Aligns the top of this area similarly to the old label */
+}
+
+.digit-interactive-area .digit-label {
+  /* Styling for the digit label within the new wrapper */
+  font-size: var(--label-font-size);
+  color: var(--color-text-digit-label);
+  line-height: 1.1; /* Adjust for good visual balance */
+  text-align: center; /* The digit itself should be centered */
+  margin-bottom: 6px; /* Space between the digit and the buttons below it */
+  display: none;
+}
+
+.stepper-buttons {
+  display: none;
+  flex-direction: column; /* Stacks the increase and decrease buttons vertically */
+}
+
+.stepper-btn {
+  font-family: var(--font-main); /* Ensures font consistency */
+  background-color: #e8f0f7; /* Light blue background, similar to image */
+  border: 1px solid #b0c4d4; /* A slightly darker, soft border */
+  color: #005a9c; /* Uses your --color-active for the arrow */
+  padding: 0; /* Remove default padding */
+  font-size: 12px; /* Adjust for arrow character visual size */
+  font-weight: bold; /* Makes Unicode arrows more visible */
+  line-height: 1; /* Important for vertical centering of the arrow text */
+  cursor: pointer;
+  border-radius: 4px; /* Softly rounded corners */
+  width: 1rem; /* Fixed width for a compact button */
+  height: 20px; /* Fixed height */
+  display: flex; /* Enables flexbox for centering content */
+  justify-content: center; /* Centers arrow character horizontally */
+  align-items: center; /* Centers arrow character vertically */
+  box-sizing: border-box; /* Ensures padding/border are part of width/height */
+}
+
+.stepper-btn:hover {
+  background-color: #dae6f1; /* Slightly darker on hover */
+  border-color: #a0b4c4;
+}
+
+.stepper-btn.increase-btn {
+  margin-bottom: 3px; /* Adds a small space between the up and down buttons */
+}
+
+/* HUNDREDS CELL */
+.hundreds-cell .actual-blocks {
+  position: relative;
+  width: var(--square-dim);
+  height: var(--square-dim);
+}
+.hundred-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--square-dim);
+  height: var(--square-dim);
+  border-radius: 6px;
+}
+.hundred-block:not(:last-child) {
+  margin-bottom: var(--block-margin-stacked);
+}
+
+/* TENS CELL */
+.tens-cell .actual-blocks {
+  flex-direction: row; /* Align ten-bars horizontally */
+  height: var(--bar-height); /* Fixed height for 10 units tall */
+  align-items: flex-start; /* Bars start from top */
+}
+
+.ten-bar {
+  width: var(--bar-width);
+  height: var(--bar-height);
+  box-sizing: border-box;
+}
+.ten-bar:not(:last-child) {
+  margin-right: var(--bar-margin-horizontal);
+}
+
+/* UNITS CELL */
+.units-cell .actual-blocks {
+  flex-direction: column; /* Stack unit-blocks vertically */
+  width: var(--unit-dim);
+  height: var(--bar-height); /* Fixed height for 10 units tall */
+  align-items: flex-start;
+}
+.unit-block {
+  width: var(--unit-dim);
+  height: var(--unit-dim);
+  border: 1px solid white;
+  box-sizing: border-box;
+}
+
+/* BLOCK COLORS */
+.block-color-active {
+  background-color: var(--color-active) !important;
+  border: 1px solid var(--color-border-block);
+}
+.block-color-semi {
+  background-color: var(--color-sum) !important;
+  
+}
+.block-color-placeholder {
+  background-color: var(--color-placeholder);
+}
+.block-color-blank{
+  background-color: #ffc2cd;
+  border: 1px dashed #ff084a;
+}
+
+.hundred-block.block-color-semi{
+  border: 1px solid var(--color-border-block);
+}
+
+.setButton {
+  position: absolute;
+  right: 100px;
+  display: none;
+}
+.btn {
+  padding: 10px 20px;
+  background-color: var(--color-placeholder);
+  color: var(--color-active);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 22px;
+}
+.btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  color: white;
+}
+.btn:hover {
+  background-color: var(--color-active);
+  color: var(--color-placeholder);
+}
+.button-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  padding: 1rem 0;
+}
+
+.cloneTransform{
+    translate: -10px 10px;
+    rotate: -10deg;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.transparent{
+  opacity: 0.5;
+}
+
+@keyframes vibrate-x {
+  0% { left: 0; }
+  20% { left: -2px; }
+  40% { left: 2px; }
+  60% { left: -2px; }
+  80% { left: 2px; }
+  100% { left: 0; }
+}
+
+.vibrate-x {
+  animation: vibrate-x 0.3s ease-in-out;
+}
