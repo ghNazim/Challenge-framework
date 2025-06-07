@@ -7,11 +7,12 @@
   --color-active: #005a9c; /* Dark Blue for 293 and 62 blocks */
   --color-sum: #4a90e2; /* Medium Blue for 355 blocks */
   --color-placeholder: #d8e6f3; /* Light Blue for placeholders */
-
+  --color-highlight:#ff8c00;
   --color-border-block: #333333;
   --color-border-hundred: black;
-  --color-text-calculation: black;
-  --color-text-digit-label: #333333;
+  --color-text-calculation: #fff;
+  --color-text-digit-label: #ffffff;
+  --color-wrong-highlight:rgb(252, 83, 83);
 
   --font-main: "Arial", sans-serif;
   --calc-font-size: 30px;
@@ -26,38 +27,49 @@
 }
 * {
   box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
 }
 body {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 10px;
+  font-family: var(--font-main);
+  background-image: url("/bg.png");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+#applet{
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   column-gap: 100px;
-  font-family: var(--font-main);
-  background-color: #f4f4f4;
-  color: #333;
 }
 
 .main-layout {
+  backdrop-filter: blur(5px);
+  background:rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: flex-start;
-  background-color: white;
-  padding: 25px;
-  padding-left: 50px;
+  padding: 10px 25px 10px 50px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .calculation-display {
+  backdrop-filter: blur(5px);
+  background:rgba(51, 102, 163, 0.6);
   display: flex;
   flex-direction: column;
   text-align: right;
   padding: 25px;
   font-size: var(--calc-font-size);
-  color: var(--color-text-calculation);
+  color: white;
   border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   justify-content: flex-end;
   align-items: flex-end;
 }
@@ -74,11 +86,11 @@ body {
 .calculation-display .calc-hr {
   width: 100%;
   border: none;
-  border-top: 2px solid var(--color-border-block);
+  border-top: 2px solid white;
   margin: 8px 0;
 }
 .calculation-display .highlight {
-  color: var(--color-active);
+  color: var(--color-highlight);
   font-weight: bold;
 }
 
@@ -142,7 +154,7 @@ body {
   font-family: var(--font-main); /* Ensures font consistency */
   background-color: #e8f0f7; /* Light blue background, similar to image */
   border: 1px solid #b0c4d4; /* A slightly darker, soft border */
-  color: #005a9c; /* Uses your --color-active for the arrow */
+  color: var(--color-active); /* Uses your --color-active for the arrow */
   padding: 0; /* Remove default padding */
   font-size: 12px; /* Adjust for arrow character visual size */
   font-weight: bold; /* Makes Unicode arrows more visible */
@@ -180,9 +192,7 @@ body {
   height: var(--square-dim);
   border-radius: 6px;
 }
-.hundred-block:not(:last-child) {
-  margin-bottom: var(--block-margin-stacked);
-}
+
 
 /* TENS CELL */
 .tens-cell .actual-blocks {
@@ -201,7 +211,8 @@ body {
 
 /* UNITS CELL */
 .units-cell .actual-blocks {
-  flex-direction: column; /* Stack unit-blocks vertically */
+  flex-direction: column-reverse; /* Stack unit-blocks vertically */
+
   width: var(--unit-dim);
   height: var(--bar-height); /* Fixed height for 10 units tall */
   align-items: flex-start;
@@ -216,7 +227,7 @@ body {
 /* BLOCK COLORS */
 .block-color-active {
   background-color: var(--color-active) !important;
-  border: 1px solid var(--color-border-block);
+  border: 1px solid white;
 }
 .block-color-semi {
   background-color: var(--color-sum) !important;
@@ -231,7 +242,7 @@ body {
 
 .setButton {
   position: absolute;
-  right: 100px;
+  right: -100px;
   display: none;
 }
 .btn {
@@ -242,25 +253,32 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 22px;
+  margin-bottom: 1rem;
 }
 .btn:disabled {
   pointer-events: none;
-  opacity: 0.5;
-  color: white;
+  
+  opacity: .5;
+  
 }
 .btn:hover {
   background-color: var(--color-active);
   color: var(--color-placeholder);
 }
-.button-container {
+.strip {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
-  width: 90vw;
+  width: 100vw;
   padding: 1rem 0;
+  font-size: 22px;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.15);
 }
-
+.strip>p{
+  color: var(--color-text-digit-label);
+}
 .cloneTransform{
     translate: -10px 10px;
     rotate: -10deg;
@@ -273,7 +291,20 @@ body {
 .transparent{
   opacity: 0.5;
 }
+@keyframes wiggle {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(-1deg); }
+  30%  { transform: rotate(1deg); }
+  45%  { transform: rotate(-1deg); }
+  60%  { transform: rotate(1deg); }
+  75%  { transform: rotate(-1deg); }
+  100% { transform: rotate(0deg); }
+}
 
+.wiggle {
+  animation: wiggle 0.6s infinite;
+  display: inline-block; /* ensures transform works correctly */
+}
 @keyframes vibrate-x {
   0% { left: 0; }
   20% { left: -2px; }
@@ -284,5 +315,18 @@ body {
 }
 
 .vibrate-x {
-  animation: vibrate-x 0.3s ease-in-out;
+  animation: vibrate-x 0.5s ease-in-out;
+}
+
+.wrong-highlight{
+  outline: 3px dashed var(--color-wrong-highlight);
+}
+
+#highlight-box {
+  position: absolute;
+  border: 2px dashed var(--color-highlight);
+  pointer-events: none; /* allow clicks to go through */
+  z-index: 10;
+  display: none;
+  transition: all 0.35s ease-in-out;
 }

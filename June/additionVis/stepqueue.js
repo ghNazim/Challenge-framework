@@ -1,52 +1,41 @@
-function step0() {
-  showChangeButtons(1, false);
-  showChangeButtons(2, false);
-  next.disabled = false;
-}
+const next = document.getElementById("nextButton");
+let step = 0;
+
+updateWithStep(step);
 function step1() {
   showChangeButtons(1, true);
   next.disabled = true;
+  updateWithStep(step);
+
 }
-function bringUnitsTop() {
-  animateUnits1();
+async function handleUnitsCalc() {
+  
+  next.disabled = true;
+  await sleep(400);
   setOpaque("units");
+  await animateUnits1();
+  await sleep(200);
+  await animateUnits2();
+  next.disabled = false;
+  updateWithStep(3);
 }
-function bringUnitsBottom() {
-  animateUnits2();
-}
-
-function cloneUnitOverflow() {
-  cloned = cloneAndTranslateElement("units");
-}
-
-function translateUnitOverflow() {
-  animateElementToTarget(
-    cloned,
-    document.querySelector("#row-3 .ten-bar"),
-    () => {
-      paintActive("#row-3 .ten-bar", 1, "block-color-active");
-      tenIndex = 1;
-      cloned = null;
-      updateDigitLabel("units");
-      updateDigitLabel("tens");
-    }
-  );
-}
-function flyUnitText() {
-  triggerFlyText("units");
-}
-
-function bringTensTop() {
-  animateTens1();
+async function handleTensCalc() {
+  next.disabled = true;
+  highlightColumn("tens");
+  await sleep(400);
   setOpaque("tens");
-}
-function bringTensBottom() {
-  animateTens2();
-}
-function cloneTensOverflow() {
-  cloned = cloneAndTranslateElement("tens");
+  await animateTens1();
+  await sleep(200);
+  await animateTens2();
+  await sleep(200);
+  cloned = await cloneAndTranslateElement("tens");
+  await sleep(200);
+  await animateTens2();
+  next.disabled = false;
+  updateWithStep(4);
 }
 function translateTensOverflow() {
+  next.disabled = true;
   animateElementToTarget(
     cloned,
     document.querySelector("#row-3 .hundred-block"),
@@ -56,115 +45,44 @@ function translateTensOverflow() {
       cloned = null;
       updateDigitLabel("tens");
       updateDigitLabel("hundreds");
+      next.disabled = false;
+      updateWithStep(5);
     }
   );
 }
-function flyTensText() {
-  triggerFlyText("tens");
-}
-function bringHundredsTop() {
+async function handleHundredsClick() {
+  next.disabled = true;
+  highlightColumn("hundreds");
+  await sleep(400);
   setOpaque("hundreds");
-  animateHundredsToTarget(
-    document.querySelector("#row-1 .hundreds-cell>.actual-blocks"),
-    hundredIndex
-  );
+  await animateHundredsOneByOne(1, 3);
+  next.disabled = false;
+  updateWithStep(6);
 }
-function bringHundredsBottom() {
-  animateHundredsToTarget(
-    document.querySelector("#row-2 .hundreds-cell>.actual-blocks"),
-    hundredIndex
-  );
-}
-function flyHundredsText() {
-  triggerFlyText("hundreds", () => {
-    setAllOpaque();
-    highlightSum(3);
-  });
+
+async function flyAnswer() {
+  next.disabled = true;
+  unhighlightColumn();
+  setAllOpaque();
+  await Promise.all([
+    triggerFlyText("units"),
+    triggerFlyText("tens"),
+    triggerFlyText("hundreds"),
+  ]);
+  highlightSum(3);
+  confettiBurst();
+
 }
 
 let stepQueue = [];
 
-const u1 = questions[questionIndex][0][2];
-const u2 = questions[questionIndex][1][2];
-const u3 = questions[questionIndex][2][2];
-const t1 = questions[questionIndex][0][1];
-const t2 = questions[questionIndex][1][1];
-const t3 = questions[questionIndex][2][1];
-const h1 = questions[questionIndex][0][0];
-const h2 = questions[questionIndex][1][0];
-const h3 = questions[questionIndex][2][0];
-
-const carryAfterUnits = Number(u1 + u2 > 10);
-
-// fill step  queue
-
-stepQueue.push(step0);
+stepQueue.push(()=>{});
 stepQueue.push(step1);
-
-if (u1 > 0) {
-  stepQueue.push(bringUnitsTop);
-}
-if (u2 > 0) {
-  stepQueue.push(bringUnitsBottom);
-}
-if (u1 + u2 >= 10) {
-  stepQueue.push(cloneUnitOverflow);
-  if (u1 + u2 > 10) {
-    stepQueue.push(bringUnitsBottom);
-  }
-  stepQueue.push(translateUnitOverflow);
-}
-
-stepQueue.push(flyUnitText);
-
-if (!carryAfterUnits) {
-  if (t1 > 0) {
-    stepQueue.push(bringTensTop);
-  }
-  if (t2 > 0) {
-    stepQueue.push(bringTensBottom);
-  }
-  if (t1 + t2 >= 10) {
-    stepQueue.push(cloneTensOverflow);
-    if (t1 + t2 > 10) {
-      stepQueue.push(bringTensBottom);
-    }
-    stepQueue.push(translateTensOverflow);
-  }
-} else {
-  if (t1 > 0) {
-    stepQueue.push(bringTensTop);
-  }
-  if (t1 === 9) {
-    stepQueue.push(cloneTensOverflow);
-    if (t2 > 0) {
-      stepQueue.push(bringTensBottom);
-    }
-    stepQueue.push(translateTensOverflow);
-  } else {
-    if (t2 > 0) {
-      stepQueue.push(bringTensBottom);
-    }
-    if (t1 + t2 >= 9) {
-      stepQueue.push(cloneTensOverflow);
-      if (t1 + t2 > 9) {
-        stepQueue.push(bringTensBottom);
-      }
-      stepQueue.push(translateTensOverflow);
-    }
-  }
-}
-
-stepQueue.push(flyTensText);
-
-if (h1 > 0) {
-  stepQueue.push(bringHundredsTop);
-}
-if (h2 > 0) {
-  stepQueue.push(bringHundredsBottom);
-}
-stepQueue.push(flyHundredsText);
-
+stepQueue.push(handleUnitsCalc);
+stepQueue.push(handleTensCalc);
+stepQueue.push(translateTensOverflow);
+stepQueue.push(handleHundredsClick);
+stepQueue.push(flyAnswer);
 
 next.addEventListener("click", function () {
   step++;

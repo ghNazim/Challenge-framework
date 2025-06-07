@@ -1,48 +1,50 @@
 function triggerFlyText(tag,cb){
-  const q = `#row-3 .${tag}-cell .digit-label`;
-  const a = `.calc-sum-wrapper .${tag}`;
-  const sourceElement = document.querySelector(q);
-  const targetElement = document.querySelector(a);
-  const sourceRect = sourceElement.getBoundingClientRect();
-  const targetRect = targetElement.getBoundingClientRect();
-  const clone = sourceElement.cloneNode(true);
+  return new Promise(resolve => {
+    const q = `#row-3 .${tag}-cell .digit-label`;
+    const a = `.calc-sum-wrapper .${tag}`;
+    const sourceElement = document.querySelector(q);
+    const targetElement = document.querySelector(a);
+    const sourceRect = sourceElement.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+    const clone = sourceElement.cloneNode(true);
 
-  const computed = window.getComputedStyle(sourceElement);
-  for (let prop of computed) {
-    clone.style[prop] = computed.getPropertyValue(prop);
-  }
+    const computed = window.getComputedStyle(sourceElement);
+    for (let prop of computed) {
+      clone.style[prop] = computed.getPropertyValue(prop);
+    }
 
-  clone.style.position = "absolute";
-  clone.style.margin = "0";
-  clone.style.zIndex = "50";
-  clone.style.top = `${sourceRect.top + window.scrollY}px`;
-  clone.style.left = `${sourceRect.left + window.scrollX}px`;
-  
-  clone.style.transitionProperty = "top, left";
-  clone.style.transitionDuration = `${800}ms`;
-  clone.style.transitionTimingFunction = "ease-in-out";
+    clone.style.position = "absolute";
+    clone.style.margin = "0";
+    clone.style.zIndex = "50";
+    clone.style.top = `${sourceRect.top + window.scrollY}px`;
+    clone.style.left = `${sourceRect.left + window.scrollX}px`;
 
-  document.body.appendChild(clone);
-  requestAnimationFrame(() => {
+    clone.style.transitionProperty = "top, left";
+    clone.style.transitionDuration = `${800}ms`;
+    clone.style.transitionTimingFunction = "ease-in-out";
+
+    document.body.appendChild(clone);
     requestAnimationFrame(() => {
-      clone.style.top = `${targetRect.top + window.scrollY}px`;
-      clone.style.left = `${targetRect.left + window.scrollX}px`;
+      requestAnimationFrame(() => {
+        clone.style.top = `${targetRect.top + window.scrollY}px`;
+        clone.style.left = `${targetRect.left + window.scrollX}px`;
+      });
     });
-  });
-  clone.addEventListener(
-    "transitionend",
-    function handleTransitionEnd() {
-      clone.removeEventListener("transitionend", handleTransitionEnd);
-      if (clone.parentNode) {
-        clone.parentNode.removeChild(clone);
-      }
-      targetElement.classList.remove("hidden")
-      if(cb) cb();
-    },
-    { once: true }
-  );
+    clone.addEventListener(
+      "transitionend",
+      function handleTransitionEnd() {
+        clone.removeEventListener("transitionend", handleTransitionEnd);
+        if (clone.parentNode) {
+          clone.parentNode.removeChild(clone);
+        }
+        targetElement.classList.remove("hidden");
+        resolve();
+        if (cb) cb();
+      },
+      { once: true }
+    );
+})
 }
-
 function setOpaque(tag){
     const allPlaces = document.querySelectorAll(`.calculation-display .op`);
     const current = document.querySelectorAll(`.calculation-display .${tag}-place`);

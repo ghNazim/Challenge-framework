@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="strip"><p>Proceed to set the first number.</p></div>
+    <div id="applet">
     <div class="calculation-display">
       <div class="calc-num-wrapper">
         <span class="hundreds-place op">2</span><span class="tens-place op">9</span
@@ -23,6 +25,7 @@
         ><span class="units hidden">2</span>
       </div>
     </div>
+    
     <div class="main-layout">
       <div class="blocks-area-columnar">
         <div class="blocks-major-row" id="row-1">
@@ -260,11 +263,12 @@
         </div>
       </div>
     </div>
-    <div class="button-container">
-      <button class="btn" id="resetButton">Reset</button>
+  </div>
+      <!-- <button class="btn" id="resetButton">Reset</button> -->
       <button class="btn" id="nextButton">Next</button>
-    </div>
-
+      <div id="highlight-box"></div>
+    <script src="confetti.min.js"></script>
+    <script src="data.js"></script>
     <script src="map.js"></script>
     <script src="utility.js"></script>
     <script src="animations.js"></script>

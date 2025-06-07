@@ -88,9 +88,56 @@ function vibrateElement(el) {
 
   el.style.position = "relative";
   el.classList.add("vibrate-x");
+  el.classList.add("wrong-highlight")
 
   el.addEventListener("animationend", function handler() {
     el.classList.remove("vibrate-x");
+    el.classList.remove("wrong-highlight");
     el.removeEventListener("animationend", handler);
   });
+}
+
+function highlightColumn(tag) {
+  const elements = document.querySelectorAll(` .${tag}-cell>.actual-blocks`);
+  const box = document.getElementById("highlight-box");
+  box.style.display = "block"; // show box
+
+  const firstRect = elements[0].getBoundingClientRect();
+  const lastRect = elements[elements.length - 1].getBoundingClientRect();
+
+  const left = firstRect.left;
+  const top = firstRect.top;
+  const right = firstRect.right;
+  const bottom = lastRect.bottom;
+const offsetY = 25,offsetX = 40;
+  box.style.left = `${left -offsetX}px`;
+  box.style.top = `${top -offsetY +scrollY}px`;
+  box.style.width = `${right - left + 2*offsetX}px`;
+  box.style.height = `${bottom - top + 2*offsetY}px`;
+}
+
+
+function unhighlightColumn() {
+  const box = document.getElementById("highlight-box");
+  box.style.display = "none"; 
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+function confettiBurst() {
+  const duration = 2.5 * 1000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 360,
+      origin: { x: 0.5, y: 0.5 },
+    });
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 }

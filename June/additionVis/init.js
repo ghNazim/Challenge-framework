@@ -93,7 +93,9 @@ function handleSetClick(row) {
   }
   else{
     document.getElementById("nextButton").disabled = false;
+    highlightColumn("units");
     highlightSum(0);
+    updateWithStep(2)
   }
 }
 
@@ -154,3 +156,9 @@ function fillCalculationDisplay(questionData) {
 fillCalculationDisplay(questions[questionIndex]);
 
 
+function updateWithStep(step){
+  const ins = document.querySelector(".strip>p");
+  const next = document.getElementById("nextButton");
+  ins.textContent = instructions[step];
+  next.textContent = nextButtonTexts[step];
+}
