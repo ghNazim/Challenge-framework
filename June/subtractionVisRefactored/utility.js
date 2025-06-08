@@ -24,16 +24,19 @@ function paintActive(q, n, className) {
   blocks.forEach((block) => {
     block.classList.remove("block-color-active");
     block.classList.remove("block-color-semi");
+    block.classList.remove("block-color-blank");
   });
   blocksArray.slice(0, n).forEach((block) => {
     block.classList.add(className);
   });
 }
+
 function removePaint(q) {
   const blocks = document.querySelectorAll(q);
   blocks.forEach((block) => {
     block.classList.remove("block-color-active");
     block.classList.remove("block-color-semi");
+    
   });
 }
 
@@ -63,22 +66,21 @@ function updateDigitLabel(tag, row = 3) {
   const el = document.querySelector(q);
   el.style.display = "block";
 
-  let offset =
-    cloned && row === 1
-      ? tensClone.querySelectorAll("div:not(.hidden)").length
-      : 0;
   if (tag === "units") {
     const unitBlocks = document.querySelectorAll(
       `#row-${row} .unit-block.block-color-active`
     );
-    el.textContent = unitBlocks.length + offset;
+    el.textContent = unitBlocks.length;
   } else if (tag === "tens") {
     const tenBlocks = document.querySelectorAll(
       `#row-${row} .ten-bar.block-color-active`
     );
-    el.textContent = tenBlocks.length + offset;
+    el.textContent = tenBlocks.length;
   } else {
-    el.textContent = hundredIndex;
+    const hundredBlocks = document.querySelectorAll(
+      `#row-${row} .hundred-block.block-color-active`
+    )
+    el.textContent = hundredBlocks.length;
   }
 }
 

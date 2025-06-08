@@ -370,6 +370,7 @@ function animateTheTopHundredToTarget(srcNo, targetNo, onStart, onComplete) {
     srcActiveLength - 1,
     "block-color-active"
   );
+  updateDigitLabel("hundreds",1);
   rearrangeHundreds(srcNo);
   function onCompleteInside() {
     onComplete?.();
@@ -410,10 +411,10 @@ async function animateHundredsOneByOne(srcNo, targetNo, onStart, onComplete) {
       animateTheTopHundredToTarget,
       srcNo,
       targetNo,
-      onStart
+      onStart,
+      onComplete
     );
   }
-  onComplete?.();
 }
 
 function createClone(sourceElement) {

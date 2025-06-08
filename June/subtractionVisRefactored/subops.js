@@ -15,17 +15,14 @@ function cloneBlock(tag) {
   clonedElement.style.left = `${originalRect.left + window.scrollX}px`;
   clonedElement.style.width = `${originalRect.width}px`;
   clonedElement.style.height = `${originalRect.height}px`;
-  clonedElement.style.margin = "0";
+  clonedElement.style.margin = computedStyle.margin;
   clonedElement.style.zIndex = "100";
-  clonedElement.style.boxSizing = "border-box";
   clonedElement.classList.add("hidden");
   clonedElement.id = `${tag}s-clone`;
   const childs = clonedElement.querySelectorAll("div");
   childs.forEach((div) => {
     div.classList.add("block-color-active");
   });
-  clonedElement.style.top = `${originalRect.top + window.scrollY + 20}px`;
-  clonedElement.style.left = `${originalRect.left + window.scrollX - 25}px`;
   document.body.appendChild(clonedElement);
 
   return clonedElement;
@@ -45,16 +42,17 @@ async function animateUnitsTopToMiddle() {
     const topSliced = Array.from(topBlocks).slice(u1 - u2);
     for (let i = 0; i < topSliced.length; i++) {
       const block = topSliced[topSliced.length - 1 - i];
+      const dest = middleBlocks[i];
       await promiseWrapper(
         animateCloneToTarget,
         block,
-        middleBlocks[i],
+        dest,
         () => {
           block.classList.remove("block-color-active");
           updateDigitLabel("units",1);
         },
         () => {
-          paintActive("#row-2 .unit-block", i + 1, "block-color-active");
+          dest.classList.add("block-color-active");
         }
       );
     }
@@ -77,7 +75,7 @@ async function animateRestUnitsToBottom() {
         updateDigitLabel("units",1);
       },
       () => {
-        paintActive("#row-3 .unit-block", i + 1, "block-color-active");
+        bottomBlocks[i].classList.add("block-color-active");
         updateDigitLabel("units");
       }
     );
@@ -100,7 +98,7 @@ async function animateTensToMiddle() {
         updateDigitLabel("tens",1);
       },
       () => {
-        paintActive("#row-2 .ten-bar", i + 1, "block-color-active");
+        bottomBlocks[i].classList.add("block-color-active");
       }
     );
   }
@@ -108,17 +106,17 @@ async function animateTensToMiddle() {
 
 async function animateCarryFromHundred() {
   const src = document.querySelector("#row-1 .hundred-block:last-of-type");
-  const dest = tensClone;
+  const dest = document.querySelector("#row-1 .tens-cell .actual-blocks");
   await promiseWrapper(
     animateCloneToTarget,
     src,
     dest,
     () => {
       src.remove();
+      updateDigitLabel("hundreds",1);
     },
     () => {
-      dest.classList.remove("hidden");
-      cloned = true;
+      paintActive("#row-1 .ten-bar", 10, "block-color-active");
       updateDigitLabel("tens",1);
     }
   );
@@ -129,7 +127,7 @@ async function animateTensCloneToMiddle() {
   const middleBlocks = document.querySelectorAll(
     "#row-2 .ten-bar.block-color-blank"
   );
-  const topBlocks = tensClone.querySelectorAll("div");
+  const topBlocks = document.querySelectorAll("#row-1 .ten-bar");
 
   for (let i = 0; i < t2 - t1; i++) {
     const block = topBlocks[i];
@@ -138,18 +136,18 @@ async function animateTensCloneToMiddle() {
       block,
       middleBlocks[t1 + i],
       () => {
-        block.classList.add("hidden");
+        block.classList.remove("block-color-active");
         updateDigitLabel("tens",1);
       },
       () => {
-        paintActive("#row-2 .ten-bar", t1 + i + 1, "block-color-active");
+        middleBlocks[t1 + i].classList.add("block-color-active");
       }
     );
   }
 }
 async function animateTensCloneToBottom() {
   const bottomBlocks = document.querySelectorAll("#row-3 .ten-bar");
-  const topBlocks = tensClone.querySelectorAll("div");
+  const topBlocks = document.querySelectorAll("#row-1 .ten-bar");
 
   for (let i = 0; i < 10 - t2 + t1; i++) {
     const block = topBlocks[t2 - t1 + i];
@@ -158,11 +156,11 @@ async function animateTensCloneToBottom() {
       block,
       bottomBlocks[i],
       () => {
-        block.classList.add("hidden");
+        block.classList.remove("block-color-active");
         updateDigitLabel("tens",1);
       },
       () => {
-        paintActive("#row-3 .ten-bar", i + 1, "block-color-active");
+        bottomBlocks[i].classList.add("block-color-active");
         updateDigitLabel("tens");
       }
     );
@@ -184,7 +182,7 @@ function animateRestTensToBottom() {
         updateDigitLabel("tens",1);
       },
       () => {
-        paintActive("#row-3 .ten-bar", index + 1, "block-color-active");
+        bottomBlocks[index].classList.add("block-color-active");
         updateDigitLabel("tens");
       }
     );
