@@ -53,8 +53,9 @@ function initializeSteppers(onDigitUpdateCallback) {
 }
 
 function handleDigitUpdate(rowId, place, newValue) {
+  const className = rowId === 0 ? "block-color-active" : "block-color-blank";
   nums[rowId][place] = newValue;
-  paintActive(blockClasses[rowId][place], newValue, "block-color-active");
+  paintActive(blockClasses[rowId][place], newValue, className);
 }
 
 initializeSteppers(handleDigitUpdate);
@@ -66,7 +67,6 @@ function handleSetClick(row) {
     tens = a[1] === q[1],
     units = a[2] === q[2];
   const correct = hundreds && tens && units;
-  console.log("correct",correct);
   if (!correct) {
     if(!units){
       const el = document.querySelector(`#row-${row+1} .units-cell .actual-blocks`);
@@ -83,7 +83,6 @@ function handleSetClick(row) {
         `#row-${row+1} .hundreds-cell .actual-blocks`
       );
       vibrateElement(el);
-      
     }
     return;
   }

@@ -347,8 +347,11 @@ function animateHundredsToTarget(sourceElement, targetNo, onComplete) {
 }
 
 function animateTheTopHundredToTarget(srcNo, targetNo, onStart, onComplete) {
-  const src = document.querySelectorAll(`#row-${srcNo} .hundred-block.block-color-active`);
+  const src = document.querySelectorAll(`#row-${srcNo} .hundred-block`);
   const target = document.querySelectorAll(`#row-${targetNo} .hundred-block`);
+  const srcActiveLength = document.querySelectorAll(
+    `#row-${srcNo} .hundred-block.block-color-active`
+  ).length;
   const targetActiveLength = document.querySelectorAll(
     `#row-${targetNo} .hundred-block.block-color-active`
   ).length;
@@ -362,8 +365,11 @@ function animateTheTopHundredToTarget(srcNo, targetNo, onStart, onComplete) {
     top: targetRect.top - 10 * targetActiveLength,
   };
   onStart?.();
-  sourceElement.classList.remove("block-color-active");
-  sourceElement.classList.add("block-color-semi");
+  paintActive(
+    `#row-${srcNo} .hundred-block`,
+    srcActiveLength - 1,
+    "block-color-active"
+  );
   rearrangeHundreds(srcNo);
   function onCompleteInside() {
     onComplete?.();

@@ -14,5 +14,5 @@ const instructions = [
   "Bring the bars at tens place together to sum them up.",
   "Total number of bars exceeded 10, carry 10 bars over to hundreds place.",
   "Bring the blocks at hundreds place together to sum them up.",
-  "Combining these three numbers will give you the sum of the two numbers.",
+  "Combining these three digits in result will give you the sum of the two numbers.",
 ];

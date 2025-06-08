@@ -252,6 +252,12 @@ body {
 .block-color-placeholder {
   background-color: var(--color-placeholder);
 }
+
+.block-color-blank{
+  background-color: #ffc2cd;
+  border: 1px dashed #ff084a;
+}
+
 .hundred-block.block-color-semi {
   border: 1px solid var(--color-border-block);
 }

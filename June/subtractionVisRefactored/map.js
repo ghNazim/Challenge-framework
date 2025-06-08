@@ -2,13 +2,13 @@ let questionIndex = 0;
 let unitIndex = 0,
   tenIndex = 0,
   hundredIndex = 0;
-let cloned = null;
+let cloned = false;
 const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const questions = [
   [
-    [2, 9, 2],
-    [0, 4, 5],
-    [3, 3, 7],
+    [2, 4, 5],
+    [0, 6, 2],
+    [1, 8, 3],
   ],
 ];
 
