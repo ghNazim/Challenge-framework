@@ -1,0 +1,119 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for 3D effect -->
+    <linearGradient id="creamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8DC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5DEB3;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8D4F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F0A0A8;stop-opacity:1" />
+    </linearGradient>
+    
+    <radialGradient id="sphereGrad" cx="30%" cy="30%">
+      <stop offset="0%" style="stop-color:#E6F3FF;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#ADD8E6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+    </radialGradient>
+    
+    <radialGradient id="coneGrad" cx="40%" cy="20%">
+      <stop offset="0%" style="stop-color:#D0E0F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B0C4DE;stop-opacity:1" />
+    </radialGradient>
+    
+    <!-- Shadow filters -->
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="4" dy="6" result="offset"/>
+      <feFlood flood-color="#4169E1" flood-opacity="0.15"/>
+      <feComposite in2="offset" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="3" dy="5" result="offset"/>
+      <feFlood flood-color="#4169E1" flood-opacity="0.12"/>
+      <feComposite in2="offset" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#4169E1"/>
+  
+  <!-- Rectangle (top left) -->
+  <rect x="80" y="40" width="50" height="100" rx="2" 
+        transform="rotate(15 105 90)" 
+        fill="url(#creamGrad)" 
+        filter="url(#dropShadow)"/>
+  
+  <!-- Blue sphere (top center) -->
+  <circle cx="220" cy="80" r="35" 
+          fill="url(#sphereGrad)" 
+          filter="url(#softShadow)"/>
+  
+  <!-- Pink semicircle (left) -->
+  <path d="M 60 140 A 40 40 0 0 1 60 220 Z" 
+        fill="url(#pinkGrad)" 
+        filter="url(#dropShadow)"/>
+  
+  <!-- Yellow triangle (center) -->
+  <polygon points="280,100 320,160 240,160" 
+           fill="url(#creamGrad)" 
+           transform="rotate(25 280 130)"
+           filter="url(#dropShadow)"/>
+  
+  <!-- Blue cone (center right) -->
+  <polygon points="300,180 320,250 280,250" 
+           fill="url(#coneGrad)" 
+           filter="url(#softShadow)"/>
+  
+  <!-- Yellow circle (bottom left) -->
+  <circle cx="120" cy="280" r="35" 
+          fill="url(#creamGrad)" 
+          filter="url(#dropShadow)"/>
+  
+  <!-- Blue cube (bottom left) -->
+  <g filter="url(#softShadow)">
+    <rect x="60" y="320" width="40" height="40" 
+          fill="url(#blueGrad)" 
+          transform="rotate(8 80 340)"/>
+    <!-- Cube top face -->
+    <polygon points="60,320 75,305 115,305 100,320" 
+             fill="#D0E0F0" 
+             transform="rotate(8 80 340)"/>
+    <!-- Cube right face -->
+    <polygon points="100,320 115,305 115,345 100,360" 
+             fill="#A0B8D0" 
+             transform="rotate(8 80 340)"/>
+  </g>
+  
+  <!-- Pink pentagon (bottom center) -->
+  <polygon points="180,340 195,325 210,335 205,355 175,355" 
+           fill="url(#pinkGrad)" 
+           transform="rotate(10 192.5 340)"
+           filter="url(#dropShadow)"/>
+  
+  <!-- Light blue circle (bottom right) -->
+  <circle cx="280" cy="320" r="30" 
+          fill="url(#blueGrad)" 
+          filter="url(#softShadow)"/>
+  
+  <!-- Additional small highlights for 3D effect -->
+  <ellipse cx="215" cy="70" rx="8" ry="6" fill="#F0F8FF" opacity="0.6"/>
+  <ellipse cx="275" cy="315" rx="6" ry="4" fill="#F0F8FF" opacity="0.5"/>
+  <ellipse cx="115" cy="270" rx="7" ry="5" fill="#FFFACD" opacity="0.4"/>
+</svg>
