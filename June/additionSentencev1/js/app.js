@@ -12,7 +12,7 @@ let mainTitleText, subtitleText, contextBox, upperControlsContainer,
 let volumeSlider, sliderValueDisplay;
 
 // App state
-let currentStep = 0,NUM_STRUCTURES=8;
+let currentStep = 0,NUM_STRUCTURES=questions.length;
 
 initApp();
 
@@ -64,18 +64,21 @@ function updateInstructions(stepIndex) {
         ContextSection.innerHTML = `<h2>${title}</h2><div>${content}</div>`;
         ContextSection.classList.add('visible');
 }
-
-function updateStepCounter(stepIndex) {
-    stepCounterElement.innerHTML = '';
-    for (let i = 0; i <= NUM_STRUCTURES; i++) {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (i === stepIndex) {
-            dot.classList.add('active');
-        }
-        dot.dataset.stepIndex = i;
-        stepCounterElement.appendChild(dot);
+function createStepCounter(){
+    stepCounterElement.innerHTML = "";
+    for (let i = 0; i < NUM_STRUCTURES; i++) {
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      
+      dot.dataset.stepIndex = i;
+      stepCounterElement.appendChild(dot);
     }
 }
+function updateStepCounter(stepIndex) {
+    const dots = stepCounterElement.querySelectorAll(".dot");
+    dots.forEach((dot) => dot.classList.remove("active"));
+    dots[stepIndex].classList.add("active");
+}
+createStepCounter()
 updateInstructions(0)
 updateStepCounter(0)

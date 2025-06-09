@@ -16,7 +16,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 columns */
   grid-template-rows: repeat(5, auto); /* 5 rows */
-  gap: 10px; /* space between grid items */
+  gap: 10px;
   margin: 0 auto;
   height: 90%;
   justify-items: center;
@@ -36,29 +36,42 @@
   align-items: center;
   font-weight: bold;
   border-radius: 16px;
+  transition: scale 0.2s ease-in-out;
+  &:hover{
+    scale: 1.05;
+  }
+  &:active{
+    scale: 0.99;
+  }
 }
 
 #sentenceContainer {
-  flex: 7;
+  flex: 60;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   font-size: 1.5rem;
   color: white;
+  visibility: hidden;
 }
 #sentenceContainer > div {
   width: 90%;
   height: 30%;
-  text-align: center;
-}
-#diagramContainer {
-  flex: 3;
-  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  
+}
+#diagramContainer {
+  flex: 40;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
 }
 
 .equation {
@@ -86,9 +99,87 @@
   border: 1px solid #767676;
   box-shadow: none;
 }
+.digit-box{
+  cursor: pointer;
+  &:hover{
+    scale: 1.05;
+  }
+  &:active{
+    scale: 0.99;
+  }
+  transition: scale 0.2s ease-in-out;
+}
+.active{
+  outline: yellow solid 3px;
+  &:hover{
+    scale:1;
+  }
+}
 
 .equation .operator {
   color: white;
 }
 
-#pictoral
+#pictoralSentence span{
+  display: inline-block;
+  max-width: 10rem;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.hint-btn {
+  background-color: white;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hint-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+#checkButton{
+  border-radius: .25rem;
+  font-size: 1.4rem;
+}
+
+.green{
+  background-color: rgb(170, 248, 170) !important;
+  pointer-events: none;
+}
+
+@keyframes yellowOutlinePulse {
+  0% {
+    outline: .4rem solid rgba(255, 255, 0, 0); /* fully transparent */
+  }
+  50% {
+    outline: .4rem solid rgba(255, 255, 0, 1); /* fully visible */
+  }
+  100% {
+    outline: .4rem solid rgba(255, 255, 0, 0); /* back to transparent */
+  }
+}
+
+.nudgeAnimation {
+  animation: yellowOutlinePulse 2s infinite;
+}
+
+@keyframes vibrate-x {
+  0% { left: 0; }
+  20% { left: -2px; }
+  40% { left: 2px; }
+  60% { left: -2px; }
+  80% { left: 2px; }
+  100% { left: 0; }
+}
+
+.vibrate-x {
+  animation: vibrate-x 0.3s ease-in-out;
+}

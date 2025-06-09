@@ -6,8 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/applet.css" />
+    <script src="js/confetti.min.js"></script>
   </head>
   <body>
+    <audio id="correct">
+      <source src="sound/correct.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  <audio id="wrong">
+      <source src="sound/wrong.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
     <div class="applet-container">
       <div class="titleBar">
         <h1 id="main_title_text"></h1>
@@ -35,27 +44,38 @@
             <div class="workingArea">
               <div id="question-panel">
                 <div id="sentenceContainer">
-                  <div id="OriginalSentence">
-                    Three coins added to two coins make how many coins?
+                  <div id="originalSentence">
+                    Three coins added to two coins make how many coins ?
                   </div>
-                  <div id="pitoralSentence">
-                    <span> 🪙🪙🪙 </span> added to <span> 🪙🪙🪙 </span> makes
-                    <span>?</span>.
+                  <div id="pictoralSentence">
+                    <button class="hint-btn" id="hintButton1">Show hint</button>
+                    <div>
+                      <span> 🪙🪙🪙🪙🪙🪙🪙🪙 </span> &nbsp; added to &nbsp; <span> 🪙🪙🪙 </span>&nbsp; makes &nbsp;
+                    <span>_______ </span> &nbsp;.
+                    </div>
+                    
                   </div>
-                  <div id="numberSentence">TWO + THREE = ?</div>
+                  <div id="numberSentence">
+                    <button class="hint-btn" id="hintButton2">Show another hint</button>
+                    <div>
+                      TWO + THREE = ?
+                    </div>
+                  </div>
                 </div>
                 <div id="diagramContainer">
                   <div class="equation">
-                    <div class="box">5</div>
+                    <div class="box digit-box" data-index="0"></div>
                     <div class="box bordered">
                       <span class="operator">+</span>
                     </div>
-                    <div class="box">2</div>
+                    <div class="box digit-box" data-index="1"></div>
                     <div class="box bordered">
                       <span class="operator">=</span>
                     </div>
-
-                    <div class="box">7</div>
+                    <div class="box digit-box" data-index="2"></div>
+                  </div>
+                  <div>
+                    <button class="hint-btn" id="checkButton">Check</button>
                   </div>
                 </div>
               </div>
@@ -69,7 +89,7 @@
                 <div class="number" data-num="7">7</div>
                 <div class="number" data-num="8">8</div>
                 <div class="number" data-num="9">9</div>
-                <div class="number" data-num="10">10</div>
+                <div class="number" data-num="0">0</div>
               </div>
               <div class="overlay workingArea-overlay" id="definitionOverlay">
                 <div class="overlay-close" id="closeDefinitionOverlay"></div>

@@ -9,68 +9,11 @@ const texts = {
         finish: "View Summary", // Text for the button when on the last shape
         start_over: "Start Over" // Text for the button on the summary page
     },
-    slider_label: "Fill with Cubes:",
-    slider_unit: "cubes",
-    formula_template: "Volume = {count} unit cubes", // {count} will be replaced
-
-    // Instructions for each of the 10 structures
-    // Each step will have a title and content. Content can include HTML.
-    steps: [
-        {
-            instruction_title: "Structure 1: The H-Block",
-            instruction_content: "<p>This is the first structure. It's shaped like an 'H'.</p><p>Drag the slider below the shape to fill it with <span class='highlight-gold'>unit cubes</span>. Notice how many cubes fit inside.</p>",
-            shape_name: "H-Block"
-        },
-        {
-            instruction_title: "Structure 2: L-Corner",
-            instruction_content: "<p>Great! Now for the second structure, an 'L-Corner'.</p><p>Use the slider again. How many <span class='highlight-gold'>unit cubes</span> make up this shape?</p>",
-            shape_name: "L-Corner"
-        },
-        {
-            instruction_title: "Structure 3: Staircase",
-            instruction_content: "<p>This structure looks like a small 'Staircase'.</p><p>Fill it up with <span class='highlight-gold'>unit cubes</span> using the slider.</p>",
-            shape_name: "Staircase"
-        },
-        {
-            instruction_title: "Structure 4: The Cube (2x2x2)",
-            instruction_content: "<p>A perfect '2x2x2 Cube'!</p><p>How many <span class='highlight-gold'>unit cubes</span> do you expect this to hold? Verify with the slider.</p>",
-            shape_name: "2x2x2 Cube"
-        },
-        {
-            instruction_title: "Structure 5: L-Platform",
-            instruction_content: "<p>This is an 'L-Platform' shape.</p><p>Use the slider to see its volume in <span class='highlight-gold'>unit cubes</span>.</p>",
-            shape_name: "L-Platform"
-        },
-        {
-            instruction_title: "Structure 6: Straight Line",
-            instruction_content: "<p>A simple 'Straight Line' of cubes.</p><p>Fill it using the slider. How many <span class='highlight-gold'>unit cubes</span> long is it?</p>",
-            shape_name: "Straight Line"
-        },
-        {
-            instruction_title: "Structure 7: Flat Rectangle (2x4)",
-            instruction_content: "<p>This is a flat '2x4 Rectangle'.</p><p>Use the slider. What's its volume in <span class='highlight-gold'>unit cubes</span>?</p>",
-            shape_name: "2x4 Rectangle"
-        },
-        {
-            instruction_title: "Structure 8: U-Shape",
-            instruction_content: "<p>An interesting 'U-Shape'.</p><p>Fill it up with <span class='highlight-gold'>unit cubes</span> using the slider and count them.</p>",
-            shape_name: "U-Shape"
-        },
-        {
-            instruction_title: "Structure 9: T-Shape",
-            instruction_content: "<p>This structure forms a 'T-Shape'.</p><p>How many <span class='highlight-gold'>unit cubes</span> does it take to build it? Use the slider to find out.</p>",
-            shape_name: "T-Shape"
-        },
-        {
-            instruction_title: "Structure 10: Zig-Zag",
-            instruction_content: "<p>Our final individual structure! This one forms a 'Zig-Zag' pattern.</p><p>Fill it up using the slider and note the total number of <span class='highlight-gold'>unit cubes</span>.</p>",
-            shape_name: "Zig-Zag"
-        }
-    ],
+    
 
     instruction_general: {
-        instruction_title: "Explore Volumes",
-        instruction_text: "<p>Drag the slider below the shape to fill it with <span class='highlight-gold'>unit cubes</span>. Notice how many cubes fit inside.</p>",
+        instruction_title: "Instruction",
+        instruction_text: "<p> Click on the empty box you want to fill, then click on any number on the right to fill the box with the number.  </p>",
     },
     // Content for the final summary step
     final_step: {
@@ -97,3 +40,19 @@ const texts = {
     }
 };
 window.APP_TEXTS = texts;
+
+const questions = [[3,2],[4,1],[5,0],[1,3],[6,2],[7,1],[2,2]];
+const numberToText = ["ZERO","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"];
+const itemPictures = {
+  coin: "🪙",
+};
+
+const questionTexts = [
+    "Three coins added to two coins makes how many coins ?",
+    "Four coins added to one coin makes how many coins ?",
+    "Five coins added to zero coins makes how many coins ?",
+    "One coin added to three coins makes how many coins ?",
+    "Six coins added to two coins makes how many coins ?",
+    "Seven coins added to one coin makes how many coins ?",
+    "Two coins added to two coins makes how many coins ?",
+]
