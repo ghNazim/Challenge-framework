@@ -65,7 +65,7 @@ function cloneAndTranslateElement(tag) {
 
     // Now trigger the animation
     requestAnimationFrame(() => {
-      clonedElement.style.top = `${originalRect.top + window.scrollY + 20}px`;
+      clonedElement.style.top = `${originalRect.top + window.scrollY + 10}px`;
       clonedElement.style.left = `${originalRect.left + window.scrollX - 25}px`;
     });
 

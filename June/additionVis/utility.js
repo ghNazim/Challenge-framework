@@ -92,7 +92,6 @@ function vibrateElement(el) {
 
   el.addEventListener("animationend", function handler() {
     el.classList.remove("vibrate-x");
-    el.classList.remove("wrong-highlight");
     el.removeEventListener("animationend", handler);
   });
 }
@@ -140,4 +139,10 @@ function confettiBurst() {
       requestAnimationFrame(frame);
     }
   })();
+}
+
+function playAudio(id) {
+  const audio = document.getElementById(id);
+  audio.currentTime = 0;
+  audio.play();
 }

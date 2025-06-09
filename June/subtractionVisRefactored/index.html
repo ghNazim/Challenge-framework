@@ -7,8 +7,34 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <audio id="correct">
+      <source src="sound/correct.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  <audio id="wrong">
+      <source src="sound/wrong.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
     <div class="strip"><h3>Explore the subtraction of two numbers</h3></div>
     <div id="applet">
+      <div class="calculation-display">
+        <div class="calc-num-wrapper">
+          <span class="hundreds-place op">2</span
+          ><span class="tens-place op">9</span
+          ><span class="units-place op">5</span>
+        </div>
+        <div class="calc-op-wrapper">
+          <span>-</span>
+          <span class="hundreds-place op">2</span
+          ><span class="tens-place op">4</span
+          ><span class="units-place op">7</span>
+        </div>
+        <hr class="calc-hr" />
+        <div class="calc-sum-wrapper">
+          <span class="hundreds hidden">5</span
+          ><span class="tens hidden">4</span><span class="units hidden">2</span>
+        </div>
+      </div>
       <div class="main-layout">
         <div class="blocks-area-columnar">
           <div class="blocks-major-row" id="row-1">
@@ -244,29 +270,13 @@
               </div>
             </div>
           </div>
+          <button class="btn" id="nextButton">Next</button>
         </div>
       </div>
-      <div class="calculation-display">
-        <div class="calc-num-wrapper">
-          <span class="hundreds-place op">2</span
-          ><span class="tens-place op">9</span
-          ><span class="units-place op">5</span>
-        </div>
-        <div class="calc-op-wrapper">
-          <span>-</span>
-          <span class="hundreds-place op">2</span
-          ><span class="tens-place op">4</span
-          ><span class="units-place op">7</span>
-        </div>
-        <hr class="calc-hr" />
-        <div class="calc-sum-wrapper">
-          <span class="hundreds hidden">5</span
-          ><span class="tens hidden">4</span><span class="units hidden">2</span>
-        </div>
-      </div>
+      
     </div>
     <!-- <button class="btn" id="resetButton">Reset</button> -->
-    <button class="btn" id="nextButton">Next</button>
+    
     <div class="speech-bubble">
       <h3></h3>
       <p></p>

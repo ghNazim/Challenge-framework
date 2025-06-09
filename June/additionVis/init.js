@@ -55,6 +55,11 @@ function initializeSteppers(onDigitUpdateCallback) {
 function handleDigitUpdate(rowId, place, newValue) {
   nums[rowId][place] = newValue;
   paintActive(blockClasses[rowId][place], newValue, "block-color-active");
+  const col = place===0 ? "hundreds" : place===1 ? "tens" : "units";
+  const el = document.querySelector(
+    `#row-${rowId + 1} .${col}-cell .actual-blocks`
+  );
+  el.classList.remove("wrong-highlight");
 }
 
 initializeSteppers(handleDigitUpdate);
@@ -66,8 +71,8 @@ function handleSetClick(row) {
     tens = a[1] === q[1],
     units = a[2] === q[2];
   const correct = hundreds && tens && units;
-  console.log("correct",correct);
   if (!correct) {
+    playAudio("wrong")
     if(!units){
       const el = document.querySelector(`#row-${row+1} .units-cell .actual-blocks`);
       vibrateElement(el)
@@ -87,6 +92,7 @@ function handleSetClick(row) {
     }
     return;
   }
+  playAudio("correct");
   showChangeButtons(row+1, false);
   if (row === 0) {
     showChangeButtons(2, true);

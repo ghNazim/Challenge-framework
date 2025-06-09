@@ -11,7 +11,6 @@ function step1() {
 async function handleUnitsCalc() {
   
   next.disabled = true;
-  await sleep(400);
   setOpaque("units");
   await animateUnits1();
   await sleep(200);

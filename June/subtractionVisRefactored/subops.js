@@ -118,6 +118,7 @@ async function animateCarryFromHundred() {
     () => {
       paintActive("#row-1 .ten-bar", 10, "block-color-active");
       updateDigitLabel("tens",1);
+      dest.classList.add("wiggle");
     }
   );
 }
@@ -128,6 +129,8 @@ async function animateTensCloneToMiddle() {
     "#row-2 .ten-bar.block-color-blank"
   );
   const topBlocks = document.querySelectorAll("#row-1 .ten-bar");
+  const src = document.querySelector("#row-1 .tens-cell .actual-blocks");
+  src.classList.remove("wiggle");
 
   for (let i = 0; i < t2 - t1; i++) {
     const block = topBlocks[i];

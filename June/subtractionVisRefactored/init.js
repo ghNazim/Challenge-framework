@@ -45,8 +45,8 @@ function initializeSteppers(onDigitUpdateCallback) {
 
       // Call the provided callback function with the details
       onDigitUpdateCallback(row, place, currentValue);
-      if(place===0){
-        rearrangeHundreds(row+1);
+      if (place === 0) {
+        rearrangeHundreds(row + 1);
       }
     });
   });
@@ -56,7 +56,13 @@ function handleDigitUpdate(rowId, place, newValue) {
   const className = rowId === 0 ? "block-color-active" : "block-color-blank";
   nums[rowId][place] = newValue;
   paintActive(blockClasses[rowId][place], newValue, className);
+  const col = place === 0 ? "hundreds" : place === 1 ? "tens" : "units";
+  const el = document.querySelector(
+    `#row-${rowId + 1} .${col}-cell .actual-blocks`
+  );
+  el.classList.remove("wrong-highlight");
 }
+
 
 initializeSteppers(handleDigitUpdate);
 
@@ -68,33 +74,36 @@ function handleSetClick(row) {
     units = a[2] === q[2];
   const correct = hundreds && tens && units;
   if (!correct) {
-    if(!units){
-      const el = document.querySelector(`#row-${row+1} .units-cell .actual-blocks`);
-      vibrateElement(el)
-    }
-    if(!tens){
+    playAudio("wrong");
+    if (!units) {
       const el = document.querySelector(
-        `#row-${row+1} .tens-cell .actual-blocks`
+        `#row-${row + 1} .units-cell .actual-blocks`
       );
       vibrateElement(el);
     }
-    if(!hundreds){
+    if (!tens) {
       const el = document.querySelector(
-        `#row-${row+1} .hundreds-cell .actual-blocks`
+        `#row-${row + 1} .tens-cell .actual-blocks`
+      );
+      vibrateElement(el);
+    }
+    if (!hundreds) {
+      const el = document.querySelector(
+        `#row-${row + 1} .hundreds-cell .actual-blocks`
       );
       vibrateElement(el);
     }
     return;
   }
-  showChangeButtons(row+1, false);
+  playAudio("correct");
+  showChangeButtons(row + 1, false);
   if (row === 0) {
     showChangeButtons(2, true);
-  }
-  else{
+  } else {
     document.getElementById("nextButton").disabled = false;
     highlightColumn("units");
     highlightSum(0);
-    updateWithStep(2)
+    updateWithStep(2);
   }
 }
 
@@ -103,7 +112,6 @@ document.querySelectorAll(".setButton").forEach((button, index) => {
     handleSetClick(index);
   });
 });
-
 
 function fillCalculationDisplay(questionData) {
   // Assuming 'questionData' is the first element from your 'questions' array,
@@ -154,8 +162,7 @@ function fillCalculationDisplay(questionData) {
 
 fillCalculationDisplay(questions[questionIndex]);
 
-
-function updateWithStep(step){
+function updateWithStep(step) {
   const ins = document.querySelector(".speech-bubble>p");
   const next = document.getElementById("nextButton");
   ins.textContent = instructions[step];
