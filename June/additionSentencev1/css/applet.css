@@ -1,3 +1,8 @@
+:root{
+  --glowing-orange:#ff8c00;
+  --font-color-button:#fff;
+}
+
 #question-panel {
   flex: 8;
   height: 100%;
@@ -6,6 +11,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  color: var(--font-color-button);
 }
 #question-panel > div {
   width: 100%;
@@ -13,22 +19,29 @@
 
 #numpad {
   flex: 2;
+  box-sizing: border-box;
+}
+#numpad>.num-container{
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 columns */
-  grid-template-rows: repeat(5, auto); /* 5 rows */
-  gap: 10px;
-  margin: 0 auto;
-  height: 90%;
+  gap: .5rem;
+  margin-right: 2rem;
   justify-items: center;
   align-items: center;
+  color: var(--font-color-button);
+  border: 1px solid rgb(165, 163, 163);
+  border-radius: 16px;
+  padding: 1.5rem;
 }
 
-#numpad > .number {
-  background-color: lightblue;
+#numpad  .number {
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glowing-orange);
   text-align: center;
-  border: 1px solid #ccc;
   font-size: 1.6em;
-  width: 70%;
+  width: 100%;
+  padding: .25rem;
   aspect-ratio: 1/1;
   cursor: pointer;
   display: flex;
@@ -50,18 +63,21 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  justify-items: flex-start;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: white;
   visibility: hidden;
+  
 }
 #sentenceContainer > div {
   width: 90%;
-  height: 30%;
+  height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
+  
   
 }
 #diagramContainer {
@@ -92,12 +108,12 @@
   width: 15%;
   aspect-ratio: 1/1;
   border-radius: 16px;
-  background-color: lightblue;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glowing-orange);
 }
 .box.bordered {
   background-color: transparent;
-  border: 1px solid #767676;
-  box-shadow: none;
 }
 .digit-box{
   cursor: pointer;
@@ -110,7 +126,7 @@
   transition: scale 0.2s ease-in-out;
 }
 .active{
-  outline: yellow solid 3px;
+  outline: var(--glowing-orange) solid 3px;
   &:hover{
     scale:1;
   }
@@ -122,14 +138,18 @@
 
 #pictoralSentence span{
   display: inline-block;
-  max-width: 10rem;
   vertical-align: middle;
   text-align: center;
+  
 }
-
+#originalSentence span{
+  display: inline-block;
+  white-space: nowrap;
+  
+}
 .hint-btn {
-  background-color: white;
-  color: #333;
+  background-color: var(--glowing-orange);
+  color: var(--font-color-button);
   border: none;
   border-radius: 4px;
   padding: 10px 25px;
@@ -151,7 +171,6 @@
 }
 
 .green{
-  background-color: rgb(170, 248, 170) !important;
   pointer-events: none;
 }
 
@@ -182,4 +201,10 @@
 
 .vibrate-x {
   animation: vibrate-x 0.3s ease-in-out;
+}
+
+.coin{
+  width: 2rem;
+  height: 2rem;
+  margin: 0 .2rem;
 }

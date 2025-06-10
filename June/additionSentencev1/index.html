@@ -10,11 +10,11 @@
   </head>
   <body>
     <audio id="correct">
-      <source src="sound/correct.mp3" type="audio/mpeg">
+      <source src="sound/correct.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
-  <audio id="wrong">
-      <source src="sound/wrong.mp3" type="audio/mpeg">
+    <audio id="wrong">
+      <source src="sound/wrong.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
     <div class="applet-container">
@@ -45,21 +45,14 @@
               <div id="question-panel">
                 <div id="sentenceContainer">
                   <div id="originalSentence">
-                    Three coins added to two coins make how many coins ?
+                    <span>Three coins</span> added to
+                    <span>two coins</span> make <span>how many coins ?</span>
                   </div>
                   <div id="pictoralSentence">
-                    <button class="hint-btn" id="hintButton1">Show hint</button>
-                    <div>
-                      <span> 🪙🪙🪙🪙🪙🪙🪙🪙 </span> &nbsp; added to &nbsp; <span> 🪙🪙🪙 </span>&nbsp; makes &nbsp;
-                    <span>_______ </span> &nbsp;.
-                    </div>
-                    
+                    <div></div>
                   </div>
                   <div id="numberSentence">
-                    <button class="hint-btn" id="hintButton2">Show another hint</button>
-                    <div>
-                      TWO + THREE = ?
-                    </div>
+                    <div>TWO + THREE = ?</div>
                   </div>
                 </div>
                 <div id="diagramContainer">
@@ -75,21 +68,25 @@
                     <div class="box digit-box" data-index="2"></div>
                   </div>
                   <div>
-                    <button class="hint-btn" id="checkButton">Check</button>
+                    <button class="btn btn-primary" id="checkButton">
+                      Check
+                    </button>
                   </div>
                 </div>
               </div>
               <div id="numpad">
-                <div class="number" data-num="1">1</div>
-                <div class="number" data-num="2">2</div>
-                <div class="number" data-num="3">3</div>
-                <div class="number" data-num="4">4</div>
-                <div class="number" data-num="5">5</div>
-                <div class="number" data-num="6">6</div>
-                <div class="number" data-num="7">7</div>
-                <div class="number" data-num="8">8</div>
-                <div class="number" data-num="9">9</div>
-                <div class="number" data-num="0">0</div>
+                <div class="num-container">
+                  <div class="number" data-num="1">1</div>
+                  <div class="number" data-num="2">2</div>
+                  <div class="number" data-num="3">3</div>
+                  <div class="number" data-num="4">4</div>
+                  <div class="number" data-num="5">5</div>
+                  <div class="number" data-num="6">6</div>
+                  <div class="number" data-num="7">7</div>
+                  <div class="number" data-num="8">8</div>
+                  <div class="number" data-num="9">9</div>
+                  <div class="number" data-num="0">0</div>
+                </div>
               </div>
               <div class="overlay workingArea-overlay" id="definitionOverlay">
                 <div class="overlay-close" id="closeDefinitionOverlay"></div>
