@@ -96,6 +96,7 @@ function handleSetClick(row) {
   showChangeButtons(row+1, false);
   if (row === 0) {
     showChangeButtons(2, true);
+    highlightRow(2);
   }
   else{
     document.getElementById("nextButton").disabled = false;

@@ -116,6 +116,23 @@ function highlightColumn(tag) {
   box.style.width = `${right - left + 2 * offsetX + rem}px`;
   box.style.height = `${bottom - top + 2 * offsetY}px`;
 }
+function highlightRow(tag) {
+  const row = document.getElementById("row-" + tag);
+  const box = document.getElementById("highlight-box");
+  box.style.display = "block";
+  const rect = row.getBoundingClientRect();
+  const offsetX = 20;
+  const offsetY = 0;
+  const left = rect.left + window.scrollX - offsetX;
+  const top = rect.top + window.scrollY - offsetY;
+  const width = rect.width + 2 * offsetX;
+  const height = rect.height + 2 * offsetY;
+  box.style.left = `${left}px`;
+  box.style.top = `${top}px`;
+  box.style.width = `${width}px`;
+  box.style.height = `${height}px`;
+  box.style.display = "block";
+}
 
 function unhighlightColumn() {
   const box = document.getElementById("highlight-box");

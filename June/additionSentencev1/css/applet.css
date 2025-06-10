@@ -1,6 +1,7 @@
-:root{
-  --glowing-orange:#ff8c00;
-  --font-color-button:#fff;
+:root {
+  --glowing-orange: #ff8c00;
+  --font-color-button: #fff;
+  --font-size-standard: 1vw;
 }
 
 #question-panel {
@@ -12,6 +13,7 @@
   align-items: center;
   gap: 10px;
   color: var(--font-color-button);
+  font-size: var(--font-size-standard);
 }
 #question-panel > div {
   width: 100%;
@@ -20,11 +22,12 @@
 #numpad {
   flex: 2;
   box-sizing: border-box;
+  font-size: var(--font-size-standard);
 }
-#numpad>.num-container{
+#numpad > .num-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 columns */
-  gap: .5rem;
+  gap: 0.5rem;
   margin-right: 2rem;
   justify-items: center;
   align-items: center;
@@ -34,14 +37,14 @@
   padding: 1.5rem;
 }
 
-#numpad  .number {
+#numpad .number {
   backdrop-filter: blur(5px);
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--glowing-orange);
   text-align: center;
-  font-size: 1.6em;
+  font-size: 2.5em;
   width: 100%;
-  padding: .25rem;
+  padding: 0.25rem;
   aspect-ratio: 1/1;
   cursor: pointer;
   display: flex;
@@ -50,10 +53,10 @@
   font-weight: bold;
   border-radius: 16px;
   transition: scale 0.2s ease-in-out;
-  &:hover{
+  &:hover {
     scale: 1.05;
   }
-  &:active{
+  &:active {
     scale: 0.99;
   }
 }
@@ -66,19 +69,17 @@
   justify-content: center;
   justify-items: flex-start;
   align-items: center;
-  font-size: 2rem;
+  font-size: 2.1em;
   color: white;
   visibility: hidden;
-  
 }
 #sentenceContainer > div {
+  position: relative;
   width: 90%;
   height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  
 }
 #diagramContainer {
   flex: 40;
@@ -101,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 3em;
   font-weight: 700;
 }
 .equation .box {
@@ -115,37 +116,42 @@
 .box.bordered {
   background-color: transparent;
 }
-.digit-box{
+.digit-box {
   cursor: pointer;
-  &:hover{
+  &:hover {
     scale: 1.05;
   }
-  &:active{
+  &:active {
     scale: 0.99;
   }
   transition: scale 0.2s ease-in-out;
 }
-.active{
+.active {
   outline: var(--glowing-orange) solid 3px;
-  &:hover{
-    scale:1;
+  &:hover {
+    scale: 1;
   }
 }
 
 .equation .operator {
   color: white;
 }
+#originalSentence{
+  color: var(--glowing-orange);
+}
+#numberSentence span {
+  display: inline-block;
+  text-align: center;
+}
 
-#pictoralSentence span{
+#pictoralSentence span {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-  
 }
-#originalSentence span{
+#originalSentence span {
   display: inline-block;
   white-space: nowrap;
-  
 }
 .hint-btn {
   background-color: var(--glowing-orange);
@@ -153,9 +159,9 @@
   border: none;
   border-radius: 4px;
   padding: 10px 25px;
-  font-size: 1.1rem;
+  font-size: 1.1em;
   font-weight: 700;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   cursor: pointer;
   box-shadow: var(--box-shadow);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -165,24 +171,24 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-#checkButton{
-  border-radius: .25rem;
-  font-size: 1.4rem;
+#checkButton {
+  border-radius: 0.25rem;
+  font-size: 1.4em;
 }
 
-.green{
+.green {
   pointer-events: none;
 }
 
 @keyframes yellowOutlinePulse {
   0% {
-    outline: .4rem solid rgba(255, 255, 0, 0); /* fully transparent */
+    outline: 0.4rem solid rgba(255, 255, 0, 0); /* fully transparent */
   }
   50% {
-    outline: .4rem solid rgba(255, 255, 0, 1); /* fully visible */
+    outline: 0.4rem solid rgba(255, 255, 0, 1); /* fully visible */
   }
   100% {
-    outline: .4rem solid rgba(255, 255, 0, 0); /* back to transparent */
+    outline: 0.4rem solid rgba(255, 255, 0, 0); /* back to transparent */
   }
 }
 
@@ -191,20 +197,60 @@
 }
 
 @keyframes vibrate-x {
-  0% { left: 0; }
-  20% { left: -2px; }
-  40% { left: 2px; }
-  60% { left: -2px; }
-  80% { left: 2px; }
-  100% { left: 0; }
+  0% {
+    left: 0;
+  }
+  20% {
+    left: -2px;
+  }
+  40% {
+    left: 2px;
+  }
+  60% {
+    left: -2px;
+  }
+  80% {
+    left: 2px;
+  }
+  100% {
+    left: 0;
+  }
 }
 
 .vibrate-x {
   animation: vibrate-x 0.3s ease-in-out;
 }
 
-.coin{
+.coin {
   width: 2rem;
   height: 2rem;
-  margin: 0 .2rem;
+  margin: 0 0.2rem;
+}
+
+.badge {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 0;
+  translate: -70% -50%;
+  padding: 2px 8px;
+  font-weight: 600;
+  font-size: 0.35em;
+  color: #ff8c00; /* glowing orange-like */
+  border: 1px solid #ff8c00;
+  border-radius: 999px; /* full capsule */
+  background-color: rgba(255, 140, 0, 0.1); /* subtle background */
+  letter-spacing: 0.5px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+#svgOverlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
 }

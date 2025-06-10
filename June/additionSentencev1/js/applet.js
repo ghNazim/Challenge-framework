@@ -1,13 +1,14 @@
 const checkButton = document.getElementById("checkButton");
+const svg = document.getElementById("svgOverlay");
 
 let questionIndex = 0;
 let activeBox = null,
   hint1visible = false,
   hint2visible = false;
 let currentAnswer = [0, 0, 0];
-function setPictoralSentence() {
+function setHintSentence(id) {
   const src = document.querySelector("#originalSentence");
-  const dest = document.querySelector("#pictoralSentence>div");
+  const dest = document.querySelector(id + ">div");
   dest.innerHTML = src.innerHTML;
   const originalSentenceSpans = document.querySelectorAll(
     "#originalSentence>span"
@@ -24,41 +25,44 @@ function setPictoralSentence() {
 }
 
 function showPictoralSentence(state) {
+  const outer = document.querySelector("#pictoralSentence");
   const sentence = document.querySelector("#pictoralSentence>div");
   const spans = sentence.querySelectorAll("span");
   if (state === 0) {
-    sentence.style.display = "none";
+    outer.style.visibility = "hidden";
   } else {
-    sentence.style.display = "flex";
+    outer.style.visibility = "visible";
     const span1Text = itemPictures.coin.repeat(questions[questionIndex][0]);
     const span2Text = itemPictures.coin.repeat(questions[questionIndex][1]);
     spans[0].innerHTML = " " + span1Text + " ";
-    spans[1].innerHTML = " " + span2Text + " ";
-    if (state === 1) {
-      spans[2].textContent = "_______ ";
-    } else {
-      spans[2].innerHTML = itemPictures.coin.repeat(
+    spans[2].innerHTML = " " + span2Text + " ";
+    if (state === 2) {
+      spans[4].innerHTML = itemPictures.coin.repeat(
         questions[questionIndex][0] + questions[questionIndex][1]
       );
     }
   }
 }
 function showNumberSentence(state) {
+  const outer = document.querySelector("#numberSentence");
   const sentence = document.querySelector("#numberSentence>div");
+  if (state === 0) {
+    outer.style.visibility = "hidden";
+    return;
+  }
+
   const num1 = numberToText[questions[questionIndex][0]];
   const num2 = numberToText[questions[questionIndex][1]];
   const num3 =
     numberToText[questions[questionIndex][0] + questions[questionIndex][1]];
-  if (state === 0) {
-    sentence.style.display = "none";
-  } else {
-    sentence.style.display = "flex";
-    if (state === 1) {
-      sentence.textContent = `${num1} + ${num2} = _______ .`;
-    } else {
-      sentence.textContent = `${num1} + ${num2} = ${num3} .`;
-    }
-  }
+  const spans = document.querySelectorAll("#numberSentence span");
+
+  spans[0].textContent = num1;
+  spans[1].textContent = "+";
+  spans[2].textContent = num2;
+  spans[3].textContent = "=";
+  if (state === 2) spans[4].textContent = num3;
+  outer.style.visibility = "visible";
 }
 function setQuestion() {
   document.getElementById("originalSentence").innerHTML =
@@ -86,10 +90,13 @@ function checkAnswer() {
     }
   } else {
     turnGreen(true);
+    svg.innerHTML = "";
+    createHint1lines()
+    createHint2lines()
     playAudio("correct");
     showNumberSentence(2);
     showPictoralSentence(2);
-    updateInstructions("final_step")
+    updateInstructions("final_step");
     // hint1.classList.remove("nudgeAnimation");
     // hint2.classList.remove("nudgeAnimation");
   }
@@ -101,6 +108,9 @@ function turnGreen(green) {
       box.classList.remove("green");
       box.textContent = "";
     });
+    document.querySelectorAll(".badge").forEach((badge) => {
+      badge.style.display = "block";
+    });
     return;
   }
   nextButton.disabled = false;
@@ -109,18 +119,39 @@ function turnGreen(green) {
     box.classList.remove("active");
     box.classList.add("green");
   });
+  document.querySelectorAll(".badge").forEach((badge) => {
+    badge.style.display = "none";
+  })
 }
 
+function createHint1lines() {
+  const originalSpans = document.querySelectorAll("#originalSentence>span");
+  const pictoralSpans = document.querySelectorAll("#pictoralSentence>div>span");
+  const x = (i) => createDashedLine(originalSpans[i], pictoralSpans[i], svg);
+  x(0);
+  x(2);
+  x(4);
+}
+function createHint2lines() {
+  const numberSpans = document.querySelectorAll("#numberSentence span");
+  const pictoralSpans = document.querySelectorAll("#pictoralSentence span");
+  const x = (i) => createDashedLine(pictoralSpans[i], numberSpans[i], svg);
+  x(0);
+  x(2);
+  x(4);
+}
 function callWithStep() {
   if (questionIndex === 0) {
     prevButton.disabled = true;
   }
+  svg.innerHTML = "";
   updateInstructions("instruction_general");
   nextButton.disabled = true;
   checkButton.style.visibility = "visible";
   updateStepCounter(questionIndex);
   setQuestion();
-  setPictoralSentence();
+  setHintSentence("#pictoralSentence");
+  setHintSentence("#numberSentence");
   showPictoralSentence(0);
   showNumberSentence(0);
   currentAnswer = [0, 0, 0];
@@ -167,6 +198,7 @@ function updateHintListner1() {
 
   hint1.addEventListener("click", () => {
     updateInstructions("hint1_shown");
+    createHint1lines()
     hint1visible = true;
     showPictoralSentence(1);
   });
@@ -177,6 +209,7 @@ function updateHintListner2() {
 
   hint2.addEventListener("click", () => {
     updateInstructions("hint2_shown");
+    createHint2lines()
     hint2visible = true;
     showNumberSentence(1);
   });

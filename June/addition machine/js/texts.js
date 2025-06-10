@@ -1,8 +1,9 @@
 // texts.js
 
 const texts = {
-  html_title: "Addition Sentence",
-  subtitle_text: "Write the addition sentence and find the sum",
+  html_title: "Addition Machine",
+  main_title_text: "Addition Machine",
+  subtitle_text: "",
   button_texts: {
     prev: "Previous",
     next: "Next",
@@ -62,18 +63,37 @@ const texts = {
 };
 window.APP_TEXTS = texts;
 
-const questions = [[3,2],[4,1],[5,0],[1,3],[6,2],[7,1],[2,2]];
-const numberToText = ["ZERO","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"];
+const questions = [
+  [3, 2],
+  [4, 1],
+  [5, 0],
+  [1, 3],
+  [6, 2],
+  [7, 1],
+  [2, 2],
+];
+const numberToText = [
+  "ZERO",
+  "ONE",
+  "TWO",
+  "THREE",
+  "FOUR",
+  "FIVE",
+  "SIX",
+  "SEVEN",
+  "EIGHT",
+  "NINE",
+];
 const itemPictures = {
   coin: `<img src="assets/coin.png" class="coin" />`,
 };
 
 const questionTexts = [
-  "<span>Three coins</span>&nbsp;<span>added to</span>&nbsp;<span>two coins</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
-  "<span>Four coins</span>&nbsp;<span>added to</span>&nbsp;<span>one coin</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
-  "<span>Five coins</span>&nbsp;<span>added to</span>&nbsp;<span>zero coins</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
-  "<span>One coin</span>&nbsp;<span>added to</span>&nbsp;<span>three coins</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
-  "<span>Six coins</span>&nbsp;<span>added to</span>&nbsp;<span>two coins</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
-  "<span>Seven coins</span>&nbsp;<span>added to</span>&nbsp;<span>one coin</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
-  "<span>Two coins</span>&nbsp;<span>added to</span>&nbsp;<span>two coins</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>",
+  "<span>Three coins</span>&nbsp;added to&nbsp;<span>two coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "<span>Four coins</span>&nbsp;added to&nbsp;<span>one coin</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "<span>Five coins</span>&nbsp;added to&nbsp;<span>zero coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "<span>One coin</span>&nbsp;added to&nbsp;<span>three coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "<span>Six coins</span>&nbsp;added to&nbsp;<span>two coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "<span>Seven coins</span>&nbsp;added to&nbsp;<span>one coin</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "<span>Two coins</span>&nbsp;added to&nbsp;<span>two coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
 ];

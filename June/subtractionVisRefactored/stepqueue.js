@@ -6,6 +6,7 @@ function step1() {
   showChangeButtons(1, true);
   next.disabled = true;
   updateWithStep(step);
+  highlightRow(1);
 }
 
 async function flyAnswer() {
@@ -30,10 +31,10 @@ async function handleUnitsCalc(){
   await animateRestUnitsToBottom()
   next.disabled = false
   updateWithStep(3)
+  highlightColumn("tens");
 }
 async function handleTensCalc() {
   next.disabled = true;
-  highlightColumn("tens");
   await sleep(400);
   setOpaque("tens");
   await animateTensToMiddle();
@@ -54,16 +55,17 @@ async function handleRestTensCalc() {
   cloned = false;
   next.disabled = false;
   updateWithStep(6);
+  highlightColumn("hundreds");
 }
 
 async function handleHundredsCalc() {
   next.disabled = true;
-  highlightColumn("hundreds");
   await sleep(400);
   setOpaque("hundreds");
   await animateHundredsOneByOne(1, 3);
   next.disabled = false;
   updateWithStep(7);
+  highlightRow(3);
 }
 let stepQueue = [];
 

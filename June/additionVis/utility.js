@@ -121,6 +121,25 @@ function unhighlightColumn() {
   box.style.display = "none"; 
 }
 
+
+function highlightRow(tag) {
+  const row = document.getElementById("row-"+tag);
+  const box = document.getElementById("highlight-box");
+  box.style.display = "block";
+  const rect = row.getBoundingClientRect();
+  const offsetX = 20;
+  const offsetY = 0;
+  const left = rect.left + window.scrollX - offsetX;
+  const top = rect.top + window.scrollY - offsetY;
+  const width = rect.width + 2 * offsetX;
+  const height = rect.height + 2 * offsetY;
+  box.style.left = `${left}px`;
+  box.style.top = `${top}px`;
+  box.style.width = `${width}px`;
+  box.style.height = `${height}px`;
+  box.style.display = "block";
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
