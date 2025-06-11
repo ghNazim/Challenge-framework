@@ -1,12 +1,14 @@
 const checkButton = document.getElementById("checkButton");
 const svg = document.getElementById("svgOverlay");
-const digitBoxes = document.querySelectorAll(".digit-box");
+const hint1 = document.querySelector("#hintButton1");
+const hint2 = document.querySelector("#hintButton2");
+
 let questionIndex = 0;
-let hint1visible = false,
-  hint2visible = false,
-  activeIndex = 0;
+let activeBox = null,
+  hint1visible = false,
+  hint2visible = false;
 let currentAnswer = [0, 0, 0];
-let correctAnswer;
+let correctAnswer = [0, 0, 0];
 function setHintSentence(id) {
   const src = document.querySelector("#originalSentence");
   const dest = document.querySelector(id + ">div");
@@ -75,7 +77,7 @@ function setQuestion() {
   ];
 }
 
-function checkAnswer() {
+async function checkAnswer() {
   const true1 = questions[questionIndex][0] === currentAnswer[0];
   const true2 = questions[questionIndex][1] === currentAnswer[1];
   const true3 =
@@ -83,18 +85,24 @@ function checkAnswer() {
     currentAnswer[2];
   const correct = true1 && true2 && true3;
   if (!correct) {
-    vibrateElement(document.querySelector(".equation"));
     playAudio("wrong");
+    setJaxPose("sad")
     if (!hint1visible) {
       updateInstructions("hint_1");
-      updateHintListner1();
+      hint1.classList.add("nudgeAnimation");
     } else {
       if (!hint2visible) {
         updateInstructions("hint_2");
-        updateHintListner2();
+        hint2.classList.add("nudgeAnimation");
       }
     }
+    await vibrateElement(document.querySelector(".equation"));
+    const ind = getFirstWrongIndex();
+    setActiveBox(
+      document.querySelector(".digit-box[data-index='" + ind + "']")
+    );
   } else {
+    setJaxPose("happy");
     turnGreen(true);
     svg.innerHTML = "";
     createHint1lines();
@@ -103,8 +111,8 @@ function checkAnswer() {
     showNumberSentence(2);
     showPictoralSentence(2);
     updateInstructions("final_step");
-    // hint1.classList.remove("nudgeAnimation");
-    // hint2.classList.remove("nudgeAnimation");
+    hint1.classList.remove("nudgeAnimation");
+    hint2.classList.remove("nudgeAnimation");
   }
 }
 
@@ -122,7 +130,7 @@ function turnGreen(green) {
   nextButton.disabled = false;
   checkButton.style.visibility = "hidden";
   document.querySelectorAll(".digit-box").forEach((box) => {
-    box.classList.remove("active");
+    box.classList.remove("box-active");
     box.classList.add("green");
   });
   document.querySelectorAll(".badge").forEach((badge) => {
@@ -131,6 +139,10 @@ function turnGreen(green) {
 }
 
 function createHint1lines() {
+  if (hint2visible) {
+    svg.innerHTML = "";
+    createHint2lines();
+  }
   const originalSpans = document.querySelectorAll("#originalSentence>span");
   const pictoralSpans = document.querySelectorAll("#pictoralSentence>div>span");
   const x = (i) => createDashedLine(originalSpans[i], pictoralSpans[i], svg);
@@ -146,11 +158,20 @@ function createHint2lines() {
   x(2);
   x(4);
 }
+function createOnlyHint2Lines() {
+  const originalSpans = document.querySelectorAll("#originalSentence>span");
+  const numberSpans = document.querySelectorAll("#numberSentence span");
+  const x = (i) => createDashedLine(originalSpans[i], numberSpans[i], svg);
+  x(0);
+  x(2);
+  x(4);
+}
 function callWithStep() {
   if (questionIndex === 0) {
     prevButton.disabled = true;
   }
   svg.innerHTML = "";
+  setJaxPose("normal");
   updateInstructions("instruction_general");
   nextButton.disabled = true;
   checkButton.style.visibility = "visible";
@@ -163,48 +184,61 @@ function callWithStep() {
   currentAnswer = [0, 0, 0];
   hint1visible = false;
   hint2visible = false;
+  hint1.style.display = "block";
+  hint2.style.display = "block";
   turnGreen(false);
+  setActiveBox(document.querySelector(".digit-box[data-index='0']"));
 }
 
-// function setActiveBox(box) {
-//   document.querySelectorAll(".digit-box").forEach((b) => {
-//     b.classList.remove("active");
-//   });
-
-//   activeBox = box;
-//   box.classList.add("active");
-// }
-
-function updateActiveBox(i) {
-  digitBoxes.forEach((box) => {
-    box.classList.remove("active");
+function setActiveBox(box) {
+  document.querySelectorAll(".digit-box").forEach((b) => {
+    b.classList.remove("box-active");
   });
-  if (i < 0 || i > 2) {
-    return;
-  }
-  digitBoxes[i].classList.add("active");
+  activeBox = box;
+  if (box) box.classList.add("box-active");
 }
 
 // Function to handle numpad clicks
 function handleNumpadClick(number) {
-  const i = activeIndex;
-  if (i >= 0 && i <= 2) {
-    const activeBox = digitBoxes[i];
+  if (activeBox) {
     activeBox.textContent = number;
+    // Optionally remove active state after input
     const index = parseInt(activeBox.getAttribute("data-index"));
     currentAnswer[index] = parseInt(number);
-    activeBox.classList.remove("active");
+    setActiveBox(nextBox());
   }
 }
 
-function setIndexToNext() {
-  let i = (activeIndex + 1);
-  while(currentAnswer[i] === correctAnswer[i]){
-    i = (i + 1);
+function nextBox() {
+  if (!activeBox) {
+    return null;
   }
-  activeIndex = i;
-  return true;
+  let index = parseInt(activeBox.getAttribute("data-index"));
+  let nextIndex = index + 1;
+  while (true) {
+    if (currentAnswer[nextIndex] !== correctAnswer[nextIndex]) {
+      return document.querySelector(`.digit-box[data-index='${nextIndex}']`);
+    }
+    if (nextIndex > 2) {
+      return null;
+    }
+    nextIndex++;
+  }
 }
+function getFirstWrongIndex() {
+  for (let i = 0; i < 3; i++) {
+    if (currentAnswer[i] !== correctAnswer[i]) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+document.querySelectorAll(".digit-box").forEach((box) => {
+  box.addEventListener("click", function () {
+    setActiveBox(this);
+  });
+});
 
 document.querySelectorAll(".number").forEach((numButton) => {
   numButton.addEventListener("click", function () {
@@ -219,6 +253,7 @@ function updateHintListner1() {
     updateInstructions("hint1_shown");
     createHint1lines();
     hint1visible = true;
+    hint1.style.display = "none";
     showPictoralSentence(1);
   });
 }
@@ -228,11 +263,15 @@ function updateHintListner2() {
 
   hint2.addEventListener("click", () => {
     updateInstructions("hint2_shown");
-    createHint2lines();
+    if (hint1visible) createHint2lines();
+    else createOnlyHint2Lines();
     hint2visible = true;
+    hint2.style.display = "none";
     showNumberSentence(1);
   });
 }
+updateHintListner1();
+updateHintListner2();
 
 checkButton.addEventListener("click", checkAnswer);
 nextButton.addEventListener("click", () => {
@@ -259,13 +298,14 @@ document.getElementById("sentenceContainer").style.visibility = "visible";
 
 function vibrateElement(el) {
   if (!el) return;
-
   el.style.position = "relative";
   el.classList.add("vibrate-x");
-
-  el.addEventListener("animationend", function handler() {
-    el.classList.remove("vibrate-x");
-    el.removeEventListener("animationend", handler);
+  return new Promise((resolve) => {
+    el.addEventListener("animationend", function handler() {
+      el.classList.remove("vibrate-x");
+      el.removeEventListener("animationend", handler);
+      resolve();
+    });
   });
 }
 

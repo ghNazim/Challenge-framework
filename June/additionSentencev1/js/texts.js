@@ -17,13 +17,13 @@ const texts = {
   },
   hint_1: {
     instruction_title: "Hint",
-    instruction_text: "Thats not quite correct. Let me give you a hint.",
-    button: `<div><button class="btn btn-primary" id="hintButton1">Reveal hint</button></div>`,
+    instruction_text:
+      "Thats not quite correct. Click on the 'Reveal Hint' button in the top right corner.",
   },
   hint_2: {
     instruction_title: "Hint",
-    instruction_text: "Thats not quite correct. Let me give you another hint.",
-    button: `<div><button class="btn btn-primary" id="hintButton2">Reveal hint</button></div>`,
+    instruction_text:
+      "Thats not quite correct. Click on the 'Reveal Hint' button in the top right corner.",
   },
   hint1_shown: {
     instruction_title: "Hint Revealed",
@@ -62,8 +62,27 @@ const texts = {
 };
 window.APP_TEXTS = texts;
 
-const questions = [[3,2],[4,1],[5,0],[1,3],[6,2],[7,1],[2,2]];
-const numberToText = ["ZERO","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"];
+const questions = [
+  [3, 2],
+  [4, 1],
+  [5, 0],
+  [1, 3],
+  [6, 2],
+  [7, 1],
+  [2, 2],
+];
+const numberToText = [
+  "ZERO",
+  "ONE",
+  "TWO",
+  "THREE",
+  "FOUR",
+  "FIVE",
+  "SIX",
+  "SEVEN",
+  "EIGHT",
+  "NINE",
+];
 const itemPictures = {
   coin: `<img src="assets/coin.png" class="coin" />`,
 };

@@ -92,5 +92,12 @@ function updateStepCounter(stepIndex) {
   dots.forEach((dot) => dot.classList.remove("active"));
   dots[stepIndex].classList.add("active");
 }
+
+function setJaxPose(pose){
+  const JAX = document.querySelector(`.character-display img`);
+  JAX.src = `assets/JAX${pose}.png`;
+}
+
+
 createStepCounter();
 updateStepCounter(0);
