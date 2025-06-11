@@ -2,6 +2,7 @@
   --glowing-orange: #ff8c00;
   --font-color-button: #fff;
   --font-size-standard: 1vw;
+  --accent-orange: #ff6b35;
 }
 
 #question-panel {
@@ -32,14 +33,14 @@
   justify-items: center;
   align-items: center;
   color: var(--font-color-button);
-  border: 1px solid rgb(165, 163, 163);
+  border: 1px solid var(--accent-orange);
   border-radius: 16px;
   padding: 1.5rem;
 }
 
 #numpad .number {
-  backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.25);
+  /* backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.25); */
   border: 1px solid var(--glowing-orange);
   text-align: center;
   font-size: 2.5em;
@@ -53,6 +54,8 @@
   font-weight: bold;
   border-radius: 16px;
   transition: scale 0.2s ease-in-out;
+  background: linear-gradient(145deg, var(--accent-orange), #e55a2b);
+  border-color: #bf360c;
   &:hover {
     scale: 1.05;
   }
@@ -112,6 +115,7 @@
   backdrop-filter: blur(5px);
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--glowing-orange);
+  
 }
 .box.bordered {
   background-color: transparent;
@@ -136,8 +140,8 @@
 .equation .operator {
   color: white;
 }
-#originalSentence{
-  color: var(--glowing-orange);
+#originalSentence {
+  color: var(--accent-orange);
 }
 #numberSentence span {
   display: inline-block;
@@ -236,8 +240,8 @@
   padding: 2px 8px;
   font-weight: 600;
   font-size: 0.35em;
-  color: #ff8c00; /* glowing orange-like */
-  border: 1px solid #ff8c00;
+  color: var(--accent-orange); /* glowing orange-like */
+  border: 1px solid var(--accent-orange);
   border-radius: 999px; /* full capsule */
   background-color: rgba(255, 140, 0, 0.1); /* subtle background */
   letter-spacing: 0.5px;
@@ -245,7 +249,7 @@
   white-space: nowrap;
 }
 
-#svgOverlay{
+#svgOverlay {
   position: fixed;
   top: 0;
   left: 0;

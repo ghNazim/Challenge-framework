@@ -100,11 +100,12 @@ function handleSetClick(row) {
   if (row === 0) {
     showChangeButtons(2, true);
     highlightRow(2);
+    updateWithStep(2);
   } else {
     document.getElementById("nextButton").disabled = false;
     highlightColumn("units");
     highlightSum(0);
-    updateWithStep(2);
+    updateWithStep(3);
   }
 }
 

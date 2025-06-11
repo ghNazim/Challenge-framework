@@ -16,7 +16,7 @@ async function handleUnitsCalc() {
   await sleep(200);
   await animateUnits2();
   next.disabled = false;
-  updateWithStep(3);
+  updateWithStep(4);
   highlightColumn("tens");
 }
 async function handleTensCalc() {
@@ -30,7 +30,7 @@ async function handleTensCalc() {
   await sleep(200);
   await animateTens2();
   next.disabled = false;
-  updateWithStep(4);
+  updateWithStep(5);
 }
 function translateTensOverflow() {
   next.disabled = true;
@@ -44,7 +44,7 @@ function translateTensOverflow() {
       updateDigitLabel("tens");
       updateDigitLabel("hundreds");
       next.disabled = false;
-      updateWithStep(5);
+      updateWithStep(6);
       highlightColumn("hundreds");
     }
   );
@@ -54,7 +54,7 @@ async function handleHundredsClick() {
   setOpaque("hundreds");
   await animateHundredsOneByOne(1, 3);
   next.disabled = false;
-  updateWithStep(6);
+  updateWithStep(7);
   highlightRow(3)
 }
 
@@ -69,6 +69,8 @@ async function flyAnswer() {
   ]);
   highlightSum(3);
   confettiBurst();
+  playAudio("success");
+  updateWithStep(8);
 
 }
 

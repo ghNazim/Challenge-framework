@@ -98,45 +98,47 @@ function vibrateElement(el) {
 }
 
 function highlightColumn(tag) {
+  const main = document.querySelector(".main-layout");
+  const mainRect = main.getBoundingClientRect();
   const elements = document.querySelectorAll(` .${tag}-cell>.actual-blocks`);
   const box = document.getElementById("highlight-box");
   box.style.display = "block"; // show box
 
   const firstRect = elements[0].getBoundingClientRect();
-  const lastRect = elements[elements.length - 1].getBoundingClientRect();
 
   const left = firstRect.left;
-  const top = firstRect.top;
+  const top = mainRect.top;
   const right = firstRect.right;
-  const bottom = lastRect.bottom;
-  const offsetY = 25,
-    offsetX = 40;
+  const bottom = mainRect.bottom;
+  const offsetX = 40;
   box.style.left = `${left - offsetX}px`;
-  box.style.top = `${top - offsetY + scrollY}px`;
+  box.style.top = `${top + scrollY}px`;
   box.style.width = `${right - left + 2 * offsetX + rem}px`;
-  box.style.height = `${bottom - top + 2 * offsetY}px`;
+  box.style.height = `${bottom - top}px`;
 }
+
+function unhighlightColumn() {
+  const box = document.getElementById("highlight-box");
+  box.style.display = "none";
+}
+
 function highlightRow(tag) {
+  const main = document.querySelector(".main-layout");
   const row = document.getElementById("row-" + tag);
   const box = document.getElementById("highlight-box");
   box.style.display = "block";
   const rect = row.getBoundingClientRect();
-  const offsetX = 20;
+  const mainRect = main.getBoundingClientRect();
   const offsetY = 0;
-  const left = rect.left + window.scrollX - offsetX;
+  const left = mainRect.left + window.scrollX;
   const top = rect.top + window.scrollY - offsetY;
-  const width = rect.width + 2 * offsetX;
+  const width = mainRect.width;
   const height = rect.height + 2 * offsetY;
   box.style.left = `${left}px`;
   box.style.top = `${top}px`;
   box.style.width = `${width}px`;
   box.style.height = `${height}px`;
   box.style.display = "block";
-}
-
-function unhighlightColumn() {
-  const box = document.getElementById("highlight-box");
-  box.style.display = "none";
 }
 
 function sleep(ms) {

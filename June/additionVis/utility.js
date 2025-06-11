@@ -16,7 +16,7 @@ function createHundreds(q, n, className) {
   }
 }
 function paintActive(q, n, className) {
-  console.log(q,n)
+  console.log(q, n);
   if (q.includes("hundred") && n > 0) {
     createHundreds(q, n, className);
   }
@@ -38,13 +38,11 @@ function removePaint(q) {
   });
 }
 
-
-
 function showChangeButtons(row, show) {
-  if(row === 1 && show){
+  if (row === 1 && show) {
     highlightSum(1);
   }
-  if(row === 2 && show){
+  if (row === 2 && show) {
     highlightSum(2);
   }
   const stepperButtons = document.querySelectorAll(
@@ -60,7 +58,6 @@ function showChangeButtons(row, show) {
   const setButton = document.querySelector(`#row-${row} .setButton`);
   setButton.style.display = show ? "block" : "none";
 }
-
 
 function updateDigitLabel(tag) {
   const q = `#row-3 .${tag}-cell .digit-label`;
@@ -82,13 +79,12 @@ function updateDigitLabel(tag) {
   }
 }
 
-
 function vibrateElement(el) {
   if (!el) return;
 
   el.style.position = "relative";
   el.classList.add("vibrate-x");
-  el.classList.add("wrong-highlight")
+  el.classList.add("wrong-highlight");
 
   el.addEventListener("animationend", function handler() {
     el.classList.remove("vibrate-x");
@@ -97,41 +93,41 @@ function vibrateElement(el) {
 }
 
 function highlightColumn(tag) {
+  const main = document.querySelector(".main-layout");
+  const mainRect = main.getBoundingClientRect();
   const elements = document.querySelectorAll(` .${tag}-cell>.actual-blocks`);
   const box = document.getElementById("highlight-box");
   box.style.display = "block"; // show box
 
   const firstRect = elements[0].getBoundingClientRect();
-  const lastRect = elements[elements.length - 1].getBoundingClientRect();
 
   const left = firstRect.left;
-  const top = firstRect.top;
+  const top = mainRect.top;
   const right = firstRect.right;
-  const bottom = lastRect.bottom;
-const offsetY = 25,offsetX = 40;
-  box.style.left = `${left -offsetX}px`;
-  box.style.top = `${top -offsetY +scrollY}px`;
-  box.style.width = `${right - left + 2*offsetX + rem}px`;
-  box.style.height = `${bottom - top + 2*offsetY}px`;
+  const bottom = mainRect.bottom;
+  const offsetX = 40;
+  box.style.left = `${left - offsetX}px`;
+  box.style.top = `${top + scrollY}px`;
+  box.style.width = `${right - left + 2 * offsetX + rem}px`;
+  box.style.height = `${bottom - top}px`;
 }
-
 
 function unhighlightColumn() {
   const box = document.getElementById("highlight-box");
-  box.style.display = "none"; 
+  box.style.display = "none";
 }
 
-
 function highlightRow(tag) {
-  const row = document.getElementById("row-"+tag);
+  const main = document.querySelector(".main-layout");
+  const row = document.getElementById("row-" + tag);
   const box = document.getElementById("highlight-box");
   box.style.display = "block";
   const rect = row.getBoundingClientRect();
-  const offsetX = 20;
+  const mainRect = main.getBoundingClientRect();
   const offsetY = 0;
-  const left = rect.left + window.scrollX - offsetX;
+  const left = mainRect.left + window.scrollX;
   const top = rect.top + window.scrollY - offsetY;
-  const width = rect.width + 2 * offsetX;
+  const width = mainRect.width;
   const height = rect.height + 2 * offsetY;
   box.style.left = `${left}px`;
   box.style.top = `${top}px`;

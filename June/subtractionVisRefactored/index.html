@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Addition Blocks Layout</title>
+    <title>Subtraction</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -13,6 +13,10 @@
     </audio>
   <audio id="wrong">
       <source src="sound/wrong.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="success">
+      <source src="sound/success.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
     <div class="strip"><h3>Explore the subtraction of two numbers</h3></div>
@@ -35,6 +39,7 @@
           ><span class="tens hidden">4</span><span class="units hidden">2</span>
         </div>
       </div>
+      <div>
       <div class="main-layout">
         <div class="blocks-area-columnar">
           <div class="blocks-major-row" id="row-1">
@@ -270,9 +275,13 @@
               </div>
             </div>
           </div>
-          <button class="btn" id="nextButton">Next</button>
+          
         </div>
       </div>
+      <div id="lowerControl">
+        <button class="btn" id="nextButton">Next</button>
+      </div>
+    </div>
       
     </div>
     <!-- <button class="btn" id="resetButton">Reset</button> -->

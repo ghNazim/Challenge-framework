@@ -287,9 +287,13 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 #nextButton {
-  margin: 1rem 0 0.4rem;
+  margin-bottom: 1.5rem;
   width: fit-content;
   align-self: center;
+}
+#lowerControl {
+  width: 100%;
+  text-align: center;
 }
 
 .strip {

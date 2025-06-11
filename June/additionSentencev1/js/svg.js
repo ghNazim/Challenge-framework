@@ -1,7 +1,7 @@
 function createDashedLine(element1, element2, svgElement, options = {}) {
   // Default options
   const {
-    strokeColor = "orange",
+    strokeColor = "#ff6b35",
     strokeWidth = 1,
     dashArray = "3,3",
     lineId = null,
