@@ -191,7 +191,7 @@ body {
 }
 
 .stepper-btn.increase-btn {
-  margin-bottom: .25rem; /* Adds a small space between the up and down buttons */
+  margin-bottom: 0.25rem; /* Adds a small space between the up and down buttons */
 }
 
 /* HUNDREDS CELL */
@@ -199,6 +199,7 @@ body {
   position: relative;
   width: var(--square-dim);
   height: var(--square-dim);
+  
 }
 .hundred-block {
   position: absolute;
@@ -207,6 +208,7 @@ body {
   width: var(--square-dim);
   height: var(--square-dim);
   border-radius: 6px;
+  z-index: 50 !important;
 }
 
 /* TENS CELL */
@@ -285,7 +287,7 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 #nextButton {
-  margin: 1rem 0 .4rem;
+  margin: 1rem 0 0.4rem;
   width: fit-content;
   align-self: center;
 }
@@ -376,6 +378,7 @@ body {
   z-index: 10;
   display: none;
   transition: all 0.35s ease-in-out;
+  transform: translate(0, 0);
 }
 
 .speech-bubble {
@@ -412,7 +415,3 @@ body {
   font-size: 1.2rem;
   line-height: 1.5;
 }
-
-
-
-

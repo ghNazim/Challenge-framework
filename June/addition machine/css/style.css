@@ -32,7 +32,7 @@ body {
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
   background-color: #6ca0dc; /* Fallback if image fails */
-  background-image: url('/assets/TestBG.jpg'); /* Ensure path is correct */
+  background-image: url('../assets/TestBG.jpg'); /* Ensure path is correct */
   background-size: cover;
   background-position: center;
   position: relative;

@@ -10,7 +10,6 @@ function step1() {
 
 }
 async function handleUnitsCalc() {
-  
   next.disabled = true;
   setOpaque("units");
   await animateUnits1();
@@ -22,7 +21,6 @@ async function handleUnitsCalc() {
 }
 async function handleTensCalc() {
   next.disabled = true;
-  await sleep(400);
   setOpaque("tens");
   await animateTens1();
   await sleep(200);
@@ -53,7 +51,6 @@ function translateTensOverflow() {
 }
 async function handleHundredsClick() {
   next.disabled = true;
-  await sleep(400);
   setOpaque("hundreds");
   await animateHundredsOneByOne(1, 3);
   next.disabled = false;

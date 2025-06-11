@@ -208,6 +208,7 @@ body {
   width: var(--square-dim);
   height: var(--square-dim);
   border-radius: 6px;
+  z-index: 50 !important;
 }
 
 /* TENS CELL */

@@ -35,7 +35,6 @@ async function handleUnitsCalc(){
 }
 async function handleTensCalc() {
   next.disabled = true;
-  await sleep(400);
   setOpaque("tens");
   await animateTensToMiddle();
   next.disabled = false;
@@ -60,7 +59,6 @@ async function handleRestTensCalc() {
 
 async function handleHundredsCalc() {
   next.disabled = true;
-  await sleep(400);
   setOpaque("hundreds");
   await animateHundredsOneByOne(1, 3);
   next.disabled = false;
