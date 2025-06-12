@@ -1,7 +1,7 @@
 :root {
   --glowing-orange: #ff8c00;
   --font-color: white;
-  --font-size:1.7vw;
+  --font-size: 1.7vw;
 }
 
 #applet {
@@ -16,11 +16,10 @@
 }
 
 #applet > div {
-  border: 1px solid white;
   width: 100%;
 }
 #questionText {
-  flex: 2;
+  flex: 1;
   padding: 0 1em;
   display: flex;
   justify-content: center;
@@ -28,38 +27,113 @@
 }
 
 #imageContainer {
-  flex: 6;
+  flex: 7;
 }
 #optionsContainer {
   flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3em;
+  gap: 1em;
 }
 .option {
-  padding: .5em 3em;
-  backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--glowing-orange);
-  border-radius: 8px;
+  background: linear-gradient(145deg, #61dfff, #0687ff);
+  box-shadow: inset 0 2px 1px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(2, 108, 229, 0.7);
+  color: #fff;
+  text-align: center;
+  font-size: 1.5em;
+  width: 5%;
+
+  aspect-ratio: 1/1;
   cursor: pointer;
-  transition: all 0.2s ease
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: semibold;
+  border-radius: 16px;
+  transition: scale 0.2s ease-in-out;
+  &:hover {
+    scale: 1.03;
+  }
+  &:active {
+    background: linear-gradient(145deg, #61dfff, #0687ff);
+    translate: 0 3px;
+    box-shadow: 0 1px 1px rgb(73, 212, 247), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
 }
-.option:hover{
-  background: rgba(0, 0, 0, 0.4);
-}
-#imageContainer{
+
+#imageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-#machine{
+#machine {
   position: relative;
   width: 60%;
-  height: 100%; 
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-#machine>img{
-  width: 100%;
+.backImage {
+  width: 94%;
+  top: 0;
+  left: 0;
+}
+#actualMachine {
+  z-index: 1;
+}
+
+.machine-number {
+  position: absolute;
+  height: 3em;
+  bottom: 20%;
+  translate: -50%;
+  z-index: 5;
+}
+#img1 {
+  left: 15%;
+}
+#img2 {
+  left: 50%;
+}
+#img3 {
+  left: 85%;
+}
+
+/* ######################### */
+.ten-frame {
+  position: absolute;
+  bottom: 0;
+  width: 150px;
+  display: grid;
+  display: none;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  border: 1px solid white;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  border-radius: 50%;
+}
+#frame1 {
+  left: 9%;
+}
+#frame2 {
+  left: 42.5%;
+}
+#frame3 {
+  left: 76%;
 }

@@ -6,7 +6,7 @@ const texts = {
   subtitle_text: "",
   button_texts: {
     prev: "Previous",
-    next: "Next",
+    next: "Check",
     finish: "View Summary", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
@@ -14,7 +14,7 @@ const texts = {
   instruction_general: {
     instruction_title: "Instruction",
     instruction_text:
-      "Click on the empty box you want to fill, then click on any number on the right to fill the box with the number.",
+      "Write the addition sentence in the machine.Use the buttons below the machine to fill numbers into each room of the machine. ",
   },
   hint_1: {
     instruction_title: "Hint",

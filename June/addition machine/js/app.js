@@ -92,5 +92,14 @@ function updateStepCounter(stepIndex) {
   dots.forEach((dot) => dot.classList.remove("active"));
   dots[stepIndex].classList.add("active");
 }
-createStepCounter();
-updateStepCounter(0);
+const container = document.querySelectorAll(".ten-frame");
+container.forEach((frame) => {
+  for (let i = 0; i < 10; i++) {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    frame.appendChild(cell);
+  }
+});
+updateInstructions("instruction_general");
+// createStepCounter();
+// updateStepCounter(0);
