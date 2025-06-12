@@ -6,7 +6,8 @@ const texts = {
   subtitle_text: "",
   button_texts: {
     prev: "Previous",
-    next: "Check",
+    next: "Next",
+    check: "Check Answer",
     finish: "View Summary", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
@@ -14,31 +15,22 @@ const texts = {
   instruction_general: {
     instruction_title: "Instruction",
     instruction_text:
-      "Write the addition sentence in the machine.Use the buttons below the machine to fill numbers into each room of the machine. ",
+      "Write the addition sentence in the machine. Use the buttons to fill numbers into each room of the machine. ",
   },
-  hint_1: {
+  hint: {
     instruction_title: "Hint",
-    instruction_text: "Thats not quite correct. Let me give you a hint.",
-    button: `<div><button class="btn btn-primary" id="hintButton1">Reveal hint</button></div>`,
-  },
-  hint_2: {
-    instruction_title: "Hint",
-    instruction_text: "Thats not quite correct. Let me give you another hint.",
-    button: `<div><button class="btn btn-primary" id="hintButton2">Reveal hint</button></div>`,
-  },
-  hint1_shown: {
-    instruction_title: "Hint Revealed",
     instruction_text:
-      "Look at the hint below the question and try to answer the question again.",
+      "Thats not quite correct. Look just below the machine for a hint.",
   },
-  hint2_shown: {
-    instruction_title: "Hint Revealed",
+  correct: {
+    instruction_title: "Correct!",
     instruction_text:
-      "Look at both the hints now and try to figure out the answer.",
+      "Thats correct! You have completed the addition sentence. Click on 'Next' to continue.",
   },
+
   final_step: {
     instruction_title: "Congratulations!",
-    instruction_text: " You have completed the addition sentence.",
+    instruction_text: " You have answered all the questions successfully.",
   },
 
   // Texts for overlay popups (triggered by clicking .highlight span elements)
@@ -64,36 +56,25 @@ const texts = {
 window.APP_TEXTS = texts;
 
 const questions = [
-  [3, 2],
-  [4, 1],
-  [5, 0],
-  [1, 3],
-  [6, 2],
-  [7, 1],
-  [2, 2],
+  [3,3,6],
+  [5,4,9],
+  [2,0,2],
 ];
 const numberToText = [
-  "ZERO",
-  "ONE",
-  "TWO",
-  "THREE",
-  "FOUR",
-  "FIVE",
-  "SIX",
-  "SEVEN",
-  "EIGHT",
-  "NINE",
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
 ];
-const itemPictures = {
-  coin: `<img src="assets/coin.png" class="coin" />`,
-};
 
 const questionTexts = [
-  "<span>Three coins</span>&nbsp;added to&nbsp;<span>two coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
-  "<span>Four coins</span>&nbsp;added to&nbsp;<span>one coin</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
-  "<span>Five coins</span>&nbsp;added to&nbsp;<span>zero coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
-  "<span>One coin</span>&nbsp;added to&nbsp;<span>three coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
-  "<span>Six coins</span>&nbsp;added to&nbsp;<span>two coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
-  "<span>Seven coins</span>&nbsp;added to&nbsp;<span>one coin</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
-  "<span>Two coins</span>&nbsp;added to&nbsp;<span>two coins</span>&nbsp;make&nbsp;<span>how many coins</span>&nbsp;?",
+  "Gilang has 3 marbles and Hana has 3 marbles. How many marbles do they have altogether?",
+  "Start at 5 and count on 4. What is the total ?",
+  "Adi has 2 marbles. He adds no more marbles. How many marbles does he have now?",
 ];

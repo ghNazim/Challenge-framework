@@ -13,6 +13,7 @@
   align-items: center;
   font-size: var(--font-size);
   color: var(--font-color);
+  padding: 8px;
 }
 
 #applet > div {
@@ -20,17 +21,22 @@
 }
 #questionText {
   flex: 1;
-  padding: 0 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  background-color: rgba(77, 86, 110, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Subtle border */
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7px);
+  padding: 12px;
+  border-radius: 12px;
 }
 
 #imageContainer {
   flex: 7;
 }
 #optionsContainer {
-  flex: 2;
+  flex: 1.5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,19 +82,22 @@
   justify-content: center;
   align-items: flex-start;
 }
+#image-wrapper{
+  display: inline-block;
+  position: relative;
+  margin: 0;
+}
 
 .backImage {
-  width: 94%;
+  width: 22em;
   top: 0;
   left: 0;
-}
-#actualMachine {
-  z-index: 1;
+
 }
 
 .machine-number {
   position: absolute;
-  height: 3em;
+  height: 2.5em;
   bottom: 20%;
   translate: -50%;
   z-index: 5;
@@ -107,33 +116,58 @@
 .ten-frame {
   position: absolute;
   bottom: 0;
-  width: 150px;
+  translate: 0 40%;
+  width: 5em;
   display: grid;
-  display: none;
   grid-template-columns: repeat(5, 1fr);
 }
 
 .cell {
-  width: 30px;
-  height: 30px;
+  width: 1em;
+  height: 1em;
   display: flex;
-  border: 1px solid white;
   justify-content: center;
   align-items: center;
+ 
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
-  background-color: red;
+  width: 70%;
+  height: 70%;
+  background-color: var(--glowing-orange);
   border-radius: 50%;
 }
 #frame1 {
-  left: 9%;
+  left: 4%;
 }
 #frame2 {
-  left: 42.5%;
+  left: 38.7%;
 }
 #frame3 {
-  left: 76%;
+  right: 4%;
+}
+
+@keyframes vibrate-x {
+  0% {
+    left: 0;
+  }
+  20% {
+    left: -2px;
+  }
+  40% {
+    left: 2px;
+  }
+  60% {
+    left: -2px;
+  }
+  80% {
+    left: 2px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.vibrate-x {
+  animation: vibrate-x 0.3s ease-in-out;
 }

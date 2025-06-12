@@ -42,7 +42,7 @@ body {
   align-items: center;
   row-gap: 0.7vw;
   font-family: var(--font-main);
-  background-image: url("TestBG.jpg");
+  background-image: url("assets/TestBG.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;

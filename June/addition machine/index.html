@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/applet.css" />
     <script src="js/confetti.min.js"></script>
+    <script src="js/gsap.min.js"></script>
   </head>
   <body>
     <audio id="correct">
@@ -32,7 +33,7 @@
           </div>
           <div class="character-display">
             <img
-              src="assets/KidChatter.png"
+              src="assets/JAXnormal.png"
               alt="Character"
               id="characterImageElement"
             />
@@ -44,18 +45,24 @@
             <div class="workingArea">
               <div id="applet">
                 <div id="questionText">
-                  Gilang has 3 marbles and Hana also has 3 marbles. How many marbles do they have altogether?
+                  
                 </div>
                 <div id="imageContainer">
                   <div id="machine">
-                    <img src="assets/highlight0.png" alt="Image 1" id="actualMachine" class="backImage"/>
-                    <img src="" alt="" id="img1" class="machine-number">
-                    <img src="" alt="" id="img2" class="machine-number">
-                    <img src="" alt="" id="img3" class="machine-number">
-                    <div class="ten-frame" id="frame1"></div>
-                    <div class="ten-frame" id="frame2"></div>
-                    <div class="ten-frame" id="frame3"></div>
-                    
+                    <div id="image-wrapper">
+                      <img
+                        src="assets/highlight0.png"
+                        alt="Image 1"
+                        id="actualMachine"
+                        class="backImage"
+                      />
+                      <img src="" alt="" id="img1" class="machine-number" />
+                      <img src="" alt="" id="img2" class="machine-number" />
+                      <img src="" alt="" id="img3" class="machine-number" />
+                      <div class="ten-frame" id="frame1"></div>
+                      <div class="ten-frame" id="frame2"></div>
+                      <div class="ten-frame" id="frame3"></div>
+                    </div>
                   </div>
                 </div>
                 <div id="optionsContainer">
@@ -86,7 +93,7 @@
                 id="prevButton"
                 disabled
               ></button>
-              <!-- <div class="step-counter" id="stepCounter"></div> -->
+              <div class="step-counter" id="stepCounter"></div>
               <button class="btn btn-primary" id="nextButton"></button>
             </div>
           </div>

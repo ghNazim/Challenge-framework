@@ -68,6 +68,41 @@ function initApp() {
     }
   });
 }
+function vibrateElement(el) {
+  if (!el) return;
+  el.style.position = "relative";
+  el.classList.add("vibrate-x");
+  return new Promise((resolve) => {
+    el.addEventListener("animationend", function handler() {
+      el.classList.remove("vibrate-x");
+      el.removeEventListener("animationend", handler);
+      resolve();
+    });
+  });
+}
+
+function playAudio(id) {
+  const audio = document.getElementById(id);
+  audio.currentTime = 0;
+  audio.play();
+}
+
+function confettiBurst() {
+  const duration = 2.5 * 1000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 360,
+      origin: { x: 0.5, y: 0.5 },
+    });
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
 
 function updateInstructions(key) {
   const ContextSection = document.querySelector(".context-section");
@@ -100,6 +135,17 @@ container.forEach((frame) => {
     frame.appendChild(cell);
   }
 });
+
+function setJaxPose(pose) {
+  const JAX = document.querySelector(`.character-display img`);
+  JAX.src = `assets/JAX${pose}.png`;
+}
+
+function setNextButtonText(key){
+  const text = T.button_texts[key]
+  nextButton.textContent = text
+}
+
 updateInstructions("instruction_general");
-// createStepCounter();
-// updateStepCounter(0);
+createStepCounter();
+updateStepCounter(0);
