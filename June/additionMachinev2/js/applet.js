@@ -1,0 +1,210 @@
+let hintvisible = false,
+  questionIndex = 0;
+const machine = document.getElementById("actualMachine");
+const hintbtn = document.querySelector(".hint-btn");
+
+let currentAnswer = 0;
+let correctAnswer = [0, 0, 0];
+
+async function checkAnswer() {
+  const correct = currentAnswer === correctAnswer[2];
+  if (correct) {
+    setJaxPose("happy");
+    updateInstructions("correct");
+    playAudio("correct");
+    if (!hintvisible) {
+      await showTenFrames()
+    }
+    confettiBurst();
+    setNextButtonText("next");
+    nextButton.onclick = handleNext;
+    return;
+  } else {
+    setJaxPose("sad");
+    updateInstructions("hint");
+    playAudio("wrong");
+    await vibrateElement(machine);
+    setImage(3, -1);
+    if (!hintvisible) {
+      await showTenFrames()
+      hintvisible = true;
+    }
+  }
+}
+function initiate() {
+  
+  hideNumbers();
+  hideAllTenFrames();
+  setQuestionText();
+  setNextButtonText("check");
+  setJaxPose("normal");
+  updateInstructions("instruction_general");
+  hintvisible = false;
+  animateOptionsIn();
+  showActualMachine();
+  
+  nextButton.onclick = checkAnswer;
+}
+initiate();
+
+async function handleNumpadClick(number) {
+  await setImage(3, number);
+  currentAnswer = parseInt(number);
+}
+function handleNext() {
+  questionIndex++;
+  initiate();
+}
+
+document.querySelectorAll(".option").forEach((numButton) => {
+  numButton.addEventListener("click", function () {
+    const number = this.getAttribute("data-value");
+    handleNumpadClick(number);
+  });
+});
+hintbtn.addEventListener("click", () => {
+  showTenFrames();
+  hintbtn.style.display = "none";
+})
+
+function hideAllTenFrames() {
+  fillDots("frame1", 0);
+  fillDots("frame2", 0);
+  fillDots("frame3", 0);
+}
+async function showTenFrames(){
+  await fillDots("frame1", correctAnswer[0]);
+  await fillDots("frame2", correctAnswer[1]);
+  await fillDots("frame3", correctAnswer[2]);
+}
+function hideNumbers() {
+  setImage(1, -1);
+  setImage(2, -1);
+  setImage(3, -1);
+}
+
+function animateOptionsIn() {
+  const options = document.querySelectorAll(".option");
+
+  if (!options.length) return;
+
+  gsap.fromTo(
+    options,
+    {
+      opacity: 0,
+      scale: 0.1,
+      y: 10,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      duration: 0.4,
+      ease: "back.out(1.7)",
+      stagger: 0.05,
+    }
+  );
+}
+
+function showActualMachine() {
+  const machine = document.getElementById("actualMachine");
+  if (!machine) return;
+  gsap.fromTo(
+    machine,
+    { opacity: 0 },
+    {
+      opacity: 1,
+      duration: 1,
+      ease: "power1.out",
+    }
+  );
+}
+
+function fillDots(id, n) {
+  return new Promise((resolve) => {
+    const cells = document.querySelectorAll(`#${id} .cell`);
+    const dotsToAnimate = [];
+
+    cells.forEach((cell, index) => {
+      cell.innerHTML = ""; // Clear previous dots
+
+      if (index < n) {
+        const dot = document.createElement("div");
+        dot.className = "dot";
+        cell.appendChild(dot);
+        dotsToAnimate.push(dot);
+      }
+    });
+
+    if (dotsToAnimate.length === 0) {
+      resolve(); // Nothing to animate
+      return;
+    }
+
+    gsap.fromTo(
+      dotsToAnimate,
+      { scale: 0.1, opacity: 0, x: -8, y: -5 },
+      {
+        scale: 1,
+        opacity: 1,
+        x: 0,
+        y: 0,
+        duration: 0.4,
+        ease: "back.out(1.7)",
+        stagger: 0.08,
+        onComplete: resolve, // Resolve when the animation ends
+      }
+    );
+  });
+}
+
+async function setImage(tag, num) {
+  if (tag === 0) return;
+  const id = `img${tag}`;
+  const image = document.getElementById(id);
+
+  return new Promise((resolve) => {
+    const animateIn = () => {
+      image.src = num < 0 ? "" : `assets/${numberToText[num]}.png`;
+
+      gsap.fromTo(
+        image,
+        { opacity: 0, scale: 0.1 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+          onComplete: resolve, // Resolve when animation finishes
+        }
+      );
+    };
+
+    if (image.src.includes(".png")) {
+      console.log("inside gsap");
+      gsap.to(image, {
+        opacity: 0,
+        scale: 0.1,
+        duration: 0.3,
+        onComplete: animateIn,
+      });
+    } else {
+      animateIn();
+    }
+  });
+}
+
+async function setQuestionText() {
+  // const questionText = document.getElementById("questionText");
+  // questionText.textContent = questionTexts[questionIndex];
+  correctAnswer = questions[questionIndex];
+  const tasks =[[1,correctAnswer[0]],[4,10],[2,correctAnswer[1]],[5,11]]
+
+  tasks.forEach((id, index) => {
+    gsap.delayedCall(index * 0.1, () => {
+      setImage(...id);
+    });
+  });
+  hintbtn.style.display = "block";
+  
+}

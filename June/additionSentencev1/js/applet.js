@@ -37,12 +37,15 @@ function showPictoralSentence(state) {
     outer.style.visibility = "visible";
     const span1Text = itemPictures.coin.repeat(questions[questionIndex][0]);
     const span2Text = itemPictures.coin.repeat(questions[questionIndex][1]);
-    spans[0].innerHTML = " " + span1Text + " ";
-    spans[2].innerHTML = " " + span2Text + " ";
+    spans[0].innerHTML = span1Text;
+    spans[2].innerHTML = span2Text;
+
     if (state === 2) {
       spans[4].innerHTML = itemPictures.coin.repeat(
         questions[questionIndex][0] + questions[questionIndex][1]
       );
+    } else {
+      spans[4].innerHTML = "__________ ?";
     }
   }
 }
@@ -65,6 +68,7 @@ function showNumberSentence(state) {
   spans[2].textContent = num2;
   spans[3].textContent = "=";
   if (state === 2) spans[4].textContent = num3;
+  else spans[4].textContent = "__________ ?";
   outer.style.visibility = "visible";
 }
 function setQuestion() {
@@ -86,7 +90,7 @@ async function checkAnswer() {
   const correct = true1 && true2 && true3;
   if (!correct) {
     playAudio("wrong");
-    setJaxPose("sad")
+    setJaxPose("sad");
     if (!hint1visible) {
       updateInstructions("hint_1");
       hint1.classList.add("nudgeAnimation");
@@ -181,11 +185,11 @@ function callWithStep() {
   setHintSentence("#numberSentence");
   showPictoralSentence(0);
   showNumberSentence(0);
-  currentAnswer = [0, 0, 0];
+  currentAnswer = [null, null, null];
   hint1visible = false;
   hint2visible = false;
   hint1.style.display = "block";
-  hint2.style.display = "block";
+  hint2.style.display = "none";
   turnGreen(false);
   setActiveBox(document.querySelector(".digit-box[data-index='0']"));
 }
@@ -253,8 +257,11 @@ function updateHintListner1() {
     updateInstructions("hint1_shown");
     createHint1lines();
     hint1visible = true;
-    hint1.style.display = "none";
     showPictoralSentence(1);
+    hint1.style.display = "none";
+    setTimeout(()=>{
+      hint2.style.display = "block";
+    },1000);
   });
 }
 
@@ -275,6 +282,9 @@ updateHintListner2();
 
 checkButton.addEventListener("click", checkAnswer);
 nextButton.addEventListener("click", () => {
+  if (questionIndex === NUM_STRUCTURES - 1) {
+    confettiBurst();
+  }
   if (questionIndex < NUM_STRUCTURES - 1) {
     questionIndex++;
     callWithStep();
@@ -282,9 +292,9 @@ nextButton.addEventListener("click", () => {
   if (questionIndex === 1) {
     prevButton.disabled = false;
   }
-  if (questionIndex === NUM_STRUCTURES) {
-    confettiBurst();
-  }
+  console.log(questionIndex);
+  
+  
 });
 prevButton.addEventListener("click", () => {
   if (questionIndex > 0) {
