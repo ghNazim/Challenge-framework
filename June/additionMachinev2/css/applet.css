@@ -91,13 +91,11 @@
 
 .backImage {
   width: 28em;
-  top: 0;
-  left: 0;
 }
 
 .machine-number {
   position: absolute;
-  height: 2.5em;
+  height: 3em;
   bottom: 20%;
   translate: -50%;
   z-index: 5;
@@ -113,11 +111,9 @@
 }
 #img4 {
   left: 32.5%;
-
 }
 #img5 {
   left: 68%;
- 
 }
 
 /* ######################### */
@@ -180,13 +176,16 @@
 }
 .hint-btn {
   position: absolute;
-  right: .5em;
-  top: .5em;
-  font-size: 1.5em;
-  background: linear-gradient(145deg, #ffc371, #ff7f00); /* Light to deep orange */
+  right: 0.5em;
+  top: 0.5em;
+  font-size: 1.2em;
+  background: linear-gradient(
+    145deg,
+    #ffc371,
+    #ff7f00
+  ); /* Light to deep orange */
   box-shadow: inset 0 2px 1px rgba(255, 255, 255, 0.2),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.1),
-    0 4px 0px rgba(255, 140, 0, 0.7); /* Warm orange shadow */
+    inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(255, 140, 0, 0.7); /* Warm orange shadow */
 
   padding: 0.1em 0.5em;
   font-weight: 500;
@@ -202,7 +201,7 @@
   &:active {
     background: linear-gradient(145deg, #ffc371, #ff7f00);
     box-shadow: 0 1px 1px rgba(255, 196, 110, 1),
-      inset 0 1px 2px rgba(0, 0, 0, 0.3); 
+      inset 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
   &:hover {
@@ -211,36 +210,118 @@
 }
 @keyframes pulse-glow {
   0% {
-    box-shadow:
-      0 0 0px rgba(255, 195, 113, 0.4),
-      0 0 10px rgba(255, 195, 113, 0.4),
-      0 0 20px rgba(255, 127, 0, 0.3),
+    box-shadow: 0 0 0px rgba(255, 195, 113, 0.4),
+      0 0 10px rgba(255, 195, 113, 0.4), 0 0 20px rgba(255, 127, 0, 0.3),
       inset 0 2px 1px rgba(255, 255, 255, 0.2),
-      inset 0 -2px 3px rgba(0, 0, 0, 0.1),
-      0 4px 0px rgba(255, 140, 0, 0.7);
+      inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(255, 140, 0, 0.7);
   }
   50% {
-    box-shadow:
-      0 0 10px rgba(255, 195, 113, 0.7),
-      0 0 30px rgba(255, 195, 113, 0.6),
-      0 0 50px rgba(255, 127, 0, 0.5),
+    box-shadow: 0 0 10px rgba(255, 195, 113, 0.7),
+      0 0 30px rgba(255, 195, 113, 0.6), 0 0 50px rgba(255, 127, 0, 0.5),
       inset 0 2px 1px rgba(255, 255, 255, 0.2),
-      inset 0 -2px 3px rgba(0, 0, 0, 0.1),
-      0 4px 0px rgba(255, 140, 0, 0.7);
+      inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(255, 140, 0, 0.7);
   }
   100% {
-    box-shadow:
-      0 0 0px rgba(255, 195, 113, 0.4),
-      0 0 10px rgba(255, 195, 113, 0.4),
-      0 0 20px rgba(255, 127, 0, 0.3),
+    box-shadow: 0 0 0px rgba(255, 195, 113, 0.4),
+      0 0 10px rgba(255, 195, 113, 0.4), 0 0 20px rgba(255, 127, 0, 0.3),
       inset 0 2px 1px rgba(255, 255, 255, 0.2),
-      inset 0 -2px 3px rgba(0, 0, 0, 0.1),
-      0 4px 0px rgba(255, 140, 0, 0.7);
+      inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(255, 140, 0, 0.7);
   }
 }
-
 
 .nudgeAnimation {
   animation: pulse-glow 2s infinite;
   animation-timing-function: ease-in-out;
+}
+
+/* balance positioning  */
+#balance {
+  position: relative;
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+#actualBalance {
+  position: relative;
+  width: 28em;
+  height: 15em;
+}
+.balance-parts {
+  position: absolute;
+}
+#base {
+  width: 5em;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 10;
+}
+#beam {
+  width: 20em;
+  bottom: 4.5em;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 5;
+}
+#left-pan {
+  width: 7em;
+  bottom: 5.2em;
+  left: 4.4em;
+  translate: -50% 0;
+  z-index: 8;
+}
+
+#right-pan {
+  width: 7em;
+  bottom: 5.2em;
+  right: 4.4em;
+  translate: 50% 0;
+  z-index: 8;
+}
+.pan {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+}
+.weight {
+  position: absolute;
+  top: 0;
+  width: 35%;
+  z-index: 5;
+  translate: -50% -100%;
+}
+#weight1 {
+  left: .5em;
+}
+#weight2 {
+  left: 6em;
+}
+#weight3 {
+  left: 2.75em;
+}
+#weight4 {
+  left: 3.2em;
+  top: -.5em;
+}
+#weight5 {
+  position: absolute;
+  z-index: 5;
+  translate: -50% -100%;
+  width: 3em;
+  top: 8em;
+  left: 50%;
+}
+.ten-frame-balance {
+  bottom: 6em;
+}
+#frame4{
+  left: 0%;
+}
+#frame5{
+  left: 20%;
+}
+#frame6{
+  left: 73%;
 }

@@ -2,57 +2,48 @@ let hintvisible = false,
   questionIndex = 0;
 const machine = document.getElementById("actualMachine");
 const hintbtn = document.querySelector(".hint-btn");
+const machineContainer = document.querySelector("#machine");
+const balanceContainer = document.querySelector("#balance");
 
 let currentAnswer = 0;
 let correctAnswer = [0, 0, 0];
 
 async function checkAnswer() {
-  const correct = currentAnswer === correctAnswer[2];
-  if (correct) {
-    setJaxPose("happy");
-    updateInstructions("correct");
-    playAudio("correct");
-    if (!hintvisible) {
-      await showTenFrames()
-    }
-    confettiBurst();
-    setNextButtonText("next");
-    nextButton.onclick = handleNext;
-    return;
-  } else {
-    setJaxPose("sad");
-    updateInstructions("hint");
-    playAudio("wrong");
-    await vibrateElement(machine);
-    setImage(3, -1);
-    if (!hintvisible) {
-      await showTenFrames()
-      hintvisible = true;
-    }
-  }
+  nextButton.disabled = true;
+  if (questionIndex < 3) await checkAnswerMachine();
+  else await checkAnswerBalance();
+  nextButton.disabled = false;
 }
 function initiate() {
-  
-  hideNumbers();
-  hideAllTenFrames();
-  setQuestionText();
+  prevButton.disabled = questionIndex === 0;
+  showOnScreen();
   setNextButtonText("check");
   setJaxPose("normal");
   updateInstructions("instruction_general");
-  hintvisible = false;
+
   animateOptionsIn();
-  showActualMachine();
-  
   nextButton.onclick = checkAnswer;
+  if (questionIndex < 3) setUpMachine();
+  else setupBalance();
 }
 initiate();
-
+function setUpMachine() {
+  hideNumbers();
+  hideAllTenFrames();
+  setQuestionText();
+  showActualMachine();
+}
 async function handleNumpadClick(number) {
-  await setImage(3, number);
-  currentAnswer = parseInt(number);
+  if (questionIndex < 3) {
+    await setImage(3, number);
+    currentAnswer = parseInt(number);
+  } else {
+    putWeightOnBalance(number);
+  }
 }
 function handleNext() {
   questionIndex++;
+  updateStepCounter(questionIndex);
   initiate();
 }
 
@@ -63,21 +54,26 @@ document.querySelectorAll(".option").forEach((numButton) => {
   });
 });
 hintbtn.addEventListener("click", () => {
-  showTenFrames();
+  if (questionIndex < 3) showTenFrames();
+  else showTenFramesBalance();
   hintbtn.style.display = "none";
-})
+});
 
 function hideAllTenFrames() {
   fillDots("frame1", 0);
   fillDots("frame2", 0);
   fillDots("frame3", 0);
 }
-async function showTenFrames(){
+async function showTenFrames() {
+  if (hintvisible) return;
   await fillDots("frame1", correctAnswer[0]);
   await fillDots("frame2", correctAnswer[1]);
   await fillDots("frame3", correctAnswer[2]);
+  hintbtn.style.display = "none";
+  hintvisible = true;
 }
 function hideNumbers() {
+  hintvisible = false;
   setImage(1, -1);
   setImage(2, -1);
   setImage(3, -1);
@@ -198,7 +194,12 @@ async function setQuestionText() {
   // const questionText = document.getElementById("questionText");
   // questionText.textContent = questionTexts[questionIndex];
   correctAnswer = questions[questionIndex];
-  const tasks =[[1,correctAnswer[0]],[4,10],[2,correctAnswer[1]],[5,11]]
+  const tasks = [
+    [1, correctAnswer[0]],
+    [4, 10],
+    [2, correctAnswer[1]],
+    [5, 11],
+  ];
 
   tasks.forEach((id, index) => {
     gsap.delayedCall(index * 0.1, () => {
@@ -206,5 +207,47 @@ async function setQuestionText() {
     });
   });
   hintbtn.style.display = "block";
-  
 }
+
+function showOnScreen() {
+  if (questionIndex < 3) {
+    machineContainer.style.display = "flex";
+    balanceContainer.style.display = "none";
+  } else {
+    balanceContainer.style.display = "flex";
+    machineContainer.style.display = "none";
+  }
+}
+async function checkAnswerMachine() {
+  const correct = currentAnswer === correctAnswer[2];
+  if (correct) {
+    await onCorrect(showTenFrames);
+  } else {
+    await onWrong(machine, showTenFrames);
+  }
+}
+async function onWrong(elementToVibrate, showTenFrames) {
+  setJaxPose("sad");
+  updateInstructions("hint");
+  playAudio("wrong");
+  await vibrateElement(elementToVibrate);
+  setImage(3, -1);
+  await showTenFrames();
+}
+async function onCorrect(showTenFrames) {
+  confettiBurst();
+  setJaxPose("happy");
+  updateInstructions("correct");
+  playAudio("correct");
+  if (!hintvisible) {
+    await showTenFrames();
+  }
+  setNextButtonText("next");
+  nextButton.onclick = handleNext;
+}
+
+prevButton.onclick = function () {
+  questionIndex--;
+  updateStepCounter(questionIndex);
+  initiate();
+};

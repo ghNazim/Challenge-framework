@@ -47,26 +47,8 @@ function initApp() {
   subtitleText.textContent = T.subtitle_text;
   nextButton.textContent = T.button_texts.next;
   prevButton.textContent = T.button_texts.prev;
-  // Button text will be set in updateNavigationButtons
+  
 
-  closeDefinitionOverlay.addEventListener("click", () =>
-    definitionOverlay.classList.remove("show")
-  );
-  contextBox.addEventListener("click", (event) => {
-    const target = event.target.closest(
-      ".highlight, .highlight-blue, .highlight-gold, .highlight-green, .highlight-red"
-    );
-    if (target) {
-      const key = Array.from(target.classList).find(
-        (cls) => T.overlay_definitions[cls]
-      );
-      if (key && T.overlay_definitions[key]) {
-        const def = T.overlay_definitions[key];
-        definitionOverlayContent.innerHTML = `<h3>${def.title}</h3>${def.content}`;
-        definitionOverlay.classList.add("show");
-      }
-    }
-  });
 }
 function vibrateElement(el) {
   if (!el) return;
@@ -87,8 +69,7 @@ function playAudio(id) {
   audio.play();
 }
 
-function confettiBurst() {
-  const duration = 2.5 * 1000;
+function confettiBurst(duration=1000) {
   const end = Date.now() + duration;
 
   (function frame() {

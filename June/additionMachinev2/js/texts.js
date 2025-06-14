@@ -59,6 +59,9 @@ const questions = [
   [3,3,6],
   [5,4,9],
   [2,0,2],
+  [3,2,5],
+  [4,2,6],
+  [6,3,9],
 ];
 const numberToText = [
   "zero",
@@ -79,4 +82,7 @@ const questionTexts = [
   "Gilang has 3 marbles and Hana has 3 marbles. How many marbles do they have altogether?",
   "Start at 5 and count on 4. What is the total ?",
   "Adi has 2 marbles. He adds no more marbles. How many marbles does he have now?",
+  "Eka has 3 coins and finds 2 more. What is the total number of coins?",
+  "Budi increases his score by 4 after scoring 2 more points. What is his new score?",
+  "Eka has 6 balls and Fitri brings 3 more. How many altogether?",
 ];

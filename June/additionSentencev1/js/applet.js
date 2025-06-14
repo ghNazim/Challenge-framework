@@ -100,7 +100,14 @@ async function checkAnswer() {
         hint2.classList.add("nudgeAnimation");
       }
     }
+    const boxes = document.querySelectorAll(".digit-box")
+    boxes.forEach((box) => {
+      box.classList.add("incorrect");
+    });
     await vibrateElement(document.querySelector(".equation"));
+    boxes.forEach((box) => {
+      box.classList.remove("incorrect");
+    })
     const ind = getFirstWrongIndex();
     setActiveBox(
       document.querySelector(".digit-box[data-index='" + ind + "']")
