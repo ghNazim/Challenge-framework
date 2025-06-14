@@ -12,9 +12,10 @@ function step0() {
   ];
   setupConstants();
   fillCalculationDisplay(questions[questionIndex]);
-  document
-    .querySelectorAll(".digit-label")
-    .forEach((el) => (el.textContent = "0"));
+  document.querySelectorAll(".digit-label").forEach((el) => {
+    el.textContent = "0";
+    el.style.display = "none";
+  });
   updateWithStep("start");
   setJAXpose("normal");
   unitIndex = 0;
@@ -26,12 +27,13 @@ function step0() {
     .forEach((element) => {
       element.classList.remove("block-color-active");
       element.classList.remove("block-color-semi");
+      setElementState(element, "White");
     });
   document
     .querySelectorAll(".hundreds-cell .actual-blocks")
     .forEach(
       (element) =>
-        (element.innerHTML = `<div class="hundred-block block-color-placeholder"></div>`)
+        (element.innerHTML = `<img src="assets/hundredsWhite.png" class="hundred-block" data-tag="hundreds">`)
     );
 
   setAllOpaque();
@@ -47,7 +49,7 @@ function step1() {
   updateWithStep("set1");
 }
 async function handleUnitsCalc() {
-  console.log("units calc 1")
+  console.log("units calc 1");
   next.disabled = true;
   setJAXpose("normal");
   setOpaque("units");
@@ -66,29 +68,26 @@ async function handleUnitsCalc() {
     setOpaque("tens");
   }
   next.disabled = false;
-  if(u1===0 && u2===0){
-    document.querySelector(`row-3 .units-cell .digit-label`).style.display = "block";
+  if (u1 === 0 && u2 === 0) {
+    document.querySelector(`row-3 .units-cell .digit-label`).style.display =
+      "block";
   }
 }
 function translateUnitsOverflow() {
-  console.log("translateUnitsOverflow");
-  
   next.disabled = true;
-  animateClone(
-    cloned,
-    document.querySelector("#row-3 .ten-bar").getBoundingClientRect(),
-    () => {
-      paintActive("#row-3 .ten-bar", 1, "block-color-active");
-      tenIndex = 1;
-      cloned = null;
-      updateDigitLabel("tens");
-      updateDigitLabel("units");
-      next.disabled = false;
-      updateWithStep("tens1");
-      highlightColumn("tens");
-      setOpaque("tens");
-    }
-  );
+  const dest = document.querySelector("#row-3 .ten-bar");
+  animateClone(cloned, dest.getBoundingClientRect(), () => {
+    dest.classList.add("block-color-active");
+    setElementState(dest, "Active");
+    tenIndex = 1;
+    cloned = null;
+    updateDigitLabel("tens");
+    updateDigitLabel("units");
+    next.disabled = false;
+    updateWithStep("tens1");
+    highlightColumn("tens");
+    setOpaque("tens");
+  });
 }
 async function handleTensCalc() {
   console.log(1);
@@ -151,7 +150,7 @@ async function handleHundredsClick() {
 async function flyAnswer() {
   next.disabled = true;
   unhighlightColumn();
-  
+
   await Promise.all([
     triggerFlyText("units"),
     triggerFlyText("tens"),
@@ -161,15 +160,13 @@ async function flyAnswer() {
   confettiBurst();
   setJAXpose("happy");
   playAudio("success");
-  if(questionIndex === questions.length - 1){
-    updateWithStep("finished")
+  if (questionIndex === questions.length - 1) {
+    updateWithStep("finished");
     next.style.visibility = "hidden";
-  }
-  else{
+  } else {
     updateWithStep("tryNew");
     next.disabled = false;
   }
-  
 }
 
 let stepQueue;
@@ -186,7 +183,6 @@ function setUpStepQueue() {
   stepQueue.push(reset);
 }
 setUpStepQueue();
-
 
 next.addEventListener("click", function () {
   step++;

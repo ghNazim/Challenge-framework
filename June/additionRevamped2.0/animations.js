@@ -28,6 +28,7 @@ function cloneAndTranslateElement(tag) {
     const computedStyle = window.getComputedStyle(originalElement);
 
     clonedElement.style.display = computedStyle.display;
+    clonedElement.style.gap = computedStyle.gap;
     clonedElement.style.flexDirection = computedStyle.flexDirection;
     clonedElement.style.justifyContent = computedStyle.justifyContent;
     clonedElement.style.alignItems = computedStyle.alignItems;
@@ -79,7 +80,7 @@ async function animateUnits1() {
   );
   const unitsBottom = document.querySelectorAll("#row-3 .unit-block");
   for (let i = 0; i < unitsTop.length; i++) {
-    const block = unitsTop[unitsTop.length - 1-i];
+    const block = unitsTop[unitsTop.length - 1 - i];
     await promiseWrapper(
       animateCloneToTarget,
       block,
@@ -87,9 +88,11 @@ async function animateUnits1() {
       () => {
         block.classList.remove("block-color-active");
         block.classList.add("block-color-semi");
+        setElementState(block, "Semi");
       },
       () => {
-        paintActive("#row-3 .unit-block", i + 1, "block-color-active");
+        unitsBottom[i].classList.add("block-color-active");
+        setElementState(unitsBottom[i], "Active");
         updateDigitLabel("units");
       }
     );
@@ -105,20 +108,19 @@ async function animateTens1() {
 
   for (let i = 0; i < unitsTop.length; i++) {
     const block = unitsTop[i];
+    const dest = unitsBottom[initialTenindex + i];
     await promiseWrapper(
       animateCloneToTarget,
       block,
-      unitsBottom[initialTenindex + i],
+      dest,
       () => {
         block.classList.remove("block-color-active");
         block.classList.add("block-color-semi");
+        setElementState(block, "Semi");
       },
       () => {
-        paintActive(
-          "#row-3 .ten-bar",
-          initialTenindex + i + 1,
-          "block-color-active"
-        );
+        dest.classList.add("block-color-active");
+        setElementState(dest, "Active");
         updateDigitLabel("tens");
       }
     );
@@ -139,20 +141,19 @@ async function animateUnits2() {
 
   for (let i = 0; i < unitsTop.length; i++) {
     const block = unitsTop[unitsTop.length - 1 - i];
+    const dest = unitsBottom[unitIndex + i];
     await promiseWrapper(
       animateCloneToTarget,
       block,
-      unitsBottom[unitIndex + i],
+      dest,
       () => {
         block.classList.remove("block-color-active");
         block.classList.add("block-color-semi");
+        setElementState(block, "Semi");
       },
       () => {
-        paintActive(
-          "#row-3 .unit-block",
-          unitIndex + i + 1,
-          "block-color-active"
-        );
+        dest.classList.add("block-color-active");
+        setElementState(dest, "Active");
         updateDigitLabel("units");
       }
     );
@@ -165,31 +166,35 @@ async function animateTens2() {
   unitsTop = Array.from(unitsTop);
   const length = unitsTop.length;
   if (tenIndex + length >= 10) {
-    unitsTop = unitsTop.slice(length - 10 + tenIndex);
+    unitsTop = unitsTop.slice(0,10 - tenIndex);
   }
   const unitsBottom = document.querySelectorAll("#row-3 .ten-bar");
 
   for (let i = 0; i < unitsTop.length; i++) {
-    const block = unitsTop[unitsTop.length - 1 - i];
+    const block = unitsTop[i];
+    const dest = unitsBottom[tenIndex + i];
     await promiseWrapper(
       animateCloneToTarget,
       block,
-      unitsBottom[tenIndex + i],
+      dest,
       () => {
         block.classList.remove("block-color-active");
         block.classList.add("block-color-semi");
+        setElementState(block, "Semi");
       },
       () => {
-        paintActive("#row-3 .ten-bar", tenIndex + i + 1, "block-color-active");
+        dest.classList.add("block-color-active");
+        setElementState(dest, "Active");
         updateDigitLabel("tens");
       }
     );
   }
 }
 
-
 function animateTheTopHundredToTarget(srcNo, targetNo, onStart, onComplete) {
-  const src = document.querySelectorAll(`#row-${srcNo} .hundred-block.block-color-active`);
+  const src = document.querySelectorAll(
+    `#row-${srcNo} .hundred-block.block-color-active`
+  );
   const target = document.querySelectorAll(`#row-${targetNo} .hundred-block`);
   const targetActiveLength = document.querySelectorAll(
     `#row-${targetNo} .hundred-block.block-color-active`
@@ -206,6 +211,7 @@ function animateTheTopHundredToTarget(srcNo, targetNo, onStart, onComplete) {
   onStart?.();
   sourceElement.classList.remove("block-color-active");
   sourceElement.classList.add("block-color-semi");
+  setElementState(sourceElement, "Semi");
   rearrangeHundreds(srcNo);
   function onCompleteInside() {
     onComplete?.();
@@ -277,8 +283,11 @@ function animateClone(clone, targetRect, onComplete) {
   clone.style.transition = "all 0.5s ease-in-out";
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      clone.style.top = `${targetRect.top + window.scrollY}px`;
-      clone.style.left = `${targetRect.left + window.scrollX}px`;
+      clone.style.top = `${targetRect.top}px`;
+      clone.style.left = `${targetRect.left}px`;
+      clone.style.width = `${targetRect.width}px`;
+      clone.style.height = `${targetRect.height}px`;
+      clone.style.gap = "0";
     });
   });
 

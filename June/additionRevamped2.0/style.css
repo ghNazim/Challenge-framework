@@ -1,7 +1,7 @@
 :root {
-  --unit-dim: 1.3vw;
+  --unit-dim: 1.2vw;
   --bar-width: var(--unit-dim);
-  --bar-height: calc(var(--unit-dim) * 10); /* 200px */
+  --bar-height: calc(var(--unit-dim) * 10.3); /* 200px */
   --square-dim: var(--bar-height);
 
   --color-active: #ff8c00; /* Dark Blue for 293 and 62 blocks */
@@ -52,7 +52,7 @@ body {
   position: fixed;
   bottom: 0px;
   left: var(--unit-dim);
-  width: 16rem;
+  width: 18rem;
 }
 #applet {
   display: flex;
@@ -66,7 +66,7 @@ body {
 
 .main-layout {
   backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(252, 228, 71, 0.5);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -74,6 +74,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .calculation-display {
@@ -111,39 +112,6 @@ body {
   color: var(--color-highlight);
   font-weight: bold;
 }
-
-.blocks-area-columnar {
-  display: flex;
-  flex-direction: column;
-}
-
-.blocks-major-row {
-  position: relative;
-  display: flex;
-  align-items: flex-start; /* Top align content of cells (H,T,U) */
-  gap: var(--cell-gap);
-  padding: var(--row-padding-vertical) 0;
-}
-
-.blocks-row-divider {
-  width: 100%;
-  border: none;
-  border-top: 1px solid #cccccc;
-  margin: 0;
-}
-.blocks-area-columnar .blocks-major-row:last-of-type + .blocks-row-divider {
-  display: none; /* No divider after the sum row */
-}
-
-.block-cell {
-  display: flex;
-  align-items: flex-start; /* Align blocks and label to the top */
-}
-.block-cell .actual-blocks {
-  display: flex;
-  position: relative;
-}
-
 /* New CSS for the interactive digit area and stepper buttons */
 .digit-interactive-area {
   display: flex;
@@ -195,6 +163,39 @@ body {
 .stepper-btn.increase-btn {
   margin-bottom: 0.25rem; /* Adds a small space between the up and down buttons */
 }
+.blocks-area-columnar {
+  display: flex;
+  flex-direction: column;
+}
+
+.blocks-major-row {
+  position: relative;
+  display: flex;
+  align-items: center; /* Top align content of cells (H,T,U) */
+  gap: var(--cell-gap);
+  padding: var(--row-padding-vertical) 0;
+}
+
+.blocks-row-divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #cccccc;
+  margin: 0;
+}
+.blocks-area-columnar .blocks-major-row:last-of-type + .blocks-row-divider {
+  display: none; /* No divider after the sum row */
+}
+
+.block-cell {
+  display: flex;
+  align-items: flex-start; /* Align blocks and label to the top */
+}
+.block-cell .actual-blocks {
+  display: flex;
+  position: relative;
+}
+
+
 
 /* HUNDREDS CELL */
 .hundreds-cell .actual-blocks {
@@ -218,22 +219,21 @@ body {
   flex-direction: row; /* Align ten-bars horizontally */
   height: var(--bar-height); /* Fixed height for 10 units tall */
   align-items: flex-start; /* Bars start from top */
+  gap: .3rem;
 }
 .ten-bar {
   width: var(--bar-width);
   height: var(--bar-height);
   box-sizing: border-box;
 }
-.ten-bar:not(:last-child) {
-  margin-right: var(--bar-margin-horizontal);
-}
+
 
 /* UNITS CELL */
 .units-cell .actual-blocks {
   flex-direction: column-reverse; /* Stack unit-blocks vertically */
 
   width: var(--unit-dim);
-  height: var(--bar-height); /* Fixed height for 10 units tall */
+  gap: .22rem;
   align-items: flex-start;
 }
 .unit-block {
@@ -245,7 +245,6 @@ body {
 
 /* BLOCK COLORS */
 .block-color-active {
-  background-color: var(--color-active) !important;
   border: 1px solid white;
 }
 .block-color-semi {
@@ -387,7 +386,7 @@ body {
   background: #f9fcff;
   border-radius: 0.8rem;
   padding: 0.8rem;
-  width: 21.2rem;
+  width: 26rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
 }

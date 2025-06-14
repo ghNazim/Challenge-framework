@@ -1,4 +1,4 @@
-let questionIndex = 4;
+let questionIndex = 0;
 let unitIndex = 0,
   tenIndex = 0,
   hundredIndex = 0;

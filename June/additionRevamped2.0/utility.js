@@ -8,12 +8,17 @@ function createHundreds(q, n, className) {
   const block = document.querySelector(q).parentNode;
   block.innerHTML = "";
   for (let i = 0; i < n; i++) {
-    const newBlock = document.createElement("div");
+    const newBlock = document.createElement("img");
     newBlock.classList.add("hundred-block");
-    newBlock.classList.add("block-color-placeholder");
     newBlock.classList.add(className);
+    newBlock.src = `assets/hundredsActive.png`;
+    newBlock.dataset.tag = "hundreds";
     block.appendChild(newBlock);
   }
+}
+function setElementState(img, state) {
+  const tag = img.dataset.tag;
+  img.src = `assets/${tag}${state}.png`;
 }
 function paintActive(q, n, className) {
   if (q.includes("hundred") && n > 0) {
@@ -21,12 +26,13 @@ function paintActive(q, n, className) {
   }
   const blocks = document.querySelectorAll(q);
   const blocksArray = Array.from(blocks);
-  blocks.forEach((block) => {
+  blocksArray.slice(n).forEach((block) => {
     block.classList.remove("block-color-active");
-    block.classList.remove("block-color-semi");
+    setElementState(block, "White");
   });
   blocksArray.slice(0, n).forEach((block) => {
     block.classList.add(className);
+    setElementState(block, "Active");
   });
 }
 function removePaint(q) {
@@ -34,6 +40,7 @@ function removePaint(q) {
   blocks.forEach((block) => {
     block.classList.remove("block-color-active");
     block.classList.remove("block-color-semi");
+    setElementState(block, "White");
   });
 }
 
