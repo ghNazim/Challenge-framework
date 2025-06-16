@@ -1,9 +1,11 @@
 const next = document.getElementById("nextButton");
 let step = 0;
+
 updateWithStep("start");
 setJAXpose("normal");
 fillCalculationDisplay(questions[questionIndex]);
 setupConstants();
+currentAnswer = questions[questionIndex][1];
 function step0() {
   nums = [
     [0, 0, 0],
@@ -174,13 +176,19 @@ function setUpStepQueue() {
   stepQueue = [];
   stepQueue.push(step0);
   stepQueue.push(step1);
-  stepQueue.push(handleUnitsCalc);
-  if (unitOverflow) stepQueue.push(translateUnitsOverflow);
-  stepQueue.push(handleTensCalc);
-  if (tenOverflow) stepQueue.push(translateTensOverflow);
-  stepQueue.push(handleHundredsClick);
+  stepQueue.push(handleBorrowFromTens);
+  stepQueue.push(handleCheckAnswerUnits);
+  stepQueue.push(handleBorrowFromHundreds);
+  stepQueue.push(handleCheckAnswerTens);
+  stepQueue.push(handleCheckAnswerHundreds);
   stepQueue.push(flyAnswer);
-  stepQueue.push(reset);
+  // stepQueue.push(handleUnitsCalc);
+  // if (unitOverflow) stepQueue.push(translateUnitsOverflow);
+  // stepQueue.push(handleTensCalc);
+  // if (tenOverflow) stepQueue.push(translateTensOverflow);
+  // stepQueue.push(handleHundredsClick);
+  // stepQueue.push(flyAnswer);
+  // stepQueue.push(reset);
 }
 setUpStepQueue();
 
@@ -199,3 +207,84 @@ function reset() {
 }
 
 
+async function handleBorrowFromTens(){
+  next.disabled = true;
+  await animateBorrowFromTen();
+  stageSetUp("units");
+  updateWithStep("check")
+  next.disabled = false
+}
+
+async function handleCheckAnswerUnits(){
+  const correct = currentAnswer[2]===0;
+  if(!correct){
+    playAudio("wrong");
+    setJAXpose("sad");
+    step--;
+    return;
+  }
+  else{
+    removeListener()
+    playAudio("correct");
+    setJAXpose("happy");
+    next.disabled = true;
+    await animateUnitsToBottom()
+    next.disabled = false;
+    highlightColumn("tens");
+    setOpaque("tens");
+    updateWithStep("borrowFromHundreds");
+    removeListener();
+    unitsClone.onclick = null
+  }
+}
+async function handleBorrowFromHundreds() {
+  next.disabled = true;
+  await animateBorrowFromHundred();
+  stageSetUp("tens");
+  updateWithStep("check");
+  next.disabled = false;
+}
+async function handleCheckAnswerTens() {
+  const correct = currentAnswer[1] === 0;
+  if (!correct) {
+    playAudio("wrong");
+    setJAXpose("sad");
+    step--;
+    return;
+  } else {
+    removeListener();
+    playAudio("correct");
+    setJAXpose("happy");
+    next.disabled = true;
+    await animateTensToBottom();
+    next.disabled = false;
+    highlightColumn("hundreds");
+    setOpaque("hundreds");
+    updateWithStep("check");
+    removeListener();
+    tensClone.onclick = null;
+    stageSetUp("hundreds");
+  }
+}
+
+async function handleCheckAnswerHundreds() {
+  const correct = currentAnswer[0] === 0;
+  if (!correct) {
+    playAudio("wrong");
+    setJAXpose("sad");
+    step--;
+    return;
+  } else {
+    removeListener();
+    playAudio("correct");
+    setJAXpose("happy");
+    next.disabled = true;
+    await animateHundredsToBottom();
+    next.disabled = false;
+    highlightRow(3);
+    setAllOpaque()
+    updateWithStep("combine");
+    removeListener();
+    tensClone.onclick = null;
+  }
+}

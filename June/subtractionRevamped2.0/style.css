@@ -181,7 +181,7 @@ body {
 .blocks-row-divider {
   width: 100%;
   border: none;
-  border-top: 1px solid #cccccc;
+  border-top: 2px solid #cccccc;
   margin: 0;
 }
 .blocks-area-columnar .blocks-major-row:last-of-type + .blocks-row-divider {
@@ -197,9 +197,6 @@ body {
   position: relative;
 }
 
-.hundred-block,.ten-bar,.unit-block{
-  cursor: poiner;
-}
 
 /* HUNDREDS CELL */
 .hundreds-cell .actual-blocks {
@@ -235,7 +232,6 @@ body {
 /* UNITS CELL */
 .units-cell .actual-blocks {
   flex-direction: column-reverse; /* Stack unit-blocks vertically */
-
   width: var(--unit-dim);
   gap: .22rem;
   align-items: flex-start;
@@ -378,7 +374,7 @@ body {
   position: absolute;
   border: 3px solid var(--color-highlight);
   pointer-events: none; /* allow clicks to go through */
-  z-index: 10;
+  z-index: 0;
   display: none;
   transition: all 0.35s ease-in-out;
 }

@@ -1,25 +1,4 @@
-const nextButtonTexts = [
-  "Start",
-  "Next",
-  "Next",
-  "Add Units Place",
-  "Add Tens Place",
-  "Carry Over to the Hundreds Place",
-  "Add Hundreds Place",
-  "Find the Answer",
-  "Try New"
-];
-const instructions = [
-  "Click on the button at the bottom of your screen to proceed.",
-  "Use the '+' and '-' buttons to set the first number.",
-  "Use the '+' and '-' buttons to set the second number.",
-  "Bring the cubes at units place together to sum them up.",
-  "Bring the rods at tens place together to sum them up.",
-  "Ten tens equal one hundreds. So lets carry them over to the hundreds place.",
-  "Bring the flats at hundreds place together to sum them up.",
-  "Combine the digits to get the answer.",
-  "Congratulations! You have added two numbers successfully.",
-];
+
 
 
 const stepsInfo = {
@@ -39,18 +18,18 @@ const stepsInfo = {
     buttonText: "Add Units Place",
     instruction: "Bring the cubes at units place together to sum them up.",
   },
-  unitsCarry: {
-    buttonText: "Carry Over to the Tens Place",
-    instruction: "Ten ones equal one ten. So lets carry them over to the tens place.",
+  borrowFromTens: {
+    buttonText: "Borrow ten ones from Tens Place",
+    instruction: "Ten ones equal one ten. So lets borrow them over from the tens place.",
   },
   tens1: {
     buttonText: "Add Tens Place",
     instruction: "Bring the rods at tens place together to sum them up.",
   },
-  tensCarry: {
-    buttonText: "Carry Over to the Hundreds Place",
+  borrowFromHundreds: {
+    buttonText: "Borrow from Hundreds Place",
     instruction:
-      "Ten tens equal one hundreds. So lets carry them over to the hundreds place.",
+      "Ten tens equal one hundreds. So lets carry them over to the tens place.",
   },
   hundreds1: {
     buttonText: "Add Hundreds Place",
@@ -67,5 +46,9 @@ const stepsInfo = {
   finished: {
     buttonText: "Finish",
     instruction: "You have completed all three additions.",
+  },
+  check: {
+    buttonText: "Check Answer",
+    instruction: "Subtract the second number from the first number by clicking the blocks.",
   },
 };

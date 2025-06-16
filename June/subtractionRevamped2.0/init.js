@@ -45,8 +45,8 @@ function initializeSteppers(onDigitUpdateCallback) {
 
       // Call the provided callback function with the details
       onDigitUpdateCallback(row, place, currentValue);
-      if(place===0){
-        rearrangeHundreds(row+1);
+      if (place === 0) {
+        rearrangeHundreds(row + 1);
       }
     });
   });
@@ -55,7 +55,7 @@ function initializeSteppers(onDigitUpdateCallback) {
 function handleDigitUpdate(rowId, place, newValue) {
   nums[rowId][place] = newValue;
   paintActive(blockClasses[rowId][place], newValue, "block-color-active");
-  const col = place===0 ? "hundreds" : place===1 ? "tens" : "units";
+  const col = place === 0 ? "hundreds" : place === 1 ? "tens" : "units";
   const el = document.querySelector(
     `#row-${rowId + 1} .${col}-cell .actual-blocks`
   );
@@ -73,30 +73,31 @@ function handleSetClick(row) {
     units = a[2] === q[2];
   const correct = hundreds && tens && units;
   if (!correct) {
-    playAudio("wrong")
+    playAudio("wrong");
     setJAXpose("sad");
-    if(!units){
-      const el = document.querySelector(`#row-${row+1} .units-cell .actual-blocks`);
-      vibrateElement(el)
-    }
-    if(!tens){
+    if (!units) {
       const el = document.querySelector(
-        `#row-${row+1} .tens-cell .actual-blocks`
+        `#row-${row + 1} .units-cell .actual-blocks`
       );
       vibrateElement(el);
     }
-    if(!hundreds){
+    if (!tens) {
       const el = document.querySelector(
-        `#row-${row+1} .hundreds-cell .actual-blocks`
+        `#row-${row + 1} .tens-cell .actual-blocks`
       );
       vibrateElement(el);
-      
+    }
+    if (!hundreds) {
+      const el = document.querySelector(
+        `#row-${row + 1} .hundreds-cell .actual-blocks`
+      );
+      vibrateElement(el);
     }
     return;
   }
   playAudio("correct");
   setJAXpose("happy");
-  showChangeButtons(row+1, false);
+  showChangeButtons(row + 1, false);
   if (row === 0) {
     // showChangeButtons(2, true);
     // highlightRow(2);
@@ -104,7 +105,7 @@ function handleSetClick(row) {
     document.getElementById("nextButton").disabled = false;
     highlightColumn("units");
     highlightSum(0);
-    updateWithStep("units1");
+    updateWithStep("borrowFromTens");
   }
   // else{
   //   document.getElementById("nextButton").disabled = false;
@@ -120,9 +121,7 @@ document.querySelectorAll(".setButton").forEach((button, index) => {
   });
 });
 
-
 function fillCalculationDisplay(questionData) {
-
   const firstNumData = questionData[0]; // [2, 9, 5]
   const secondNumData = questionData[1]; // [2, 4, 7]
   const sumData = questionData[2]; // [5, 4, 2]
@@ -166,11 +165,7 @@ function fillCalculationDisplay(questionData) {
   }
 }
 
-
-
-
-function updateWithStep(key){
-  
+function updateWithStep(key) {
   const data = stepsInfo[key];
   const ins = document.querySelector(".speech-bubble>p");
   const next = document.getElementById("nextButton");
