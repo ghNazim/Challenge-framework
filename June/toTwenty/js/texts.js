@@ -11,24 +11,23 @@ const texts = {
   },
 
   instruction_general: {
-    instruction_title: "Greetings!",
+    instruction_title: "Hello!",
     instruction_text:
-      "Ever wondered how numbers are made? Let’s have some fun and find out together!",
+      "Let’s have fun and continue to create bigger numbers together!",
   },
   next: {
     instruction_title: "",
-    instruction_text:
-      "Click the 'Next' button to continue.",
+    instruction_text: "Click the 'Next' button to continue.",
   },
-  pink_jar: {
-    instruction_title: "Instruction",
+  reminder: {
+    instruction_title: "Reminder",
     instruction_text:
-      "This is a special Pink Jar, you can add and remove squares from here. Let's give it a try!",
+      "Just a reminder - this pink jar shows the Ones place. Each click adds one square!",
   },
   plus: {
     instruction_title: "Add Boxes",
     instruction_text:
-      "Click on the “+” button, observe the number that comes on the top box. The bottom box tells us how we say it.",
+      "Just Click on the “+” button once to see what happens!",
   },
   minus: {
     instruction_title: "Remove boxes",
@@ -41,10 +40,10 @@ const texts = {
     instruction_text:
       " Wasn’t that fun? Now let's keep adding squares to the box to see how many we can fill up.",
   },
-  wiggling: {
-    instruction_title: "Whoa!",
+  pink_unlike: {
+    instruction_title: "Observe",
     instruction_text:
-      "Do you see that? The Pink Jar is wiggling,  it can’t hold more than 9 squares!",
+      "The Pink Jar Does not like having more than one Digit!",
   },
   blue_jar: {
     instruction_title: "Blue Jar",

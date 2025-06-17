@@ -59,9 +59,9 @@ function updateStepCounter(stepIndex) {
   dots[stepIndex].classList.add("active");
 }
 
-function setJaxPose(pose) {
+function setCavePose(pose) {
   const JAX = document.querySelector(`.character-display img`);
-  JAX.src = `assets/JAX${pose}.png`;
+  JAX.src = `assets/cave${pose}.png`;
 }
 updateInstructions("instruction_general");
 // createStepCounter();
