@@ -93,37 +93,44 @@ async function checkAnswer() {
     setJaxPose("sad");
     if (!hint1visible) {
       updateInstructions("hint_1");
-      hint1.classList.add("nudgeAnimation");
+      hint1.click();
     } else {
       if (!hint2visible) {
         updateInstructions("hint_2");
-        hint2.classList.add("nudgeAnimation");
+        hint2.click();
       }
     }
-    const boxes = document.querySelectorAll(".digit-box")
+    const boxes = document.querySelectorAll(".digit-box");
     boxes.forEach((box) => {
       box.classList.add("incorrect");
     });
     await vibrateElement(document.querySelector(".equation"));
     boxes.forEach((box) => {
       box.classList.remove("incorrect");
-    })
+    });
     const ind = getFirstWrongIndex();
     setActiveBox(
       document.querySelector(".digit-box[data-index='" + ind + "']")
     );
   } else {
+    if (questionIndex === NUM_STRUCTURES - 1) {
+      setNextButtonText("start_over");
+      updateInstructions("final_step");
+    }
     setJaxPose("happy");
     turnGreen(true);
+    confettiBurst();
     svg.innerHTML = "";
     createHint1lines();
     createHint2lines();
     playAudio("correct");
     showNumberSentence(2);
     showPictoralSentence(2);
-    updateInstructions("final_step");
-    hint1.classList.remove("nudgeAnimation");
-    hint2.classList.remove("nudgeAnimation");
+    updateInstructions("congrats")
+    hint1.style.display = "none";
+    hint2.style.display = "none";
+    // hint1.classList.remove("nudgeAnimation");
+    // hint2.classList.remove("nudgeAnimation");
   }
 }
 
@@ -180,6 +187,7 @@ function createOnlyHint2Lines() {
 function callWithStep() {
   if (questionIndex === 0) {
     prevButton.disabled = true;
+    setNextButtonText("next");
   }
   svg.innerHTML = "";
   setJaxPose("normal");
@@ -247,12 +255,14 @@ function getFirstWrongIndex() {
 
 document.querySelectorAll(".digit-box").forEach((box) => {
   box.addEventListener("click", function () {
+    playAudio("click");
     setActiveBox(this);
   });
 });
 
 document.querySelectorAll(".number").forEach((numButton) => {
   numButton.addEventListener("click", function () {
+    playAudio("click");
     const number = this.getAttribute("data-num");
     handleNumpadClick(number);
   });
@@ -261,14 +271,16 @@ function updateHintListner1() {
   const hint1 = document.getElementById("hintButton1");
 
   hint1.addEventListener("click", () => {
+    playAudio("click");
+    setJaxPose("thinking");
     updateInstructions("hint1_shown");
     createHint1lines();
     hint1visible = true;
     showPictoralSentence(1);
     hint1.style.display = "none";
-    setTimeout(()=>{
+    setTimeout(() => {
       hint2.style.display = "block";
-    },1000);
+    }, 1000);
   });
 }
 
@@ -276,6 +288,8 @@ function updateHintListner2() {
   const hint2 = document.getElementById("hintButton2");
 
   hint2.addEventListener("click", () => {
+    playAudio("click");
+    setJaxPose("thinking");
     updateInstructions("hint2_shown");
     if (hint1visible) createHint2lines();
     else createOnlyHint2Lines();
@@ -289,21 +303,16 @@ updateHintListner2();
 
 checkButton.addEventListener("click", checkAnswer);
 nextButton.addEventListener("click", () => {
-  if (questionIndex === NUM_STRUCTURES - 1) {
-    confettiBurst();
-  }
-  if (questionIndex < NUM_STRUCTURES - 1) {
-    questionIndex++;
-    callWithStep();
-  }
+  playAudio("click");
+
+  questionIndex = (questionIndex + 1) % NUM_STRUCTURES;
+  callWithStep();
   if (questionIndex === 1) {
     prevButton.disabled = false;
   }
-  console.log(questionIndex);
-  
-  
 });
 prevButton.addEventListener("click", () => {
+  playAudio("click");
   if (questionIndex > 0) {
     questionIndex--;
     callWithStep();
@@ -312,39 +321,3 @@ prevButton.addEventListener("click", () => {
 callWithStep(0);
 document.getElementById("sentenceContainer").style.visibility = "visible";
 // Utilities
-
-function vibrateElement(el) {
-  if (!el) return;
-  el.style.position = "relative";
-  el.classList.add("vibrate-x");
-  return new Promise((resolve) => {
-    el.addEventListener("animationend", function handler() {
-      el.classList.remove("vibrate-x");
-      el.removeEventListener("animationend", handler);
-      resolve();
-    });
-  });
-}
-
-function playAudio(id) {
-  const audio = document.getElementById(id);
-  audio.currentTime = 0;
-  audio.play();
-}
-
-function confettiBurst() {
-  const duration = 2.5 * 1000;
-  const end = Date.now() + duration;
-
-  (function frame() {
-    confetti({
-      particleCount: 5,
-      angle: 60,
-      spread: 360,
-      origin: { x: 0.5, y: 0.5 },
-    });
-    if (Date.now() < end) {
-      requestAnimationFrame(frame);
-    }
-  })();
-}

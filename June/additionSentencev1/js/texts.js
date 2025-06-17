@@ -13,7 +13,7 @@ const texts = {
   instruction_general: {
     instruction_title: "Instruction",
     instruction_text:
-      "Click on the empty box you want to fill, then click on any number on the right to fill the box with the number.",
+      "Click on the numbers on the right panel to fill the boxes and complete the addition sentence.",
   },
   hint_1: {
     instruction_title: "Hint",
@@ -35,7 +35,12 @@ const texts = {
     instruction_text:
       "Look at both the hints now and try to figure out the answer.",
   },
+
   final_step: {
+    instruction_title: "Congratulations!",
+    instruction_text: " You have completed all the questions.",
+  },
+  congrats: {
     instruction_title: "Congratulations!",
     instruction_text: " You have completed the addition sentence.",
   },

@@ -98,7 +98,7 @@ body {
 
 .character-display {
   width: auto; /* Adjust size of kid image */
-  height: 50%;
+  height: 40%;
   /* margin: 0 auto;
   align-self: center;
   margin-top: auto; */
@@ -269,55 +269,7 @@ body {
   flex-grow: 0;
 }
 
-#apexSkewSlider {
-  -webkit-appearance: none;
-  width: 60%;
-  height: 8px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.2); /* Lighter track for contrast */
-  outline: none;
-  cursor: pointer;
-}
-#apexSkewSlider::-webkit-slider-runnable-track {
-  height: 8px;
-  background: linear-gradient(
-    to right,
-    #ffa500,
-    #ff8c00
-  ); /* Orange gradient for slider */
-  border-radius: 4px;
-}
-#apexSkewSlider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 20px;
-  width: 20px;
-  background: white;
-  border: 3px solid #ff8c00; /* Orange border for thumb */
-  border-radius: 50%;
-  margin-top: -6px;
-  transition: transform 0.2s;
-}
-#apexSkewSlider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-}
-#apexSkewSlider::-moz-range-track {
-  height: 8px;
-  background: linear-gradient(to right, #ffa500, #ff8c00);
-  border-radius: 4px;
-}
-#apexSkewSlider::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
-  background: white;
-  border: 3px solid #ff8c00;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.slider::-moz-range-thumb:hover {
-  /* Note: Original CSS had .slider, assuming it meant #apexSkewSlider */
-  transform: scale(1.1);
-}
+
 
 /********************************************
  * 6) WORKING AREA CONTENT

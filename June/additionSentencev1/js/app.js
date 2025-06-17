@@ -29,9 +29,6 @@ let currentStep = 0,
 initApp();
 
 function initApp() {
-  htmlTitle = document.getElementById("html_title");
-  mainTitleText = document.getElementById("main_title_text");
-  subtitleText = document.getElementById("subtitle_text");
   contextBox = document.getElementById("contextBox");
   prevButton = document.getElementById("prevButton");
   nextButton = document.getElementById("nextButton");
@@ -42,31 +39,9 @@ function initApp() {
   );
   closeDefinitionOverlay = document.getElementById("closeDefinitionOverlay");
 
-  htmlTitle.textContent = T.html_title;
-  mainTitleText.textContent = T.main_title_text;
-  subtitleText.textContent = T.subtitle_text;
   nextButton.textContent = T.button_texts.next;
   prevButton.textContent = T.button_texts.prev;
   // Button text will be set in updateNavigationButtons
-
-  closeDefinitionOverlay.addEventListener("click", () =>
-    definitionOverlay.classList.remove("show")
-  );
-  contextBox.addEventListener("click", (event) => {
-    const target = event.target.closest(
-      ".highlight, .highlight-blue, .highlight-gold, .highlight-green, .highlight-red"
-    );
-    if (target) {
-      const key = Array.from(target.classList).find(
-        (cls) => T.overlay_definitions[cls]
-      );
-      if (key && T.overlay_definitions[key]) {
-        const def = T.overlay_definitions[key];
-        definitionOverlayContent.innerHTML = `<h3>${def.title}</h3>${def.content}`;
-        definitionOverlay.classList.add("show");
-      }
-    }
-  });
 }
 
 function updateInstructions(key) {
@@ -93,11 +68,51 @@ function updateStepCounter(stepIndex) {
   dots[stepIndex].classList.add("active");
 }
 
-function setJaxPose(pose){
+function setJaxPose(pose) {
   const JAX = document.querySelector(`.character-display img`);
   JAX.src = `assets/JAX${pose}.png`;
 }
 
-
 createStepCounter();
 updateStepCounter(0);
+
+function vibrateElement(el) {
+  if (!el) return;
+  el.style.position = "relative";
+  el.classList.add("vibrate-x");
+  return new Promise((resolve) => {
+    el.addEventListener("animationend", function handler() {
+      el.classList.remove("vibrate-x");
+      el.removeEventListener("animationend", handler);
+      resolve();
+    });
+  });
+}
+
+function playAudio(id) {
+  const audio = document.getElementById(id);
+  audio.currentTime = 0;
+  audio.play();
+}
+
+function confettiBurst() {
+  const duration = 1 * 1000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 360,
+      origin: { x: 0.5, y: 0.5 },
+    });
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+function setNextButtonText(key) {
+  const text = T.button_texts[key];
+  nextButton.textContent = text;
+}

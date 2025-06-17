@@ -134,7 +134,7 @@
   transition: scale 0.2s ease-in-out;
 }
 .box-active {
-  outline: white solid 5px;
+  outline: white solid 8px;
   box-shadow: none;
   &:hover {
     scale: 1;
