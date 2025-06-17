@@ -26,8 +26,7 @@ const texts = {
   },
   plus: {
     instruction_title: "Add Boxes",
-    instruction_text:
-      "Just Click on the “+” button once to see what happens!",
+    instruction_text: "Just Click on the “+” button once to see what happens!",
   },
   minus: {
     instruction_title: "Remove boxes",
@@ -42,13 +41,17 @@ const texts = {
   },
   pink_unlike: {
     instruction_title: "Observe",
-    instruction_text:
-      "The Pink Jar Does not like having more than one Digit!",
+    instruction_text: "The Pink Jar Does not like having more than one Digit!",
   },
-  blue_jar: {
-    instruction_title: "Blue Jar",
+  mcq: {
+    instruction_title: "",
     instruction_text:
-      "This is a special blue Jar, you can use this jar when the pink jar fills up!",
+      "I really want to continue counting higher, how can we resolve this? help me by clicking the right answer",
+  },
+  increase: {
+    instruction_title: "",
+    instruction_text:
+      "Use the '+' and '-' buttons to increase the number of squares in the ones place.",
   },
   move_left: {
     instruction_title: "",
@@ -75,6 +78,12 @@ const texts = {
     rod: "Ten squares came together to form one rod!",
     rod_split:
       "one rod split to form ten squares! As the pink jar can hold only nine symbols, move the squares to the blue Jar",
+    wrong1:
+      "Hmm… If we leave all 10 in the ones place, we can’t keep counting. Let’s see what happens when we move them to the tens place instead!",
+    wrong3:
+      "Oh no! We worked hard to count to 10 - we don’t need to erase. Let’s try a better idea: move them to the tens place!",
+    correct:
+      "Yes! 10 ones make 1 ten. Let’s merge them and move it to the tens place!",
   },
 };
 window.APP_TEXTS = texts;
@@ -91,4 +100,24 @@ const numberToText = [
   "Eight",
   "Nine",
   "Ten",
+  "Eleven",
+  "Twelve",
+  "Thirteen",
+  "Fourteen",
+  "Fifteen",
+  "Sixteen",
+  "Seventeen",
+  "Eighteen",
+  "Nineteen",
+  "Twenty",
 ];
+const mcqData = {
+  options: [
+    "Leave the 10 squares in the ones place.",
+    "Move all 10 squares to the tens place as 1 ten.",
+    "Erase all the squares and start over.",
+  ],
+  feedback: ["wrong1", "correct", "wrong3"],
+  answer: 1,
+  question: "",
+};

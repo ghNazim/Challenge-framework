@@ -3,51 +3,51 @@ let stepQ = [];
 
 function atStep0() {
   unitWidget.style.display = "block";
-  updateInstructions("pink_jar");
+  tenWidget.style.display = "block";
+  updateInstructions("reminder");
 }
 function atStep1() {
   updateInstructions("plus");
   nextButton.disabled = true;
   plusBtn.style.pointerEvents = "auto";
   plusBtn.classList.add("pulse-highlight");
-  plusBtn.addEventListener("click", clickPLusFirstTime);
+  plusBtn.addEventListener("click", clickPLusFirstTime, { once: true });
 }
 function clickPLusFirstTime() {
-  updateInstructions("minus");
-  minusBtn.style.pointerEvents = "auto";
+  updateInstructions("pink_unlike");
   plusBtn.style.pointerEvents = "none";
-  minusBtn.classList.add("pulse-highlight");
   plusBtn.classList.remove("pulse-highlight");
   plusBtn.removeEventListener("click", clickPLusFirstTime);
-  minusBtn.addEventListener("click", clickMinusFirstTime);
+  nextButton.disabled= false;
 }
-function clickMinusFirstTime() {
-  updateInstructions("keep_adding");
-  minusBtn.classList.remove("pulse-highlight");
-  minusBtn.removeEventListener("click", clickMinusFirstTime);
-  plusBtn.style.pointerEvents = "auto";
+function toMcq(){
+  showMCQ(true);
+  nextButton.disabled = true;
+  updateInstructions("mcq");
+}
+function afterMcq(){
+  showMCQ(false);
+  nextButton.disabled = true;
+  showStatement(1);
+  updateInstructions("move_left");
 }
 function whenHits10() {
   wiggle()
-  updateInstructions("wiggling");
-  showComment("number_disappeared");
   unitNumberTab.classList.add("outlined");
   nextButton.disabled = false;
 }
 function reverse10() {
   wiggle(false)
-  updateInstructions("keep_adding");
-  showStatement(-1);
   unitNumberTab.classList.remove("outlined");
-  setNextText("next");
   nextButton.disabled = true;
 }
 stepQ.push(atStep0);
 stepQ.push(atStep1);
-stepQ.push(blankStepBeforeAddingContainer);
-stepQ.push(addTenContainer);
-stepQ.push(moveRight);
-stepQ.push(moveLeft);
+stepQ.push(toMcq);
+stepQ.push(afterMcq);
+// stepQ.push(addTenContainer);
+// stepQ.push(moveRight);
+// stepQ.push(moveLeft);
 function handleNext() {
   if (progress < stepQ.length) {
     stepQ[progress]();
@@ -74,29 +74,12 @@ function showComment(tag) {
   showStatement(0);
   commentEl.innerHTML = T.comments[tag];
 }
-function blankStepBeforeAddingContainer(){
-  setNextText("add_jar");
-  showComment("add_jar")
+function showNumberText(text){
+  showStatement(3);
+  const numberText = document.querySelector("#numberText>p");
+  numberText.textContent = text
 }
-function addTenContainer() {
-  const tenWidget = document.getElementById("ten-widget");
-  plusBtn.style.pointerEvents = "none";
-  minusBtn.style.pointerEvents = "none";
-  
-  unitWidget.addEventListener(
-    "transitionend",
-    function handleTransitionEnd() {
-      unitWidget.removeEventListener("transitionend", handleTransitionEnd);
-      tenWidget.style.visibility = "visible";
-      showStatement(1);
-      updateInstructions("move_left");
-      nextButton.disabled = true;
-      setNextText("next");
-    },
-    { once: true }
-  );
-  unitWidget.classList.remove("shifted");
-}
+
 
 function moveRight() {
   showStatement(2);
@@ -119,3 +102,39 @@ function wiggle(bool=true){
     vibrateElement(unitSquaresContainer, false)
   }
 }
+
+
+function initMCQ(mcqData) {
+  const container = document.getElementById("mcqContainer");
+  const optionElements = container.querySelectorAll(".option");
+  optionElements.forEach((el, index) => {
+    el.textContent = mcqData.options[index];
+    el.classList.remove("correct", "wrong");
+    el.addEventListener("click", () => {
+      showComment(mcqData.feedback[index]);
+      optionElements.forEach((opt) => opt.classList.remove("correct", "wrong"));
+      if (index === mcqData.answer) {
+        el.classList.add("correct");
+        optionElements.forEach((opt) =>
+          opt.style.pointerEvents = "none"
+        );
+        setCavePose("Happy")
+        nextButton.disabled = false;
+      } else {
+        el.classList.add("wrong");
+        setCavePose("Sad")
+      }
+    });
+  });
+}
+function showMCQ(show){
+  const container = document.getElementById("mcqContainer");
+  if(!show){
+    container.style.display = "none";
+    boxContainer.style.display = "flex";
+    return;
+  }
+  container.style.display = "flex";
+  boxContainer.style.display = "none";
+}
+initMCQ(mcqData);

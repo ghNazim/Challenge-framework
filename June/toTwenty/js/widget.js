@@ -1,4 +1,5 @@
 const unitWidget = document.getElementById("unit-widget");
+const tenWidget = document.getElementById("ten-widget");
 const unitNumberTab = document.querySelector("#unit-widget .number-tab");
 const tenNumberTab = document.querySelector("#ten-widget .number-tab");
 const unitSquaresContainer = document.querySelector(
@@ -12,17 +13,19 @@ const plusBtn = document.getElementById("plus-btn");
 const minusBtn = document.getElementById("minus-btn");
 const leftDir = document.querySelector(".left-dir");
 const rightDir = document.querySelector(".right-dir");
+const boxContainer = document.querySelector("#box-container");
 
 // --- State ---
-let count = 0,
+let unitCount = 9,
   maxCount = 10,
-  minCount = 0;
-
+  minCount = 0,
+  tenCount = 0;
+let isNumberTextUp = false;
 function render() {
-  unitNumberTab.textContent = count < 10 ? count : "X";
-  unitTextDisplay.textContent = numberToText[count] || count;
+  unitNumberTab.textContent = unitCount < 10 ? unitCount : "X";
+  unitTextDisplay.textContent = numberToText[unitCount] || unitCount;
   unitSquaresContainer.innerHTML = "";
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < unitCount; i++) {
     const square = document.createElement("div");
     square.className = "count-square";
     unitSquaresContainer.appendChild(square);
@@ -30,18 +33,24 @@ function render() {
 }
 
 plusBtn.addEventListener("click", () => {
-  if (count < maxCount) {
-    count++;
+  if (unitCount < maxCount) {
+    unitCount++;
     render();
-    if (count === maxCount) whenHits10();
+    if(isNumberTextUp){
+      showNumberText(numberToText[tenCount * 10 + unitCount]);
+    }
+    if (unitCount === maxCount) whenHits10();
   }
 });
 
 minusBtn.addEventListener("click", () => {
-  if (count > minCount) {
-    count--;
+  if (unitCount > minCount) {
+    unitCount--;
     render();
-    if (count === maxCount - 1) reverse10();
+    if (isNumberTextUp) {
+      showNumberText(numberToText[tenCount * 10 + unitCount]);
+    }
+    if (unitCount === maxCount - 1) reverse10();
   }
 });
 
@@ -162,26 +171,31 @@ leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;
 
 async function onLeftDirClick1() {
-  wiggle(false)
+  wiggle(false);
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
   unitTextDisplay.textContent = numberToText[0];
   await animateUnitsToTens();
-  updateInstructions("next")
+  unitCount=0;
+  tenCount++;
+  isNumberTextUp = true;
+  updateInstructions("increase");
   showComment("rod");
-  nextButton.disabled = false;
+  nextButton.disabled = true;
   tenNumberTab.textContent = 1;
   tenTextDisplay.textContent = numberToText[1];
-  leftDir.onclick = onLeftDirClick2
+  plusBtn.style.pointerEvents = "auto";
+  minusBtn.style.pointerEvents = "auto";
+  leftDir.onclick = onLeftDirClick2;
 }
 async function onLeftDirClick2() {
-  wiggle(false)
+  wiggle(false);
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
   unitTextDisplay.textContent = numberToText[0];
   await animateUnitsToTens();
-  showStatement(-1)
-  updateInstructions("number_ten")
+  showStatement(-1);
+  updateInstructions("number_ten");
   tenNumberTab.textContent = 1;
   tenTextDisplay.textContent = numberToText[1];
 }
@@ -190,9 +204,9 @@ async function onRightDirClick() {
   tenNumberTab.textContent = 0;
   tenTextDisplay.textContent = numberToText[0];
   await animateTensToUnits();
-  wiggle(true)
+  wiggle(true);
   unitNumberTab.classList.add("outlined");
-    updateInstructions("next")
+  updateInstructions("next");
   unitNumberTab.textContent = 10;
   unitTextDisplay.textContent = numberToText[10];
   showComment("rod_split");
