@@ -29,9 +29,7 @@ let currentStep = 0,
 initApp();
 
 function initApp() {
-  htmlTitle = document.getElementById("html_title");
-  mainTitleText = document.getElementById("main_title_text");
-  subtitleText = document.getElementById("subtitle_text");
+  
   contextBox = document.getElementById("contextBox");
   prevButton = document.getElementById("prevButton");
   nextButton = document.getElementById("nextButton");
@@ -41,10 +39,6 @@ function initApp() {
     "definitionOverlayContent"
   );
   closeDefinitionOverlay = document.getElementById("closeDefinitionOverlay");
-
-  htmlTitle.textContent = T.html_title;
-  mainTitleText.textContent = T.main_title_text;
-  subtitleText.textContent = T.subtitle_text;
   nextButton.textContent = T.button_texts.next;
   prevButton.textContent = T.button_texts.prev;
   

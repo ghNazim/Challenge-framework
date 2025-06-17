@@ -8,8 +8,7 @@ const texts = {
     prev: "Previous",
     next: "Next",
     check: "Check Answer",
-    finish: "View Summary", // Text for the button when on the last shape
-    start_over: "Start Over", // Text for the button on the summary page
+    start_over: "Start Over",
   },
 
   instruction_general: {
@@ -33,25 +32,6 @@ const texts = {
     instruction_text: " You have answered all the questions successfully.",
   },
 
-  // Texts for overlay popups (triggered by clicking .highlight span elements)
-  // You can expand this as needed.
-  overlay_definitions: {
-    "highlight-gold": {
-      title: "Unit Cubes",
-      content:
-        "<p>A <strong>unit cube</strong> is a standard cube, typically with sides of 1 unit in length (e.g., 1cm, 1 inch).</p><p>We use unit cubes as building blocks to measure the volume of larger, more complex shapes.</p>",
-    },
-    "highlight-red": {
-      title: "Consistent Volume",
-      content:
-        "<p>Even though all 10 shapes had different forms, each one required exactly <strong>8 unit cubes</strong> to be completely filled.</p><p>This highlights that volume is a measure of the total space occupied, not the specific dimensions or form of the object.</p>",
-    },
-    highlight: {
-      title: "Volume",
-      content:
-        "<p>The measure of the amount of three-dimensional space an object occupies.</p>",
-    },
-  },
 };
 window.APP_TEXTS = texts;
 
@@ -62,6 +42,7 @@ const questions = [
   [3,2,5],
   [4,2,6],
   [6,3,9],
+  [1,5,6]
 ];
 const numberToText = [
   "zero",

@@ -80,22 +80,26 @@
   width: 60%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 #image-wrapper {
   display: inline-block;
   position: relative;
   margin: 0;
 }
+#checkButton{
+  margin-bottom: .3rem;
+}
 
 .backImage {
-  width: 28em;
+  width: 25em;
 }
 
 .machine-number {
   position: absolute;
-  height: 3em;
+  height: 2.7em;
   bottom: 20%;
   translate: -50%;
   z-index: 5;
@@ -240,8 +244,9 @@
   width: 70%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 #actualBalance {
   position: relative;
@@ -288,7 +293,7 @@
 .weight {
   position: absolute;
   top: 0;
-  width: 35%;
+  height: 4em;
   z-index: 5;
   translate: -50% -100%;
 }
@@ -299,11 +304,12 @@
   left: 6em;
 }
 #weight3 {
-  left: 2.75em;
+  left: 3.4em;
 }
 #weight4 {
   left: 3.2em;
   top: -.5em;
+  height: 2.8em;
 }
 #weight5 {
   position: absolute;

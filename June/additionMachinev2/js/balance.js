@@ -116,23 +116,32 @@ function putWeightOnBalance(num) {
 }
 
 function hideAllTenFramesBalance() {
+  hintvisible = false;
   fillDots("frame4", 0);
   fillDots("frame5", 0);
   fillDots("frame6", 0);
 }
 
 async function showTenFramesBalance() {
+  if (hintvisible) return;
   await fillDots("frame4", balanceProps.left[0]);
   await fillDots("frame5", balanceProps.left[1]);
   await fillDots("frame6", balanceProps.answer);
   hintbtn.style.display = "none";
+  hintvisible = true;
 }
 
 async function checkAnswerBalance() {
+  checkButtonBalance.disabled = true;
   const correct = balanceProps.answer === balanceProps.right;
   if (correct) {
     await onCorrect(showTenFramesBalance);
+    if (questionIndex === questions.length - 1) {
+      setNextButtonText("start_over");
+      updateInstructions("final_step");
+    }
   } else {
     await onWrong(balance, showTenFramesBalance);
+    checkButtonBalance.disabled = false;
   }
 }

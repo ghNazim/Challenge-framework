@@ -4,25 +4,22 @@ const machine = document.getElementById("actualMachine");
 const hintbtn = document.querySelector(".hint-btn");
 const machineContainer = document.querySelector("#machine");
 const balanceContainer = document.querySelector("#balance");
+const checkButton = document.querySelector("#checkButton");
+const checkButtonBalance = document.querySelector("#checkButtonBalance");
 
 let currentAnswer = 0;
 let correctAnswer = [0, 0, 0];
 
-async function checkAnswer() {
-  nextButton.disabled = true;
-  if (questionIndex < 3) await checkAnswerMachine();
-  else await checkAnswerBalance();
-  nextButton.disabled = false;
-}
+
 function initiate() {
   prevButton.disabled = questionIndex === 0;
+  currentAnswer = 0;
+  disableNumpad(false);
   showOnScreen();
-  setNextButtonText("check");
+  checkButtonOn(true);
   setJaxPose("normal");
   updateInstructions("instruction_general");
-
   animateOptionsIn();
-  nextButton.onclick = checkAnswer;
   if (questionIndex < 3) setUpMachine();
   else setupBalance();
 }
@@ -42,18 +39,25 @@ async function handleNumpadClick(number) {
   }
 }
 function handleNext() {
-  questionIndex++;
+  playAudio("click");
+  questionIndex = (questionIndex + 1)%NUM_STRUCTURES;
+  if(questionIndex===0){
+    setNextButtonText("next")
+  }
   updateStepCounter(questionIndex);
   initiate();
 }
 
 document.querySelectorAll(".option").forEach((numButton) => {
   numButton.addEventListener("click", function () {
+    playAudio("click");
     const number = this.getAttribute("data-value");
     handleNumpadClick(number);
   });
 });
 hintbtn.addEventListener("click", () => {
+  playAudio("click");
+  setJaxPose("thinking")
   if (questionIndex < 3) showTenFrames();
   else showTenFramesBalance();
   hintbtn.style.display = "none";
@@ -219,11 +223,13 @@ function showOnScreen() {
   }
 }
 async function checkAnswerMachine() {
+  checkButton.disabled = true;
   const correct = currentAnswer === correctAnswer[2];
   if (correct) {
     await onCorrect(showTenFrames);
   } else {
     await onWrong(machine, showTenFrames);
+    checkButton.disabled = false;
   }
 }
 async function onWrong(elementToVibrate, showTenFrames) {
@@ -236,18 +242,39 @@ async function onWrong(elementToVibrate, showTenFrames) {
 }
 async function onCorrect(showTenFrames) {
   confettiBurst();
+  disableNumpad();
   setJaxPose("happy");
   updateInstructions("correct");
   playAudio("correct");
   if (!hintvisible) {
     await showTenFrames();
   }
-  setNextButtonText("next");
-  nextButton.onclick = handleNext;
+  checkButtonOn(false);
 }
+nextButton.onclick = handleNext;
+checkButton.onclick = checkAnswerMachine;
+checkButtonBalance.onclick = checkAnswerBalance;
 
 prevButton.onclick = function () {
+  playAudio("click");
   questionIndex--;
   updateStepCounter(questionIndex);
   initiate();
 };
+
+function checkButtonOn(show = true) {
+  if (show) {
+    checkButton.disabled = false;
+    nextButton.disabled = true;
+    checkButtonBalance.disabled = false;
+  } else {
+    checkButton.disabled = true;
+    nextButton.disabled = false;
+    checkButtonBalance.disabled = true;
+  }
+}
+
+function disableNumpad(disable=true){
+  const optionsContainer = document.getElementById("optionsContainer");
+  optionsContainer.style.pointerEvents = disable ? "none" : "auto";
+}

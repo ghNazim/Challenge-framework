@@ -18,11 +18,15 @@
       <source src="sound/wrong.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
+    <audio id="click">
+      <source src="sound/click.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
     <div class="applet-container">
-      <div class="titleBar">
+      <!-- <div class="titleBar">
         <h1 id="main_title_text"></h1>
         <p id="subtitle_text"></p>
-      </div>
+      </div> -->
 
       <div class="main-layout">
         <div class="left-panel-anchor">
@@ -65,6 +69,7 @@
                       <div class="ten-frame" id="frame2"></div>
                       <div class="ten-frame" id="frame3"></div>
                     </div>
+                    <button class="btn btn-primary" id="checkButton">Check Answer</button>
                   </div>
                   <div id="balance">
                     <div id="actualBalance">
@@ -90,6 +95,7 @@
                         <img src="assets/Pan.png" class="pan" />
                       </div>
                     </div>
+                    <button class="btn btn-primary" id="checkButtonBalance">Check Answer</button>
                     <div class="ten-frame ten-frame-balance" id="frame4"></div>
                     <div class="ten-frame ten-frame-balance" id="frame5"></div>
                     <div class="ten-frame ten-frame-balance" id="frame6"></div>
