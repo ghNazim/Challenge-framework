@@ -1,17 +1,10 @@
 :root {
   --glowing-orange: #fdbe35;
   --font-size-standard: 1.7vw;
-  --bg-color: #1a3a4a;
-  --main-card-bg: #c4b5fd;
-  --secondary-card-bg: #a78bfa;
   --text-color: #ffffff;
   --speaker-bg: #e5e7eb; /* gray-200 */
   --speaker-icon-color: #374151; /* gray-700 */
-  --light-blue: #4e73d9;
-  --dark-blue: #1d4ed8;
   --darker-blue: #1e40af;
-  --light-pink: #f472b6;
-  --dark-pink: #db2777;
   --button-pulse-color: rgba(219, 39, 119, 0.7);
   --blue-1: #61abd8;
   --blue-2: #3f93cf;
