@@ -1,7 +1,10 @@
 const checkButton = document.getElementById("checkButton");
+checkButton.textContent = texts.button_texts.check;
 const svg = document.getElementById("svgOverlay");
 const hint1 = document.querySelector("#hintButton1");
+hint1.textContent = texts.button_texts.hint;
 const hint2 = document.querySelector("#hintButton2");
+hint2.textContent = texts.button_texts.another_hint;
 
 let questionIndex = 0;
 let activeBox = null,

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title id="html_title">Addition Sentence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/applet.css" />
+    <script src="js/confetti.min.js"></script>
+    <script src="js/gsap.min.js"></script>
+  </head>
+  <body>
+    <audio id="correct">
+      <source src="sound/correct.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="wrong">
+      <source src="sound/wrong.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="click">
+      <source src="sound/click.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <div class="applet-container">
+      <!-- <div class="titleBar">
+        <h1 id="main_title_text"></h1>
+        <p id="subtitle_text"></p>
+      </div> -->
+
+      <div class="main-layout">
+        <div class="left-panel-anchor">
+          <div class="speech-bubble-container">
+            <div class="contextBox" id="contextBox">
+              <div class="context-section"></div>
+            </div>
+          </div>
+          <div class="character-display">
+            <img
+              src="assets/JAXnormal.png"
+              alt="Character"
+              id="characterImageElement"
+            />
+          </div>
+        </div>
+
+        <div class="right-panel-content">
+          <div class="workingArea-container">
+            <div class="workingArea">
+              <div id="applet">
+                <button class="hint-btn">Hint</button>
+                <div id="questionText"></div>
+                <div id="imageContainer">
+                  <div id="machine">
+                    <div id="image-wrapper">
+                      <img
+                        src="assets/highlight0.png"
+                        alt="Image 1"
+                        id="actualMachine"
+                        class="backImage"
+                      />
+                      <img src="" alt="" id="img1" class="machine-number" />
+                      <img src="" alt="" id="img2" class="machine-number" />
+                      <img src="" alt="" id="img3" class="machine-number" />
+                      <img src="" alt="" class="machine-number" id="img4" />
+                      <img src="" alt="" class="machine-number" id="img5" />
+
+                      <div class="ten-frame" id="frame1"></div>
+                      <div class="ten-frame" id="frame2"></div>
+                      <div class="ten-frame" id="frame3"></div>
+                    </div>
+                    <button class="btn btn-primary" id="checkButton">Check Answer</button>
+                  </div>
+                  <div id="balance">
+                    <div id="actualBalance">
+                      <img
+                        src="assets/Base.png"
+                        id="base"
+                        class="balance-parts"
+                      />
+                      <img
+                        src="assets/Beam.png"
+                        id="beam"
+                        class="balance-parts"
+                      />
+                      <img src="" alt="" id="weight5">
+                      <div id="left-pan" class="balance-parts">
+                        <img src="" alt="" id="weight1" class="weight" />
+                        <img src="" alt="" id="weight2" class="weight" />
+                        <img src="" alt="" id="weight4" class="weight" />
+                        <img src="assets/Pan.png" class="pan" />
+                      </div>
+                      <div id="right-pan" class="balance-parts">
+                        <img src="" alt="" id="weight3" class="weight" />
+                        <img src="assets/Pan.png" class="pan" />
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" id="checkButtonBalance">Check Answer</button>
+                    <div class="ten-frame ten-frame-balance" id="frame4"></div>
+                    <div class="ten-frame ten-frame-balance" id="frame5"></div>
+                    <div class="ten-frame ten-frame-balance" id="frame6"></div>
+                  </div>
+                </div>
+                <div id="optionsContainer">
+                  <div class="option" data-value="0">0</div>
+                  <div class="option" data-value="1">1</div>
+                  <div class="option" data-value="2">2</div>
+                  <div class="option" data-value="3">3</div>
+                  <div class="option" data-value="4">4</div>
+                  <div class="option" data-value="5">5</div>
+                  <div class="option" data-value="6">6</div>
+                  <div class="option" data-value="7">7</div>
+                  <div class="option" data-value="8">8</div>
+                  <div class="option" data-value="9">9</div>
+                </div>
+              </div>
+
+              <div class="overlay workingArea-overlay" id="definitionOverlay">
+                <div class="overlay-close" id="closeDefinitionOverlay"></div>
+                <div
+                  class="overlay-content"
+                  id="definitionOverlayContent"
+                ></div>
+              </div>
+            </div>
+            <div class="lowerControls">
+              <button
+                class="btn btn-secondary"
+                id="prevButton"
+                disabled
+              ></button>
+              <div class="step-counter" id="stepCounter"></div>
+              <button class="btn btn-primary" id="nextButton"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/rootData.js"></script>
+    <script src="js/texts.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/balance.js"></script>
+    <script src="js/applet.js"></script>
+  </body>
+</html>
