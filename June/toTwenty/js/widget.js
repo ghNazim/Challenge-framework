@@ -5,14 +5,18 @@ const tenNumberTab = document.querySelector("#ten-widget .number-tab");
 const unitSquaresContainer = document.querySelector(
   "#unit-widget .squares-container"
 );
+const tenSquaresContainer = document.querySelector(
+  "#ten-widget .squares-container"
+);
 const unitInnerCard = document.querySelector("#unit-widget .inner-card");
 
 const unitTextDisplay = document.querySelector("#unit-widget .text-display");
 const tenTextDisplay = document.querySelector("#ten-widget .text-display");
 const plusBtn = document.getElementById("plus-btn");
 const minusBtn = document.getElementById("minus-btn");
-const leftDir = document.querySelector(".left-dir");
-const rightDir = document.querySelector(".right-dir");
+const arrowContainer = document.querySelector("#unit-widget .arrowContainer");
+const leftDir = arrowContainer.querySelector(".left-dir");
+const rightDir = arrowContainer.querySelector(".right-dir");
 const boxContainer = document.querySelector("#box-container");
 
 // --- State ---
@@ -21,6 +25,29 @@ let unitCount = 9,
   minCount = 0,
   tenCount = 0;
 let isNumberTextUp = false;
+
+function addUnits(n) {
+  for (let i = 0; i < n; i++) {
+    const square = document.createElement("div");
+    square.style.visibility = "hidden";
+    square.className = "count-square";
+    unitSquaresContainer.appendChild(square);
+    unitCount++;
+  }
+}
+function appendTen() {
+  if (tenCount === 10) return;
+  const rod = document.createElement("div");
+  rod.className = "ten-bar";
+  const unit = `<div class="unit-box"></div>`;
+  rod.innerHTML = unit.repeat(10);
+  tenSquaresContainer.appendChild(rod);
+  tenCount++;
+}
+function popTen() {
+  tenSquaresContainer.lastElementChild.remove();
+  tenCount--;
+}
 function render() {
   unitNumberTab.textContent = unitCount < 10 ? unitCount : "X";
   unitTextDisplay.textContent = numberToText[unitCount] || unitCount;
@@ -36,10 +63,20 @@ plusBtn.addEventListener("click", () => {
   if (unitCount < maxCount) {
     unitCount++;
     render();
-    if(isNumberTextUp){
-      showNumberText(numberToText[tenCount * 10 + unitCount]);
-    }
     if (unitCount === maxCount) whenHits10();
+    if (isNumberTextUp) {
+      if (unitCount === maxCount) {
+        showComment("you_expert");
+        showDirArrow("left");
+        plusBtn.style.pointerEvents = "none";
+        minusBtn.style.pointerEvents = "none";
+        plusBtn.classList.remove("pulse-highlight");
+        nextButton.disabled = true;
+      } else {
+        showNumberText(tenCount * 10 + unitCount);
+      }
+    }
+    
   }
 });
 
@@ -48,7 +85,7 @@ minusBtn.addEventListener("click", () => {
     unitCount--;
     render();
     if (isNumberTextUp) {
-      showNumberText(numberToText[tenCount * 10 + unitCount]);
+      showNumberText(tenCount * 10 + unitCount);
     }
     if (unitCount === maxCount - 1) reverse10();
   }
@@ -129,7 +166,29 @@ function animateClone(clone, targetRect, onComplete) {
 function animateUnitsToTens() {
   let units = document.querySelectorAll(".count-square");
   units = Array.from(units);
-  const tens = document.querySelectorAll(".unit-box");
+  const tenBar = document.querySelectorAll(".ten-bar")[tenCount];
+  const tens = tenBar.querySelectorAll(".unit-box");
+  const promisesList = units.map((src, index) => {
+    const dest = tens[index];
+    return promiseWrapper(
+      animateCloneToTarget,
+      src,
+      dest,
+      () => {
+        src.style.visibility = "hidden";
+      },
+      () => {
+        dest.style.visibility = "visible";
+      }
+    );
+  });
+  return Promise.all(promisesList);
+}
+function animateUnitsToTensUnnatural() {
+  let units = document.querySelectorAll(".count-square");
+  units = Array.from(units).slice(10);
+  const tenBar = document.querySelectorAll(".ten-bar")[tenCount];
+  const tens = tenBar.querySelectorAll(".unit-box");
   const promisesList = units.map((src, index) => {
     const dest = tens[index];
     return promiseWrapper(
@@ -148,7 +207,8 @@ function animateUnitsToTens() {
 }
 function animateTensToUnits() {
   let units = document.querySelectorAll(".count-square");
-  let tens = document.querySelectorAll(".unit-box");
+  const tenBar = document.querySelectorAll(".ten-bar")[tenCount];
+  let tens = tenBar.querySelectorAll(".unit-box");
   tens = Array.from(tens);
   const promisesList = tens.map((src, index) => {
     const dest = units[index];
@@ -166,49 +226,127 @@ function animateTensToUnits() {
   });
   return Promise.all(promisesList);
 }
+function animateTensToUnitsUnnatural() {
+  addUnits(10);
+  let units = document.querySelectorAll(".count-square");
+  units = Array.from(units).slice(10);
+  const tenBar = document.querySelectorAll(".ten-bar")[tenCount];
+  let tens = tenBar.querySelectorAll(".unit-box");
+  tens = Array.from(tens);
+  const promisesList = tens.map((src, index) => {
+    const dest = units[index];
+    return promiseWrapper(
+      animateCloneToTarget,
+      src,
+      dest,
+      () => {
+        src.style.visibility = "hidden";
+      },
+      () => {
+        dest.style.visibility = "visible";
+      }
+    );
+  });
+  return Promise.all(promisesList);
+}
+async function unitsToTensWrapper() {
+  wiggle(false);
+  showDirArrow(false);
+  unitNumberTab.classList.remove("outlined");
+  unitNumberTab.textContent = 0;
+  unitTextDisplay.textContent = numberToText[0];
+  await animateUnitsToTens();
+  unitCount -= 10;
+  tenCount++;
+  tenNumberTab.textContent = tenCount;
+  tenTextDisplay.textContent = numberToText[tenCount];
+}
 
+async function tensToUnitsWrapper() {
+  showDirArrow(false);
+  tenCount--;
+  tenNumberTab.textContent = tenCount;
+  tenTextDisplay.textContent = numberToText[tenCount];
+  await animateTensToUnits();
+  wiggle(true);
+  unitCount += 10;
+  unitNumberTab.classList.add("outlined");
+  unitNumberTab.textContent = unitCount;
+  unitTextDisplay.textContent = numberToText[unitCount];
+}
 leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;
 
 async function onLeftDirClick1() {
-  wiggle(false);
-  unitNumberTab.classList.remove("outlined");
-  unitNumberTab.textContent = 0;
-  unitTextDisplay.textContent = numberToText[0];
-  await animateUnitsToTens();
-  unitCount=0;
-  tenCount++;
+  await unitsToTensWrapper();
   isNumberTextUp = true;
   updateInstructions("increase");
   showComment("rod");
-  nextButton.disabled = true;
-  tenNumberTab.textContent = 1;
-  tenTextDisplay.textContent = numberToText[1];
   plusBtn.style.pointerEvents = "auto";
   minusBtn.style.pointerEvents = "auto";
+  plusBtn.classList.add("pulse-highlight");
   leftDir.onclick = onLeftDirClick2;
 }
 async function onLeftDirClick2() {
-  wiggle(false);
-  unitNumberTab.classList.remove("outlined");
-  unitNumberTab.textContent = 0;
-  unitTextDisplay.textContent = numberToText[0];
-  await animateUnitsToTens();
+  await unitsToTensWrapper();
   showStatement(-1);
-  updateInstructions("number_ten");
-  tenNumberTab.textContent = 1;
-  tenTextDisplay.textContent = numberToText[1];
+  setCavePose("Normal");
+  showNumberText(tenCount * 10 + unitCount);
+  nextButton.disabled = false;
+  leftDir.onclick = onLeftDirClick3;
 }
-
-async function onRightDirClick() {
-  tenNumberTab.textContent = 0;
-  tenTextDisplay.textContent = numberToText[0];
-  await animateTensToUnits();
-  wiggle(true);
-  unitNumberTab.classList.add("outlined");
-  updateInstructions("next");
+async function onLeftDirClick3() {
+  showDirArrow(false);
   unitNumberTab.textContent = 10;
   unitTextDisplay.textContent = numberToText[10];
-  showComment("rod_split");
+  await animateUnitsToTensUnnatural()
+  for(let i = 0; i < 10; i++) {
+    unitSquaresContainer.lastElementChild.remove();
+  }
+  unitCount -= 10;
+  tenCount++;
+  tenNumberTab.textContent = tenCount;
+  tenTextDisplay.textContent = numberToText[tenCount];
+  leftDir.onclick = onLeftDirClick4;
+  showDirArrow("left");
+  updateInstructions("one_more_click");
+  setCavePose("Normal")
+}
+async function onLeftDirClick4() {
+  await unitsToTensWrapper();
+  updateInstructions("finally")
+  setCavePose("Happy");
+  showNumberText(tenCount * 10 + unitCount);
+}
+async function onRightDirClick() {
+  await tensToUnitsWrapper();
+  updateInstructions("one_more_rod");
+  showDirArrow("right");
+  rightDir.onclick = onRightDirClick2;
+}
+async function onRightDirClick2() {
+  showDirArrow(false);
+  tenCount--;
+  tenNumberTab.textContent = tenCount;
+  tenTextDisplay.textContent = numberToText[tenCount];
+  await animateTensToUnitsUnnatural();
+  showComment("twenty_ones")
+  updateInstructions("next")
+  unitNumberTab.classList.add("outlined");
+  unitNumberTab.textContent = unitCount;
+  unitTextDisplay.textContent = numberToText[unitCount];
   nextButton.disabled = false;
+}
+
+function showDirArrow(name) {
+  if (name === "left") {
+    leftDir.style.display = "flex";
+    rightDir.style.display = "none";
+  } else if (name === "right") {
+    leftDir.style.display = "none";
+    rightDir.style.display = "flex";
+  } else {
+    leftDir.style.display = "none";
+    rightDir.style.display = "none";
+  }
 }

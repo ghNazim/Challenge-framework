@@ -28,14 +28,16 @@ function clickMinusFirstTime() {
   plusBtn.style.pointerEvents = "auto";
 }
 function whenHits10() {
-  wiggle()
+  wiggle();
   updateInstructions("wiggling");
   showComment("number_disappeared");
   unitNumberTab.classList.add("outlined");
   nextButton.disabled = false;
+  setJaxPose("thinking");
 }
 function reverse10() {
-  wiggle(false)
+  setJaxPose("normal");
+  wiggle(false);
   updateInstructions("keep_adding");
   showStatement(-1);
   unitNumberTab.classList.remove("outlined");
@@ -74,22 +76,24 @@ function showComment(tag) {
   showStatement(0);
   commentEl.innerHTML = T.comments[tag];
 }
-function blankStepBeforeAddingContainer(){
+function blankStepBeforeAddingContainer() {
   setNextText("add_jar");
-  showComment("add_jar")
+  showComment("add_jar");
 }
 function addTenContainer() {
   const tenWidget = document.getElementById("ten-widget");
   plusBtn.style.pointerEvents = "none";
   minusBtn.style.pointerEvents = "none";
-  
+
   unitWidget.addEventListener(
     "transitionend",
     function handleTransitionEnd() {
       unitWidget.removeEventListener("transitionend", handleTransitionEnd);
       tenWidget.style.visibility = "visible";
       showStatement(1);
+      showDirArrow("left");
       updateInstructions("move_left");
+      setJaxPose("normal");
       nextButton.disabled = true;
       setNextText("next");
     },
@@ -100,22 +104,26 @@ function addTenContainer() {
 
 function moveRight() {
   showStatement(2);
+  showDirArrow("right");
   updateInstructions("move_right");
-  
+
   nextButton.disabled = true;
 }
 function moveLeft() {
   showStatement(1);
+  showDirArrow("left");
   updateInstructions("move_left_again");
   nextButton.disabled = true;
 }
 
-function wiggle(bool=true){
-  if(bool){
-    vibrateElement(unitInnerCard)
-    setTimeout(()=>{vibrateElement(unitSquaresContainer)}, 100)
-  }else{
-    vibrateElement(unitInnerCard, false)
-    vibrateElement(unitSquaresContainer, false)
+function wiggle(bool = true) {
+  if (bool) {
+    vibrateElement(unitInnerCard);
+    setTimeout(() => {
+      vibrateElement(unitSquaresContainer);
+    }, 100);
+  } else {
+    vibrateElement(unitInnerCard, false);
+    vibrateElement(unitSquaresContainer, false);
   }
 }

@@ -37,8 +37,8 @@ function initApp() {
 
 function updateInstructions(key) {
   const ContextSection = document.querySelector(".context-section");
-  const title = T[key].instruction_title;
-  const content = T[key].instruction_text;
+  const title = T.left_panel[key].instruction_title;
+  const content = T.left_panel[key].instruction_text;
 
   ContextSection.innerHTML = `<h2>${title}</h2><div><p>${content}</p></div>`;
   ContextSection.classList.add("visible");
@@ -100,4 +100,11 @@ function confettiBurst() {
 
 function setNextText(key){
   nextButton.textContent = T.button_texts[key];
+}
+
+function updateInstructionFromNumber(n){
+  const ContextSection = document.querySelector(".context-section");
+  const content = numberForm[n-10];
+  ContextSection.innerHTML = `<div><p>${content}</p></div>`;
+  ContextSection.classList.add("visible");
 }

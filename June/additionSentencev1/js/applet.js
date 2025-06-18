@@ -45,7 +45,7 @@ function showPictoralSentence(state) {
         questions[questionIndex][0] + questions[questionIndex][1]
       );
     } else {
-      spans[4].innerHTML = "__________ ?";
+      spans[4].innerHTML = "__________ ";
     }
   }
 }
@@ -68,7 +68,7 @@ function showNumberSentence(state) {
   spans[2].textContent = num2;
   spans[3].textContent = "=";
   if (state === 2) spans[4].textContent = num3;
-  else spans[4].textContent = "__________ ?";
+  else spans[4].textContent = "__________ ";
   outer.style.visibility = "visible";
 }
 function setQuestion() {
@@ -88,6 +88,7 @@ async function checkAnswer() {
     questions[questionIndex][0] + questions[questionIndex][1] ===
     currentAnswer[2];
   const correct = true1 && true2 && true3;
+  const incorrectBoxes = [!true1, !true2, !true3];
   if (!correct) {
     playAudio("wrong");
     setJaxPose("sad");
@@ -101,10 +102,13 @@ async function checkAnswer() {
       }
     }
     const boxes = document.querySelectorAll(".digit-box");
-    boxes.forEach((box) => {
-      box.classList.add("incorrect");
-    });
-    await vibrateElement(document.querySelector(".equation"));
+  await Promise.all( Array.from(boxes).map((box, i) => {
+      if (incorrectBoxes[i]) {
+        box.classList.add("incorrect");
+       return vibrateElement(box);
+      }
+    }))
+    
     boxes.forEach((box) => {
       box.classList.remove("incorrect");
     });
@@ -126,7 +130,7 @@ async function checkAnswer() {
     playAudio("correct");
     showNumberSentence(2);
     showPictoralSentence(2);
-    updateInstructions("congrats")
+    updateInstructions("congrats");
     hint1.style.display = "none";
     hint2.style.display = "none";
     // hint1.classList.remove("nudgeAnimation");

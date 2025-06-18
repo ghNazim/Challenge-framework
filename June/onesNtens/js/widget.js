@@ -10,8 +10,9 @@ const unitTextDisplay = document.querySelector("#unit-widget .text-display");
 const tenTextDisplay = document.querySelector("#ten-widget .text-display");
 const plusBtn = document.getElementById("plus-btn");
 const minusBtn = document.getElementById("minus-btn");
-const leftDir = document.querySelector(".left-dir");
-const rightDir = document.querySelector(".right-dir");
+const arrowContainer = document.querySelector("#unit-widget .arrowContainer");
+const leftDir = arrowContainer.querySelector(".left-dir");
+const rightDir = arrowContainer.querySelector(".right-dir");
 
 // --- State ---
 let count = 0,
@@ -162,6 +163,7 @@ leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;
 
 async function onLeftDirClick1() {
+  showDirArrow(false)
   wiggle(false)
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
@@ -175,6 +177,7 @@ async function onLeftDirClick1() {
   leftDir.onclick = onLeftDirClick2
 }
 async function onLeftDirClick2() {
+  showDirArrow(false)
   wiggle(false)
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
@@ -182,11 +185,13 @@ async function onLeftDirClick2() {
   await animateUnitsToTens();
   showStatement(-1)
   updateInstructions("number_ten")
+  setJaxPose("happy")
   tenNumberTab.textContent = 1;
   tenTextDisplay.textContent = numberToText[1];
 }
 
 async function onRightDirClick() {
+  showDirArrow(false)
   tenNumberTab.textContent = 0;
   tenTextDisplay.textContent = numberToText[0];
   await animateTensToUnits();
@@ -197,4 +202,17 @@ async function onRightDirClick() {
   unitTextDisplay.textContent = numberToText[10];
   showComment("rod_split");
   nextButton.disabled = false;
+}
+
+function showDirArrow(name) {
+  if (name === "left") {
+    leftDir.style.display = "flex";
+    rightDir.style.display = "none";
+  } else if (name === "right") {
+    leftDir.style.display = "none";
+    rightDir.style.display = "flex";
+  } else {
+    leftDir.style.display = "none";
+    rightDir.style.display = "none";
+  }
 }

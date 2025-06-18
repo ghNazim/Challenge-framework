@@ -61,7 +61,7 @@ function updateStepCounter(stepIndex) {
 
 function setJaxPose(pose) {
   const JAX = document.querySelector(`.character-display img`);
-  JAX.src = `assets/JAX${pose}.png`;
+  JAX.src = `assets/DT${pose}.png`;
 }
 updateInstructions("instruction_general");
 // createStepCounter();

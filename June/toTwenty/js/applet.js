@@ -14,7 +14,7 @@ function atStep1() {
   plusBtn.addEventListener("click", clickPLusFirstTime, { once: true });
 }
 function clickPLusFirstTime() {
-  updateInstructions("pink_unlike");
+  
   plusBtn.style.pointerEvents = "none";
   plusBtn.classList.remove("pulse-highlight");
   plusBtn.removeEventListener("click", clickPLusFirstTime);
@@ -28,10 +28,14 @@ function toMcq(){
 function afterMcq(){
   showMCQ(false);
   nextButton.disabled = true;
-  showStatement(1);
+  showDirArrow("left");
+  showStatement(-1);
   updateInstructions("move_left");
+  setCavePose("Normal")
 }
 function whenHits10() {
+  updateInstructions("pink_unlike");
+  setCavePose("Thinking");
   wiggle()
   unitNumberTab.classList.add("outlined");
   nextButton.disabled = false;
@@ -45,6 +49,8 @@ stepQ.push(atStep0);
 stepQ.push(atStep1);
 stepQ.push(toMcq);
 stepQ.push(afterMcq);
+stepQ.push(after20MoveRight)
+stepQ.push(after20MoveLeft)
 // stepQ.push(addTenContainer);
 // stepQ.push(moveRight);
 // stepQ.push(moveLeft);
@@ -74,22 +80,26 @@ function showComment(tag) {
   showStatement(0);
   commentEl.innerHTML = T.comments[tag];
 }
-function showNumberText(text){
-  showStatement(3);
+function showNumberText(num){
+  const text = numberToText[num]
+  updateInstructionFromNumber(num)
+  showStatement(1);
   const numberText = document.querySelector("#numberText>p");
   numberText.textContent = text
 }
 
 
-function moveRight() {
+function after20MoveRight() {
   showStatement(2);
   updateInstructions("move_right");
-  
+  showDirArrow("right")
   nextButton.disabled = true;
 }
-function moveLeft() {
-  showStatement(1);
-  updateInstructions("move_left_again");
+function after20MoveLeft() {
+  showDirArrow("left")
+  showStatement(-1);
+  updateInstructions("pink_unlike");
+  setCavePose("Thinking");
   nextButton.disabled = true;
 }
 

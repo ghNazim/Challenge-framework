@@ -17,7 +17,7 @@
   --blue-2:#3f93cf;
   --blue-3:#2b72aa;
   --blue-4:#1e4d7b;
-  --pink-1: #eb6d83;
+  --pink-1: #f08c9d;
   --pink-2: #ef506e;
   --pink-3: #cd3957;
   --pink-4: #a92b48;
@@ -229,14 +229,16 @@
   justify-content: center;
   align-items: center;
 }
-.comment{
-  background-color: white;
+.comment {
+  color: white;
+  background-color: rgba(255,255,255,.2);
   padding: 1rem;
   border-radius: 8px;
   margin: 0 2rem;
   display: none;
   width: 100%;
   text-align: center;
+  outline: 5px solid var(--glowing-orange);
 }
 @keyframes vibrate-x {
   0% {
@@ -278,14 +280,23 @@
 }
 
 /* Arrow container styles */
+
+.arrowContainer{
+  width: 7vw;
+  height: 4vw;
+  position: absolute;
+  top: 1vw;
+  left: 0;
+  z-index: 10;
+  translate: -70% 0;
+}
+
 .arrow-indicator-container {
   background-color: var(--glowing-orange);
-  width: 10vw;
-  border-radius: 2vw;
-  padding: 1.5vw;
+  width: 7vw;
+  padding: 1vw;
   justify-content: center;
   align-items: center;
-  gap: .2vw;
   display: none;
   cursor: pointer;
   &:hover {
@@ -295,12 +306,12 @@
 
 /* Arrow head styles */
 .arrow-head {
-  width: 2vw;
-  height: 2vw;
-  border-top: .5vw solid rgba(255, 255, 255, 0.3);;
-  border-right: .5vw solid rgba(255, 255, 255, 0.3);;
+  width: 1.8vw;
+  height: 1.8vw;
+  border-top: 0.5vw solid rgba(255, 255, 255, 0.3);
+  border-right: 0.5vw solid rgba(255, 255, 255, 0.3);
   transform: rotate(-135deg);
-  animation: flash-arrow-sequential .8s infinite;
+  animation: flash-arrow-sequential 0.8s infinite;
 }
 
 .left-dir .arrow-head {
