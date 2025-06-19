@@ -5,6 +5,7 @@ function atStep0() {
   toggleFullScreenOverlay(false)
   unitWidget.style.display = "block";
   updateInstructions("pink_jar");
+  unitTextDisplay.textContent = "";
 }
 function atStep1() {
   updateInstructions("plus");
@@ -20,6 +21,7 @@ function clickPLusFirstTime() {
   plusBtn.removeEventListener("click", clickPLusFirstTime);
   updateInstructions("top_num")
   nextButton.disabled = false;
+  unitTextDisplay.textContent = "";
   
 }
 function topNum1(){
