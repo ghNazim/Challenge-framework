@@ -9,7 +9,19 @@ const texts = {
     add_jar: "Add another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
-  overlay_text: "Great job till now!<br> Now, let’s try something new with the Tens Jar!",
+  bubble_data:[{
+    left:"Great job Till now!<br>Now, let’s try something new with the Tens Jar!",
+    right:"Only use the blue jar this time!"
+  },
+  {
+    left:"Great job on Level 1!<br>Now, let’s try something new with the Tens Jar!",
+    right:"Only use the blue jar this time!"
+  },
+  {
+    left:"Wow! You’re getting good at this.<br>Now it’s time to use both jars together!",
+    right:"Let’s build bigger numbers!"
+  }
+],
   
   comments: {
     number_disappeared:
@@ -30,7 +42,6 @@ const texts = {
       "Aha! We now have Twenty ones - that’s the same as Two tens! But the Pink Jar is not built for so many. Let’s regroup and make it happy again.",
   },
 };
-window.APP_TEXTS = texts;
 
 const numberToText = [
   "Zero",

@@ -6,6 +6,7 @@ function atStep0() {
   tenWidget.style.display = "block";
   updateInstructions("reminder");
   toggleFullScreenOverlay(false);
+  playAudio("click")
 }
 function atStep1() {
   updateInstructions("plus");
@@ -52,10 +53,9 @@ stepQ.push(toMcq);
 stepQ.push(afterMcq);
 stepQ.push(after20MoveRight)
 stepQ.push(after20MoveLeft)
-// stepQ.push(addTenContainer);
-// stepQ.push(moveRight);
-// stepQ.push(moveLeft);
+
 function handleNext() {
+  playAudio("click")
   if (progress < stepQ.length) {
     stepQ[progress]();
     progress++;
@@ -128,6 +128,7 @@ function initMCQ(mcqData) {
       showComment(mcqData.feedback[index]);
       optionElements.forEach((opt) => opt.classList.remove("correct", "wrong"));
       if (index === mcqData.answer) {
+        playAudio("correct");
         el.classList.add("correct");
         optionElements.forEach((opt) =>
           opt.style.pointerEvents = "none"
@@ -135,6 +136,7 @@ function initMCQ(mcqData) {
         setCavePose("Happy")
         nextButton.disabled = false;
       } else {
+        playAudio("wrong");
         el.classList.add("wrong");
         setCavePose("Sad")
       }

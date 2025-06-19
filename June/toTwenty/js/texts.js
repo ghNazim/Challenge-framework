@@ -24,7 +24,7 @@ const texts = {
     reminder: {
       instruction_title: "Reminder",
       instruction_text:
-        "Just a reminder - this pink jar shows the Ones place. Each click adds one square!",
+        "Just a reminder - this pink jar shows the Ones place. Each click adds one cube!",
     },
     plus: {
       instruction_title: "Add Boxes",
@@ -40,7 +40,7 @@ const texts = {
     keep_adding: {
       instruction_title: "Add more boxes",
       instruction_text:
-        " Wasn’t that fun? Now let's keep adding squares to the box to see how many we can fill up.",
+        " Wasn’t that fun? Now let's keep adding cubes to the box to see how many we can fill up.",
     },
     pink_unlike: {
       instruction_title: "Observe",
@@ -55,7 +55,7 @@ const texts = {
     increase: {
       instruction_title: "",
       instruction_text:
-        "Use the '+' button to increase the number of squares in the ones place.",
+        "Use the '+' button to increase the number of cubes in the ones place.",
     },
     move_left: {
       instruction_title: "",
@@ -91,11 +91,11 @@ const texts = {
 
   comments: {
     number_disappeared:
-      "Opps! the number disappeared! Looks like this number display box can’t show the count of that many squares.",
+      "Opps! the number disappeared! Looks like this number display box can’t show the count of that many cubes.",
     add_jar: "The Way to resolve this is by adding another Jar!",
-    rod: "Ten squares came together to form one rod!",
+    rod: "Ten cubes came together to form one rod!",
     rod_split:
-      "one rod split to form ten squares! As the pink jar can hold only nine symbols, move the squares to the blue Jar",
+      "one rod split to form ten cubes! As the pink jar can hold only nine symbols, move the cubes to the blue Jar",
     wrong1:
       "Hmm… If we leave all 10 in the ones place, we can’t keep counting. Let’s see what happens when we move them to the tens place instead!",
     wrong3:
@@ -135,9 +135,9 @@ const numberToText = [
 ];
 const mcqData = {
   options: [
-    "Leave the 10 squares in the ones place.",
-    "Move all 10 squares to the tens place as 1 ten.",
-    "Erase all the squares and start over.",
+    "Leave the 10 cubes in the ones place.",
+    "Move all 10 cubes to the tens place as 1 ten.",
+    "Erase all the cubes and start over.",
   ],
   feedback: ["wrong1", "correct", "wrong3"],
   answer: 1,

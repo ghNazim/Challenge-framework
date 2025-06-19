@@ -1,11 +1,5 @@
 // app.js
-const T = window.APP_TEXTS;
-
-if (!T) {
-  console.error(
-    "Error: APP_TEXTS not found. Ensure texts.js is loaded before app.js and defines window.APP_TEXTS."
-  );
-}
+const T = texts;
 
 let contextBox,
   prevButton,
@@ -137,9 +131,17 @@ function toggleFullScreenOverlay(show) {
     }, 500);
   }
 }
-function overlayTextBubble() {
-  const bubble = document.querySelector(".rightArrowBubble>p");
-  bubble.innerHTML = T.overlay_text;
+function overlayTextBubble(text1,text2) {
+  const bubble = document.querySelector("#leftBubble>p");
+  bubble.innerHTML = text1;
+  const bubble2 = document.querySelector("#rightBubble>p");
+  bubble2.innerHTML = text2;
 }
-overlayTextBubble();
-toggleFullScreenOverlay(true);
+
+
+function showOverlayWith2Bubbles(index){
+  overlayTextBubble(texts.bubble_data[index].left, texts.bubble_data[index].right);
+  toggleFullScreenOverlay(true);
+}
+
+showOverlayWith2Bubbles(0);

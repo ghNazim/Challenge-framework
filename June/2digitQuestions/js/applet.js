@@ -22,8 +22,13 @@ function reverse10() {
   unitNumberTab.classList.remove("outlined");
   nextButton.disabled = true;
 }
-startButton.addEventListener("click", atStep0);
-
+startButton.onclick = atStep0;
+function showOverlay2(){
+  showOverlayWith2Bubbles(1)
+}
+function showOverlay3(){
+  showOverlayWith2Bubbles(2)
+}
 function reset(){
   if(questionIndex==0) {
     prevButton.disabled = true;
@@ -45,6 +50,14 @@ function handleNext() {
   playSound("click");
     questionIndex=(questionIndex+1)%questions.length;
     updateStepCounter(questionIndex);
+    if(questionIndex===2){
+      showOverlay2()
+      return;
+    }
+    else if(questionIndex===4){
+      showOverlay3()
+      return;
+    }
     reset();
 
 }

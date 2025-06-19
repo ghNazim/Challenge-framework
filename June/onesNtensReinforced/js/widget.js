@@ -32,6 +32,7 @@ function render() {
 }
 
 plusBtn.addEventListener("click", () => {
+  playAudio("click");
   if (count < maxCount) {
     count++;
     render();
@@ -163,6 +164,7 @@ leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;
 
 async function onLeftDirClick1() {
+  playAudio("click")
   showDirArrow(false)
   wiggle(false)
   unitNumberTab.classList.remove("outlined");
@@ -179,6 +181,7 @@ async function onLeftDirClick1() {
   leftDir.onclick = onLeftDirClick2
 }
 async function onLeftDirClick2() {
+  playAudio("click")
   showDirArrow(false)
   wiggle(false)
   unitNumberTab.classList.remove("outlined");
@@ -193,6 +196,7 @@ async function onLeftDirClick2() {
 }
 
 async function onRightDirClick() {
+  playAudio("click")
   showDirArrow(false)
   tenNumberTab.textContent = 0;
   tenTextDisplay.textContent = numberToText[0] + " Tens";

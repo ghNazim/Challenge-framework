@@ -52,7 +52,8 @@ function popTen() {
 }
 function render() {
   unitNumberTab.textContent = unitCount < 10 ? unitCount : "X";
-  unitTextDisplay.textContent = numberToText[unitCount] + " Ones";
+  unitTextDisplay.textContent = numberToText[unitCount] + " One"+
+  (unitCount === 1 ? "" : "s");
   unitSquaresContainer.innerHTML = "";
   for (let i = 0; i < unitCount; i++) {
     const square = document.createElement("div");
@@ -62,6 +63,7 @@ function render() {
 }
 
 plusBtn.addEventListener("click", () => {
+  playAudio("click");
   if (unitCount < maxCount) {
     unitCount++;
     render();
@@ -83,6 +85,7 @@ plusBtn.addEventListener("click", () => {
 });
 
 minusBtn.addEventListener("click", () => {
+  playAudio("click");
   if (unitCount > minCount) {
     unitCount--;
     render();
@@ -262,7 +265,7 @@ async function unitsToTensWrapper() {
   tenCount++;
   tenNumberTab.textContent = tenCount;
   tenNumberTab.style.color = "white";
-  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
+  tenTextDisplay.textContent = numberToText[tenCount]+" Ten"+(tenCount > 1 ? "s" : "");
   tenTextDisplay.style.color = "white";
 }
 
@@ -270,7 +273,7 @@ async function tensToUnitsWrapper() {
   showDirArrow(false);
   tenCount--;
   tenNumberTab.textContent = tenCount;
-  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
+  tenTextDisplay.textContent = numberToText[tenCount]+" Ten"+(tenCount > 1 ? "s" : "");
   await animateTensToUnits();
   wiggle(true);
   unitCount += 10;
@@ -280,7 +283,8 @@ async function tensToUnitsWrapper() {
 }
 leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;
-
+leftDir.addEventListener("click", () => playAudio("click"));
+rightDir.addEventListener("click", () => playAudio("click"));
 async function onLeftDirClick1() {
   await unitsToTensWrapper();
   isNumberTextUp = true;
@@ -302,7 +306,7 @@ async function onLeftDirClick2() {
 async function onLeftDirClick3() {
   showDirArrow(false);
   unitNumberTab.textContent = 10;
-  unitTextDisplay.textContent = numberToText[10];
+  unitTextDisplay.textContent = numberToText[10]+" Ones";
   await animateUnitsToTensUnnatural()
   for(let i = 0; i < 10; i++) {
     unitSquaresContainer.lastElementChild.remove();
@@ -310,7 +314,7 @@ async function onLeftDirClick3() {
   unitCount -= 10;
   tenCount++;
   tenNumberTab.textContent = tenCount;
-  tenTextDisplay.textContent = numberToText[tenCount];
+  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
   leftDir.onclick = onLeftDirClick4;
   showDirArrow("left");
   updateInstructions("one_more_click");
@@ -332,13 +336,13 @@ async function onRightDirClick2() {
   showDirArrow(false);
   tenCount--;
   tenNumberTab.textContent = tenCount;
-  tenTextDisplay.textContent = numberToText[tenCount];
+  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
   await animateTensToUnitsUnnatural();
   showComment("twenty_ones")
   updateInstructions("next")
   unitNumberTab.classList.add("outlined");
-  unitNumberTab.textContent = unitCount;
-  unitTextDisplay.textContent = numberToText[unitCount];
+  unitNumberTab.textContent = "X";
+  unitTextDisplay.textContent = numberToText[unitCount]+" Ones";
   nextButton.disabled = false;
 }
 

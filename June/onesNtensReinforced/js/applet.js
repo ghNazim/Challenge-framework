@@ -2,6 +2,7 @@ let progress = 0;
 let stepQ = [];
 
 function atStep0() {
+  playAudio("click")
   toggleFullScreenOverlay(false)
   unitWidget.style.display = "block";
   updateInstructions("pink_jar");
@@ -42,12 +43,6 @@ function topNum2(){
   plusBtn.style.pointerEvents = "auto";
   showComment("keep_adding");
 }
-// function clickMinusFirstTime() {
-//   updateInstructions("keep_adding");
-//   minusBtn.classList.remove("pulse-highlight");
-//   minusBtn.removeEventListener("click", clickMinusFirstTime);
-//   plusBtn.style.pointerEvents = "auto";
-// }
 function whenHits10() {
   wiggle();
   // updateInstructions("wiggling");
@@ -75,6 +70,7 @@ stepQ.push(blankStepAfterAddingJar);
 stepQ.push(moveRight);
 stepQ.push(moveLeft);
 function handleNext() {
+  playAudio("click")
   if (progress < stepQ.length) {
     stepQ[progress]();
     progress++;
