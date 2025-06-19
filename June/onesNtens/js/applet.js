@@ -73,6 +73,7 @@ function handleNext() {
   if (progress < stepQ.length) {
     stepQ[progress]();
     progress++;
+    updateStepCounter(progress);
   }
 }
 nextButton.addEventListener("click", handleNext);

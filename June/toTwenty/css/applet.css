@@ -246,24 +246,25 @@
 }
 @keyframes vibrate-x {
   0% {
-    left: 0;
+    transform: translateX(0);
   }
   20% {
-    left: -2px;
+    transform: translateX(-2px);
   }
   40% {
-    left: 2px;
+    transform: translateX(2px);
   }
   60% {
-    left: -2px;
+    transform: translateX(-2px);
   }
   80% {
-    left: 2px;
+    transform: translateX(2px);
   }
   100% {
-    left: 0;
+    transform: translateX(0);
   }
 }
+
 @keyframes pulse-highlight {
   0% {
     box-shadow: 0 0 0 0 var(--button-pulse-color);
@@ -279,14 +280,13 @@
   animation: pulse-highlight 1.5s infinite;
 }
 .vibrate-x {
-  position: relative;
   animation: vibrate-x 0.3s ease-in-out infinite;
 }
 .arrowContainer{
   width: 7vw;
   height: 4vw;
   position: absolute;
-  top: 1vw;
+  top: 3.4vw;
   left: 0;
   z-index: 10;
   translate: -70% 0;
@@ -405,4 +405,17 @@
   background-color: rgb(20, 117, 20) !important;
   pointer-events: none;
   color: white !important; 
+}
+
+.pill-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  border-radius: 999px;
+  line-height: 1;
+  pointer-events: none;
 }

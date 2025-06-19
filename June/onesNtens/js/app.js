@@ -67,8 +67,8 @@ function setJaxPose(pose) {
   JAX.src = `assets/DT${pose}.png`;
 }
 updateInstructions("instruction_general");
-// createStepCounter();
-// updateStepCounter(0);
+createStepCounter();
+updateStepCounter(0);
 
 function vibrateElement(el, bool = true) {
   if (!bool) {

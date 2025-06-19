@@ -5,6 +5,7 @@ function atStep0() {
   unitWidget.style.display = "block";
   tenWidget.style.display = "block";
   updateInstructions("reminder");
+  toggleFullScreenOverlay(false);
 }
 function atStep1() {
   updateInstructions("plus");
@@ -45,7 +46,7 @@ function reverse10() {
   unitNumberTab.classList.remove("outlined");
   nextButton.disabled = true;
 }
-stepQ.push(atStep0);
+startButton.addEventListener("click", atStep0);
 stepQ.push(atStep1);
 stepQ.push(toMcq);
 stepQ.push(afterMcq);
@@ -58,6 +59,7 @@ function handleNext() {
   if (progress < stepQ.length) {
     stepQ[progress]();
     progress++;
+    updateStepCounter(progress);
   }
 }
 nextButton.addEventListener("click", handleNext);
@@ -106,9 +108,11 @@ function after20MoveLeft() {
 function wiggle(bool=true){
   if(bool){
     vibrateElement(unitInnerCard)
+    vibrateElement(unitNumberTab)
     setTimeout(()=>{vibrateElement(unitSquaresContainer)}, 100)
   }else{
     vibrateElement(unitInnerCard, false)
+    vibrateElement(unitNumberTab, false)
     vibrateElement(unitSquaresContainer, false)
   }
 }

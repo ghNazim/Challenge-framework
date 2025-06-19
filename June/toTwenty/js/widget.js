@@ -2,6 +2,7 @@ const unitWidget = document.getElementById("unit-widget");
 const tenWidget = document.getElementById("ten-widget");
 const unitNumberTab = document.querySelector("#unit-widget .number-tab");
 const tenNumberTab = document.querySelector("#ten-widget .number-tab");
+tenNumberTab.style.color ="transparent";
 const unitSquaresContainer = document.querySelector(
   "#unit-widget .squares-container"
 );
@@ -12,6 +13,7 @@ const unitInnerCard = document.querySelector("#unit-widget .inner-card");
 
 const unitTextDisplay = document.querySelector("#unit-widget .text-display");
 const tenTextDisplay = document.querySelector("#ten-widget .text-display");
+tenTextDisplay.style.color = "transparent";
 const plusBtn = document.getElementById("plus-btn");
 const minusBtn = document.getElementById("minus-btn");
 const arrowContainer = document.querySelector("#unit-widget .arrowContainer");
@@ -50,7 +52,7 @@ function popTen() {
 }
 function render() {
   unitNumberTab.textContent = unitCount < 10 ? unitCount : "X";
-  unitTextDisplay.textContent = numberToText[unitCount] || unitCount;
+  unitTextDisplay.textContent = numberToText[unitCount] + " Ones";
   unitSquaresContainer.innerHTML = "";
   for (let i = 0; i < unitCount; i++) {
     const square = document.createElement("div");
@@ -254,25 +256,27 @@ async function unitsToTensWrapper() {
   showDirArrow(false);
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
-  unitTextDisplay.textContent = numberToText[0];
+  unitTextDisplay.textContent = numberToText[0]+" Ones";
   await animateUnitsToTens();
   unitCount -= 10;
   tenCount++;
   tenNumberTab.textContent = tenCount;
-  tenTextDisplay.textContent = numberToText[tenCount];
+  tenNumberTab.style.color = "white";
+  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
+  tenTextDisplay.style.color = "white";
 }
 
 async function tensToUnitsWrapper() {
   showDirArrow(false);
   tenCount--;
   tenNumberTab.textContent = tenCount;
-  tenTextDisplay.textContent = numberToText[tenCount];
+  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
   await animateTensToUnits();
   wiggle(true);
   unitCount += 10;
   unitNumberTab.classList.add("outlined");
   unitNumberTab.textContent = unitCount;
-  unitTextDisplay.textContent = numberToText[unitCount];
+  unitTextDisplay.textContent = numberToText[unitCount]+" Ones";
 }
 leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;

@@ -17,6 +17,18 @@
       <source src="sound/wrong.mp3" type="audio/mpeg" />
       Your browser does not support the audio element.
     </audio>
+    <div id="fullscreenOverlay">
+      <img src="assets/caveNormal.png" alt="" />
+      <div class="rightArrowBubble">
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab repellat
+          amet eos id deserunt expedita doloribus nobis
+        </p>
+      </div>
+    
+        <button class="btn btn-primary" id="startButton">Next</button>
+    
+    </div>
     <div class="applet-container">
       <div class="main-layout">
         <div class="left-panel-anchor">
@@ -42,6 +54,7 @@
                   <div class="widget-container" id="ten-widget">
                     <!-- Main Card Content -->
                     <div class="main-card">
+                      <div class="pill-badge">Tens</div>
                       <!-- Top Number Tab -->
                       <div class="number-tab">0</div>
 
@@ -105,6 +118,7 @@
                     </div>
                     <!-- Main Card Content -->
                     <div class="main-card">
+                      <div class="pill-badge">Ones</div>
                       <!-- Top Number Tab -->
                       <div class="number-tab">0</div>
 
@@ -177,7 +191,7 @@
                 id="prevButton"
                 disabled
               ></button>
-              <!-- <div class="step-counter" id="stepCounter"></div> -->
+              <div class="step-counter" id="stepCounter"></div>
               <button class="btn btn-primary" id="nextButton"></button>
             </div>
           </div>

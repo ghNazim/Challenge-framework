@@ -9,6 +9,8 @@ const texts = {
     add_jar: "Add another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
+  overlay_text:
+    "Hello! Let’s have fun and continue to create bigger numbers together!",
   left_panel: {
     instruction_general: {
       instruction_title: "Hello!",
