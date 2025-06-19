@@ -245,6 +245,12 @@
   text-align: center;
   outline: 5px solid var(--glowing-orange);
 }
+.green{
+  background-color: rgba(111, 255, 92, 0.3);
+}
+.red{
+  background-color: rgba(249, 58, 58, 0.3);
+}
 #numberText {
   position: relative;
   background-color: var(--pink-2);
@@ -435,3 +441,43 @@
   line-height: 1;
   pointer-events: none;
 }
+
+
+.glow-pink {
+  position: relative;
+  border-radius: 1rem;
+  box-shadow: 0 0 8px hotpink;
+  animation: glowPulsePink 1.5s ease-in-out infinite;
+}
+
+@keyframes glowPulsePink {
+  0% {
+    box-shadow: 0 0 4px hotpink;
+  }
+  50% {
+    box-shadow: 0 0 10px 8px hotpink;
+  }
+  100% {
+    box-shadow: 0 0 4px hotpink;
+  }
+}
+
+.glow-blue {
+  position: relative;
+  border-radius: 1rem;
+  box-shadow: 0 0 8px deepskyblue;
+  animation: glowPulseBlue 1.5s ease-in-out infinite;
+}
+
+@keyframes glowPulseBlue {
+  0% {
+    box-shadow: 0 0 4px deepskyblue;
+  }
+  50% {
+    box-shadow: 0 0 10px 8px deepskyblue;
+  }
+  100% {
+    box-shadow: 0 0 4px deepskyblue;
+  }
+}
+

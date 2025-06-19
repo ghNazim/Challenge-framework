@@ -19,6 +19,7 @@ const leftDir = document.querySelector(".left-dir");
 const rightDir = document.querySelector(".right-dir");
 const boxContainer = document.querySelector("#box-container");
 const submitButton = document.getElementById("submitButton");
+const commentElement = document.querySelector(".comment");
 
 document.querySelectorAll(".control-btn").forEach((button) => {
   button.addEventListener("click", () => {
@@ -44,7 +45,7 @@ function popUnit() {
   unitCount--;
 }
 
-function addUnits(n,visible=true) {
+function addUnits(n, visible = true) {
   const visibility = visible ? "visible" : "hidden";
   for (let i = 0; i < n; i++) {
     const square = document.createElement("div");
@@ -86,6 +87,7 @@ function updateTenTexts(n = tenCount) {
 
 unitsPlus.addEventListener("click", () => {
   if (unitCount < 20) {
+    cancelAttention();
     addUnit();
     updateUnitTexts();
   }
@@ -93,18 +95,21 @@ unitsPlus.addEventListener("click", () => {
 
 unitsMinus.addEventListener("click", () => {
   if (unitCount > 0) {
+    cancelAttention();
     popUnit();
     updateUnitTexts();
   }
 });
 tensPlus.addEventListener("click", () => {
   if (tenCount < 10) {
+    cancelAttention();
     appendTen();
     updateTenTexts();
   }
 });
 tensMinus.addEventListener("click", () => {
   if (tenCount > 0) {
+    cancelAttention();
     popTen();
     updateTenTexts();
   }
@@ -222,7 +227,7 @@ function animateTensToUnits() {
   let units = document.querySelectorAll(".count-square");
   const len = units.length;
   units = Array.from(units).slice(len - 10);
-  const tenBar = document.querySelectorAll(".ten-bar")[tenCount-1];
+  const tenBar = document.querySelectorAll(".ten-bar")[tenCount - 1];
   let tens = tenBar.querySelectorAll(".unit-box");
   tens = Array.from(tens);
   const promisesList = tens.map((src, index) => {
@@ -259,12 +264,19 @@ leftDir.onclick = onLeftDirClick;
 rightDir.onclick = onRightDirClick;
 
 async function onLeftDirClick() {
+  playSound("click");
   if (unitCount < 10 || tenCount >= 10) return;
+  cancelAttention();
+
+  wiggle(false);
   await unitsToTensWrapper();
 }
 
 async function onRightDirClick() {
+  playSound("click");
   if (unitCount > 10 || tenCount < 1) return;
+  cancelAttention();
+
   await tensToUnitsWrapper();
 }
 
