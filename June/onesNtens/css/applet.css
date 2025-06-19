@@ -207,6 +207,9 @@
   border: none;
   cursor: pointer;
 }
+#unit-widget .speaker-btn{
+  display: none;
+}
 
 .speaker-icon {
   height: 2rem; /* 32px */
@@ -242,22 +245,22 @@
 }
 @keyframes vibrate-x {
   0% {
-    left: 0;
+    transform: translateX(0);
   }
   20% {
-    left: -2px;
+    transform: translateX(-2px);
   }
   40% {
-    left: 2px;
+    transform: translateX(2px);
   }
   60% {
-    left: -2px;
+    transform: translateX(-2px);
   }
   80% {
-    left: 2px;
+    transform: translateX(2px);
   }
   100% {
-    left: 0;
+    transform: translateX(0);
   }
 }
 @keyframes pulse-highlight {
@@ -275,7 +278,6 @@
   animation: pulse-highlight 1.5s infinite;
 }
 .vibrate-x {
-  position: relative;
   animation: vibrate-x 0.3s ease-in-out infinite;
 }
 

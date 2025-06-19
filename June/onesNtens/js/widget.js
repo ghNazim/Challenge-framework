@@ -13,6 +13,7 @@ const minusBtn = document.getElementById("minus-btn");
 const arrowContainer = document.querySelector("#unit-widget .arrowContainer");
 const leftDir = arrowContainer.querySelector(".left-dir");
 const rightDir = arrowContainer.querySelector(".right-dir");
+const speakerButtonUnit = document.querySelector("#unit-widget .speaker-btn");
 
 // --- State ---
 let count = 0,
@@ -45,9 +46,8 @@ minusBtn.addEventListener("click", () => {
     if (count === maxCount - 1) reverse10();
   }
 });
-
 render();
-
+[unitNumberTab, tenNumberTab,unitTextDisplay, tenTextDisplay].forEach((el) => (el.style.color = "transparent"));
 function animateCloneToTarget(
   sourceElement,
   targetElement,
@@ -169,11 +169,13 @@ async function onLeftDirClick1() {
   unitNumberTab.textContent = 0;
   unitTextDisplay.textContent = numberToText[0];
   await animateUnitsToTens();
+  tenNumberTab.style.color = "white";
+  tenTextDisplay.style.color = "white";
   updateInstructions("next")
   showComment("rod");
   nextButton.disabled = false;
   tenNumberTab.textContent = 1;
-  tenTextDisplay.textContent = numberToText[1];
+  tenTextDisplay.textContent = "Ten";
   leftDir.onclick = onLeftDirClick2
 }
 async function onLeftDirClick2() {
@@ -187,7 +189,7 @@ async function onLeftDirClick2() {
   updateInstructions("number_ten")
   setJaxPose("happy")
   tenNumberTab.textContent = 1;
-  tenTextDisplay.textContent = numberToText[1];
+  tenTextDisplay.textContent = "Ten";
 }
 
 async function onRightDirClick() {
@@ -198,7 +200,7 @@ async function onRightDirClick() {
   wiggle(true)
   unitNumberTab.classList.add("outlined");
     updateInstructions("next")
-  unitNumberTab.textContent = 10;
+  unitNumberTab.textContent = "X";
   unitTextDisplay.textContent = numberToText[10];
   showComment("rod_split");
   nextButton.disabled = false;

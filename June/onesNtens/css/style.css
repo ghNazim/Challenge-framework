@@ -111,7 +111,7 @@ body {
 .speech-bubble-container {
   width: 100%;
   position: relative; /* For z-indexing if necessary */
-  z-index: 1;
+  z-index: 10;
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -481,153 +481,67 @@ body {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/********************************************
- * 13) RESPONSIVE ADJUSTMENTS
- *********************************************/
-@media (max-width: 900px) {
-  .applet-container {
-    aspect-ratio: auto; /* Allow height to adjust */
-    min-height: 95vh; /* Use more vertical space */
-    max-height: none;
-  }
-  .main-layout {
-    flex-direction: column;
-    padding: 10px;
-    gap: 10px;
-  }
-  .left-panel-anchor {
-    width: 100%;
-    max-width: none;
-    order: 2; /* Kid and bubble below working area */
-    min-height: 220px; /* Min height for kid+bubble */
-    justify-content: flex-start; /* Bubble at top, kid then pushed by margin or flex props */
-  }
-  .speech-bubble-container {
-    flex-grow: 1; /* Allow bubble to take space */
-    margin-bottom: 5px;
-    max-height: 250px; /* Max height for bubble on mobile */
-  }
-  .contextBox {
-    /* Font size for contextBox itself, not directly in original, but children were sized */
-    max-height: 100%; /* Fill the container */
-    /* font-size: calc(0.8rem + 0.2vw); */ /* This was the new value, children will get original values */
-  }
-  .contextBox .context-section div > p,
-  .contextBox .context-section ul {
-    /* font-size: calc(0.8rem + 0.2vw); */ /* This was the new value, will be overridden by @media (max-width: 480px) specific style */
-  }
+/* Overlay fullscreen */
 
-  .character-display {
-    width: 100px; /* Smaller kid */
-    margin-top: 5px; /* Space from bubble */
-    padding-bottom: 5px;
-  }
-  .right-panel-content {
-    order: 1; /* Working area on top */
-    min-height: 350px; /* Ensure decent height for 3D view */
-    flex-grow: 1;
-  }
-  .workingArea-container {
-    padding: 10px;
-  }
-  .upperControls input[type="range"] {
-    width: 75%;
-  }
-  .titleBar h1 {
-    font-size: calc(1.2rem + 0.7vw);
-  } /* Consistent with original @media (max-width: 480px) but applied wider */
-  .titleBar p {
-    font-size: calc(0.75rem + 0.6vw);
-  } /* Consistent with original @media (max-width: 480px) but applied wider */
+#fullscreenOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(30px) brightness(0.6);
+  background-color: rgba(0, 0, 0, 0.4); /* Optional fallback */
+  display: none; /* Initially hidden */
+  opacity: 0;
+  z-index: 30;
+  transition: opacity 0.5s ease;
 }
 
-@media (max-width: 480px) {
-  body {
-    padding: 5px;
-  }
-  .applet-container {
-    border-radius: 8px;
-  }
-  .titleBar {
-    padding: 8px 15px;
-  }
-  .titleBar h1 {
-    font-size: calc(1.2rem + 0.7vw); /* MODIFIED FONT SIZE (Original Value) */
-  }
-  .titleBar p {
-    font-size: calc(0.75rem + 0.6vw); /* MODIFIED FONT SIZE (Original Value) */
+
+
+  /* Image styling */
+  #fullscreenOverlay img {
+    position: absolute;
+    max-width: 80vw;
+    max-height: 60vh;
+    object-fit: contain;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
-  .main-layout {
-    padding: 8px;
-    gap: 8px;
+  /* Bubble to the left of the image */
+  .rightArrowBubble {
+    margin: 1rem;
+    font-size: 2rem;
+    position: absolute;
+    left: 0px;
+    top: 20%;
+    transform: translateY(-50%);
+    width: 30%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 1rem;
+    border-radius: 1rem;
   }
-  .left-panel-anchor {
-    min-height: 180px;
+  .rightArrowBubble::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid white; /* matches bubble background */
   }
-  .character-display {
-    width: 80px;
-  }
-  .speech-bubble-container {
-    max-height: 200px;
-  }
-  .contextBox .context-section div > p,
-  .contextBox .context-section ul {
-    font-size: calc(
-      0.85rem + 0.5vw
-    ); /* MODIFIED FONT SIZE (Original Value for p and ul) */
-  }
-  .contextBox .context-section h2 {
-    font-size: calc(1rem + 0.6vw); /* MODIFIED FONT SIZE (Original Value) */
-  }
-
-  .right-panel-content {
-    min-height: 300px;
-  }
-  .workingArea-container {
-    padding: 8px;
-  }
-  .upperControls,
-  .lowerControls {
-    padding: 8px;
-    gap: 8px;
-    min-height: 40px;
-  } /* Font size inherited or set by btn */
-  .btn {
-    font-size: calc(0.85rem + 0.6vw); /* MODIFIED FONT SIZE (Original Value) */
-    padding: 6px 10px;
-    min-height: 36px;
-  }
-  .lowerControls {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .lowerControls .btn {
-    flex-grow: 1;
-    margin: 4px;
-  }
-  .step-counter {
-    margin: 4px 0;
-    width: auto;
-    justify-content: center;
-    padding: 3px 8px;
-  }
-  .step-counter .dot {
-    width: 8px;
-    height: 8px;
-  }
-  .overlay-content {
-    padding: 12px 15px;
-    font-size: calc(0.9rem + 0.5vw); /* MODIFIED FONT SIZE (Original Value) */
-  }
-  .upperControls .slider-group label {
-    /* More specific selector */
-    font-size: calc(
-      0.85rem + 0.5vw
-    ); /* MODIFIED FONT SIZE (Original Value for .upperControls label) */
-  }
-  .upperControls input[type="range"] {
-    width: 85%;
+  /* Image styling */
+  #fullscreenOverlay button {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    translate: -50% 0;
+    font-size: 3rem;
   }
   
-}

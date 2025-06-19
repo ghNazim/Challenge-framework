@@ -10,6 +10,7 @@ if (!T) {
 let contextBox,
   prevButton,
   nextButton,
+  startButton,
   stepCounterElement,
   definitionOverlay,
   definitionOverlayContent,
@@ -25,6 +26,7 @@ function initApp() {
   contextBox = document.getElementById("contextBox");
   prevButton = document.getElementById("prevButton");
   nextButton = document.getElementById("nextButton");
+  startButton = document.getElementById("startButton");
   stepCounterElement = document.getElementById("stepCounter");
   definitionOverlay = document.getElementById("definitionOverlay");
   definitionOverlayContent = document.getElementById(
@@ -33,6 +35,7 @@ function initApp() {
   closeDefinitionOverlay = document.getElementById("closeDefinitionOverlay");
   nextButton.textContent = T.button_texts.next;
   prevButton.textContent = T.button_texts.prev;
+  startButton.textContent = T.button_texts.next;
 }
 
 function updateInstructions(key) {
@@ -72,6 +75,14 @@ function vibrateElement(el, bool = true) {
     el.classList.remove("vibrate-x");
     return;
   }
+  // el.style.position = "relative";
+  el.classList.add("vibrate-x");
+}
+function vibrateAbsElement(el, bool = true) {
+  if (!bool) {
+    el.classList.remove("vibrate-x");
+    return;
+  }
   el.classList.add("vibrate-x");
 }
 
@@ -101,3 +112,24 @@ function confettiBurst() {
 function setNextText(key){
   nextButton.textContent = T.button_texts[key];
 }
+
+function toggleFullScreenOverlay(show) {
+  const overlay = document.getElementById("fullscreenOverlay");
+  if(show){
+    overlay.style.opacity="1";
+    overlay.style.display="block"
+  }
+  else{
+    overlay.style.opacity="0";
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 500);
+    
+  }
+}
+function overlayTextBubble(){
+  const bubble = document.querySelector(".rightArrowBubble>p");
+  bubble.innerHTML = T.overlay_text;
+}
+overlayTextBubble();
+toggleFullScreenOverlay(true)

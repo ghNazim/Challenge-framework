@@ -9,26 +9,39 @@ const texts = {
     add_jar: "Add another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
-
+  overlay_text:
+    "Greetings!,<br>Ever wondered how numbers are made?<br> Let’s have some fun and find out together!",
   instruction_general: {
     instruction_title: "Greetings!",
     instruction_text:
-      "Ever wondered how numbers are made? Let’s have some fun and find out together!",
+      "Ever wondered how numbers are made? <br>Let’s have some fun and find out together!",
   },
   next: {
     instruction_title: "",
-    instruction_text:
-      "Click the 'Next' button to continue.",
+    instruction_text: "Click the 'Next' button to continue.",
   },
   pink_jar: {
     instruction_title: "Instruction",
     instruction_text:
-      "This is a special Pink Jar, you can add and remove squares from here. Let's give it a try!",
+      "This is a special Pink Jar, you can add and remove cubes from here.<br>Let's give it a try!",
   },
-  plus: {
-    instruction_title: "Add Boxes",
+  sum_plus: {
+    instruction_title: "",
     instruction_text:
       "Click on the “+” button, observe the number that comes on the top box. The bottom box tells us how we say it.",
+  },
+  plus: {
+    instruction_title: "'+' Button",
+    instruction_text:
+      "Click on the “+” button to increase the number of cubes in the jar.",
+  },
+  top_num: {
+    instruction_title: "",
+    instruction_text: "The top box tells how many cubes are there in the jar.",
+  },
+  bottom_num: {
+    instruction_title: "",
+    instruction_text: "The bottom box tells us how we say it.",
   },
   minus: {
     instruction_title: "Remove boxes",
@@ -39,12 +52,17 @@ const texts = {
   keep_adding: {
     instruction_title: "Add more boxes",
     instruction_text:
-      " Wasn’t that fun? Now let's keep adding squares to the box to see how many we can fill up.",
+      " Wasn’t that fun? <br>Now let's keep adding cubes to the box to see how many we can fill up.",
   },
   wiggling: {
     instruction_title: "Whoa!",
     instruction_text:
-      "Do you see that? The Pink Jar is wiggling,  it can’t hold more than 9 squares!",
+      "Do you see that?<br> The Pink Jar is wiggling. It can’t hold more than 9 cubes!",
+  },
+  max_reached: {
+    instruction_title: "",
+    instruction_text:
+      "Wasn’t that fun? <br> Now let's keep adding cubes to the box to see how many we can fill up.",
   },
   blue_jar: {
     instruction_title: "Blue Jar",
@@ -71,11 +89,11 @@ const texts = {
 
   comments: {
     number_disappeared:
-      "Opps! the number disappeared! Looks like this number display box can’t show the count of that many squares.",
+      "Oops! the number disappeared! Looks like this number display box can’t show the count of that many cubes.",
     add_jar: "The Way to resolve this is by adding another Jar!",
-    rod: "Ten squares came together to form one rod!",
+    rod: "Ten cubes came together to form one rod!",
     rod_split:
-      "one rod split to form ten squares! As the pink jar can hold only nine symbols, move the squares to the blue Jar",
+      "one rod split to form ten cubes! As the pink jar can hold only nine symbols, move the cubes to the blue Jar",
   },
 };
 window.APP_TEXTS = texts;

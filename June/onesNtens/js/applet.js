@@ -2,6 +2,7 @@ let progress = 0;
 let stepQ = [];
 
 function atStep0() {
+  toggleFullScreenOverlay(false)
   unitWidget.style.display = "block";
   updateInstructions("pink_jar");
 }
@@ -11,15 +12,30 @@ function atStep1() {
   plusBtn.style.pointerEvents = "auto";
   plusBtn.classList.add("pulse-highlight");
   plusBtn.addEventListener("click", clickPLusFirstTime);
+  
 }
 function clickPLusFirstTime() {
-  updateInstructions("minus");
-  minusBtn.style.pointerEvents = "auto";
   plusBtn.style.pointerEvents = "none";
-  minusBtn.classList.add("pulse-highlight");
   plusBtn.classList.remove("pulse-highlight");
   plusBtn.removeEventListener("click", clickPLusFirstTime);
+  updateInstructions("top_num")
+  nextButton.disabled = false;
+  
+}
+function topNum1(){
+  unitNumberTab.style.color = "white";
+  updateInstructions("bottom_num")
+  unitTextDisplay.textContent = "Zero";
+  
+}
+function topNum2(){
+  updateInstructions("minus");
+  speakerButtonUnit.style.display = "flex";
+  minusBtn.style.pointerEvents = "auto";
+  unitTextDisplay.style.color = "white";
+  minusBtn.classList.add("pulse-highlight");
   minusBtn.addEventListener("click", clickMinusFirstTime);
+  nextButton.disabled=true
 }
 function clickMinusFirstTime() {
   updateInstructions("keep_adding");
@@ -44,8 +60,11 @@ function reverse10() {
   setNextText("next");
   nextButton.disabled = true;
 }
-stepQ.push(atStep0);
+// stepQ.push(atStep0);
+startButton.addEventListener("click", atStep0);
 stepQ.push(atStep1);
+stepQ.push(topNum1);
+stepQ.push(topNum2);
 stepQ.push(blankStepBeforeAddingContainer);
 stepQ.push(addTenContainer);
 stepQ.push(moveRight);
@@ -79,6 +98,7 @@ function showComment(tag) {
 function blankStepBeforeAddingContainer() {
   setNextText("add_jar");
   showComment("add_jar");
+  updateInstructions("max_reached");
 }
 function addTenContainer() {
   const tenWidget = document.getElementById("ten-widget");
@@ -119,11 +139,13 @@ function moveLeft() {
 function wiggle(bool = true) {
   if (bool) {
     vibrateElement(unitInnerCard);
+    vibrateElement(unitNumberTab)
     setTimeout(() => {
       vibrateElement(unitSquaresContainer);
     }, 100);
   } else {
     vibrateElement(unitInnerCard, false);
+    vibrateElement(unitNumberTab, false);
     vibrateElement(unitSquaresContainer, false);
   }
 }
