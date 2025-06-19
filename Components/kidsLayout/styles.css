@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary-color: #f1f5f9;
+  --secondary-color: #374151;
+  --accent-color: #f59e0b;
+  --root-font-size: 1.7vw;
+}
+html {
+  font-size: var(--root-font-size);
+}
+
+body {
+  font-family: Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-weight: 500;
+}
+#aspect-container {
+  aspect-ratio: 16/9;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: url("assets/BG.jpg");
+  background-size: cover;
+}
+#top-heading {
+  color: var(--primary-color);
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+}
+#main-content {
+  display: flex;
+  flex: 1;
+  margin: .25rem;
+}
+#left-panel {
+  width: 25%;
+}
+#right-panel {
+  flex: 1;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: .5rem;
+  border-radius: 8px;
+  gap: .5rem;
+}
+#right-panel > div{
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid gray;
+}
+.strap{
+    min-height: 10%;
+}
+#applet{
+    flex: 1;
+}
+#lower-controls{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    padding: .5rem;
+}
+
+/********************************************
+ * 8) BUTTONS
+ *********************************************/
+ .btn {
+    min-height: 40px; /* Adjusted */
+    min-width: 40px;  /* Adjusted */
+    padding: 8px 24px; /* Adjusted */
+    border: 1px solid transparent;
+    border-radius: 50px; /* Slightly more rounded */
+    font-size: 1rem; /* MODIFIED FONT SIZE (Original Value) */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+     0 12px 25px rgba(251, 192, 45, 0.4),
+     inset 0 2px 1px rgba(255, 255, 255, 0.6),
+     inset 0 -2px 3px rgba(0, 0, 0, 0.1),0 4px 0px rgba(206, 148, 0, 0.6);
+  }
+  .btn-primary {
+    background: linear-gradient(145deg, #fdbe35, #fba92d); /* Yellow gradient background */
+     box-shadow:
+     0 7px 4px rgba(251, 169, 45, 0.3),
+     inset 0 2px 1px rgba(255, 255, 255, 0.5),
+     inset 0 -2px 3px rgba(0, 0, 0, 0.1),
+     0 4px 0px rgba(206, 141, 0, 0.6);
+   text-shadow: 0px 1px 2px rgba(175, 144, 5, 0.89);
+   color: #fff;
+  }
+  .btn-primary:hover {
+    background-color: #e67e00;
+  }
+  .btn-primary:active {
+   background: linear-gradient(145deg, #fba92d, #f9a825); /* Darken the gradient */
+   translate: 0 3px;
+   box-shadow:
+       0 4px 8px rgba(251, 155, 45, 0.3), /* Reduce the shadow to make it look closer to the ground */
+       inset 0 2px 3px rgba(0, 0, 0, 0.3); /* Make inner shadow more prominent */
+   color: #fff;
+  }
+  .btn-secondary {
+    background-color: rgba(255,255,255,0.2); /* Light, semi-transparent */
+    color: #f0f0f0;
+    border-color: rgba(255,255,255,0.3);
+  }
+  .btn-secondary:hover {
+    background-color: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.3);
+   box-shadow: none;
+  }
+  .btn[disabled] {
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.4;
+  }
