@@ -15,6 +15,9 @@ const leftDir = arrowContainer.querySelector(".left-dir");
 const rightDir = arrowContainer.querySelector(".right-dir");
 const speakerButtonUnit = document.querySelector("#unit-widget .speaker-btn");
 
+document
+  .querySelectorAll(".control-btn")
+  .forEach((btn) => btn.addEventListener("click", () => playAudio("click")));
 // --- State ---
 let count = 0,
   maxCount = 10,
@@ -47,7 +50,9 @@ minusBtn.addEventListener("click", () => {
   }
 });
 render();
-[unitNumberTab, tenNumberTab,unitTextDisplay, tenTextDisplay].forEach((el) => (el.style.color = "transparent"));
+[unitNumberTab, tenNumberTab, unitTextDisplay, tenTextDisplay].forEach(
+  (el) => (el.style.color = "transparent")
+);
 function animateCloneToTarget(
   sourceElement,
   targetElement,
@@ -163,43 +168,46 @@ leftDir.onclick = onLeftDirClick1;
 rightDir.onclick = onRightDirClick;
 
 async function onLeftDirClick1() {
-  showDirArrow(false)
-  wiggle(false)
+  playAudio("click");
+  showDirArrow(false);
+  wiggle(false);
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
   unitTextDisplay.textContent = numberToText[0];
   await animateUnitsToTens();
   tenNumberTab.style.color = "white";
   tenTextDisplay.style.color = "white";
-  updateInstructions("next")
+  // updateInstructions("next")
   showComment("rod");
   nextButton.disabled = false;
   tenNumberTab.textContent = 1;
   tenTextDisplay.textContent = "Ten";
-  leftDir.onclick = onLeftDirClick2
+  leftDir.onclick = onLeftDirClick2;
 }
 async function onLeftDirClick2() {
-  showDirArrow(false)
-  wiggle(false)
+  playAudio("click");
+  showDirArrow(false);
+  wiggle(false);
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = 0;
   unitTextDisplay.textContent = numberToText[0];
   await animateUnitsToTens();
-  showStatement(-1)
-  updateInstructions("number_ten")
-  setJaxPose("happy")
+  showStatement(-1);
+  updateInstructions("number_ten");
+  setJaxPose("happy");
   tenNumberTab.textContent = 1;
   tenTextDisplay.textContent = "Ten";
 }
 
 async function onRightDirClick() {
-  showDirArrow(false)
+  playAudio("click");
+  showDirArrow(false);
   tenNumberTab.textContent = 0;
   tenTextDisplay.textContent = numberToText[0];
   await animateTensToUnits();
-  wiggle(true)
+  wiggle(true);
   unitNumberTab.classList.add("outlined");
-    updateInstructions("next")
+  // updateInstructions("next")
   unitNumberTab.textContent = "X";
   unitTextDisplay.textContent = numberToText[10];
   showComment("rod_split");

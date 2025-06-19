@@ -2,6 +2,7 @@ let progress = 0;
 let stepQ = [];
 
 function atStep0() {
+  playAudio("click");
   toggleFullScreenOverlay(false)
   unitWidget.style.display = "block";
   updateInstructions("pink_jar");
@@ -72,6 +73,7 @@ stepQ.push(addTenContainer);
 stepQ.push(moveRight);
 stepQ.push(moveLeft);
 function handleNext() {
+  playAudio("click");
   if (progress < stepQ.length) {
     stepQ[progress]();
     progress++;

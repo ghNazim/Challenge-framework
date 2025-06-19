@@ -71,12 +71,12 @@ const texts = {
   },
   move_left: {
     instruction_title: "",
-    instruction_text: "Click on the arrow to see the magic happen",
+    instruction_text: "Click on the arrow to see the magic happen.",
   },
   move_right: {
     instruction_title: "",
     instruction_text:
-      "Just for fun, click on the arrow to move the rod back into the pink jar and observe what happens",
+      "Just for fun, click on the arrow to move the rod back into the pink jar and observe what happens.",
   },
   move_left_again: {
     instruction_title: "",
@@ -93,7 +93,7 @@ const texts = {
     add_jar: "The Way to resolve this is by adding another Jar!",
     rod: "Ten cubes came together to form one rod!",
     rod_split:
-      "one rod split to form ten cubes! As the pink jar can hold only nine symbols, move the cubes to the blue Jar",
+      "One rod split to form ten cubes! As the pink jar can hold only nine symbols, move the cubes to the blue jar.",
   },
 };
 window.APP_TEXTS = texts;

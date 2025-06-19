@@ -513,9 +513,9 @@ body {
   /* Bubble to the left of the image */
   .rightArrowBubble {
     margin: 1rem;
-    font-size: 2rem;
+    font-size: 2vw;
     position: absolute;
-    left: 3rem;
+    left: 12%;
     top: 20%;
     transform: translateY(-50%);
     width: 30%;
