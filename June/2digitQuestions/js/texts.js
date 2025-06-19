@@ -9,84 +9,8 @@ const texts = {
     add_jar: "Add another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
-  left_panel: {
-    instruction_general: {
-      instruction_title: "Great job till now!",
-      instruction_text:
-        "Now, let’s try something new with the Tens Jar!",
-    },
-    next: {
-      instruction_title: "",
-      instruction_text: "Click the 'Next' button to continue.",
-    },
-    reminder: {
-      instruction_title: "Reminder",
-      instruction_text:
-        "Just a reminder - this pink jar shows the Ones place. Each click adds one square!",
-    },
-    plus: {
-      instruction_title: "Add Boxes",
-      instruction_text:
-        "Just Click on the “+” button once to see what happens!",
-    },
-    minus: {
-      instruction_title: "Remove boxes",
-      instruction_text:
-        "Now just for fun, Click on the “-” button, see what happens to the boxes above and below",
-    },
-
-    keep_adding: {
-      instruction_title: "Add more boxes",
-      instruction_text:
-        " Wasn’t that fun? Now let's keep adding squares to the box to see how many we can fill up.",
-    },
-    pink_unlike: {
-      instruction_title: "Observe",
-      instruction_text:
-        "The Pink Jar Does not like having more than one Digit!",
-    },
-    mcq: {
-      instruction_title: "",
-      instruction_text:
-        "I really want to continue counting higher, how can we resolve this? help me by clicking the right answer",
-    },
-    increase: {
-      instruction_title: "",
-      instruction_text:
-        "Use the '+' button to increase the number of squares in the ones place.",
-    },
-    move_left: {
-      instruction_title: "",
-      instruction_text: "Click on the arrow to see the magic happen",
-    },
-    move_right: {
-      instruction_title: "",
-      instruction_text:
-        "Just for fun, click on the arrow to move the rod back into the pink jar and observe what happens",
-    },
-    move_left_again: {
-      instruction_title: "",
-      instruction_text: "Click the arrow to get back the rod. Isn’t it magic!",
-    },
-    number_ten: {
-      instruction_title: "And we have Created the number 10 !!!",
-      instruction_text: "",
-    },
-    one_more_rod: {
-      instruction_title: "",
-      instruction_text:
-        "The Pink Jar won’t like this… but just for the sake of math learning, let’s try putting one more rod in. Click to continue!",
-    },
-    finally: {
-      instruction_title: "Finally!",
-      instruction_text: " All is fine now! We have created Twenty!",
-    },
-    one_more_click: {
-      instruction_title: "",
-      instruction_text: "One more click and the pink jar is all happy!",
-    },
-  },
-
+  overlay_text: "Great job till now!<br> Now, let’s try something new with the Tens Jar!",
+  
   comments: {
     number_disappeared:
       "Opps! the number disappeared! Looks like this number display box can’t show the count of that many squares.",
@@ -131,58 +55,207 @@ const numberToText = [
   "Nineteen",
   "Twenty",
 ];
-const mcqData = {
-  options: [
-    "Leave the 10 squares in the ones place.",
-    "Move all 10 squares to the tens place as 1 ten.",
-    "Erase all the squares and start over.",
-  ],
-  feedback: ["wrong1", "correct", "wrong3"],
-  answer: 1,
-  question: "",
-};
 
-const numberForm = [
-  "",
-  "One ten and One One makes Eleven",
-  "One ten and Two Ones makes Twelve",
-  "One ten and Three Ones makes Thirteen",
-  "One ten and Four Ones makes Fourteen",
-  "One ten and Five Ones makes Fifteen",
-  "One ten and Six Ones makes Sixteen",
-  "One ten and Seven Ones makes Seventeen",
-  "One ten and Eight Ones makes Eighteen",
-  "One ten and Nine Ones makes Nineteen",
-  "Two tens makes Twenty!",
-]
 
 const questions = [
   {
     text: "Click on the ones box only to add digits and make the number seven",
     number: 7,
+    feedback: {
+      correctAnswer: "Yes! You made Seven—0 ten and 7 ones. Nice work!",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+      tensWrong: "To make a single digit number, you don’t need a tens place",
+      tensCorrectOnesWrong:
+        "Try again, you need to add seven squares to the jar to get this right.",
+    },
   },
   {
     text: "Click on the ones box only to add digits and make the number thirteen",
     number: 13,
+    feedback: {
+      correctAnswer: "Yes! You made thirteen—1 ten and 3 ones. Nice work!",
+      randomTotalWrong:
+        "Hmm… That number’s different. Check both tens and ones and try again!",
+      onesCorrectTensWrong:
+        "You got the ones right—3 ones! But check the tens again.",
+      tensCorrectOnesWrong:
+        "Your tens are spot on—1 ten! But your ones don’t match yet.",
+      tooManyOnes:
+        "Oops! The Pink Jar has too many! Remember—it likes just one digit. Try moving 10 ones to the tens place.",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+    },
   },
   {
     text: "Click on the Tens box only to add digits and make the number thirty.",
     number: 30,
+    feedback: {
+      correctAnswer: "Yes! You made thirty—3 ten and 0 ones. Nice work!",
+      randomTotalWrong:
+        "Hmm… That number’s different. Check both tens and ones and try again!",
+      onesWrong: "Observe the number, it has zero ones.",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+      onesCorrectTensWrong:
+        "You got the ones right—0 ones! But check the tens again.",
+    },
   },
   {
     text: "Click on the tens box only to add digits and make the number eighteen.",
     number: 18,
+    feedback: {
+      correctAnswer: "Yes! You made eighteen—1 ten and 8 ones. Nice work!",
+      randomTotalWrong:
+        "Hmm… That number’s different. Check both tens and ones and try again!",
+      onesCorrectTensWrong:
+        "You got the ones right—3 ones! But check the tens again.",
+      tensCorrectOnesWrong:
+        "Your tens are spot on—1 ten! But your ones don’t match yet.",
+      tooManyOnes:
+        "Oops! The Pink Jar has too many! Remember—it likes just one digit. Try moving 10 ones to the tens place.",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+    },
   },
   {
     text: "Click on the Tens box only to add digits and make the number twenty five",
     number: 25,
+    feedback: {
+      correctAnswer: "Yes! You made twenty five - 2 ten and 5 ones. Nice work!",
+      randomTotalWrong:
+        "Hmm… That number’s different. Check both tens and ones and try again!",
+      onesCorrectTensWrong:
+        "You got the ones right - 5 ones! But check the tens again.",
+      tensCorrectOnesWrong:
+        "Your tens are spot on - 2 ten! But your ones don’t match yet.",
+      tooManyOnes:
+        "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+    },
   },
   {
     text: "Click on the Tens box only to add digits and make the number sixteen",
     number: 16,
+    feedback: {
+      correctAnswer: "Yes! You made sixteen- 1 ten and 6 ones. Nice work!",
+      randomTotalWrong:
+        "Hmm… That number’s different. Check both tens and ones and try again!",
+      onesCorrectTensWrong:
+        "You got the ones right - 6 ones! But check the tens again.",
+      tensCorrectOnesWrong:
+        "Your tens are spot on - 1 ten! But your ones don’t match yet.",
+      tooManyOnes:
+        "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+    },
   },
   {
     text: "Click on the Tens box only to add digits and make the number forty",
     number: 40,
-  }
+    feedback:{
+      correctAnswer: "Yes! You made forty- 4 ten and 0 ones. Nice work!",
+      randomTotalWrong:
+        "Hmm… That number’s different. Check both tens and ones and try again!",
+      onesCorrectTensWrong:
+        "You got the ones right - 0 ones! But check the tens again.",
+      tensCorrectOnesWrong:
+        "Your tens are spot on - 4 ten! But your ones don’t match yet.",
+      tooManyOnes:
+        "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
+      nothingAdded:
+        "Give it a try! Start adding cubes and rods to make the number.",
+    }
+  },
 ];
+
+
+
+
+// const dialogs7 = {
+//   correctAnswer: "Yes! You made Seven—0 ten and 7 ones. Nice work!",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+//   tensWrong: "To make a single digit number, you don’t need a tens place",
+//   tensCorrectOnesWrong:
+//     "Try again, you need to add seven squares to the jar to get this right.",
+// };
+// const dialogs13 = {
+//   correctAnswer: "Yes! You made thirteen—1 ten and 3 ones. Nice work!",
+//   randomTotalWrong:
+//     "Hmm… That number’s different. Check both tens and ones and try again!",
+//   onesCorrectTensWrong:
+//     "You got the ones right—3 ones! But check the tens again.",
+//   tensCorrectOnesWrong:
+//     "Your tens are spot on—1 ten! But your ones don’t match yet.",
+//   tooManyOnes:
+//     "Oops! The Pink Jar has too many! Remember—it likes just one digit. Try moving 10 ones to the tens place.",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+// };
+// const dialogs30 = {
+//   correctAnswer: "Yes! You made thirty—3 ten and 0 ones. Nice work!",
+//   randomTotalWrong:
+//     "Hmm… That number’s different. Check both tens and ones and try again!",
+//   onesWrong: "Observe the number, it has zero ones.",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+//   onesCorrectTensWrong:
+//     "You got the ones right—0 ones! But check the tens again.",
+// };
+
+// const dialogs18 = {
+//   correctAnswer: "Yes! You made eighteen—1 ten and 8 ones. Nice work!",
+//   randomTotalWrong:
+//     "Hmm… That number’s different. Check both tens and ones and try again!",
+//   onesCorrectTensWrong:
+//     "You got the ones right—3 ones! But check the tens again.",
+//   tensCorrectOnesWrong:
+//     "Your tens are spot on—1 ten! But your ones don’t match yet.",
+//   tooManyOnes:
+//     "Oops! The Pink Jar has too many! Remember—it likes just one digit. Try moving 10 ones to the tens place.",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+// };
+
+// const dialogs25 = {
+//   correctAnswer: "Yes! You made twenty five - 2 ten and 5 ones. Nice work!",
+//   randomTotalWrong:
+//     "Hmm… That number’s different. Check both tens and ones and try again!",
+//   onesCorrectTensWrong:
+//     "You got the ones right - 5 ones! But check the tens again.",
+//   tensCorrectOnesWrong:
+//     "Your tens are spot on - 2 ten! But your ones don’t match yet.",
+//   tooManyOnes:
+//     "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+// };
+// const dialogs16 = {
+//   correctAnswer: "Yes! You made sixteen- 1 ten and 6 ones. Nice work!",
+//   randomTotalWrong:
+//     "Hmm… That number’s different. Check both tens and ones and try again!",
+//   onesCorrectTensWrong:
+//     "You got the ones right - 6 ones! But check the tens again.",
+//   tensCorrectOnesWrong:
+//     "Your tens are spot on - 1 ten! But your ones don’t match yet.",
+//   tooManyOnes:
+//     "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+// };
+// const dialogs40 = {
+//   correctAnswer: "Yes! You made forty- 4 ten and 0 ones. Nice work!",
+//   randomTotalWrong:
+//     "Hmm… That number’s different. Check both tens and ones and try again!",
+//   onesCorrectTensWrong:
+//     "You got the ones right - 0 ones! But check the tens again.",
+//   tensCorrectOnesWrong:
+//     "Your tens are spot on - 4 ten! But your ones don’t match yet.",
+//   tooManyOnes:
+//     "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
+//   nothingAdded:
+//     "Give it a try! Start adding cubes and rods to make the number.",
+// };

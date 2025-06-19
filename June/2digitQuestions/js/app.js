@@ -10,6 +10,7 @@ if (!T) {
 let contextBox,
   prevButton,
   nextButton,
+  startButton,
   stepCounterElement,
   definitionOverlay,
   definitionOverlayContent,
@@ -17,7 +18,7 @@ let contextBox,
 
 // App state
 let currentStep = 0,
-  NUM_STRUCTURES = 8;
+  NUM_STRUCTURES = 7;
 
 initApp();
 
@@ -25,6 +26,7 @@ function initApp() {
   contextBox = document.getElementById("contextBox");
   prevButton = document.getElementById("prevButton");
   nextButton = document.getElementById("nextButton");
+  startButton = document.getElementById("startButton");
   stepCounterElement = document.getElementById("stepCounter");
   definitionOverlay = document.getElementById("definitionOverlay");
   definitionOverlayContent = document.getElementById(
@@ -63,9 +65,9 @@ function setCavePose(pose) {
   const JAX = document.querySelector(`.character-display img`);
   JAX.src = `assets/cave${pose}.png`;
 }
-updateInstructions("instruction_general");
-// createStepCounter();
-// updateStepCounter(0);
+
+createStepCounter();
+updateStepCounter(0);
 
 function vibrateElement(el, bool = true) {
   if (!bool) {
@@ -78,6 +80,12 @@ function vibrateElement(el, bool = true) {
 function playAudio(id) {
   const audio = document.getElementById(id);
   audio.currentTime = 0;
+  audio.play();
+}
+
+function playSound(name) {
+  const file = `sound/${name}.mp3`;
+  const audio = new Audio(file);
   audio.play();
 }
 
@@ -116,3 +124,22 @@ function updateInstructionWithQuestion(data){
   ContextSection.innerHTML = `<div><p>${text}</p></div><div class="question-number">${n}</div>`;
   ContextSection.classList.add("visible");
 }
+
+function toggleFullScreenOverlay(show) {
+  const overlay = document.getElementById("fullscreenOverlay");
+  if (show) {
+    overlay.style.opacity = "1";
+    overlay.style.display = "block";
+  } else {
+    overlay.style.opacity = "0";
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 500);
+  }
+}
+function overlayTextBubble() {
+  const bubble = document.querySelector(".rightArrowBubble>p");
+  bubble.innerHTML = T.overlay_text;
+}
+overlayTextBubble();
+toggleFullScreenOverlay(true);

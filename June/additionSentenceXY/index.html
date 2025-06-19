@@ -6,6 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/applet.css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- Configuration ---
+
+        let viewportWidth = document.documentElement.clientWidth;
+        if (viewportWidth > 1440) {
+          return;
+        }
+        let refFactor = 1560;
+        let scaleFactor = viewportWidth / refFactor;
+
+        window.addEventListener("resize", handleResize);
+
+        const applet = document.querySelector(".applet-container");
+
+        if (applet) {
+          applet.style.zoom = scaleFactor;
+        }
+
+        function handleResize() {
+          viewportWidth = document.documentElement.clientWidth;
+          refFactor = 1560;
+          scaleFactor = viewportWidth / refFactor;
+
+          if (applet) {
+            applet.style.zoom = scaleFactor;
+          }
+        }
+      });
+    </script>
     <script src="js/confetti.min.js"></script>
   </head>
   <body>
@@ -23,8 +53,6 @@
       Your browser does not support the audio element.
     </audio>
     <div class="applet-container">
-      
-
       <div class="main-layout">
         <div class="left-panel-anchor">
           <div class="speech-bubble-container">
@@ -52,7 +80,9 @@
                 <div id="sentenceContainer">
                   <div id="originalSentence">
                     <span>Three coins</span>&nbsp;<span>added to</span>&nbsp;
-                    <span>two coins</span>&nbsp;<span>make</span>&nbsp;<span>how many coins ?</span>
+                    <span>two coins</span>&nbsp;<span>make</span>&nbsp;<span
+                      >how many coins ?</span
+                    >
                   </div>
                   <div id="pictoralSentence">
                     <div></div>
