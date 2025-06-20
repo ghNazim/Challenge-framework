@@ -6,9 +6,9 @@
 :root {
   --primary-color: #f1f5f9;
   --black-text: #545454;
-  --blue-text:#4169E1;
+  --blue-text: #4169e1;
   --accent-color: #f59e0b;
-  --glowing-yellow:#fdbe35;
+  --glowing-yellow: #fdbe35;
   --root-font-size: 1.7vw;
 }
 html {
@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  font-family: "Roboto", "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,7 +31,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-image: url("assets/BG.jpg");
+  background-image: url("assets/BG.png");
   background-size: cover;
 }
 #top-heading {
@@ -55,9 +55,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding-right: .5rem;
+  padding-right: 0.5rem;
 }
-#character{
+#character {
   position: relative;
   width: 100%;
   height: 48%;
@@ -65,7 +65,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-#character>img{
+#character > img {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -76,17 +76,16 @@ body {
   width: 100%;
   min-height: 10%;
   background-color: white;
-  border-radius: .5rem ;
-  margin-bottom: .5rem;
-  margin-left: .5rem;
-  padding: .5rem;
-  
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+  padding: 0.5rem;
 }
-#context h3{
+#context h3 {
   color: var(--blue-text);
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
-#context p{
+#context p {
   font-size: 1.1rem;
   color: var(--black-text);
   font-weight: 400;
@@ -113,7 +112,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
-  
+
   padding: 0.5rem;
   border-radius: 8px;
   gap: 0.5rem;
@@ -121,16 +120,16 @@ body {
 #right-panel > div {
   width: 100%;
   border-radius: 8px;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 .strap {
   min-height: 10%;
-  background-color: rgba(0, 0, 0, .15);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 #applet {
   position: relative;
   flex: 1;
-  background: rgba(0, 0, 0, .7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -149,7 +148,6 @@ body {
   align-items: center;
   color: white;
 }
-
 
 /********************************************
  * 8) BUTTONS
@@ -246,7 +244,7 @@ body {
   color: var(--accent-color);
   background-color: transparent;
   cursor: pointer;
-  padding: .7rem;
+  padding: 0.7rem;
   border-radius: 100px;
   border: 3px solid var(--accent-color);
   z-index: 10;
@@ -258,31 +256,31 @@ body {
 .close-button:hover {
   scale: 1.1;
 }
-#overlay-button{
+#overlay-button {
   position: absolute;
   bottom: 2rem;
   left: 50%;
-  transform: translateX(-50%)
+  transform: translateX(-50%);
 }
 
 /********************************************
  * 9) STEP COUNTER
  *********************************************/
- .step-counter {
+.step-counter {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   height: 2rem; /* Adjusted */
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 100px; /* Pill shape */
   background-color: rgba(0, 0, 0, 0.15); /* Darker transparent */
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
 .step-counter .dot {
-  width: .5rem; /* Adjusted */
-  height: .5rem; /* Adjusted */
+  width: 0.5rem; /* Adjusted */
+  height: 0.5rem; /* Adjusted */
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.3); /* Dimmed dots */
   transition: all 0.3s ease;
@@ -295,4 +293,3 @@ body {
 .step-counter .dot:hover:not(.active) {
   background-color: rgba(255, 255, 255, 0.5);
 }
-
