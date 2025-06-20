@@ -52,6 +52,12 @@ function updateStepCounter(stepIndex) {
 }
 
 function updateInstruction(heading, text) {
+  const context = document.querySelector("#context");
+  gsap.fromTo(
+    context,
+    { scale:.1, opacity: 0 },
+    { scale:1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
+  );
   document.querySelector("#context h3").textContent = heading;
   document.querySelector("#context p").innerHTML = text;
 }

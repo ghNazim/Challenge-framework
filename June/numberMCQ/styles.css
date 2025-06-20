@@ -75,10 +75,10 @@ body {
   position: relative;
   width: 100%;
   min-height: 10%;
-  font-size: 1.2rem;
   background-color: white;
   border-radius: .5rem ;
   margin-bottom: .5rem;
+  margin-left: .5rem;
   padding: .5rem;
   
 }
@@ -87,6 +87,7 @@ body {
   margin-bottom: .5rem;
 }
 #context p{
+  font-size: 1.1rem;
   color: var(--black-text);
   font-weight: 400;
 }

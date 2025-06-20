@@ -3,61 +3,73 @@ const questions = [
     question: "How many digits are in the number 6?",
     options: ["2", "1", "0", "3"],
     answer: "1",
+    number: "6",
   },
   {
     question: "How many digits are in the number 18?",
     options: ["3", "2", "1", "4"],
     answer: "2",
+    number: "18",
   },
   {
     question: "How many digits are in the number 9?",
     options: ["1", "2", "0", "3"],
     answer: "1",
+    number: "9",
   },
   {
     question: "How many digits are in the number 12?",
     options: ["3", "1", "2", "0"],
     answer: "2",
+    number: "12",
   },
   {
     question: "How many digits are in the number 10?",
     options: ["1", "2", "0", "3"],
     answer: "2",
+    number: "10",
   },
   {
     question: "How many digits are in the number 05?",
     options: ["3", "1", "2", "0"],
     answer: "1",
+    number: "05",
   },
   {
     question: "How many digits are in the number 30?",
     options: ["1", "3", "2", "0"],
     answer: "2",
+    number: "30",
   },
   {
     question: "How many digits are in the number 39?",
     options: ["2", "3", "4", "1"],
     answer: "2",
+    number: "39",
   },
   {
     question: "How many digits are in the number 50?",
     options: ["1", "2", "3", "0"],
     answer: "2",
+    number: "50",
   },
   {
     question: "How many digits are in the number 11?",
     options: ["1", "3", "2", "4"],
     answer: "2",
+    number: "11",
   },
   {
     question: "How many digits are in the number 1?",
     options: ["2", "1", "3", "4"],
     answer: "1",
+    number: "1",
   },
   {
     question: "How many digits are in the number 44?",
     options: ["1", "2", "3", "4"],
     answer: "2",
+    number: "44",
   },
 ];
   

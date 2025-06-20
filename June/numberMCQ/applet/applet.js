@@ -7,7 +7,7 @@ function loadQuestion(index) {
 
   // Set question text and number
   questionContainer.textContent = current.question;
-  numberDisplay.textContent = current.question.match(/\d+/)[0]; // Extract number from question
+  numberDisplay.textContent = current.number; // Extract number from question
 
   // Clear existing options
   optionsContainer.innerHTML = "";
@@ -37,6 +37,7 @@ function loadQuestion(index) {
         btn.classList.add("correct");
         showFeedback(true);
         nextButton.disabled = false;
+        optionsContainer.style.pointerEvents = "none";
         if (questionIndex == questions.length - 1)
           nextButton.textContent = "Start Over";
       } else {
@@ -49,6 +50,27 @@ function loadQuestion(index) {
 
     optionsContainer.appendChild(btn);
   });
+  gsap.fromTo(
+    questionContainer,
+    { y: -10, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
+  );
+
+  gsap.fromTo(
+    numberDisplay,
+    { scale: 0, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
+  );
+  gsap.fromTo(
+    optionsContainer, // Animate all buttons in the array
+    { y: 30, opacity: 0 }, // Start slightly to the left and invisible
+    {
+      y: 0, // End at their natural position
+      opacity: 1,
+      duration: 0.5,
+      ease: "power3.out",
+    }
+  );
 }
 
 function showFeedback(isCorrect) {
@@ -58,6 +80,8 @@ function showFeedback(isCorrect) {
 callWithStep();
 
 function callWithStep() {
+  optionsContainer.style.pointerEvents = "auto";
+
   if (questionIndex === 0) {
     previousButton.disabled = true;
     nextButton.textContent = "Next";
