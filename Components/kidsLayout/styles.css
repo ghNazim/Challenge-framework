@@ -23,6 +23,7 @@ body {
   font-weight: 500;
 }
 #aspect-container {
+  position: relative;
   aspect-ratio: 16/9;
   width: 100%;
   display: flex;
@@ -44,98 +45,201 @@ body {
 #main-content {
   display: flex;
   flex: 1;
-  margin: .25rem;
+  margin: 0.25rem;
 }
 #left-panel {
   width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: .5rem;
 }
+#character{
+  position: relative;
+  width: 100%;
+  height: 48%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#character>img{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+}
+#context {
+  position: relative;
+  width: 100%;
+  min-height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  background-color: white;
+  border-radius: .5rem ;
+  margin-bottom: .5rem;
+}
+#context::after {
+  content: "";
+  position: absolute;
+  bottom: -9px; /* distance below the bubble */
+  left: 20%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white; /* matches background */
+}
+/* LEFT PANEL */
+
+/* RIGHT PANEL */
+
 #right-panel {
   flex: 1;
   backdrop-filter: blur(5px);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
-  padding: .5rem;
+  padding: 0.5rem;
   border-radius: 8px;
-  gap: .5rem;
+  gap: 0.5rem;
 }
-#right-panel > div{
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid gray;
+#right-panel > div {
+  width: 100%;
+  border-radius: 8px;
+  padding: .5rem;
 }
-.strap{
-    min-height: 10%;
+.strap {
+  min-height: 10%;
+  background-color: rgba(0, 0, 0, .15);
 }
-#applet{
-    flex: 1;
+#applet {
+  position: relative;
+  flex: 1;
+  background: rgba(0, 0, 0, .7);
 }
-#lower-controls{
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
-    padding: .5rem;
+#lower-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
 }
+#upper-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  color: white;
+}
+
 
 /********************************************
  * 8) BUTTONS
  *********************************************/
- .btn {
-    min-height: 40px; /* Adjusted */
-    min-width: 40px;  /* Adjusted */
-    padding: 8px 24px; /* Adjusted */
-    border: 1px solid transparent;
-    border-radius: 50px; /* Slightly more rounded */
-    font-size: 1rem; /* MODIFIED FONT SIZE (Original Value) */
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow:
-     0 12px 25px rgba(251, 192, 45, 0.4),
-     inset 0 2px 1px rgba(255, 255, 255, 0.6),
-     inset 0 -2px 3px rgba(0, 0, 0, 0.1),0 4px 0px rgba(206, 148, 0, 0.6);
-  }
-  .btn-primary {
-    background: linear-gradient(145deg, #fdbe35, #fba92d); /* Yellow gradient background */
-     box-shadow:
-     0 7px 4px rgba(251, 169, 45, 0.3),
-     inset 0 2px 1px rgba(255, 255, 255, 0.5),
-     inset 0 -2px 3px rgba(0, 0, 0, 0.1),
-     0 4px 0px rgba(206, 141, 0, 0.6);
-   text-shadow: 0px 1px 2px rgba(175, 144, 5, 0.89);
-   color: #fff;
-  }
-  .btn-primary:hover {
-    background-color: #e67e00;
-  }
-  .btn-primary:active {
-   background: linear-gradient(145deg, #fba92d, #f9a825); /* Darken the gradient */
-   translate: 0 3px;
-   box-shadow:
-       0 4px 8px rgba(251, 155, 45, 0.3), /* Reduce the shadow to make it look closer to the ground */
-       inset 0 2px 3px rgba(0, 0, 0, 0.3); /* Make inner shadow more prominent */
-   color: #fff;
-  }
-  .btn-secondary {
-    background-color: rgba(255,255,255,0.2); /* Light, semi-transparent */
-    color: #f0f0f0;
-    border-color: rgba(255,255,255,0.3);
-  }
-  .btn-secondary:hover {
-    background-color: rgba(255,255,255,0.3);
-    border-color: rgba(255,255,255,0.3);
-   box-shadow: none;
-  }
-  .btn[disabled] {
-    cursor: not-allowed;
-    transform: none;
-    opacity: 0.4;
-  }
+.btn {
+  padding: 0.4rem 1rem; /* Adjusted */
+  border: 1px solid transparent;
+  border-radius: 50px; /* Slightly more rounded */
+  font-size: 1rem; /* MODIFIED FONT SIZE (Original Value) */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(3px);
+}
+.btn[disabled] {
+  pointer-events: none;
+  opacity: 0.4;
+}
+.btn-primary {
+  background: linear-gradient(
+    145deg,
+    #fdbe35,
+    #fba92d
+  ); /* Yellow gradient background */
+  box-shadow: 0 7px 4px rgba(251, 169, 45, 0.3),
+    inset 0 2px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(206, 141, 0, 0.6);
+  text-shadow: 0px 1px 2px rgba(175, 144, 5, 0.89);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #e67e00;
+}
+.btn-primary:active {
+  background: linear-gradient(
+    145deg,
+    #fba92d,
+    #f9a825
+  ); /* Darken the gradient */
+  box-shadow: 0 4px 8px rgba(251, 155, 45, 0.3),
+    inset 0 2px 3px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.2); /* Light, semi-transparent */
+  color: #f0f0f0;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 2px rgba(255, 255, 255, 0.3);
+}
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.btn-secondary:active {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: none;
+}
+
+/*##################################################
+ OVERLAY 
+####################################################*/
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+  display: none;
+}
+.close-button {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  background-color: transparent;
+  cursor: pointer;
+  padding: .7rem;
+  border-radius: 100px;
+  border: 3px solid var(--accent-color);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: scale 0.2s ease;
+}
+.close-button:hover {
+  scale: 1.1;
+}
