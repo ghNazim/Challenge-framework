@@ -278,7 +278,7 @@ async function tensToUnitsWrapper() {
   wiggle(true);
   unitCount += 10;
   unitNumberTab.classList.add("outlined");
-  unitNumberTab.textContent = unitCount;
+  unitNumberTab.textContent = "X";
   unitTextDisplay.textContent = numberToText[unitCount]+" Ones";
 }
 leftDir.onclick = onLeftDirClick1;
@@ -305,7 +305,7 @@ async function onLeftDirClick2() {
 }
 async function onLeftDirClick3() {
   showDirArrow(false);
-  unitNumberTab.textContent = 10;
+  unitNumberTab.textContent = "X";
   unitTextDisplay.textContent = numberToText[10]+" Ones";
   await animateUnitsToTensUnnatural()
   for(let i = 0; i < 10; i++) {
@@ -314,7 +314,7 @@ async function onLeftDirClick3() {
   unitCount -= 10;
   tenCount++;
   tenNumberTab.textContent = tenCount;
-  tenTextDisplay.textContent = numberToText[tenCount]+" Tens";
+  tenTextDisplay.textContent = numberToText[tenCount]+" Ten";
   leftDir.onclick = onLeftDirClick4;
   showDirArrow("left");
   updateInstructions("one_more_click");
@@ -324,9 +324,9 @@ async function onLeftDirClick4() {
   await unitsToTensWrapper();
   updateInstructions("finally")
   setCavePose("Happy");
-  showNumberText(tenCount * 10 + unitCount);
 }
 async function onRightDirClick() {
+  showStatement(-1)
   await tensToUnitsWrapper();
   updateInstructions("one_more_rod");
   showDirArrow("right");

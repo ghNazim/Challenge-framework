@@ -35,7 +35,7 @@ function topNum1(){
   
 }
 function topNum2(){
-  unitTextDisplay.textContent = "Zero Ones";
+  unitTextDisplay.textContent = "One One";
   updateInstructions("bottom_num");
   speakerButtonUnit.style.display = "flex";
   unitTextDisplay.style.color = "white";

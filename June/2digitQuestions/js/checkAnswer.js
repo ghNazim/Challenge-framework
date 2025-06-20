@@ -82,9 +82,11 @@ function onSubmit(){
         nextButton.disabled = false
         submitButton.disabled = true
         playSound("correct")
+        setCavePose("Happy")
         return
     }
     playSound("wrong")
+    setCavePose("Sad")
     commentElement.classList.remove("green")
     commentElement.classList.add("red")
 }

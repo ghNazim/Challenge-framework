@@ -78,11 +78,11 @@ function popTen() {
 }
 function updateUnitTexts(n = unitCount) {
   unitNumberTab.textContent = n;
-  unitTextDisplay.textContent = numberToText[n];
+  unitTextDisplay.textContent = numberToText[n]+" One"+(n!==1?"s":"");
 }
 function updateTenTexts(n = tenCount) {
   tenNumberTab.textContent = n;
-  tenTextDisplay.textContent = numberToText[n];
+  tenTextDisplay.textContent = numberToText[n]+" Ten"+(n!==1?"s":"");
 }
 
 unitsPlus.addEventListener("click", () => {

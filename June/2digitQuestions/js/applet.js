@@ -45,6 +45,7 @@ function reset(){
   updateInstructionWithQuestion(questions[questionIndex]);
   nextButton.disabled = true;
   showStatement(-1);
+  setCavePose("Normal");
 }
 function handleNext() {
   playSound("click");

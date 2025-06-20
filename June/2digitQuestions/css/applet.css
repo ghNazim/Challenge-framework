@@ -44,7 +44,7 @@
   height: 80%;
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  gap: 6rem;
   align-items: center;
 }
 #ten-widget {
@@ -97,9 +97,11 @@
 }
 
 .inner-card {
+  position: relative;
   width: 100%;
   border-radius: 1.5rem; /* 24px */
   padding: 1vw; /* 24px */
+  padding-top: 2.2vw;
   margin-top: 2.5vw; /* 32px */
   display: flex;
   flex-direction: column;
@@ -300,13 +302,12 @@
   animation: vibrate-x 0.3s ease-in-out infinite;
 }
 .arrowContainer{
-  width: 7vw;
+  width: 6vw;
   height: 4vw;
   position: absolute;
-  
   left: 0;
   z-index: 10;
-  translate: -70% 0;
+  translate: -100% 0;
 }
 #ac1{
   top: 3.4vw;
@@ -323,8 +324,9 @@
   align-items: center;
   display: none;
   cursor: pointer;
+  scale: .8;
   &:hover {
-    scale: 1.05;
+    scale: .9;
   }
 }
 
@@ -432,7 +434,8 @@
 .pill-badge {
   position: absolute;
   top: 0.5rem;
-  right: 0.5rem;
+  right: 50%;
+  translate: 50% 0;
   padding: 0.2rem 0.6rem;
   font-size: 1.5rem;
   font-weight: bold;

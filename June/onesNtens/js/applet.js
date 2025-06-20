@@ -3,7 +3,7 @@ let stepQ = [];
 
 function atStep0() {
   playAudio("click");
-  toggleFullScreenOverlay(false)
+  toggleFullScreenOverlay(false);
   unitWidget.style.display = "block";
   updateInstructions("pink_jar");
   unitTextDisplay.textContent = "";
@@ -14,31 +14,28 @@ function atStep1() {
   plusBtn.style.pointerEvents = "auto";
   plusBtn.classList.add("pulse-highlight");
   plusBtn.addEventListener("click", clickPLusFirstTime);
-  
 }
 function clickPLusFirstTime() {
   plusBtn.style.pointerEvents = "none";
   plusBtn.classList.remove("pulse-highlight");
   plusBtn.removeEventListener("click", clickPLusFirstTime);
-  updateInstructions("top_num")
+  updateInstructions("top_num");
   nextButton.disabled = false;
   unitTextDisplay.textContent = "";
-  
 }
-function topNum1(){
+function topNum1() {
   unitNumberTab.style.color = "white";
-  updateInstructions("bottom_num")
-  unitTextDisplay.textContent = "Zero";
-  
+  updateInstructions("bottom_num");
+  unitTextDisplay.textContent = "One";
 }
-function topNum2(){
+function topNum2() {
   updateInstructions("minus");
   speakerButtonUnit.style.display = "flex";
   minusBtn.style.pointerEvents = "auto";
   unitTextDisplay.style.color = "white";
   minusBtn.classList.add("pulse-highlight");
   minusBtn.addEventListener("click", clickMinusFirstTime);
-  nextButton.disabled=true
+  nextButton.disabled = true;
 }
 function clickMinusFirstTime() {
   updateInstructions("keep_adding");
@@ -70,6 +67,7 @@ stepQ.push(topNum1);
 stepQ.push(topNum2);
 stepQ.push(blankStepBeforeAddingContainer);
 stepQ.push(addTenContainer);
+stepQ.push(blankStepAfterAddingJar);
 stepQ.push(moveRight);
 stepQ.push(moveLeft);
 function handleNext() {
@@ -116,15 +114,20 @@ function addTenContainer() {
       unitWidget.removeEventListener("transitionend", handleTransitionEnd);
       tenWidget.style.visibility = "visible";
       showStatement(1);
-      showDirArrow("left");
-      updateInstructions("move_left");
+      // showDirArrow("left");
+      updateInstructions("blue_jar");
       setJaxPose("normal");
-      nextButton.disabled = true;
+      // nextButton.disabled = true;
       setNextText("next");
     },
     { once: true }
   );
   unitWidget.classList.remove("shifted");
+}
+function blankStepAfterAddingJar() {
+  showDirArrow("left");
+  nextButton.disabled = true;
+  updateInstructions("move_left");
 }
 
 function moveRight() {
@@ -144,7 +147,7 @@ function moveLeft() {
 function wiggle(bool = true) {
   if (bool) {
     vibrateElement(unitInnerCard);
-    vibrateElement(unitNumberTab)
+    vibrateElement(unitNumberTab);
     setTimeout(() => {
       vibrateElement(unitSquaresContainer);
     }, 100);

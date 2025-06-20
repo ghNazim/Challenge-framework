@@ -9,20 +9,21 @@ const texts = {
     add_jar: "Add another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
   },
-  bubble_data:[{
-    left:"Great job Till now!<br>Now, let’s try something new with the Tens Jar!",
-    right:"Only use the blue jar this time!"
-  },
-  {
-    left:"Great job on Level 1!<br>Now, let’s try something new with the Tens Jar!",
-    right:"Only use the blue jar this time!"
-  },
-  {
-    left:"Wow! You’re getting good at this.<br>Now it’s time to use both jars together!",
-    right:"Let’s build bigger numbers!"
-  }
-],
-  
+  bubble_data: [
+    {
+      left: "Great job Till now!<br>Now, let’s try something new with the Tens Jar!",
+      right: "Only use the blue jar this time!",
+    },
+    {
+      left: "Great job on Level 1!<br>Now, let’s try something new with the Tens Jar!",
+      right: "Only use the blue jar this time!",
+    },
+    {
+      left: "Wow! You’re getting good at this.<br>Now it’s time to use both jars together!",
+      right: "Let’s build bigger numbers!",
+    },
+  ],
+
   comments: {
     number_disappeared:
       "Opps! the number disappeared! Looks like this number display box can’t show the count of that many squares.",
@@ -67,7 +68,6 @@ const numberToText = [
   "Twenty",
 ];
 
-
 const questions = [
   {
     text: "Click on the ones box only to add digits and make the number seven",
@@ -76,6 +76,9 @@ const questions = [
       correctAnswer: "Yes! You made Seven—0 ten and 7 ones. Nice work!",
       nothingAdded:
         "Give it a try! Start adding cubes and rods to make the number.",
+      tooManyOnes:
+        "Oops! The Pink Jar has too many! Remember—it likes just one digit. Try moving 10 ones to the tens place.",
+
       tensWrong: "To make a single digit number, you don’t need a tens place",
       tensCorrectOnesWrong:
         "Try again, you need to add seven squares to the jar to get this right.",
@@ -166,7 +169,7 @@ const questions = [
   {
     text: "Click on the Tens box only to add digits and make the number forty",
     number: 40,
-    feedback:{
+    feedback: {
       correctAnswer: "Yes! You made forty- 4 ten and 0 ones. Nice work!",
       randomTotalWrong:
         "Hmm… That number’s different. Check both tens and ones and try again!",
@@ -178,8 +181,6 @@ const questions = [
         "Oops! The Pink Jar has too many! Remember - it likes just one digit. Try moving 10 ones to the tens place.",
       nothingAdded:
         "Give it a try! Start adding cubes and rods to make the number.",
-    }
+    },
   },
 ];
-
-
