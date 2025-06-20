@@ -27,39 +27,37 @@ function forStep1() {
 undoQ.push(forStep1);
 
 function forStep2() {
-  updateInstructions("bottom_num"); // Revert to instruction from topNum1
-  speakerButtonUnit.style.display = "none";
-  minusBtn.style.pointerEvents = "none";
-  plusBtn.style.pointerEvents = "none";
-  unitTextDisplay.style.color = "transparent";
-  minusBtn.classList.remove("pulse-highlight");
-  minusBtn.removeEventListener("click", clickMinusFirstTime);
-  nextButton.disabled = false; // Enable next button
-  highlightUnitTextDisplay(true);
+  plusBtn.addEventListener("click", clickPlusSecondTime);
   setJaxPose("normal")
+  wiggle(false);
   count = 1;
   render();
-  wiggle(false);
+  updateInstructions("top_num");
+  highlightUnitNumberTab(true);
+  unitNumberTab.style.color = "white";
+  nextButton.disabled = false;
   showStatement(-1);
-  unitNumberTab.classList.remove("outlined");
+  highlightUnitTextDisplay(false);
+  unitTextDisplay.textContent = "";
+  speakerButtonUnit.style.display = "none";
+  plusBtn.style.pointerEvents = "none";
 }
 undoQ.push(forStep2);
 
 function forStep3() {
-  console.log("step3");
   setJaxPose("normal");
-  nextButton.textContent = texts.button_texts.next;
-  nextButton.disabled = true;
-  minusBtn.style.pointerEvents = "auto";
-  plusBtn.style.pointerEvents = "none";
-  minusBtn.classList.add("pulse-highlight");
-  minusBtn.addEventListener("click", clickMinusFirstTime);
-  count = 1;
-  wiggle(false);
-  render();
-  showStatement(-1);
-  updateInstructions("minus");
   unitNumberTab.classList.remove("outlined");
+  highlightUnitTextDisplay(true);
+  updateInstructions("bottom_num");
+  speakerButtonUnit.style.display = "flex";
+  unitTextDisplay.style.color = "white";
+  nextButton.disabled = true;
+  plusBtn.style.pointerEvents = "auto";
+  showComment("keep_adding");
+  wiggle(false);
+  count = 1;
+  render();
+  plusBtn.addEventListener("click", clickPlusSecondTime);
 }
 undoQ.push(forStep3);
 
@@ -69,7 +67,7 @@ function forStep4() {
   unitWidget.classList.add("shifted"); // Re-shift unit widget
   const tenWidget = document.getElementById("ten-widget");
   tenWidget.style.visibility = "hidden"; // Hide ten widget
-  showStatement(-1); // Hide the statement
+  showComment("add_jar") // Hide the statement
   updateInstructions("max_reached"); // Revert to instruction before this step
   setJaxPose("thinking"); // Revert Jax pose if changed by previous step
   setNextText("add_jar"); // Revert button text
@@ -90,9 +88,10 @@ function forStep5() {
   wiggle();
   unitNumberTab.classList.add("outlined");
   unitNumberTab.textContent = "X";
-  unitTextDisplay.textContent = "Ten";
+  unitTextDisplay.textContent = "Ten Ones";
   tenNumberTab.textContent = "0";
-  tenTextDisplay.textContent = "Zero";
+  tenTextDisplay.textContent = "Zero Tens";
+  
   leftDir.onclick = onLeftDirClick1;
 }
 undoQ.push(forStep5);
@@ -111,9 +110,9 @@ function forStep6() {
     wiggle();
     unitNumberTab.classList.add("outlined");
     unitNumberTab.textContent = "X";
-    unitTextDisplay.textContent = "Ten";
+    unitTextDisplay.textContent = "Ten Ones";
     tenNumberTab.textContent = "0";
-    tenTextDisplay.textContent = "Zero";
+    tenTextDisplay.textContent = "Zero Tens";
     leftDir.onclick = onLeftDirClick1;
     nextButton.disabled = true;
 }
@@ -133,9 +132,9 @@ function forStep7() {
   wiggle(false);
   unitNumberTab.classList.remove("outlined");
   unitNumberTab.textContent = "0";
-  unitTextDisplay.textContent = numberToText[0];
+  unitTextDisplay.textContent = numberToText[0]+" Ones";
   tenNumberTab.textContent = "1";
-  tenTextDisplay.textContent = "Ten";
+  tenTextDisplay.textContent = "One Ten";
   nextButton.disabled = true;
 }
 undoQ.push(forStep7);

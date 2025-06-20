@@ -1,15 +1,12 @@
 let progress = 0;
 let stepQ = [];
 
-
-
 function atStep0() {
-  playAudio("click");
-  toggleFullScreenOverlay(false);
+  playAudio("click")
+  toggleFullScreenOverlay(false)
   unitWidget.style.display = "block";
   updateInstructions("pink_jar");
   unitTextDisplay.textContent = "";
-  
 }
 function atStep1() {
   updateInstructions("plus");
@@ -17,52 +14,44 @@ function atStep1() {
   plusBtn.style.pointerEvents = "auto";
   plusBtn.classList.add("pulse-highlight");
   plusBtn.addEventListener("click", clickPLusFirstTime);
+  prevButton.disabled = false;
+  
 }
-
-
 function clickPLusFirstTime() {
   plusBtn.style.pointerEvents = "none";
   plusBtn.classList.remove("pulse-highlight");
   plusBtn.removeEventListener("click", clickPLusFirstTime);
-  updateInstructions("top_num");
-  highlightUnitNumberTab(true)
+  plusBtn.addEventListener("click", clickPlusSecondTime);
   nextButton.disabled = false;
   unitTextDisplay.textContent = "";
-  prevButton.disabled = true;
 }
-function topNum1() {
+function clickPlusSecondTime(){
+  showStatement(-1)
+  plusBtn.removeEventListener("click", clickPlusSecondTime);
+  updateInstructions("keep_adding");
+  highlightUnitTextDisplay(false)
+}
+function topNum1(){
+  updateInstructions("top_num");
+  highlightUnitNumberTab(true);
   unitNumberTab.style.color = "white";
-  updateInstructions("bottom_num");
-  unitTextDisplay.textContent = "One";
+  
+}
+function topNum2(){
   highlightUnitNumberTab(false);
   highlightUnitTextDisplay(true);
-}
-
-
-
-function topNum2() {
-  highlightUnitTextDisplay(false);
-  updateInstructions("minus");
+  unitTextDisplay.textContent = "One One";
+  updateInstructions("bottom_num");
   speakerButtonUnit.style.display = "flex";
-  minusBtn.style.pointerEvents = "auto";
   unitTextDisplay.style.color = "white";
-  minusBtn.classList.add("pulse-highlight");
-  minusBtn.addEventListener("click", clickMinusFirstTime);
-  nextButton.disabled = true;
-}
-
-
-function clickMinusFirstTime() {
-  updateInstructions("keep_adding");
-  minusBtn.classList.remove("pulse-highlight");
-  minusBtn.removeEventListener("click", clickMinusFirstTime);
+  nextButton.disabled=true
   plusBtn.style.pointerEvents = "auto";
+  showComment("keep_adding");
 }
-
 function whenHits10() {
   wiggle();
-  updateInstructions("wiggling");
-  showComment("number_disappeared");
+  // updateInstructions("wiggling");
+  showComment("oops");
   unitNumberTab.classList.add("outlined");
   nextButton.disabled = false;
   setJaxPose("thinking");
@@ -76,8 +65,6 @@ function reverse10() {
   setNextText("next");
   nextButton.disabled = true;
 }
-
-// Push steps to stepQ
 startButton.addEventListener("click", atStep0);
 stepQ.push(atStep1);
 stepQ.push(topNum1);
@@ -87,13 +74,11 @@ stepQ.push(addTenContainer);
 stepQ.push(blankStepAfterAddingJar);
 stepQ.push(moveRight);
 stepQ.push(moveLeft);
-
 function handleNext() {
-  playAudio("click");
-  prevButton.disabled = false;
+  playAudio("click")
   if (progress < stepQ.length) {
-    stepQ[progress](); // Execute current step's action
-    progress++; // Advance progress
+    stepQ[progress]();
+    progress++;
     updateStepCounter(progress);
   }
 }
@@ -121,35 +106,28 @@ function blankStepBeforeAddingContainer() {
   setNextText("add_jar");
   showComment("add_jar");
   updateInstructions("max_reached");
-  plusBtn.style.pointerEvents = "none";
-  minusBtn.style.pointerEvents = "none";
 }
-
-
 function addTenContainer() {
   const tenWidget = document.getElementById("ten-widget");
   plusBtn.style.pointerEvents = "none";
   minusBtn.style.pointerEvents = "none";
-
   unitWidget.addEventListener(
     "transitionend",
     function handleTransitionEnd() {
       unitWidget.removeEventListener("transitionend", handleTransitionEnd);
       tenWidget.style.visibility = "visible";
-      showStatement(1);
-      // showDirArrow("left"); // This is commented out in original, no need to undo.
+      showStatement(-1);
+      // showDirArrow("left");
       updateInstructions("blue_jar");
       setJaxPose("normal");
-      // nextButton.disabled = true; // This is commented out, not part of actual state change.
+      // nextButton.disabled = true;
       setNextText("next");
     },
     { once: true }
   );
   unitWidget.classList.remove("shifted");
 }
-
-
-function blankStepAfterAddingJar() {
+function blankStepAfterAddingJar(){
   showDirArrow("left");
   nextButton.disabled = true;
   updateInstructions("move_left");
@@ -162,8 +140,6 @@ function moveRight() {
 
   nextButton.disabled = true;
 }
-
-
 function moveLeft() {
   showStatement(1);
   showDirArrow("left");
@@ -171,11 +147,10 @@ function moveLeft() {
   nextButton.disabled = true;
 }
 
-
 function wiggle(bool = true) {
   if (bool) {
     vibrateElement(unitInnerCard);
-    vibrateElement(unitNumberTab);
+    vibrateElement(unitNumberTab)
     setTimeout(() => {
       vibrateElement(unitSquaresContainer);
     }, 100);
@@ -185,20 +160,17 @@ function wiggle(bool = true) {
     vibrateElement(unitSquaresContainer, false);
   }
 }
-
-function highlightUnitNumberTab(show=true){
-  if (show){
+function highlightUnitNumberTab(show = true) {
+  if (show) {
     unitNumberTab.classList.add("outlined");
   } else {
     unitNumberTab.classList.remove("outlined");
   }
 }
-function highlightUnitTextDisplay(show=true){
-  if (show){
+function highlightUnitTextDisplay(show = true) {
+  if (show) {
     unitTextDisplay.parentElement.classList.add("outlined");
   } else {
     unitTextDisplay.parentElement.classList.remove("outlined");
   }
 }
-
-
