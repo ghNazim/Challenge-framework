@@ -2,7 +2,8 @@ const nextButton = document.getElementById("next-button");
 const previousButton = document.getElementById("previous-button");
 const overlayButton = document.getElementById("overlay-button");
 const stepCounterElement = document.querySelector("#stepCounter");
-
+nextButton.textContent = buttonText.next
+previousButton.textContent = buttonText.previous
 function playSound(filename) {
   const audio = new Audio(`sound/${filename}.mp3`);
   audio.play()

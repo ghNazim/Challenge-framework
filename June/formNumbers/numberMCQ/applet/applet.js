@@ -39,7 +39,7 @@ function loadQuestion(index) {
         nextButton.disabled = false;
         optionsContainer.style.pointerEvents = "none";
         if (questionIndex == questions.length - 1)
-          nextButton.textContent = "Start Over";
+          nextButton.textContent = buttonText.start_over;
       } else {
         setJAXpose("sad");
         playSound("wrong");
@@ -84,7 +84,7 @@ function callWithStep() {
 
   if (questionIndex === 0) {
     previousButton.disabled = true;
-    nextButton.textContent = "Next";
+    nextButton.textContent = buttonText.next;
   }
   nextButton.disabled = true;
   updateStepCounter(questionIndex);
