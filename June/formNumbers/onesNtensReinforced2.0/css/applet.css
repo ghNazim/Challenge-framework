@@ -362,7 +362,7 @@
 }
 
 .outlined {
-  outline: .5vw solid var(--glowing-orange);
+  outline: .25vw solid var(--glowing-orange);
 }
 
 .pill-badge {
