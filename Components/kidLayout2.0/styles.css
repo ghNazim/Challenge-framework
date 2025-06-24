@@ -1,0 +1,359 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary-color: #f1f5f9;
+  --black-text: #545454;
+  --blue-text: #4169e1;
+  --accent-color: #f59e0b;
+  --root-font-size: 1.7vw;
+}
+html {
+  font-size: var(--root-font-size);
+}
+
+body {
+  font-family: "Roboto", "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-weight: 500;
+}
+#aspect-container {
+  position: relative;
+  aspect-ratio: 16/9;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: url("assets/BG.jpg");
+  background-size: cover;
+}
+#top-heading {
+  color: var(--primary-color);
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.2);
+}
+#main-content {
+  display: flex;
+  flex: 1;
+  margin: 0.25rem;
+}
+#left-panel {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+}
+#character {
+  position: relative;
+  width: 100%;
+  height: 48%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+#character > img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+}
+#context {
+  position: relative;
+  width: 100%;
+  min-height: 10%;
+  background-color: white;
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+  padding: 0.7rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+#context h3 {
+  color: var(--blue-text);
+  margin-bottom: 0.5rem;
+}
+#context p {
+  line-height: 1.3;
+  font-size: 1.1rem;
+  color: var(--black-text);
+  font-weight: 400;
+}
+#context::after {
+  content: "";
+  position: absolute;
+  bottom: -9px; /* distance below the bubble */
+  left: 20%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white; /* matches background */
+}
+/* LEFT PANEL */
+
+/* RIGHT PANEL */
+
+#right-panel {
+  flex: 1;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+
+  padding: 0.5rem;
+  border-radius: 8px;
+  gap: 0.5rem;
+}
+#right-panel > div {
+  width: 100%;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+.strap {
+  min-height: 10%;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+#applet {
+  position: relative;
+  flex: 1;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+#lower-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+}
+#upper-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  color: white;
+}
+
+/********************************************
+ * 8) BUTTONS
+ *********************************************/
+.btn {
+  padding: 0.35rem 1rem; /* Adjusted */
+  border: 1px solid transparent;
+  border-radius: 200px; /* Slightly more rounded */
+  font-size: 1.2rem; /* MODIFIED FONT SIZE (Original Value) */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(3px);
+}
+.btn[disabled] {
+  pointer-events: none;
+  opacity: 0.4;
+}
+.btn-primary {
+  background: linear-gradient(
+    145deg,
+    #fdbe35,
+    #fba92d
+  ); /* Yellow gradient background */
+  box-shadow: 0 7px 4px rgba(251, 169, 45, 0.3),
+    inset 0 2px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(206, 141, 0, 0.6);
+  text-shadow: 0px 1px 2px rgba(175, 144, 5, 0.89);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #e67e00;
+}
+.btn-primary:active {
+  background: linear-gradient(
+    145deg,
+    #fba92d,
+    #f9a825
+  ); /* Darken the gradient */
+  box-shadow: 0 4px 8px rgba(251, 155, 45, 0.3),
+    inset 0 2px 3px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.2); /* Light, semi-transparent */
+  color: #f0f0f0;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 2px rgba(255, 255, 255, 0.3);
+}
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.btn-secondary:active {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: none;
+}
+
+/*##################################################
+ OVERLAY 
+####################################################*/
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+  display: none;
+}
+.close-button {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.8rem; /* Slightly larger 'X' */
+  font-weight: 300; /* Lighter font weight for elegance */
+  color: #f0f0f0; /* Off-white for the 'X' */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Very subtle translucent white background */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Thin, soft white border */
+  border-radius: 50%; /* Perfect circle */
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease; /* Smooth transitions */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Soft initial shadow */
+}
+
+.close-button:hover {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.25
+  ); /* More visible translucent background on hover */
+  color: #ffffff; /* Pure white 'X' on hover */
+  border-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Slightly brighter border on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+  transform: scale(1.05); /* Gentle scale up */
+}
+
+.close-button:active {
+  transform: scale(0.98); /* Slight press effect */
+}
+
+#overlay-button {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/********************************************
+ * 9) STEP COUNTER
+ *********************************************/
+.step-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 2rem; /* Adjusted */
+  padding: 0.5rem 1rem;
+  border-radius: 100px; /* Pill shape */
+  background-color: rgba(0, 0, 0, 0.15); /* Darker transparent */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.step-counter .dot {
+  width: 0.5rem; /* Adjusted */
+  height: 0.5rem; /* Adjusted */
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3); /* Dimmed dots */
+  transition: all 0.3s ease;
+}
+.step-counter .dot.active {
+  background-color: #ffc107; /* Active dot yellow/orange */
+  transform: scale(1.25);
+  box-shadow: 0 0 5px #ffc107;
+}
+
+/* Common animation classes 
+-------------------------
+*/
+@keyframes vibrate-x {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.vibrate-x {
+  animation: vibrate-x 0.3s ease-in-out infinite;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: scale(0.1);
+  animation: scaleFadeIn 0.4s ease-out forwards;
+}
+
+@keyframes scaleFadeIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
