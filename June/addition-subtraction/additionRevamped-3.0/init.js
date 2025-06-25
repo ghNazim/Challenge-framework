@@ -166,7 +166,6 @@ function fillCalculationDisplay(questionData) {
 
 
 function updateWithStep(key){
-  
   const data = stepsInfo[key];
   const ins = document.querySelector(".speech-bubble>p");
   const next = document.getElementById("nextButton");

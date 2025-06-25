@@ -13,7 +13,7 @@
   --color-text-calculation: #fff;
   --color-text-digit-label: #ffffff;
   --color-wrong-highlight: rgb(252, 83, 83);
-  --color-button:#0f3e73;
+  --color-button: #0f3e73;
 
   --font-main: "Arial", sans-serif;
   --calc-font-size: 2.4vw;
@@ -23,7 +23,7 @@
   --bar-margin-horizontal: calc(var(--unit-dim) / 8);
 
   --cell-gap: calc(
-    var(--unit-dim) * 4
+    var(--unit-dim) * 2
   ); /* Gap between H, T, U cells in a row */
   --row-padding-vertical: 0.8vw; /* Padding top/bottom for block rows */
   --calc-area-padding-right: 2.6vw;
@@ -37,22 +37,27 @@ html {
   padding: 0px;
 }
 body {
+  height: 100vh;
+}
+#aspect-container {
+  aspect-ratio: 16/9;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   row-gap: 0.7vw;
   font-family: var(--font-main);
   background-image: url("assets/TestBG.png");
   background-size: cover;
   background-position: center;
-  height: 100vh;
 }
 #zack {
   position: fixed;
   bottom: 0px;
   left: var(--unit-dim);
   width: 18rem;
+  display: none;
 }
 #applet {
   display: flex;
@@ -60,8 +65,6 @@ body {
   justify-content: center;
   align-items: center;
   column-gap: calc(var(--unit-dim) * 2);
-  align-self: flex-end;
-  margin-right: 10rem;
 }
 
 .main-layout {
@@ -76,41 +79,24 @@ body {
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
-
 .calculation-display {
-  backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.25);
-  /* background: rgba(15, 72, 148, 0.7); */
+  display: none;
+}
+.digits-space{
   display: flex;
-  flex-direction: column;
-  text-align: right;
-  padding: 1.25rem;
-  font-size: var(--calc-font-size);
-  color: white;
-  border-radius: 8px;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-
-.calculation-display .calc-num-wrapper,
-.calculation-display .calc-op-wrapper,
-.calculation-display .calc-sum-wrapper {
-  letter-spacing: 2px;
-  display: flex; /* To help vertical centering if needed */
   flex-direction: row;
+  align-items: center;
   justify-content: center;
-  /* Approximate height matching corresponding block rows */
 }
-
-.calculation-display .calc-hr {
-  width: 100%;
-  border: none;
-  border-top: 2px solid white;
-  margin: 0.4rem 0;
+.digit-cell {
+  font-size: var(--calc-font-size);
+  color: var(--color-text-calculation);
+  padding: 0.5rem;
+  display: inline-block;
+  text-align: center;
 }
-.calculation-display .highlight {
-  color: var(--color-highlight);
-  font-weight: bold;
+.non-op{
+  width: 8rem;
 }
 /* New CSS for the interactive digit area and stepper buttons */
 .digit-interactive-area {
@@ -163,6 +149,13 @@ body {
 .stepper-btn.increase-btn {
   margin-bottom: 0.25rem; /* Adds a small space between the up and down buttons */
 }
+.button-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10rem;
+  height: 6rem;
+}
 .blocks-area-columnar {
   display: flex;
   flex-direction: column;
@@ -195,8 +188,6 @@ body {
   position: relative;
 }
 
-
-
 /* HUNDREDS CELL */
 .hundreds-cell .actual-blocks {
   position: relative;
@@ -219,22 +210,27 @@ body {
   flex-direction: row; /* Align ten-bars horizontally */
   height: var(--bar-height); /* Fixed height for 10 units tall */
   align-items: flex-start; /* Bars start from top */
-  gap: .3rem;
+  gap: 0.3rem;
 }
 .ten-bar {
   width: var(--bar-width);
   height: var(--bar-height);
   box-sizing: border-box;
 }
-
-
+.units-cell{
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100%;
+}
 /* UNITS CELL */
 .units-cell .actual-blocks {
-  flex-direction: column-reverse; /* Stack unit-blocks vertically */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: calc(var(--unit-dim) * 6.5);
+  row-gap: 0.5rem;
+  column-gap: .3rem;
 
-  width: var(--unit-dim);
-  gap: .22rem;
-  align-items: flex-start;
 }
 .unit-block {
   width: var(--unit-dim);
@@ -253,7 +249,8 @@ body {
 .block-color-placeholder {
   background-color: var(--color-placeholder);
 }
-.hundred-block.block-color-semi,.hundred-block.block-color-active {
+.hundred-block.block-color-semi,
+.hundred-block.block-color-active {
   border: 1px solid #333333 !important;
 }
 
@@ -282,7 +279,6 @@ body {
   translate: 0 -3px;
 }
 #nextButton {
-  margin-bottom: 1.5rem;
   width: fit-content;
   align-self: center;
 }
@@ -363,7 +359,7 @@ body {
 }
 
 .vibrate-x {
-  animation: vibrate-x .5s ease-in-out infinite;
+  animation: vibrate-x 0.5s ease-in-out infinite;
 }
 
 .wrong-highlight {
@@ -389,6 +385,7 @@ body {
   width: 26rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
+  display: none;
 }
 
 .speech-bubble::after {
@@ -413,6 +410,3 @@ body {
   font-size: 1.2rem;
   line-height: 1.5;
 }
-
-
-

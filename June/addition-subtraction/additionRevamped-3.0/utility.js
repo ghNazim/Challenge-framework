@@ -1,7 +1,7 @@
 function rearrangeHundreds(row) {
   const hundreds = document.querySelectorAll(`#row-${row} .hundred-block`);
   hundreds.forEach((block, index) => {
-    block.style.transform = `translate(${-index * 10}px, ${-index * 10}px)`;
+    block.style.transform = `translate(${-index * 0.4}rem, ${-index * 0.4}rem)`;
   });
 }
 function createHundreds(q, n, className) {
@@ -163,7 +163,31 @@ function playAudio(id) {
   audio.play();
 }
 
-function setJAXpose(pose){
+function setJAXpose(pose) {
   const JAX = document.getElementById("zack");
   JAX.src = `assets/JAX${pose}.png`;
 }
+
+function positionButtonBelow(columnSelector, buttonElement) {
+  const columnElement = document.querySelector(columnSelector);
+  if (!columnElement || !buttonElement) {
+    console.error("Column or button element not found for positioning.");
+    return;
+  }
+  const columnRect = columnElement.getBoundingClientRect();
+  const buttonRect = buttonElement.getBoundingClientRect();
+  // Calculate the center of the column
+  const columnCenterX = columnRect.left + window.scrollX + columnRect.width / 2;
+  // Calculate the desired left position for the button to be centered
+  const buttonLeft = columnCenterX - buttonRect.width / 2;
+  // Position the button below the column with a small margin
+  const buttonTop = buttonRect.top;
+  buttonElement.style.position = "absolute";
+  buttonElement.style.left = `${buttonLeft}px`;
+  buttonElement.style.top = `${buttonTop}px`;
+  buttonElement.style.transform = "translateX(0)"; // Reset any potential transform that might affect positioning
+}
+positionButtonBelow(
+  "#row-3 .units-cell",
+  document.getElementById("nextButton")
+);

@@ -8,7 +8,7 @@ function clickingPlusFirstTime() {
   unitsPlus.removeEventListener("click", clickingPlusFirstTime);
   numberText.style.visibility = "visible";
 }
-function clickTensPlusFirstTime(){
+function clickTensPlusFirstTime() {
   tensPlus.classList.remove("pulse-highlight-blue");
   tensPlus.removeEventListener("click", clickingPlusFirstTime);
 }
@@ -17,13 +17,13 @@ function updateWithClickingPLus() {
     showComment("overflow_one");
     updateInstructions("overflow_one");
     setCavePose("Thinking");
-  } else if ( tenCount == 10) {
+  } else if (tenCount == 10) {
     showComment("overflow_ten");
     updateInstructions("overflow_ten");
     setCavePose("Thinking");
-  }  
+  }
 }
-function watchForTarget(){
+function watchForTarget() {
   if (hundredCount == 1 && unitCount == 7 && tenCount == 5) {
     showComment("correct");
     setCavePose("Happy");
@@ -102,9 +102,6 @@ function showNumberText(num, isLegit = true) {
   const text = spellNumber(num);
   // showStatement(1);
   const numberTextP = document.querySelector("#numberText>p");
-  if (isLegit) {
-    playNumber(num);
-  }
   numberTextP.textContent = text + (isLegit ? "" : "?");
 }
 
@@ -158,153 +155,148 @@ function playNumber(num) {
   audio.play();
 }
 
-document
-  .querySelector("#numberText .speaker-btn")
-  .addEventListener("click", () => {
-    playNumber(tenCount * 10 + unitCount);
-  });
+// document
+//   .querySelector("#numberText .speaker-btn")
+//   .addEventListener("click", () => {
+//     playNumber(tenCount * 10 + unitCount);
+//   });
 
+function spellNumberEnglish(number) {
+  if (number < 0 || number > 999) {
+    return "Input must be a number between 0 and 999.";
+  }
 
-  function spellNumberEnglish(number) {
-    if (number < 0 || number > 999) {
-      return "Input must be a number between 0 and 999.";
-    }
+  const ones = [
+    "Zero",
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+  ];
 
-    const ones = [
-      "Zero",
-      "One",
-      "Two",
-      "Three",
-      "Four",
-      "Five",
-      "Six",
-      "Seven",
-      "Eight",
-      "Nine",
-    ];
+  const teens = [
+    "Ten",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+    "Nineteen",
+  ];
 
-    const teens = [
-      "Ten",
-      "Eleven",
-      "Twelve",
-      "Thirteen",
-      "Fourteen",
-      "Fifteen",
-      "Sixteen",
-      "Seventeen",
-      "Eighteen",
-      "Nineteen",
-    ];
+  const tens = [
+    "",
+    "",
+    "Twenty",
+    "Thirty",
+    "Forty",
+    "Fifty",
+    "Sixty",
+    "Seventy",
+    "Eighty",
+    "Ninety",
+  ];
 
-    const tens = [
-      "",
-      "",
-      "Twenty",
-      "Thirty",
-      "Forty",
-      "Fifty",
-      "Sixty",
-      "Seventy",
-      "Eighty",
-      "Ninety",
-    ];
+  if (number === 0) return "Zero";
 
-    if (number === 0) return "Zero";
+  let result = "";
 
-    let result = "";
+  const hundred = Math.floor(number / 100);
+  const remainder = number % 100;
 
-    const hundred = Math.floor(number / 100);
-    const remainder = number % 100;
-
-    if (hundred > 0) {
-      result += ones[hundred] + " Hundred";
-      if (remainder > 0) {
-        result += " and ";
-      }
-    }
-
+  if (hundred > 0) {
+    result += ones[hundred] + " Hundred";
     if (remainder > 0) {
-      if (remainder < 10) {
-        result += ones[remainder];
-      } else if (remainder < 20) {
-        result += teens[remainder - 10];
-      } else {
-        const ten = Math.floor(remainder / 10);
-        const one = remainder % 10;
-        result += tens[ten];
-        if (one > 0) {
-          result += " " + ones[one];
-        }
-      }
+      result += " and ";
     }
-
-    return result.trim();
   }
-  
 
-
-  function spellNumberIndo(number) {
-    if (number < 0 || number > 999) {
-      return "Masukkan harus berupa angka antara 0 dan 999.";
-    }
-
-    const satuan = [
-      "Nol",
-      "Satu",
-      "Dua",
-      "Tiga",
-      "Empat",
-      "Lima",
-      "Enam",
-      "Tujuh",
-      "Delapan",
-      "Sembilan",
-      
-    ];
-
-    if (number === 0) return "Nol";
-
-    let result = "";
-
-    const ratus = Math.floor(number / 100);
-    const sisa = number % 100;
-
-    // Handle hundreds
-    if (ratus > 0) {
-      if (ratus === 1) {
-        result += "Seratus";
-      } else {
-        result += satuan[ratus] + " Ratus";
+  if (remainder > 0) {
+    if (remainder < 10) {
+      result += ones[remainder];
+    } else if (remainder < 20) {
+      result += teens[remainder - 10];
+    } else {
+      const ten = Math.floor(remainder / 10);
+      const one = remainder % 10;
+      result += tens[ten];
+      if (one > 0) {
+        result += " " + ones[one];
       }
     }
-
-    // Handle tens and units
-    if (sisa > 0) {
-      if (result) result += " ";
-
-      if (sisa < 10) {
-        result += satuan[sisa];
-      } else if (sisa < 20) {
-        if (sisa === 10) {
-          result += "Sepuluh";
-        } else if (sisa === 11) {
-          result += "Sebelas";
-        } else {
-          result += satuan[sisa % 10] + " Belas";
-        }
-      } else {
-        const puluh = Math.floor(sisa / 10);
-        const satu = sisa % 10;
-        result += satuan[puluh] + " Puluh";
-        if (satu > 0) {
-          result += " " + satuan[satu];
-        }
-      }
-    }
-
-    return result.trim();
   }
-  
+
+  return result.trim();
+}
+
+function spellNumberIndo(number) {
+  if (number < 0 || number > 999) {
+    return "Masukkan harus berupa angka antara 0 dan 999.";
+  }
+
+  const satuan = [
+    "Nol",
+    "Satu",
+    "Dua",
+    "Tiga",
+    "Empat",
+    "Lima",
+    "Enam",
+    "Tujuh",
+    "Delapan",
+    "Sembilan",
+  ];
+
+  if (number === 0) return "Nol";
+
+  let result = "";
+
+  const ratus = Math.floor(number / 100);
+  const sisa = number % 100;
+
+  // Handle hundreds
+  if (ratus > 0) {
+    if (ratus === 1) {
+      result += "Seratus";
+    } else {
+      result += satuan[ratus] + " Ratus";
+    }
+  }
+
+  // Handle tens and units
+  if (sisa > 0) {
+    if (result) result += " ";
+
+    if (sisa < 10) {
+      result += satuan[sisa];
+    } else if (sisa < 20) {
+      if (sisa === 10) {
+        result += "Sepuluh";
+      } else if (sisa === 11) {
+        result += "Sebelas";
+      } else {
+        result += satuan[sisa % 10] + " Belas";
+      }
+    } else {
+      const puluh = Math.floor(sisa / 10);
+      const satu = sisa % 10;
+      result += satuan[puluh] + " Puluh";
+      if (satu > 0) {
+        result += " " + satuan[satu];
+      }
+    }
+  }
+
+  return result.trim();
+}
 
 function spellNumber(number) {
   if (flag === "ENGLISH") {

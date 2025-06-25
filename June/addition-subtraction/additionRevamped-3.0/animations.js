@@ -27,11 +27,20 @@ function cloneAndTranslateElement(tag) {
     const clonedElement = originalElement.cloneNode(true);
     const computedStyle = window.getComputedStyle(originalElement);
 
+    // Copy layout-related styles to ensure the clone looks the same
     clonedElement.style.display = computedStyle.display;
     clonedElement.style.gap = computedStyle.gap;
+
+    // For flex containers
     clonedElement.style.flexDirection = computedStyle.flexDirection;
     clonedElement.style.justifyContent = computedStyle.justifyContent;
     clonedElement.style.alignItems = computedStyle.alignItems;
+
+    // For grid containers (like the units-cell)
+    clonedElement.style.gridTemplateColumns = computedStyle.gridTemplateColumns;
+    clonedElement.style.gridAutoRows = computedStyle.gridAutoRows;
+    clonedElement.style.rowGap = computedStyle.rowGap;
+    clonedElement.style.columnGap = computedStyle.columnGap;
 
     clonedElement.style.position = "absolute";
     clonedElement.style.top = `${originalRect.top + window.scrollY}px`;

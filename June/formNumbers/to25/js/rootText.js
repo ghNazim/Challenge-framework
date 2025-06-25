@@ -25,7 +25,7 @@ const textsEnglish = {
     },
     overflow_one: {
       title: "Oh no!",
-      text: "The ones place is full.<br><br>You can move the cubes to the tens place by clicking the arrow.",
+      text: "The ones place is full.<br><br>You can move the cubes to the tens place by clicking the yellow arrow.",
     },
     add_more: {
       title: "Add More Cubes",
@@ -86,15 +86,15 @@ const textsIndonesian = {
     prev: "Sebelumnya",
     next: "Berikutnya",
     add_jar: "Tambah Toples Lagi",
-    start_over: "Mulai Ulang",
+    start_over: "Mulai Lagi",
     submit: "Kirim",
   },
-  top_question: `Klik tombol '+' di dalam kotak untuk menambahkan kubus dan membentuk angka <span class="numberInQuestion">25</span>.`,
+  top_question: `Klik tombol '+' di dalam kotak untuk menambahkan kubus dan membuat angka <span class="numberInQuestion">25</span>.`,
 
   comments: {
-    ten: "10 satuan menjadi 1 puluhan!",
+    ten: "10 satuan membentuk 1 puluhan!",
     overflow: "Hanya 9 satuan yang bisa masuk ke tempat satuan…",
-    twenty: "10 satuan menjadi 1 puluhan,<br>2 puluhan menjadi dua puluh.",
+    twenty: "10 satuan membentuk 1 puluhan,<br>2 puluhan menjadi dua puluh.",
     twenty_five: "Dua puluhan dan lima satuan membentuk angka 25.",
   },
   left_panel: {
@@ -104,18 +104,19 @@ const textsIndonesian = {
     },
     congrats: {
       title: "Selamat!",
-      text: "Kamu telah membentuk angka 25.",
+      text: "Kamu telah membuat angka 25.",
     },
     overflow_one: {
-      title: "Wah, penuh!",
-      text: "Tempat satuan sudah penuh.<br><br>Kamu bisa memindahkan kubus ke tempat puluhan dengan mengklik panah.",
+      title: "Waduh!",
+      text: "Tempat satuan sudah penuh.<br><br>Kamu bisa memindahkan kubus ke tempat puluhan dengan mengklik panah kuning.",
     },
     add_more: {
-      title: "Tambahkan Kubus Lagi",
-      text: "Tambahkan lebih banyak kubus untuk membentuk angka 25.",
+      title: "Tambahkan Lebih Banyak Kubus",
+      text: "Tambahkan lebih banyak kubus untuk membuat angka 25.",
     },
   },
 };
+
 
 const numberToTextIndonesian = [
   "Nol",

@@ -2,7 +2,7 @@ const textsEnglish = {
   button_texts: {
     prev: "Previous",
     next: "Next",
-    add_jar: "Add another Jar", // Text for the button when on the last shape
+    add_jar: "Add Another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
     submit: "Submit",
   },
@@ -13,7 +13,7 @@ const textsEnglish = {
     hundred: "Ten TENS make one HUNDRED!",
     overflow_one: "Only 9 cubes can fit into the ones place.",
     overflow_ten: "Only 9 rods can fit into the tens place.",
-    correct: "One hundred, nine tens, and seven ones make the number 157.",
+    correct: "One hundred, five tens, and seven ones make the number 157.",
   },
   left_panel: {
     general: {
@@ -26,11 +26,11 @@ const textsEnglish = {
     },
     overflow_one: {
       title: "Oh no!",
-      text: "The ones place is full.<br><br>You can move the cubes to the tens place by clicking the arrow.",
+      text: "The ones place is full.<br><br>You can move the cubes to the tens place by clicking the yellow arrow.",
     },
     overflow_ten: {
       title: "Oh no!",
-      text: "The tens place is full.<br><br>You can move the rods to the hundreds place by clicking the arrow.",
+      text: "The tens place is full.<br><br>You can move the rods to the hundreds place by clicking the yellow arrow.",
     },
     plus_tens: {
       title: "Add rods",
@@ -66,20 +66,22 @@ const textsIndonesian = {
   button_texts: {
     prev: "Sebelumnya",
     next: "Berikutnya",
-    add_jar: "Tambah Wadah Lain",
-    start_over: "Mulai Lagi",
+    add_jar: "Tambah Toples Lagi", // Tombol untuk bentuk terakhir
+    start_over: "Mulai Lagi", // Tombol pada halaman ringkasan
     submit: "Kirim",
   },
-  top_question: `Klik tombol '+' di dalam kotak untuk menambahkan kubus dan membuat angka <span class="numberInQuestion">157</span> .`,
+
+  top_question: `Klik tombol '+' di dalam kotak untuk menambahkan kubus dan membentuk angka <span class="numberInQuestion">157</span>.`,
 
   comments: {
     ten: "10 SATUAN menjadi 1 PULUHAN!",
     hundred: "Sepuluh PULUHAN menjadi satu RATUSAN!",
-    overflow_one: "Hanya 9 kubus yang muat di tempat satuan.",
-    overflow_ten: "Hanya 9 batang yang muat di tempat puluhan.",
+    overflow_one: "Hanya 9 kubus yang dapat masuk ke tempat satuan.",
+    overflow_ten: "Hanya 9 batang yang dapat masuk ke tempat puluhan.",
     correct:
-      "Satu ratusan, sembilan puluhan, dan tujuh satuan membentuk angka 157.",
+      "Satu ratusan, lima puluhan, dan tujuh satuan membentuk angka 157.",
   },
+
   left_panel: {
     general: {
       title: "Instruksi",
@@ -87,19 +89,19 @@ const textsIndonesian = {
     },
     congrats: {
       title: "Selamat!",
-      text: "Anda telah membuat angka 157.",
+      text: "Kamu telah membuat angka 157.",
     },
     overflow_one: {
-      title: "Oh tidak!",
-      text: "Tempat satuan sudah penuh.<br><br>Anda dapat memindahkan kubus ke tempat puluhan dengan mengklik panah.",
+      title: "Waduh!",
+      text: "Tempat satuan sudah penuh.<br><br>Kamu bisa memindahkan kubus ke tempat puluhan dengan mengklik panah kuning.",
     },
     overflow_ten: {
-      title: "Oh tidak!",
-      text: "Tempat puluhan sudah penuh.<br><br>Anda dapat memindahkan batang ke tempat ratusan dengan mengklik panah.",
+      title: "Waduh!",
+      text: "Tempat puluhan sudah penuh.<br><br>Kamu bisa memindahkan batang ke tempat ratusan dengan mengklik panah kuning.",
     },
     plus_tens: {
-      title: "Tambah Batang",
-      text: "Klik tombol '+' di dalam kotak puluhan untuk menambahkan batang di tempat puluhan.",
+      title: "Tambahkan batang",
+      text: "Klik tombol '+' di dalam kotak puluhan untuk menambahkan batang ke tempat puluhan.",
     },
     after_hundred: {
       title: "Buat 157",
@@ -107,4 +109,5 @@ const textsIndonesian = {
     },
   },
 };
+
 

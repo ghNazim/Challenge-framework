@@ -25,6 +25,7 @@ function updateWithClickingPLus() {
     setCavePose("Happy");
     showComment("twenty_five");
     updateInstructions("congrats");
+    playSound("congrats");
     confettiBurst();
     unitsPlus.style.pointerEvents = "none";
   } else return;
