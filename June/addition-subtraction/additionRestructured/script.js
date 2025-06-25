@@ -1,16 +1,41 @@
 // --- USER-PROVIDED CODE (PRESERVED) ---
-
+// Helper object to map classes back to a column index and tag name
+const classToColData = {
+  "hundred-visual": { index: 0, tag: "hundred" },
+  "ten-visual": { index: 1, tag: "ten" },
+  "unit-visual": { index: 2, tag: "unit" },
+  "hundred-number": { index: 0, tag: "hundred" },
+  "ten-number": { index: 1, tag: "ten" },
+  "unit-number": { index: 2, tag: "unit" },
+};
+const columnMap = {
+  1: "hundred-visual",
+  2: "ten-visual",
+  3: "unit-visual",
+  4: "hundred-number",
+  5: "ten-number",
+  6: "unit-number",
+};
 //IMPORT ITEMS
 const steppers = document.querySelectorAll(".stepper");
 const [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber] =
   document.querySelectorAll(".operations-container>button");
 const [setBtn1, setBtn2] = document.querySelectorAll(".setBtn");
+const opButtons = [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber];
 const nextButton = document.querySelector(".next-button");
-nextButton.disabled = true;
+
 const questions = [
   {
     num1: 167,
     num2: 256,
+  },
+  {
+    num1: 225,
+    num2: 295,
+  },
+  {
+    num1: 199,
+    num2: 299,
   },
 ];
 let u1, u2, t1, t2, h1, h2, u3, t3, h3, overflowUnits, overflowTens;
@@ -25,22 +50,21 @@ let current_number = [
   ],
   questionIndex = 0,
   unitsClone = null,
-  tensClone = null,
-  unitIndex = 0,
-  tenIndex = 0,
-  hundredIndex = 0;
+  tensClone = null;
 
-const columnMap = {
-  1: "hundred-visual",
-  2: "ten-visual",
-  3: "unit-visual",
-  4: "hundred-number",
-  5: "ten-number",
-  6: "unit-number",
-};
 const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const tensFirst = createUnitStackOnTenRod();
 const hundredsFirst = createTensStackOnHundredBlock();
+
+let stepForQ = 0;
+const stepQ = [units1, units2, tens1, tens2, hundreds1];
+const buttonsQ = [
+  { button: uVisual, text: texts.buttons.add_unit },
+  { button: uVisual, text: texts.buttons.carryOver_unit },
+  { button: tVisual, text: texts.buttons.add_tens },
+  { button: tVisual, text: texts.buttons.carryOver_tens },
+  { button: hVisual, text: texts.buttons.add_hundreds },
+];
 //UTILITY FUNCTIONS
 function toggleFullScreenOverlay(show) {
   const overlay = document.querySelector("#fullscreenOverlay");
@@ -141,7 +165,7 @@ function updateDigitLabel(tag) {
 }
 function resetNumbers() {
   document
-    .querySelectorAll("corner-badge")
+    .querySelectorAll(".corner-badge")
     .forEach((el) => (el.textContent = "0"));
   document
     .querySelectorAll(".hundred-number .number-display")
@@ -159,17 +183,6 @@ function resetNumbers() {
     .querySelectorAll(".row-3 .corner-badge")
     .forEach((el) => (el.textContent = ""));
 }
-// --- NEW LOGIC BUILT ON TOP OF EXISTING CODE ---
-
-// Helper object to map classes back to a column index and tag name
-const classToColData = {
-  "hundred-visual": { index: 0, tag: "hundred" },
-  "ten-visual": { index: 1, tag: "ten" },
-  "unit-visual": { index: 2, tag: "unit" },
-  "hundred-number": { index: 0, tag: "hundred" },
-  "ten-number": { index: 1, tag: "ten" },
-  "unit-number": { index: 2, tag: "unit" },
-};
 
 function handleStepperClick(event) {
   const button = event.target.closest(".stepper-btn");
@@ -237,54 +250,13 @@ function updateInstructionText(key) {
 /**
  * Initializes the applet with the first problem from the questions array.
  */
-function initializeBoard() {
-  initializeTextContents();
-  const problem = questions[0];
-  const num1 = problem.num1;
-  const num2 = problem.num2;
-  [h1, t1, u1] = num1.toString().split("").map(Number);
-  [h2, t2, u2] = num2.toString().split("").map(Number);
-  [h3, t3, u3] = (num1 + num2).toString().split("").map(Number);
-  overflowUnits = u1 + u2 > 9 ? 1 : 0;
-  overflowTens = t1 + t2 + overflowUnits > 9 ? 1 : 0;
-  // Set the problem statement in the header
-  document.querySelector(
-    ".problem-statement h1"
-  ).textContent = `${num1} + ${num2}`;
-  current_number = [
-    [0, 0, 0],
-    [0, 0, 0],
-  ];
-  ans = [
-    [h1, t1, u1],
-    [h2, t2, u2],
-  ];
-
-  resetVisuals();
-  resetNumbers();
-  for (let r = 0; r < 2; r++) {
-    // Loop all three rows
-    const rowNum = r + 1;
-    const [hundreds, tens, units] = current_number[r];
-
-    for (let i = 0; i < hundreds; i++) appendBlock(rowNum, "hundred");
-
-    for (let i = 0; i < tens; i++) appendBlock(rowNum, "ten");
-
-    for (let i = 0; i < units; i++) appendBlock(rowNum, "unit");
-  }
-
-  const gridContainer = document.querySelector(".grid-container");
-  gridContainer.addEventListener("click", handleStepperClick);
-}
-
-// --- START THE APP ---
-initializeBoard();
 
 // ANIMATIONS
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// ANIMATIONS-------------------------------------------------
 function animateCloneToTarget(
   sourceElement,
   targetElement,
@@ -383,8 +355,8 @@ async function unitsMiddleToBottom() {
   const bottomBlocks = document.querySelectorAll(".row-3 .unit-block img");
   const t = topBlocks.length;
   const b = bottomBlocks.length;
-  const overflow = u1 + u2 > 10;
-  const till = overflow ? u2 - 10 + u1 : t;
+  const overflow = u1 + u2 >= 10;
+  const till = overflow ? 10 - u1 : t;
   for (let i = 0; i < till; i++) {
     const src = topBlocks[t - 1 - i];
     const dest = bottomBlocks[u1 + i];
@@ -719,7 +691,6 @@ async function hundredsMiddleToBottom() {
     );
   }
 }
-
 function popInNumber(tag, num) {
   // 1. Set the number using your existing function.
   setNumberDisplay(3, tag, num);
@@ -774,7 +745,8 @@ async function translateNumberOverflow(tag = "unit") {
 
     // 4. Get the target position.
     const targetRect = targetEl.getBoundingClientRect();
-    setNumberDisplay(3, tag, u3);
+    const d = tag === "unit" ? u3 : t3;
+    setNumberDisplay(3, tag, d);
     // 5. Define the animation using the Web Animations API.
     const keyframes = [
       {
@@ -806,6 +778,7 @@ async function translateNumberOverflow(tag = "unit") {
     };
   });
 }
+// ANIMATION END --------------------------------------------------
 
 async function units1() {
   await unitsTopToBottom();
@@ -826,6 +799,7 @@ async function units2() {
     translateNumberOverflow("unit"),
   ]);
   updateDigitLabel("unit");
+  updateDigitLabel("ten");
   await wait(200);
   highlightColumnBorder("ten-visual");
   updateInstructionText("tens1");
@@ -852,6 +826,7 @@ async function tens2() {
     translateNumberOverflow("ten"),
   ]);
   updateDigitLabel("ten");
+  updateDigitLabel("hundred");
   highlightColumnBorder("hundred-visual");
   updateInstructionText("hundreds1");
 }
@@ -859,19 +834,11 @@ async function hundreds1() {
   await hundredsTopToBottom();
   await hundredsMiddleToBottom();
   popInNumber("hundred", h3);
-  unhighlightColumn()
+  unhighlightColumn();
   updateInstructionText("combine");
 }
-let stepForQ = 0;
-const stepQ = [units1, units2, tens1, tens2, hundreds1];
-const buttonsQ = [
-  { button: uVisual, text: texts.buttons.add_unit },
-  { button: uVisual, text: texts.buttons.carryOver_unit },
-  { button: tVisual, text: texts.buttons.add_tens },
-  { button: tVisual, text: texts.buttons.carryOver_tens },
-  { button: hVisual, text: texts.buttons.add_hundreds },
-];
-async function handleNext() {
+
+async function handleOpsButtonClick() {
   updateVisibleButton();
   await stepQ[stepForQ]();
   stepForQ++;
@@ -880,9 +847,8 @@ async function handleNext() {
   }
 }
 
-const opButtons = [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber];
 opButtons.forEach((button) => {
-  button.addEventListener("click", handleNext);
+  button.addEventListener("click", handleOpsButtonClick);
 });
 function updateVisibleButton(buttonToShow) {
   [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber].forEach((btn) => {
@@ -904,7 +870,6 @@ function vibrateOff() {
   });
 }
 
-// A placeholder for the next() function to be called after setup is complete.
 function next() {
   updateInstructionText("units1");
   highlightColumnBorder("unit-visual");
@@ -960,9 +925,6 @@ function checkRow(rowNum) {
   return isRowCorrect;
 }
 
-/**
- * Sets up and runs the initial board setup workflow.
- */
 function runSetupWorkflow() {
   // --- Step 1: Setup for Row 1 ---
   function setupForRow1() {
@@ -1004,9 +966,6 @@ function runSetupWorkflow() {
   setupForRow1();
 }
 
-runSetupWorkflow();
-updateVisibleButton();
-
 function highlightColumnBorder(className) {
   const elements = document.querySelectorAll(`.${className}`);
   const box = document.getElementById("highlight-box");
@@ -1047,3 +1006,43 @@ function highlightRowBorder(rowNum) {
   box.style.width = `${right - left + 2 * offset}px`;
   box.style.height = `${bottom - top + 2 * offset}px`;
 }
+
+function initializeBoard() {
+  initializeTextContents();
+  const problem = questions[questionIndex];
+  const num1 = problem.num1;
+  const num2 = problem.num2;
+  [h1, t1, u1] = num1.toString().split("").map(Number);
+  [h2, t2, u2] = num2.toString().split("").map(Number);
+  [h3, t3, u3] = (num1 + num2).toString().split("").map(Number);
+  overflowUnits = u1 + u2 > 9 ? 1 : 0;
+  overflowTens = t1 + t2 + overflowUnits > 9 ? 1 : 0;
+  // Set the problem statement in the header
+  document.querySelector(
+    ".problem-statement h1"
+  ).textContent = `${num1} + ${num2}`;
+  current_number = [
+    [0, 0, 0],
+    [0, 0, 0],
+  ];
+  ans = [
+    [h1, t1, u1],
+    [h2, t2, u2],
+  ];
+
+  resetVisuals();
+  resetNumbers();
+
+  const gridContainer = document.querySelector(".grid-container");
+  gridContainer.addEventListener("click", handleStepperClick);
+  runSetupWorkflow();
+  updateVisibleButton();
+}
+
+// --- START THE APP ---
+initializeBoard();
+function handleNext() {
+  questionIndex++;
+  initializeBoard();
+}
+nextButton.addEventListener("click", handleNext);
