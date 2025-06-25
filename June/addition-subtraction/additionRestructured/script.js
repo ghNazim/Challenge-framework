@@ -57,14 +57,8 @@ const tensFirst = createUnitStackOnTenRod();
 const hundredsFirst = createTensStackOnHundredBlock();
 
 let stepForQ = 0;
-const stepQ = [units1, units2, tens1, tens2, hundreds1];
-const buttonsQ = [
-  { button: uVisual, text: texts.buttons.add_unit },
-  { button: uVisual, text: texts.buttons.carryOver_unit },
-  { button: tVisual, text: texts.buttons.add_tens },
-  { button: tVisual, text: texts.buttons.carryOver_tens },
-  { button: hVisual, text: texts.buttons.add_hundreds },
-];
+let stepQ = [];
+let buttonsQ = [];
 //UTILITY FUNCTIONS
 function toggleFullScreenOverlay(show) {
   const overlay = document.querySelector("#fullscreenOverlay");
@@ -148,10 +142,18 @@ function setCornerBadge(rowNum, tag, num) {
 function resetVisuals() {
   document
     .querySelectorAll(
-      ".row-1.hundred-block, .row-1.ten-block, .row-1.unit-block",
-      ".row-2.hundred-block, .row-2.ten-block, .row-2.unit-block"
+      ".row-1 .hundred-block, .row-1 .ten-block, .row-1 .unit-block, .row-2 .hundred-block, .row-2 .ten-block, .row-2 .unit-block"
     )
     .forEach((el) => (el.innerHTML = ""));
+  document
+    .querySelectorAll(
+      ".row-3 .hundred-block, .row-3 .ten-block, .row-3 .unit-block"
+    )
+    .forEach((el) => {
+      el.querySelectorAll("img.appear").forEach((img) =>
+        img.classList.remove("appear")
+      );
+    });
 }
 function updateDigitLabel(tag) {
   const extra =
@@ -424,6 +426,7 @@ function cloneAndTranslateElement(sourceElement) {
     clone.style.gridAutoRows = computedStyle.gridAutoRows;
     clone.style.rowGap = computedStyle.rowGap;
     clone.style.columnGap = computedStyle.columnGap;
+    clone.classList.add("wiggle");
     resolve(clone);
   });
 }
@@ -879,6 +882,25 @@ function setUpStep() {
   updateVisibleButton(buttonsQ[stepForQ].button);
   buttonsQ[stepForQ].button.textContent = buttonsQ[stepForQ].text;
 }
+function setUpStepQAndButtons() {
+  stepForQ=0;
+  stepQ = [];
+  buttonsQ = [];
+  stepQ.push(units1);
+  buttonsQ.push({ button: uVisual, text: texts.buttons.add_unit });
+  if (overflowUnits) {
+    stepQ.push(units2);
+    buttonsQ.push({ button: uVisual, text: texts.buttons.carryOver_unit });
+  }
+  stepQ.push(tens1);
+  buttonsQ.push({ button: tVisual, text: texts.buttons.add_tens });
+  if (overflowTens) {
+    stepQ.push(tens2);
+    buttonsQ.push({ button: tVisual, text: texts.buttons.carryOver_tens });
+  }
+  stepQ.push(hundreds1);
+  buttonsQ.push({ button: hVisual, text: texts.buttons.add_hundreds });
+}
 
 function hideAllSteppers() {
   document.querySelectorAll(".stepper").forEach((stepper) => {
@@ -1037,6 +1059,7 @@ function initializeBoard() {
   gridContainer.addEventListener("click", handleStepperClick);
   runSetupWorkflow();
   updateVisibleButton();
+  setUpStepQAndButtons();
 }
 
 // --- START THE APP ---

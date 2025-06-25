@@ -6,7 +6,7 @@ const texts = {
   },
   buttons: {
     set: "Set",
-    next: "NEXT",
+    next: "Next",
     add_unit: "Add Units Place",
     add_tens: "Add Tens Place",
     add_hundreds: "Add Hundreds Place",
