@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Learning Applet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="highlight-box"></div>
+    <div class="aspect-ratio-container">
+      <div id="fullscreenOverlay">
+        <button id="fullscreenButton" class="btn btn-primary">Proceed</button>
+      </div>
+      <div class="app-container">
+        <header class="app-header">
+          <div class="problem-statement">
+            <h1>523 + 385 =</h1>
+            <h1 id="ans-display">000</h1>
+          </div>
+        </header>
+
+        <main class="app-main">
+          <div class="grid-headings-container">
+            <div class="grid-heading">Hundreds</div>
+            <div class="grid-heading">Tens</div>
+            <div class="grid-heading">Ones</div>
+          </div>
+
+          <div class="grid-container">
+            <div class="grid-item row-1 hundred-number">
+              <div class="grid-item-content">
+                <span class="number-display">000</span>
+              </div>
+            </div>
+            <div class="grid-item row-1 ten-number">
+              <div class="grid-item-content">
+                <span class="number-display">00</span>
+              </div>
+            </div>
+            <div class="grid-item row-1 unit-number">
+              <div class="grid-item-content">
+                <span class="number-display">0</span>
+              </div>
+            </div>
+
+            <div class="grid-item row-2 hundred-number">
+              <div class="grid-item-content">
+                <span class="number-display">000</span>
+              </div>
+            </div>
+            <div class="grid-item row-2 ten-number">
+              <div class="grid-item-content">
+                <span class="number-display">00</span>
+              </div>
+            </div>
+            <div class="grid-item row-2 unit-number">
+              <div class="grid-item-content">
+                <span class="number-display">0</span>
+              </div>
+            </div>
+
+            <div class="grid-item row-3 hundred-visual">
+              <div class="grid-item-content">
+                <div class="block-placeholder">
+                  <div class="corner-badge">0</div>
+                  <div class="hundred-block"></div>
+                </div>
+              </div>
+              <div class="stepper">
+                <button class="stepper-btn plus">+</button
+                ><button class="stepper-btn minus">-</button>
+              </div>
+            </div>
+            <div class="grid-item row-3 ten-visual">
+              <div class="grid-item-content">
+                <div class="block-placeholder">
+                  <div class="corner-badge">0</div>
+                  <div class="ten-block"></div>
+                </div>
+              </div>
+              <div class="stepper">
+                <button class="stepper-btn plus">+</button
+                ><button class="stepper-btn minus">-</button>
+              </div>
+            </div>
+            <div class="grid-item row-3 unit-visual">
+              <div class="grid-item-content">
+                <div class="block-placeholder">
+                  <div class="corner-badge">0</div>
+                  <div class="unit-block"></div>
+                </div>
+              </div>
+              <div class="stepper">
+                <button class="stepper-btn plus">+</button
+                ><button class="stepper-btn minus">-</button>
+              </div>
+            </div>
+          </div>
+          <div id="submit-container">
+            <button class="btn btn-primary">Submit</button>
+          </div>
+        </main>
+
+        <footer class="app-footer">
+          <div class="instruction-text"></div>
+          <button class="next-button btn btn-primary">Next</button>
+        </footer>
+      </div>
+    </div>
+    <script src="texts.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
