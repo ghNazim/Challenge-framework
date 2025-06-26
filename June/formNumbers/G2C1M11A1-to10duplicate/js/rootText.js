@@ -133,14 +133,18 @@ const tagsEnglish = {
   one:" One",
   ten:" Ten",
   ones:" Ones",
-  tens:" Tens"
+  tens:" Tens",
+  hundred:" Hundreds",
+  hundreds:" Hundreds",
 
 }
 const tagsIndonesian = {
   one: " Satu",
   ten: " Sepuluh",
-  ones: " Satu",
-  tens: " Sepuluh",
+  ones: " Satuan",
+  tens: " Puluhan",
+  hundred: " Seratus",
+  hundreds: " Ratusan",
 };
 
 

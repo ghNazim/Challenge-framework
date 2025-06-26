@@ -7,7 +7,7 @@ const textsEnglish = {
     prev: "Previous",
     next: "Next",
     add_jar: "Add another Jar", // Lowercased for consistency
-    start_over: "Start Over",   // Lowercased for consistency
+    start_over: "Start Over", // Lowercased for consistency
   },
   overlay_text:
     "Greetings!<br><br>Ever wondered how numbers are made?<br><br>Let’s have some fun and find out together!",
@@ -95,8 +95,6 @@ const textsEnglish = {
   },
 };
 
-
-
 const numberToTextEnglish = [
   "Zero",
   "One",
@@ -115,12 +113,16 @@ const tagsEnglish = {
   ten: " Ten",
   ones: " Ones",
   tens: " Tens",
+  hundred: " Hundred",
+  hundreds: " Hundreds",
 };
 const tagsIndonesian = {
   one: " Satu",
   ten: " Sepuluh",
-  ones: " Satu",
-  tens: " Sepuluh",
+  ones: " Satuan",
+  tens: " Puluhan",
+  hundred: " Seratus",
+  hundreds: " Ratusan",
 };
 const textsIndonesian = {
   html_title: "Kalimat penjumlahan",
@@ -159,11 +161,13 @@ const textsIndonesian = {
   },
   top_num: {
     instruction_title: "",
-    instruction_text: "Kotak atas menunjukkan berapa banyak kubus di dalam toples.",
+    instruction_text:
+      "Kotak atas menunjukkan berapa banyak kubus di dalam toples.",
   },
   bottom_num: {
     instruction_title: "",
-    instruction_text: "Kotak bawah memberi tahu cara kita mengucapkan angka tersebut.",
+    instruction_text:
+      "Kotak bawah memberi tahu cara kita mengucapkan angka tersebut.",
   },
   minus: {
     instruction_title: "Hapus kotak",
@@ -201,7 +205,8 @@ const textsIndonesian = {
   },
   move_left_again: {
     instruction_title: "",
-    instruction_text: "Klik panah untuk mengambil batang kembali. Ajaib, bukan?",
+    instruction_text:
+      "Klik panah untuk mengambil batang kembali. Ajaib, bukan?",
   },
   number_ten: {
     instruction_title: "Dan kita telah membuat angka 10!",
@@ -217,8 +222,6 @@ const textsIndonesian = {
   },
 };
 
-
-
 const numberToTextIndonesian = [
   "Nol",
   "Satu",
@@ -232,4 +235,3 @@ const numberToTextIndonesian = [
   "Sembilan",
   "Sepuluh",
 ];
-  
