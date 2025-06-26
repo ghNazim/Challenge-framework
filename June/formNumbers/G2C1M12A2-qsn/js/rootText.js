@@ -6,7 +6,7 @@ const textsEnglish = {
     next: "Next",
     add_jar: "Add another Jar", // Text for the button when on the last shape
     start_over: "Start Over", // Text for the button on the summary page
-    submit:"Submit"
+    submit: "Submit",
   },
   bubble_data: [
     {
@@ -189,12 +189,16 @@ const tagsEnglish = {
   ten: " Ten",
   ones: " Ones",
   tens: " Tens",
+  hundred: " Hundreds",
+  hundreds: " Hundreds",
 };
 const tagsIndonesian = {
   one: " Satu",
   ten: " Sepuluh",
-  ones: " Satu",
-  tens: " Sepuluh",
+  ones: " Satuan",
+  tens: " Puluhan",
+  hundred: " Seratus",
+  hundreds: " Ratusan",
 };
 const questionsIndonesian = [
   {

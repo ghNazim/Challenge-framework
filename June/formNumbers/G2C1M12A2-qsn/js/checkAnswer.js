@@ -39,12 +39,14 @@ function checkAnswer() {
 
 function addedCheckFor7(){
     if(tenCount>0){
+      glowBlue();
         return "tensWrong"
     }
     return false;
 }
 function addedCheckFor30(){
     if(unitCount>0){
+      glowPink();
         return "onesWrong"
     }
     return false;

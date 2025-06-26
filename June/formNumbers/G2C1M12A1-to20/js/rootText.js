@@ -161,12 +161,16 @@ const tagsEnglish = {
   ten: " Ten",
   ones: " Ones",
   tens: " Tens",
+  hundred: " Hundreds",
+  hundreds: " Hundreds",
 };
 const tagsIndonesian = {
   one: " Satu",
   ten: " Sepuluh",
-  ones: " Satu",
-  tens: " Sepuluh",
+  ones: " Satuan",
+  tens: " Puluhan",
+  hundred: " Seratus",
+  hundreds: " Ratusan",
 };
 
 const textsIndonesian = {
