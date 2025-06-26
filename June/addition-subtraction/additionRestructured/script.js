@@ -59,7 +59,15 @@ const hundredsFirst = createTensStackOnHundredBlock();
 let stepForQ = 0;
 let stepQ = [];
 let buttonsQ = [];
+document.querySelectorAll(".stepper-btn").forEach((button) => button.addEventListener("click", () => playSound("click")));
+opButtons.forEach((button) => button.addEventListener("click", () => playSound("click")));
+
 //UTILITY FUNCTIONS
+function playSound(name) {
+  const file = `sound/${name}.mp3`;
+  const audio = new Audio(file);
+  audio.play();
+}
 function toggleFullScreenOverlay(show) {
   const overlay = document.querySelector("#fullscreenOverlay");
   if (show) {
@@ -943,7 +951,12 @@ function checkRow(rowNum) {
       }
     }
   }
-
+  if (isRowCorrect) {
+    playSound("correct");
+  }
+  else {
+    playSound("wrong");
+  }
   return isRowCorrect;
 }
 
