@@ -1,18 +1,19 @@
 const texts = {
   headings: {
-    hundreds: "Hundreds",
-    tens: "Tens",
-    ones: "Ones",
+    hundreds: "H",
+    tens: "T",
+    ones: "O",
   },
   buttons: {
-    set: "Set",
-    next: "Next",
+    set1: "Set First Number",
+    set2:"Set Second Number",
+    next: "Next Question",
     add_unit: "Add Units Place",
-    add_tens: "Add Tens Place",
-    add_hundreds: "Add Hundreds Place",
-    carryOver_unit: "Carry Over",
-    carryOver_tens: "Carry Over",
-    regroup: "Regroup", // A more general term for regroup/borrow
+    add_ten: "Add Tens Place",
+    add_hundred: "Add Hundreds Place",
+    carryOver_unit: "Carry Over to Tens",
+    carryOver_ten: "Carry Over to Hundreds",
+    start_over: "Start Over",
   },
   instructions: {
     start: "Click on the button at the bottom of your screen to proceed.",
@@ -25,7 +26,7 @@ const texts = {
     tensCarry:
       "Ten tens equal one hundreds. So lets carry them over to the hundreds place.",
     hundreds1: "Bring the flats at hundreds place together to sum them up.",
-    combine: "Combine the digits to get the answer.",
+    result: "Sum of these two numbers is: ",
     tryNew: "Congratulations! You have added two numbers successfully.",
     finished: "Congratulations! You have added two numbers successfully.",
   },

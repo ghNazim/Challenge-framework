@@ -18,11 +18,8 @@ const columnMap = {
 };
 //IMPORT ITEMS
 const steppers = document.querySelectorAll(".stepper");
-const [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber] =
-  document.querySelectorAll(".operations-container>button");
-const [setBtn1, setBtn2] = document.querySelectorAll(".setBtn");
-const opButtons = [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber];
 const nextButton = document.querySelector(".next-button");
+const problemStatement = document.querySelector(".problem-statement h1");
 
 const questions = [
   {
@@ -59,8 +56,11 @@ const hundredsFirst = createTensStackOnHundredBlock();
 let stepForQ = 0;
 let stepQ = [];
 let buttonsQ = [];
-document.querySelectorAll(".stepper-btn").forEach((button) => button.addEventListener("click", () => playSound("click")));
-opButtons.forEach((button) => button.addEventListener("click", () => playSound("click")));
+document
+  .querySelectorAll(".stepper-btn")
+  .forEach((button) =>
+    button.addEventListener("click", () => playSound("click"))
+  );
 
 //UTILITY FUNCTIONS
 function playSound(name) {
@@ -83,28 +83,7 @@ function selectElements(fixedClass, includesString) {
   );
   return elements;
 }
-function highlightColumn(num) {
-  const highlightedElements = document.querySelectorAll(".highlight");
-  const elements = document.querySelectorAll(`.${columnMap[num]}`);
-  highlightedElements.forEach((element) => {
-    element.classList.remove("highlight");
-  });
-  if (num < 0) return;
-  elements.forEach((element) => {
-    element.classList.add("highlight");
-  });
-}
-function highlightRow(num) {
-  const highlightedElements = document.querySelectorAll(".highlight");
-  const elements = document.querySelectorAll(`.row-${num}`);
-  highlightedElements.forEach((element) => {
-    element.classList.remove("highlight");
-  });
-  if (num < 0) return;
-  elements.forEach((element) => {
-    element.classList.add("highlight");
-  });
-}
+
 function setSteppersVisibility(rowNum, includeStr) {
   const elements = selectElements("row-" + rowNum, includeStr);
 
@@ -234,7 +213,6 @@ function handleStepperClick(event) {
   setCornerBadge(rowNum, tag, current_number[rowIndex][colIndex]);
 }
 function makeDull(src) {
-  src.src = `assets/tenSemi.png`;
   src.classList.add("transparent");
 }
 function initializeTextContents() {
@@ -246,12 +224,8 @@ function initializeTextContents() {
   headings[1].textContent = headings[4].textContent = texts.headings.tens;
   headings[2].textContent = headings[5].textContent = texts.headings.ones;
 
-  // Set Static Buttons
-  document.querySelector(".next-button").textContent = texts.buttons.next;
-  setBtn1.textContent = texts.buttons.set;
-  setBtn2.textContent = texts.buttons.set;
-
   updateInstructionText("set1");
+  problemStatement.innerHTML = `<span>${h1}</span><span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${h2}</span><span>${t2}</span><span>${u2}</span>`;
 }
 function updateInstructionText(key) {
   const text = texts.instructions[key];
@@ -435,6 +409,7 @@ function cloneAndTranslateElement(sourceElement) {
     clone.style.rowGap = computedStyle.rowGap;
     clone.style.columnGap = computedStyle.columnGap;
     clone.classList.add("wiggle");
+    clone.classList.add("clone");
     resolve(clone);
   });
 }
@@ -533,7 +508,6 @@ async function animateUnitsCloneToTen() {
   await Promise.all(animationPromises);
 
   // 5. This code will only run after ALL animations are complete.
-  console.log("All unit-to-ten animations are complete!");
   document.querySelector(".row-3 .ten-block img").classList.add("appear");
   unitsClone.remove();
   unitsClone = null;
@@ -726,6 +700,9 @@ function popInNumber(tag, num) {
 
     // 5. Call the animate() method on the element.
     cell.animate(keyframes, timing);
+    if (num >= 10) {
+      cell.classList.add("vibrate-x");
+    }
   }
 }
 
@@ -736,6 +713,7 @@ async function translateNumberOverflow(tag = "unit") {
     const sourceEl = document.querySelector(
       `.row-3.${tag}-number .number-display`
     );
+    sourceEl.classList.remove("vibrate-x");
     const targetEl = document.querySelector(
       `.row-3.${dest}-number .number-display`
     );
@@ -746,6 +724,7 @@ async function translateNumberOverflow(tag = "unit") {
     // Apply existing class for font styles and position it absolutely.
     overflowClone.classList.add("number-display");
     overflowClone.style.position = "absolute";
+    overflowClone.style.color = sourceEl.style.color;
     overflowClone.style.zIndex = "100"; // Ensure it's on top of everything.
 
     // 3. Position the clone exactly on top of the source element.
@@ -792,6 +771,7 @@ async function translateNumberOverflow(tag = "unit") {
 // ANIMATION END --------------------------------------------------
 
 async function units1() {
+  nextButton.disabled = true;
   await unitsTopToBottom();
   await wait(200);
   await unitsMiddleToBottom();
@@ -803,8 +783,12 @@ async function units1() {
   await unitsMiddleToBottomAgain();
   popInNumber("unit", u1 + u2);
   updateInstructionText("unitsCarry");
+  nextButton.onclick = units2;
+  setNextButtonText("carryOver_unit");
+  nextButton.disabled = false;
 }
 async function units2() {
+  nextButton.disabled = true;
   await Promise.all([
     animateUnitsCloneToTen(),
     translateNumberOverflow("unit"),
@@ -813,9 +797,14 @@ async function units2() {
   updateDigitLabel("ten");
   await wait(200);
   highlightColumnBorder("ten-visual");
+  textHighlightColumn(1);
   updateInstructionText("tens1");
+  nextButton.onclick = tens1;
+  setNextButtonText("add_ten");
+  nextButton.disabled = false;
 }
 async function tens1() {
+  nextButton.disabled = true;
   await tensTopToBottom();
   await wait(200);
 
@@ -830,8 +819,12 @@ async function tens1() {
   await tensMiddleToBottomAgain();
   updateInstructionText("tensCarry");
   popInNumber("ten", t1 + t2 + overflowUnits);
+  nextButton.onclick = tens2;
+  setNextButtonText("carryOver_ten");
+  nextButton.disabled = false;
 }
 async function tens2() {
+  nextButton.disabled = true;
   await Promise.all([
     animateTensCloneToHundred(),
     translateNumberOverflow("ten"),
@@ -839,37 +832,22 @@ async function tens2() {
   updateDigitLabel("ten");
   updateDigitLabel("hundred");
   highlightColumnBorder("hundred-visual");
+  textHighlightColumn(2);
   updateInstructionText("hundreds1");
+  nextButton.onclick = hundreds1;
+  setNextButtonText("add_hundred");
+  nextButton.disabled = false;
 }
 async function hundreds1() {
+  nextButton.disabled = true;
   await hundredsTopToBottom();
   await hundredsMiddleToBottom();
   popInNumber("hundred", h3);
   unhighlightColumn();
-  updateInstructionText("combine");
-}
-
-async function handleOpsButtonClick() {
-  updateVisibleButton();
-  await stepQ[stepForQ]();
-  stepForQ++;
-  if (stepForQ < stepQ.length) {
-    setUpStep();
-  }
-}
-
-opButtons.forEach((button) => {
-  button.addEventListener("click", handleOpsButtonClick);
-});
-function updateVisibleButton(buttonToShow) {
-  [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber].forEach((btn) => {
-    btn.style.visibility = "hidden";
-    btn.disabled = false;
-  });
-
-  if (buttonToShow) {
-    buttonToShow.style.visibility = "visible";
-  }
+  showResult();
+  nextButton.onclick = handleNext;
+  setNextButtonText("next");
+  nextButton.disabled = false;
 }
 
 function vibrateElement(element) {
@@ -884,48 +862,13 @@ function vibrateOff() {
 function next() {
   updateInstructionText("units1");
   highlightColumnBorder("unit-visual");
-  setUpStep();
-}
-function setUpStep() {
-  updateVisibleButton(buttonsQ[stepForQ].button);
-  buttonsQ[stepForQ].button.textContent = buttonsQ[stepForQ].text;
-}
-function setUpStepQAndButtons() {
-  stepForQ=0;
-  stepQ = [];
-  buttonsQ = [];
-  stepQ.push(units1);
-  buttonsQ.push({ button: uVisual, text: texts.buttons.add_unit });
-  if (overflowUnits) {
-    stepQ.push(units2);
-    buttonsQ.push({ button: uVisual, text: texts.buttons.carryOver_unit });
-  }
-  stepQ.push(tens1);
-  buttonsQ.push({ button: tVisual, text: texts.buttons.add_tens });
-  if (overflowTens) {
-    stepQ.push(tens2);
-    buttonsQ.push({ button: tVisual, text: texts.buttons.carryOver_tens });
-  }
-  stepQ.push(hundreds1);
-  buttonsQ.push({ button: hVisual, text: texts.buttons.add_hundreds });
+  textHighlightColumn(0);
 }
 
 function hideAllSteppers() {
   document.querySelectorAll(".stepper").forEach((stepper) => {
     stepper.style.visibility = "hidden";
   });
-}
-
-function updateActiveSetButton(buttonToShow) {
-  const allButtons = [setBtn1, setBtn2];
-
-  allButtons.forEach((btn) => {
-    btn.style.display = "none";
-  });
-
-  if (buttonToShow) {
-    buttonToShow.style.display = "flex";
-  }
 }
 
 function checkRow(rowNum) {
@@ -953,52 +896,10 @@ function checkRow(rowNum) {
   }
   if (isRowCorrect) {
     playSound("correct");
-  }
-  else {
+  } else {
     playSound("wrong");
   }
   return isRowCorrect;
-}
-
-function runSetupWorkflow() {
-  // --- Step 1: Setup for Row 1 ---
-  function setupForRow1() {
-    updateInstructionText("set1");
-    highlightRowBorder(1);
-    hideAllSteppers();
-    setSteppersVisibility(1, "-visual");
-    updateActiveSetButton(setBtn1);
-  }
-
-  // --- Step 2: Setup for Row 2 ---
-  function setupForRow2() {
-    updateInstructionText("set2");
-    highlightRowBorder(2);
-    hideAllSteppers();
-    setSteppersVisibility(2, "-visual");
-    updateActiveSetButton(setBtn2);
-  }
-
-  // --- Event Listeners for Set Buttons ---
-  setBtn1.addEventListener("click", () => {
-    if (checkRow(1)) {
-      // If correct, move to setting up the next row.
-      setupForRow2();
-    }
-  });
-
-  setBtn2.addEventListener("click", () => {
-    if (checkRow(2)) {
-      // If correct, hide all setup elements and proceed.
-      hideAllSteppers();
-      highlightRow(0); // Removes highlight from all rows
-      updateActiveSetButton(null); // Hides setBtn2
-      next(); // Call the next function to start the main logic
-    }
-  });
-
-  // --- Start the workflow ---
-  setupForRow1();
 }
 
 function highlightColumnBorder(className) {
@@ -1012,8 +913,8 @@ function highlightColumnBorder(className) {
   const top = firstRect.top;
   const right = firstRect.right;
   const bottom = lastRect.bottom;
-  const offsetX = 0;
-  box.style.left = `${left - offsetX}px`;
+
+  box.style.left = `${left}px`;
   box.style.top = `${top + scrollY}px`;
   box.style.width = `${right - left}px`;
   box.style.height = `${bottom - top}px`;
@@ -1022,6 +923,7 @@ function highlightColumnBorder(className) {
 function unhighlightColumn() {
   const box = document.getElementById("highlight-box");
   box.style.display = "none";
+  textHighlightColumn(-1);
 }
 
 function highlightRowBorder(rowNum) {
@@ -1035,15 +937,54 @@ function highlightRowBorder(rowNum) {
   const top = firstRect.top;
   const right = lastRect.right;
   const bottom = firstRect.bottom;
-  const offset = 2;
+  const offset = 1;
   box.style.left = `${left - offset}px`;
   box.style.top = `${top - offset}px`;
   box.style.width = `${right - left + 2 * offset}px`;
   box.style.height = `${bottom - top + 2 * offset}px`;
 }
+function textHighlightColumn(columnNo) {
+  const spans = problemStatement.querySelectorAll("span");
+
+  if (columnNo < 0 || columnNo >= 3) {
+    spans.forEach((span) => {
+      span.classList.remove("text-transparent");
+    });
+    return;
+  }
+  spans.forEach((span) => {
+    span.classList.add("text-transparent");
+  });
+  if (columnNo >= 0 && columnNo < 3) {
+    spans[columnNo].classList.remove("text-transparent");
+    spans[3].classList.remove("text-transparent");
+    spans[4 + columnNo].classList.remove("text-transparent");
+  }
+}
+function textHighlightRow(rowNo) {
+  const spans = problemStatement.querySelectorAll("span");
+  if (rowNo < 0 || rowNo > 1) {
+    spans.forEach((span) => {
+      span.classList.remove("text-transparent");
+    });
+    return;
+  }
+  spans.forEach((span) => {
+    span.classList.add("text-transparent");
+  });
+  if (rowNo === 0) {
+    spans[0].classList.remove("text-transparent");
+    spans[1].classList.remove("text-transparent");
+    spans[2].classList.remove("text-transparent");
+  }
+  if (rowNo === 1) {
+    spans[6].classList.remove("text-transparent");
+    spans[4].classList.remove("text-transparent");
+    spans[5].classList.remove("text-transparent");
+  }
+}
 
 function initializeBoard() {
-  initializeTextContents();
   const problem = questions[questionIndex];
   const num1 = problem.num1;
   const num2 = problem.num2;
@@ -1053,9 +994,7 @@ function initializeBoard() {
   overflowUnits = u1 + u2 > 9 ? 1 : 0;
   overflowTens = t1 + t2 + overflowUnits > 9 ? 1 : 0;
   // Set the problem statement in the header
-  document.querySelector(
-    ".problem-statement h1"
-  ).textContent = `${num1} + ${num2}`;
+  initializeTextContents();
   current_number = [
     [0, 0, 0],
     [0, 0, 0],
@@ -1070,9 +1009,7 @@ function initializeBoard() {
 
   const gridContainer = document.querySelector(".grid-container");
   gridContainer.addEventListener("click", handleStepperClick);
-  runSetupWorkflow();
-  updateVisibleButton();
-  setUpStepQAndButtons();
+  setupForRow1();
 }
 
 // --- START THE APP ---
@@ -1081,4 +1018,65 @@ function handleNext() {
   questionIndex++;
   initializeBoard();
 }
-nextButton.addEventListener("click", handleNext);
+
+function set1() {
+  if (checkRow(1)) {
+    setupForRow2();
+    nextButton.onclick = set2;
+  }
+}
+
+function set2() {
+  if (checkRow(2)) {
+    // If correct, hide all setup elements and proceed.
+    hideAllSteppers(); // Removes highlight from all rows
+    next(); // Call the next function to start the main logic
+    nextButton.onclick = units1;
+    setNextButtonText("add_unit");
+  }
+}
+
+function setupForRow1() {
+  updateInstructionText("set1");
+  highlightRowBorder(1);
+  textHighlightRow(0);
+  hideAllSteppers();
+  setSteppersVisibility(1, "-visual");
+  setNextButtonText("set1");
+}
+function setupForRow2() {
+  updateInstructionText("set2");
+  highlightRowBorder(2);
+  textHighlightRow(1);
+  hideAllSteppers();
+  setSteppersVisibility(2, "-visual");
+  setNextButtonText("set2");
+}
+nextButton.onclick = set1;
+
+function setNextButtonText(tag) {
+  nextButton.textContent = texts.buttons[tag];
+}
+
+function highlightClassOpaque(className) {
+  const gridItems = document.querySelectorAll(".grid-item");
+  if (!className) {
+    gridItems.forEach((item) => {
+      item.classList.remove("grid-transparent");
+      return;
+    });
+  }
+  gridItems.forEach((item) => {
+    item.classList.add("grid-transparent");
+  });
+  const toShow = document.querySelectorAll(`.grid-item.${className}`);
+  toShow.forEach((item) => {
+    item.classList.remove("grid-transparent");
+  });
+}
+
+function showResult() {
+  const sumText = ` ${h3 * 100}+${t3 * 10}+${u3}=${h3 * 100 + t3 * 10 + u3}`;
+  document.querySelector(".instruction-text").textContent =
+    texts.instructions.result + sumText;
+}

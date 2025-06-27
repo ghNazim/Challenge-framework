@@ -38,6 +38,8 @@ function forStep3() {
   tenNumberTab.style.color = "transparent";
   tenTextDisplay.style.color = "transparent";
   leftDir.onclick = onLeftDirClick1;
+  showDirArrow();
+  isNumberTextUp = false;
   showMCQ(true);
   freshenUpMcq();
   updateInstructions("mcq");
@@ -74,7 +76,7 @@ function forStep5() {
   nextButton.disabled = true;
   unitCount = 10;
   render();
-  unitCount=0;
+  unitCount = 0;
   document
     .querySelectorAll(".count-square")
     .forEach((el) => (el.style.visibility = "hidden"));
