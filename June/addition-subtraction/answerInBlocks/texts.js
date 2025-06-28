@@ -1,12 +1,13 @@
 const texts = {
   headings: {
-    hundreds: "Hundreds",
-    tens: "Tens",
-    ones: "Ones",
+    hundreds: "H",
+    tens: "T",
+    ones: "O",
   },
   buttons: {
     set: "Set",
     next: "Next",
+    submit: "Submit",
     add_unit: "Add Units Place",
     add_tens: "Add Tens Place",
     add_hundreds: "Add Hundreds Place",
