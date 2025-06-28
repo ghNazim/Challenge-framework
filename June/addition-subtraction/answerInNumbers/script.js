@@ -25,8 +25,8 @@ const opButtons = [hVisual, tVisual, uVisual, hNumber, tNumber, uNumber];
 const nextButton = document.querySelector(".next-button");
 const submitButton = document.querySelector("#submit-container button");
 const ansDisplay = document.querySelector("#ans-display");
-nextButton.disabled = true;
-submitButton.disabled = false;
+// nextButton.disabled = false;
+// submitButton.disabled = false;
 const questions = [
   {
     num1: 167,
@@ -175,7 +175,7 @@ function resetNumbers() {
     .querySelectorAll(".unit-number .number-display")
     .forEach((el) => (el.textContent = "0"));
 }
-function setAnsDisplay(){
+function setAnsDisplay() {
   ansDisplay.textContent = current_number[2].join("");
 }
 
@@ -264,7 +264,7 @@ function setColorToAnsDisplay(text) {
   if (text === "green") {
     ansDisplay.classList.add("green");
     ansDisplay.classList.remove("red");
-    return
+    return;
   }
   ansDisplay.classList.remove("green");
   ansDisplay.classList.remove("red");
@@ -292,21 +292,24 @@ function checkAnswer() {
     playSound("correct");
     updateInstructionText("correct");
     setColorToAnsDisplay("green");
-    nextButton.disabled = false;
-    submitButton.disabled = true;
-    hideAllSteppers()
+    setNextButtonText("next");
+    nextButton.onclick = handleNext;
+    hideAllSteppers();
   } else {
     playSound("wrong");
     setColorToAnsDisplay("red");
-    updateInstructionText("wrong")
+    updateInstructionText("wrong");
   }
 
   return isCorrect;
 }
-
+function setNextButtonText(tag) {
+  nextButton.textContent = texts.buttons[tag];
+  console.log(nextButton.textContent);
+}
 function initializeBoard() {
-  nextButton.disabled = true;
-  submitButton.disabled = false;
+  
+  nextButton.onclick = checkAnswer;
   setColorToAnsDisplay();
   initializeTextContents();
   const problem = questions[questionIndex];
@@ -352,15 +355,15 @@ function initializeBoard() {
     }
   }
   setSteppersVisibility(3, "-number");
-  const gridContainer = document.querySelector(".grid-container");
-  gridContainer.addEventListener("click", handleStepperClick);
+  setNextButtonText("submit");
 }
 
 // --- START THE APP ---
 initializeBoard();
+const gridContainer = document.querySelector(".grid-container");
+gridContainer.addEventListener("click", handleStepperClick);
 function handleNext() {
   questionIndex++;
   initializeBoard();
 }
-nextButton.addEventListener("click", handleNext);
-submitButton.addEventListener("click", checkAnswer);
+

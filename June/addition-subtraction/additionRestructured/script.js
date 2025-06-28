@@ -19,6 +19,8 @@ const columnMap = {
 //IMPORT ITEMS
 const steppers = document.querySelectorAll(".stepper");
 const nextButton = document.querySelector(".next-button");
+// const submitButton = document.querySelector("#fullscreenButton");
+// submitButton.textContent = texts.buttons.submit;
 const problemStatement = document.querySelector(".problem-statement h1");
 
 const questions = [
@@ -53,9 +55,6 @@ const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const tensFirst = createUnitStackOnTenRod();
 const hundredsFirst = createTensStackOnHundredBlock();
 
-let stepForQ = 0;
-let stepQ = [];
-let buttonsQ = [];
 document
   .querySelectorAll(".stepper-btn")
   .forEach((button) =>
@@ -68,15 +67,7 @@ function playSound(name) {
   const audio = new Audio(file);
   audio.play();
 }
-function toggleFullScreenOverlay(show) {
-  const overlay = document.querySelector("#fullscreenOverlay");
-  if (show) {
-    overlay.classList.add("show");
-  } else {
-    overlay.classList.remove("show");
-  }
-}
-// toggleFullScreenOverlay(true)
+
 function selectElements(fixedClass, includesString) {
   const elements = document.querySelectorAll(
     `.${fixedClass}[class*="${includesString}"]`
@@ -832,7 +823,7 @@ async function tens2() {
   updateDigitLabel("ten");
   updateDigitLabel("hundred");
   highlightColumnBorder("hundred-visual");
-  textHighlightColumn(2);
+  textHighlightColumn(0);
   updateInstructionText("hundreds1");
   nextButton.onclick = hundreds1;
   setNextButtonText("add_hundred");
@@ -862,7 +853,7 @@ function vibrateOff() {
 function next() {
   updateInstructionText("units1");
   highlightColumnBorder("unit-visual");
-  textHighlightColumn(0);
+  textHighlightColumn(2);
 }
 
 function hideAllSteppers() {
@@ -1007,13 +998,13 @@ function initializeBoard() {
   resetVisuals();
   resetNumbers();
 
-  const gridContainer = document.querySelector(".grid-container");
-  gridContainer.addEventListener("click", handleStepperClick);
   setupForRow1();
 }
 
 // --- START THE APP ---
 initializeBoard();
+const gridContainer = document.querySelector(".grid-container");
+gridContainer.addEventListener("click", handleStepperClick);
 function handleNext() {
   questionIndex++;
   initializeBoard();
@@ -1080,3 +1071,95 @@ function showResult() {
   document.querySelector(".instruction-text").textContent =
     texts.instructions.result + sumText;
 }
+
+// --------------------------------------------
+// MCQ FUNCTIONS
+// --------------------------------------------
+
+function toggleFullScreenOverlay(show) {
+  const overlay = document.querySelector("#fullscreenOverlay");
+  if (show) {
+    overlay.classList.add("show");
+  } else {
+    overlay.classList.remove("show");
+  }
+}
+
+// 2. DOM element references for the MCQ
+const mcqContainer = document.querySelector("#mcq");
+const mcqQuestionEl = document.querySelector("#mcq-question");
+const mcqOptionsEl = document.querySelector("#mcq-options");
+
+/**
+ * Loads a specific MCQ question into the overlay.
+ * @param {number} index - The index of the question to load from mcqObject.
+ */
+function loadMcq(index) {
+  if (index >= mcqObject.questions.length || index < 0) {
+    console.error("Invalid question index");
+    return;
+  }
+
+  // Reset any previous state
+  mcqOptionsEl.classList.remove("answered");
+  const allOptions = mcqOptionsEl.querySelectorAll(".mcq-option");
+  allOptions.forEach((opt) => {
+    opt.classList.remove("correct", "wrong"); // Remove both correct and wrong classes
+  });
+
+  const currentQuestion = mcqObject.questions[index];
+  mcqObject.currentQuestionIndex = index;
+
+  mcqQuestionEl.textContent = currentQuestion.question;
+
+  const optionElements = mcqOptionsEl.querySelectorAll(".mcq-option");
+  optionElements.forEach((optionEl, i) => {
+    if (currentQuestion.options[i]) {
+      optionEl.textContent = currentQuestion.options[i];
+      optionEl.style.display = "flex"; // Ensure it's visible
+    } else {
+      optionEl.style.display = "none"; // Hide if no option text
+    }
+  });
+}
+
+/**
+ * Handles clicks on the MCQ options.
+ * Allows multiple attempts until the correct answer is chosen.
+ * @param {Event} event - The click event object.
+ */
+function handleOptionClick(event) {
+  const selectedOption = event.target.closest(".mcq-option");
+
+  // Do nothing if click is not on an option, if question is already solved, or if the option is already marked wrong.
+  if (
+    !selectedOption ||
+    mcqOptionsEl.classList.contains("answered") ||
+    selectedOption.classList.contains("wrong")
+  ) {
+    return;
+  }
+
+  const options = Array.from(mcqOptionsEl.querySelectorAll(".mcq-option"));
+  const selectedIndex = options.indexOf(selectedOption);
+  const currentQuestion = mcqObject.questions[mcqObject.currentQuestionIndex];
+
+  if (selectedIndex === currentQuestion.correctAnswer) {
+    // CORRECT ANSWER
+    selectedOption.classList.add("correct");
+    playSound("correct");
+    // Lock all options since the correct one was found
+    mcqOptionsEl.classList.add("answered");
+    setTimeout(() => {
+      toggleFullScreenOverlay(false);
+    }, 200);
+  } else {
+    // WRONG ANSWER
+    selectedOption.classList.add("wrong");
+    playSound("wrong");
+    // Do not lock options, allow another try
+  }
+}
+
+// 3. Attach event listener to the options container
+mcqOptionsEl.addEventListener("click", handleOptionClick);

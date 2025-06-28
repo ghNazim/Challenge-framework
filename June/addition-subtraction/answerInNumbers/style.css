@@ -1,6 +1,6 @@
 :root {
   --color-hundreds: #e56d30;
-  --color-tens: #304fe5;
+  --color-tens: #00B4F1;
   --color-ones: #ce088c;
   --color-highlight: #395067;
   --root-font-size: 1.6vw;
@@ -48,6 +48,7 @@ body {
   justify-content: center;
   align-items: center;
   padding-top: .5rem;
+  display: none;
 }
 
 /* Main Application Container */
@@ -61,7 +62,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
 }
 
@@ -104,8 +105,8 @@ body {
   border-color: rgb(38, 223, 38) !important;
 }
 .red{
-  color: rgb(240, 122, 122)  !important;
-  border-color: rgb(255, 154, 154)  !important;
+  color: rgb(239, 54, 54)  !important;
+  border-color: rgb(245, 43, 43)  !important;
 }
 /* Main Content Area */
 .app-main {
@@ -167,11 +168,12 @@ body {
   display: grid;
   grid-template-columns: 2fr 2fr 2fr;
   grid-template-rows: repeat(3, 1fr);
-  gap: 0.1vw;
-  border: 0.2vw solid #bdc3c7;
+  /* gap: 0.1vw; */
+  /* border: 0.2vw solid #bdc3c7; */
   flex-grow: 1;
   min-height: 0;
 }
+
 
 .grid-item {
   border: 0.1vw dashed #7f8c8d;
@@ -193,7 +195,7 @@ body {
 }
 
 .number-display {
-  font-size: 2.5vw;
+  font-size: 3vw;
   font-weight: bold;
   color: #ecf0f1;
 }
@@ -224,7 +226,6 @@ body {
   display: flex; /* Use flexbox to center the content blocks */
   justify-content: center;
   align-items: center;
-  border: 1px solid white;
   border-radius: 1rem;
 }
 /* Utility class to hide elements */
@@ -309,9 +310,9 @@ body {
   visibility: hidden;
 }
 .stepper-btn {
-  width: 2vw;
-  height: 2vw;
-  font-size: 2vw;
+  width: 3vw;
+  height: 3vw;
+  font-size: 3vw;
   font-weight: bold;
   border: 0.1vw solid #bdc3c7;
   color: #ecf0f1;
@@ -343,24 +344,32 @@ body {
   justify-items: center;
   display: none;
 }
+.row-3 {
+  border-top: 1px solid white;
 
+}
+.row-2 {
+  border-bottom: 1px solid white;
+}
 /* Footer */
 .app-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 1vw;
-  margin-top: 1rem;
 }
 .instruction-text {
-  padding: 0.5vw 1vw;
+  padding: 0.2vw 0.3vw;
   font-size: 2vw;
   color: #ecf0f1;
   flex: 1;
   border: 1px solid #7f8c8d;
   border-radius: 0.5vw;
   background-color: #34495e;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1vw;
 }
 .next-button {
   margin-left: 1rem;
