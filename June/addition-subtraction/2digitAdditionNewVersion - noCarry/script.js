@@ -21,37 +21,7 @@ const submitButton = document.querySelector("#fullscreenButton");
 submitButton.textContent = texts.buttons.submit;
 const problemStatement = document.querySelector(".problem-statement h1");
 const highlightBox = document.querySelector("#highlight-box");
-const questions = [
-  { num1: 15, num2: 12 },
-  { num1: 33, num2: 11 },
-  { num1: 12, num2: 3 },
-];
-const questionMcqOptions = [
-  {
-    correctAnswer: 7,
-    options: [6, 7, 8, 9],
-  },
-  {
-    correctAnswer: 2,
-    options: [2, 3, 4, 5],
-  },
-  {
-    correctAnswer: 4,
-    options: [2, 3, 4, 5],
-  },
-  {
-    correctAnswer: 4,
-    options: [6, 3, 4, 5],
-  },
-  {
-    correctAnswer: 5,
-    options: [5, 6, 3, 2],
-  },
-  {
-    correctAnswer: 1,
-    options: [1, 0, 2, 3],
-  },
-];
+
 let u1, u2, t1, t2, u3, t3, sum, overflowUnits, filledContext;
 //INITIALIZE VARIABLES
 let current_number = [
@@ -607,7 +577,7 @@ async function units1() {
   await wait(200);
   await unitsMiddleToBottom();
   await wait(200);
-  if(overflowUnits){
+  if (overflowUnits) {
     unitsClone = await cloneAndTranslateElement(
       document.querySelector(".row-3 .unit-block")
     );
@@ -617,8 +587,7 @@ async function units1() {
     nextButton.onclick = units2;
     setNextButtonText("carryOver_unit");
     nextButton.disabled = false;
-  }
-  else{
+  } else {
     popInNumber("unit", u3);
     highlightColumnBorder("ten-visual");
     textHighlightColumn(0);
@@ -627,8 +596,6 @@ async function units1() {
     loadContextMcq(1);
     setJaxpose("thinking");
   }
-  
-  
 }
 async function units2() {
   setJaxpose("normal");
@@ -654,6 +621,8 @@ async function tens1() {
   const finalTens = t1 + t2 + (overflowUnits ? 1 : 0);
   popInNumber("ten", finalTens);
   highlightRowBorder(`.row-3.ten-visual, .row-3.unit-visual`);
+  textHighlightColumn(-1);
+  setAnswer();
   nextButton.onclick = handleNext;
   if (questionIndex < questions.length - 1) {
     setNextButtonText("next");
@@ -812,15 +781,18 @@ function checkCellCorrect(row, col) {
   }
 }
 function setUpStep0() {
-  unhighlightColumn()
+  unhighlightColumn();
   problemStatement.innerHTML = "&nbsp;";
   updateSpeechBubble("lets_add");
   setNextButtonText("start");
   hideAllSteppers();
   nextButton.onclick = setupStep1;
 }
+function setAnswer() {
+  document.querySelector(".ans-span").textContent = sum;
+}
 function setupStep1() {
-  problemStatement.innerHTML = `<span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${t2}</span><span>${u2}</span>`;
+  problemStatement.innerHTML = `<span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${t2}</span><span>${u2}</span><span>&nbsp;=&nbsp;</span><span class="ans-span">&nbsp;</span>`;
   updateSpeechBubble("put_unit");
   setNextButtonText("submit");
   hideAllSteppers();

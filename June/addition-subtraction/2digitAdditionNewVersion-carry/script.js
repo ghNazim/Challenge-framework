@@ -21,37 +21,7 @@ const submitButton = document.querySelector("#fullscreenButton");
 submitButton.textContent = texts.buttons.submit;
 const problemStatement = document.querySelector(".problem-statement h1");
 const highlightBox = document.querySelector("#highlight-box");
-const questions = [
-  { num1: 16, num2: 18 },
-  { num1: 23, num2: 17 },
-  { num1: 15, num2: 7 },
-];
-const questionMcqOptions = [
-  {
-    correctAnswer: 14,
-    options: [15, 12, 14, 17],
-  },
-  {
-    correctAnswer: 3,
-    options: [2, 3, 4, 5],
-  },
-  {
-    correctAnswer: 10,
-    options: [15, 10, 11, 7],
-  },
-  {
-    correctAnswer: 4,
-    options: [2, 3, 4, 5],
-  },
-  {
-    correctAnswer: 12,
-    options: [12, 15, 14, 11],
-  },
-  {
-    correctAnswer: 2,
-    options: [2, 3, 4, 5],
-  },
-];
+
 let u1, u2, t1, t2, u3, t3, sum, overflowUnits, filledContext;
 //INITIALIZE VARIABLES
 let current_number = [
@@ -651,6 +621,8 @@ async function tens1() {
   const finalTens = t1 + t2 + (overflowUnits ? 1 : 0);
   popInNumber("ten", finalTens);
   highlightRowBorder(`.row-3.ten-visual, .row-3.unit-visual`);
+  textHighlightColumn(-1);
+  setAnswer();
   nextButton.onclick = handleNext;
   if (questionIndex < questions.length - 1) {
     setNextButtonText("next");
@@ -816,8 +788,11 @@ function setUpStep0() {
   hideAllSteppers();
   nextButton.onclick = setupStep1;
 }
+function setAnswer(){
+  document.querySelector(".ans-span").textContent = sum;
+}
 function setupStep1() {
-  problemStatement.innerHTML = `<span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${t2}</span><span>${u2}</span>`;
+  problemStatement.innerHTML = `<span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${t2}</span><span>${u2}</span><span>&nbsp;=&nbsp;</span><span class="ans-span">&nbsp;</span>`;
   updateSpeechBubble("put_unit");
   setNextButtonText("submit");
   hideAllSteppers();

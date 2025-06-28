@@ -131,3 +131,36 @@ const textsIndonesian = {
 };
 
 const texts = flag === "INDONESIAN" ? textsIndonesian : textsEnglish;
+
+
+const questions = [
+  { num1: 15, num2: 12 },
+  { num1: 33, num2: 11 },
+  { num1: 12, num2: 3 },
+];
+const questionMcqOptions = [
+  {
+    correctAnswer: 7,
+    options: [6, 7, 8, 9],
+  },
+  {
+    correctAnswer: 2,
+    options: [2, 3, 4, 5],
+  },
+  {
+    correctAnswer: 4,
+    options: [2, 3, 4, 5],
+  },
+  {
+    correctAnswer: 4,
+    options: [6, 3, 4, 5],
+  },
+  {
+    correctAnswer: 5,
+    options: [5, 6, 3, 2],
+  },
+  {
+    correctAnswer: 1,
+    options: [1, 0, 2, 3],
+  },
+];

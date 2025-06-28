@@ -149,6 +149,13 @@ body {
   margin: 0;
   color: #e79003;
   display: inline-block;
+  margin-top: .5rem;
+}
+.ans-span{
+  display: inline-block;
+  width: 6vw;
+  border: 1px solid #e79003;
+  border-radius: .3rem;
 }
 
 /* Main Content Area */
