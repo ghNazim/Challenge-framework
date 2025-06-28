@@ -363,13 +363,15 @@ body {
   font-size: 2vw;
   color: #ecf0f1;
   flex: 1;
-  border: 1px solid #7f8c8d;
+  border: .25rem solid #7f8c8d;
   border-radius: 0.5vw;
-  background-color: #34495e;
+  background-color: rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1vw;
+  box-sizing: border-box;
+  box-shadow: inset .1rem .1rem 5px rgba(0, 0, 0, 0.5);
 }
 .next-button {
   margin-left: 1rem;
