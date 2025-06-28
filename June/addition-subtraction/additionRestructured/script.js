@@ -37,7 +37,18 @@ const questions = [
     num2: 299,
   },
 ];
-let u1, u2, t1, t2, h1, h2, u3, t3, h3, overflowUnits, overflowTens;
+let u1,
+  u2,
+  t1,
+  t2,
+  h1,
+  h2,
+  u3,
+  t3,
+  h3,
+  overflowUnits,
+  overflowTens,
+  callbackAfterMcq = null;
 //INITIALIZE VARIABLES
 let current_number = [
     [0, 0, 0], // Row 1: [hundreds, tens, ones]
@@ -760,7 +771,12 @@ async function translateNumberOverflow(tag = "unit") {
   });
 }
 // ANIMATION END --------------------------------------------------
-
+async function loadMcqIn(mcqNo, callback) {
+  await wait(200);
+  toggleFullScreenOverlay(true);
+  loadMcq(mcqNo);
+  callbackAfterMcq = callback;
+}
 async function units1() {
   nextButton.disabled = true;
   await unitsTopToBottom();
@@ -773,8 +789,11 @@ async function units1() {
   await wait(200);
   await unitsMiddleToBottomAgain();
   popInNumber("unit", u1 + u2);
-  updateInstructionText("unitsCarry");
+  loadMcqIn(1, afterUnits1Mcq);
+}
+function afterUnits1Mcq() {
   nextButton.onclick = units2;
+  updateInstructionText("unitsCarry");
   setNextButtonText("carryOver_unit");
   nextButton.disabled = false;
 }
@@ -786,7 +805,9 @@ async function units2() {
   ]);
   updateDigitLabel("unit");
   updateDigitLabel("ten");
-  await wait(200);
+  loadMcqIn(2, afterUnits2Mcq);
+}
+function afterUnits2Mcq() {
   highlightColumnBorder("ten-visual");
   textHighlightColumn(1);
   updateInstructionText("tens1");
@@ -808,8 +829,11 @@ async function tens1() {
   await wait(200);
 
   await tensMiddleToBottomAgain();
-  updateInstructionText("tensCarry");
   popInNumber("ten", t1 + t2 + overflowUnits);
+  loadMcqIn(3, afterTens1Mcq);
+}
+function afterTens1Mcq() {
+  updateInstructionText("tensCarry");
   nextButton.onclick = tens2;
   setNextButtonText("carryOver_ten");
   nextButton.disabled = false;
@@ -854,6 +878,8 @@ function next() {
   updateInstructionText("units1");
   highlightColumnBorder("unit-visual");
   textHighlightColumn(2);
+  nextButton.onclick = units1;
+  setNextButtonText("add_unit");
 }
 
 function hideAllSteppers() {
@@ -1019,11 +1045,8 @@ function set1() {
 
 function set2() {
   if (checkRow(2)) {
-    // If correct, hide all setup elements and proceed.
-    hideAllSteppers(); // Removes highlight from all rows
-    next(); // Call the next function to start the main logic
-    nextButton.onclick = units1;
-    setNextButtonText("add_unit");
+    hideAllSteppers();
+    loadMcqIn(0, next);
   }
 }
 
@@ -1034,6 +1057,7 @@ function setupForRow1() {
   hideAllSteppers();
   setSteppersVisibility(1, "-visual");
   setNextButtonText("set1");
+  nextButton.onclick = set1;
 }
 function setupForRow2() {
   updateInstructionText("set2");
@@ -1043,7 +1067,6 @@ function setupForRow2() {
   setSteppersVisibility(2, "-visual");
   setNextButtonText("set2");
 }
-nextButton.onclick = set1;
 
 function setNextButtonText(tag) {
   nextButton.textContent = texts.buttons[tag];
@@ -1067,7 +1090,7 @@ function highlightClassOpaque(className) {
 }
 
 function showResult() {
-  const sumText = ` ${h3 * 100}+${t3 * 10}+${u3}=${h3 * 100 + t3 * 10 + u3}`;
+  const sumText = ` ${h3 * 100} + ${t3 * 10} + ${u3} = ${h3 * 100 + t3 * 10 + u3}`;
   document.querySelector(".instruction-text").textContent =
     texts.instructions.result + sumText;
 }
@@ -1152,6 +1175,7 @@ function handleOptionClick(event) {
     mcqOptionsEl.classList.add("answered");
     setTimeout(() => {
       toggleFullScreenOverlay(false);
+      callbackAfterMcq();
     }, 200);
   } else {
     // WRONG ANSWER

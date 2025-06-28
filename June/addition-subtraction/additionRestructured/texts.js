@@ -36,35 +36,34 @@ const texts = {
 const mcqObject = {
   questions: [
     {
-      question:
-        "Which of these describes the first step in adding the units column?",
-      options: [
-        "Combine the blocks from the top and middle rows into the bottom row.",
-        "Carry over ten units to the tens column.",
-        "Set the number for the second row.",
-        "Add the hundreds column first.",
-      ],
+      question: "Which place do we add first?",
+      options: ["Units", "Tens", "Hundreds"],
       correctAnswer: 0,
     },
     {
-      question: "What happens when the sum of the units is 10 or more?",
+      question:
+        "Units place can not hold more than 9 cubes. What should we do next?",
       options: [
-        "Nothing, you just write the number down.",
-        "You lose the extra blocks.",
-        "You group ten units together and carry them over as one ten.",
-        "You start the problem over.",
+        "Ignore the extra cubes",
+        "Break them into smaller cubes",
+        "Carry 10 cubes over to the tens place.",
       ],
       correctAnswer: 2,
     },
     {
-      question: "After adding the units, which column should you add next?",
+      question: "What place should we add next?",
+      options: ["Units", "Tens", "Hundreds"],
+      correctAnswer: 1,
+    },
+    {
+      question:
+        "Tens place can not hold more than 9 rods. What should we do next?",
       options: [
-        "The hundreds column.",
-        "The units column again.",
-        "The problem is finished.",
-        "The tens column.",
+        "Put extra rods in the units place.",
+        "Carry 10 rods over to the hundreds place.",
+        "Throw away the extra rods.",
       ],
-      correctAnswer: 3,
+      correctAnswer: 1,
     },
   ],
   currentQuestionIndex: 0,
