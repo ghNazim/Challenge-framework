@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title id="html_title">To 197</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/applet.css" />
+    <script src="js/confetti.min.js"></script>
+  </head>
+  <body>
+    <div id="fullscreenOverlay">
+      <div class="rightArrowBubble" id="leftBubble">
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab repellat
+          amet eos id deserunt expedita doloribus nobis
+        </p>
+      </div>
+      <!-- <div class="rightArrowBubble" id="rightBubble">
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab repellat
+        </p>
+      </div> -->
+
+      <button class="btn btn-primary" id="startButton">Next</button>
+    </div>
+    <div class="applet-container">
+      <div class="main-layout">
+        <div class="left-panel-anchor">
+          <div class="speech-bubble-container">
+            <div class="contextBox" id="contextBox">
+              <div class="context-section"></div>
+            </div>
+          </div>
+          <div class="character-display">
+            <img
+              src="assets/caveNormal.png"
+              alt="Character"
+              id="characterImageElement"
+            />
+          </div>
+        </div>
+
+        <div class="right-panel-content">
+          <div></div>
+          <div class="workingArea-container">
+            <div class="upperControls">
+              <img src="assets/faceChar.png" alt="">
+              <p></p>
+            </div>
+            <div class="workingArea">
+              <div id="applet">
+                <div id="box-container">
+                  <div class="widget-container" id="tenThousand-widget">
+                    <div class="main-card">
+                      <div class="number-tab">0</div>
+                      <div class="inner-card">
+                        <div class="pill-badge">Ten Thousands</div>
+                        <div class="squares-container"></div>
+                        <div class="controls">
+                          <button
+                            class="control-btn btn-press"
+                            id="ten-thousands-minus"
+                          >
+                            -
+                          </button>
+                          <button
+                            class="control-btn btn-press"
+                            id="ten-thousands-plus"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div class="flex items-center justify-center w-full">
+                        <p class="text-display">Ten Thousands</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="widget-container" id="thousand-widget">
+                    <div class="arrowContainer ac1">
+                      <div class="arrow-indicator-container left-dir">
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                      </div>
+                    </div>
+                    <div class="main-card">
+                      <div class="number-tab">0</div>
+                      <div class="inner-card">
+                        <div class="pill-badge">Thousands</div>
+                        <div class="squares-container"></div>
+                        <div class="controls">
+                          <button
+                            class="control-btn btn-press"
+                            id="thousands-minus"
+                          >
+                            -
+                          </button>
+                          <button
+                            class="control-btn btn-press"
+                            id="thousands-plus"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div class="flex items-center justify-center w-full">
+                        <p class="text-display">Thousands</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="widget-container" id="hundred-widget">
+                    <div class="arrowContainer ac1">
+                      <div class="arrow-indicator-container left-dir">
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                      </div>
+                    </div>
+                    <div class="main-card">
+                      <div class="number-tab">0</div>
+                      <div class="inner-card">
+                        <div class="pill-badge">Hundreds</div>
+                        <div class="squares-container"></div>
+                        <div class="controls">
+                          <button
+                            class="control-btn btn-press"
+                            id="hundreds-minus"
+                          >
+                            -
+                          </button>
+                          <button
+                            class="control-btn btn-press"
+                            id="hundreds-plus"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div class="flex items-center justify-center w-full">
+                        <p class="text-display">Hundreds</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="widget-container" id="ten-widget">
+                    <div class="arrowContainer ac1">
+                      <div class="arrow-indicator-container left-dir">
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                      </div>
+                    </div>
+
+                    <!-- Main Card Content -->
+                    <div class="main-card">
+                      <!-- Top Number Tab -->
+                      <div class="number-tab">0</div>
+
+                      <!-- Pink Inner Card -->
+                      <div class="inner-card">
+                        <div class="pill-badge">Tens</div>
+                        <!-- Grid of squares -->
+                        <div class="squares-container"></div>
+                        <!-- Control Buttons -->
+                        <div class="controls">
+                          <button class="control-btn btn-press" id="tens-minus">
+                            -
+                          </button>
+                          <button class="control-btn btn-press" id="tens-plus">
+                            +
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Text Representation of the Number -->
+                      <div>
+                        <p class="text-display">Tens</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="widget-container" id="unit-widget">
+                    <div class="arrowContainer ac1">
+                      <div class="arrow-indicator-container left-dir">
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                        <div class="arrow-head"></div>
+                      </div>
+                    </div>
+
+                    <!-- Main Card Content -->
+                    <div class="main-card">
+                      <!-- Top Number Tab -->
+                      <div class="number-tab">0</div>
+
+                      <!-- Pink Inner Card -->
+                      <div class="inner-card">
+                        <div class="pill-badge">Ones</div>
+                        <!-- Grid of squares -->
+                        <div class="squares-container">
+                          <!-- Squares will be generated by JavaScript -->
+                        </div>
+                        <!-- Control Buttons -->
+                        <div class="controls">
+                          <button
+                            id="units-minus"
+                            class="control-btn btn-press"
+                          >
+                            -
+                          </button>
+                          <button id="units-plus" class="control-btn btn-press">
+                            +
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Text Representation of the Number -->
+                      <div>
+                        <p class="text-display">Ones</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="submitContainer">
+                  <button class="btn btn-primary" id="submitButton">Submit</button>
+                </div>
+                <div id="statements">
+                  <div class="comment"></div>
+                </div>
+              </div>
+            </div>
+            <div class="lowerControls">
+              <button
+                class="btn btn-secondary"
+                id="prevButton"
+                disabled
+              ></button>
+              <div class="step-counter" id="stepCounter"></div>
+              <button class="btn btn-primary" id="nextButton"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/rootText.js"></script>
+    <script src="js/texts.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/widget.js"></script>
+    <script src="js/applet.js"></script>
+  </body>
+</html>
