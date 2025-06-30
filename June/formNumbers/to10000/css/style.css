@@ -340,7 +340,7 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4); /* Optional fallback */
-  background-image: url("../assets/charInBG.png");
+  background-image: url("../assets/BG.jpg");
   display: none; /* Initially hidden */
   opacity: 0;
   z-index: 30;
@@ -349,6 +349,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
+#fullscreenOverlay img {
+  position: absolute;
+  height: 80%;
+  left: 20%;
+  top:22%;
+}
 
 
 /* Bubble to the left of the image */
@@ -356,7 +362,7 @@ body {
   margin: 1rem;
   font-size: 2vw;
   position: absolute;
-  left: 4%;
+  right: 20%;
   top: 20%;
   transform: translateY(-50%);
   width: 30%;
@@ -365,18 +371,7 @@ body {
   padding: 2rem;
   border-radius: 2rem;
 }
-#leftBubble::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 15px solid white; /* matches bubble background */
-}
+
 
 #rightBubble {
   margin: 1rem;

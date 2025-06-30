@@ -8,7 +8,7 @@ const texts = {
     set1: "Set First Number",
     set2: "Set Second Number",
     next: "Next Question",
-    add_unit: "Add Units Place",
+    add_unit: "Add Ones Place",
     add_ten: "Add Tens Place",
     add_hundred: "Add Hundreds Place",
     carryOver_unit: "Carry Over to Tens",
@@ -20,7 +20,7 @@ const texts = {
     start: "Click on the button at the bottom of your screen to proceed.",
     set1: "Use the '+' and '-' buttons to set the first number.",
     set2: "Use the '+' and '-' buttons to set the second number.",
-    units1: "Bring the cubes at units place together to sum them up.",
+    units1: "Bring the cubes at ones place together to sum them up.",
     unitsCarry:
       "Ten ones equal one ten. So lets carry them over to the tens place.",
     tens1: "Bring the rods at tens place together to sum them up.",
@@ -37,12 +37,12 @@ const mcqObject = {
   questions: [
     {
       question: "Which place do we add first?",
-      options: ["Units", "Tens", "Hundreds"],
+      options: ["Ones", "Tens", "Hundreds"],
       correctAnswer: 0,
     },
     {
       question:
-        "Units place can not hold more than 9 cubes. What should we do next?",
+        "Ones place can not hold more than 9 cubes. What should we do next?",
       options: [
         "Ignore the extra cubes",
         "Break them into smaller cubes",
@@ -52,14 +52,14 @@ const mcqObject = {
     },
     {
       question: "What place should we add next?",
-      options: ["Units", "Tens", "Hundreds"],
+      options: ["Ones", "Tens", "Hundreds"],
       correctAnswer: 1,
     },
     {
       question:
         "Tens place can not hold more than 9 rods. What should we do next?",
       options: [
-        "Put extra rods in the units place.",
+        "Put extra rods in the ones place.",
         "Carry 10 rods over to the hundreds place.",
         "Throw away the extra rods.",
       ],

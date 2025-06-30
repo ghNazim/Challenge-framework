@@ -8,7 +8,7 @@ const texts = {
     set: "Set",
     next: "Next",
     submit: "Submit",
-    add_unit: "Add Units Place",
+    add_unit: "Add Ones Place",
     add_tens: "Add Tens Place",
     add_hundreds: "Add Hundreds Place",
     carryOver_unit: "Carry Over",

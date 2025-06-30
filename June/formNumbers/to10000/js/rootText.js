@@ -22,7 +22,7 @@ const textsEnglish = {
     unit_general:
       "Click on the “+” and “-” buttons, to add squares to the ones jar. Let’s see how many we can fill up.",
     unit_overflow:
-      "Whoa! Did you see that? The number disappeared! The pink jar is wiggling, it can’t hold more than 9 squares!",
+      "Whoa! Did you see that? The number disappeared! The pink jar is wiggling, it can’t hold more than 9 cubes!",
     click_arrow: "Click on the arrow to see the magic happen!",
     ten_general:
       "10 Ones make 1 Ten! We’ll now add tens and see what happens when that jar fills up.",
