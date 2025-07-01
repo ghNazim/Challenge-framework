@@ -1,0 +1,4 @@
+css fix at bottom style.css
+change the numbers to 2 digit
+added pad in initialize board
+fixed setansdisplay to accomodate with 2 digit 

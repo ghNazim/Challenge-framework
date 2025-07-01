@@ -1,0 +1,9 @@
+Css fix at the bottom
+change problem
+fixed initialize text content - problemStatement
+fixed padstart at initboard
+in row border highlight - start from 1 cz 0 not visible 
+fix tens1
+created afterHundreds function
+fixed show result for no hundreds
+fixed replace mcq placeholder function + mcq object in both language
