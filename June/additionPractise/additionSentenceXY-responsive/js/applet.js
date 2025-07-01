@@ -6,7 +6,7 @@ hint1.textContent = texts.button_texts.hint;
 const hint2 = document.querySelector("#hintButton2");
 hint2.textContent = texts.button_texts.another_hint;
 
-let questionIndex = 0;
+let questionIndex = 5;
 let activeBox = null,
   hint1visible = false,
   hint2visible = false;
@@ -15,7 +15,7 @@ let correctAnswer = [0, 0, 0];
 function setHintSentence(id) {
   const src = document.querySelector("#originalSentence");
   const dest = document.querySelector(id);
-  const lejur = dest.innerHTML;
+  const lejur = `<div class="badge">${texts.lejur}:</div>`;
   dest.innerHTML = src.innerHTML+lejur;
   const originalSentenceSpans = document.querySelectorAll(
     "#originalSentence>span"

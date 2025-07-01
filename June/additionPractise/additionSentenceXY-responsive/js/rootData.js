@@ -10,6 +10,7 @@ const textsEnglish = {
     hint: "Reveal Hint",
     another_hint: "Reveal Another Hint",
   },
+  lejur:"Hint",
 
   instruction_general: {
     instruction_title: "Instruction",
@@ -92,6 +93,7 @@ const textsIndonesian = {
     hint: "Tampilkan Petunjuk",
     another_hint: "Tampilkan Petunjuk Lain",
   },
+  lejur:"Petunjuk",
 
   instruction_general: {
     instruction_title: "Instruksi",

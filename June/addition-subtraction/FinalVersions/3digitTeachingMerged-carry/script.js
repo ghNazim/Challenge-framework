@@ -16,6 +16,16 @@ const columnMap = {
   5: "ten-number",
   6: "unit-number",
 };
+const images = {
+  char_normal: "assets/JAX.png",
+  char_excited: "assets/JaxHappy.png",
+  char_thinking: "assets/JaxThinking.png",
+  set_num_1: "assets/set_num_1.png",
+  set_num_2: "assets/set_num_2.png",
+  set_num_1_phase2: "assets/set_num_1_phase2.png",
+  set_num_2_phase2: "assets/set_num_2_phase2.png",
+};
+
 //IMPORT ITEMS
 const steppers = document.querySelectorAll(".stepper");
 const nextButton = document.querySelector(".next-button");
@@ -139,6 +149,13 @@ function setCornerBadge(rowNum, tag, num) {
 function resetVisuals() {
   document
     .querySelectorAll(
+      ".row-1 .grid-item-content, .row-2 .grid-item-content, .row-1 .stepper, .row-2 .stepper"
+    )
+    .forEach((el) => {
+      el.classList.add("not-visible");
+    });
+  document
+    .querySelectorAll(
       ".row-1 .hundred-block, .row-1 .ten-block, .row-1 .unit-block, .row-2 .hundred-block, .row-2 .ten-block, .row-2 .unit-block"
     )
     .forEach((el) => (el.innerHTML = ""));
@@ -206,7 +223,7 @@ function handleStepperClick(event) {
   const colIndex = colData.index;
   const tag = colData.tag;
   let currentValue = current_number[rowIndex][colIndex];
-
+  removeGlowFromSteppers();
   // Update state and call user's functions to update the DOM
   if (button.classList.contains("plus") && currentValue < 9) {
     vibrateOff();
@@ -230,12 +247,15 @@ function initializeTextContents() {
   const headings = document.querySelectorAll(
     ".visual-container .grid-heading, .number-container .grid-heading"
   );
-  headings[0].textContent = headings[3].textContent = texts.headings.hundreds;
-  headings[1].textContent = headings[4].textContent = texts.headings.tens;
-  headings[2].textContent = headings[5].textContent = texts.headings.ones;
+  headings[0].textContent = texts.headings.hundreds;
+  headings[1].textContent = texts.headings.tens;
+  headings[2].textContent = texts.headings.ones;
+  headings[3].textContent = texts.headings.H;
+  headings[4].textContent = texts.headings.T;
+  headings[5].textContent = texts.headings.O;
 
   updateInstructionText("set1");
-  problemStatement.innerHTML = `<span>${h1}</span><span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${h2}</span><span>${t2}</span><span>${u2}</span><span class="hidden" id="answerInHeading">&nbsp;=&nbsp;${answer}</span>`;
+  problemStatement.innerHTML = `<span>${h1}</span><span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${h2}</span><span>${t2}</span><span>${u2}</span><span class="hidden" id="answerInHeading">&nbsp;=&nbsp;<span>${h3}</span><span>${t3}</span><span>${u3}</span></span>`;
 }
 function updateInstructionText(key) {
   const text = texts.instructions[key];
@@ -257,6 +277,7 @@ function animateCloneToTarget(
   onStart,
   onComplete
 ) {
+  playSound("swoosh");
   const targetRect = targetElement.getBoundingClientRect();
   const clone = createClone(sourceElement);
   onStart?.();
@@ -799,9 +820,16 @@ async function units1() {
   await wait(200);
   await unitsMiddleToBottomAgain();
   popInNumber("unit", u1 + u2);
+  borderGreen(true);
+  playSound("correct");
+  nextButton.onclick = toLoadMcqOnUnits1;
+  nextButton.disabled = false;
+  setNextButtonText("_next");
+  updateInstructionText("question");
+}
+function toLoadMcqOnUnits1() {
   loadMcqIn(1, afterUnits1Mcq);
 }
-
 function afterUnits1Mcq() {
   nextButton.onclick = units2;
   updateInstructionText("unitsCarry");
@@ -816,11 +844,22 @@ async function units2() {
   ]);
   updateDigitLabel("unit");
   updateDigitLabel("ten");
-  if (phase === 1) loadMcqIn(2, blankAfterUnits2);
-  else loadMcqIn(2, afterUnits2Mcq);
+  nextButton.onclick = toLoadMcqAfterUnits2;
+  nextButton.disabled = false;
+  setNextButtonText("_next");
+  updateInstructionText("question");
+}
+function toLoadMcqAfterUnits2() {
+  if (phase === 1) {
+    loadMcqIn(2, blankAfterUnits2);
+  } else loadMcqIn(2, afterUnits2Mcq);
 }
 function blankAfterUnits2() {
-  loadMcqIn(5, afterUnits2Mcq);
+  highlightColumnBorder("ten" + phaseTag);
+  textHighlightColumn(1);
+  nextButton.onclick = () => {
+    loadMcqIn(5, afterUnits2Mcq);
+  };
 }
 function afterUnits2Mcq() {
   highlightColumnBorder("ten" + phaseTag);
@@ -845,6 +884,14 @@ async function tens1() {
 
   await tensMiddleToBottomAgain();
   popInNumber("ten", t1 + t2 + overflowUnits);
+  borderGreen(true);
+  playSound("correct");
+  nextButton.onclick = toLoadMcqAfterTens1;
+  nextButton.disabled = false;
+  setNextButtonText("_next");
+  updateInstructionText("question");
+}
+function toLoadMcqAfterTens1() {
   loadMcqIn(3, afterTens1Mcq);
 }
 function afterTens1Mcq() {
@@ -861,10 +908,20 @@ async function tens2() {
   ]);
   updateDigitLabel("ten");
   updateDigitLabel("hundred");
-  if (phase === 1) loadMcqIn(6, afterTens2Mcq);
-  else afterTens2Mcq();
+  highlightColumnBorder("hundred" + phaseTag);
+  textHighlightColumn(0);
+  if (phase === 1) {
+    nextButton.onclick = toLoadMcqAfterTens2;
+    nextButton.disabled = false;
+    setNextButtonText("_next");
+    updateInstructionText("question");
+  } else {
+    afterTens2Mcq();
+  }
 }
-
+function toLoadMcqAfterTens2() {
+  loadMcqIn(6, afterTens2Mcq);
+}
 function afterTens2Mcq() {
   highlightColumnBorder("hundred" + phaseTag);
   textHighlightColumn(0);
@@ -878,13 +935,19 @@ async function hundreds1() {
   await hundredsTopToBottom();
   await hundredsMiddleToBottom();
   popInNumber("hundred", h3);
-  unhighlightColumn();
+  borderGreen(true);
+  playSound("correct");
+  highlightRowBorder(3);
+  borderGreen(true);
   showResult();
   nextButton.onclick = handleNext;
   setNextButtonText("next");
   nextButton.disabled = false;
   document.getElementById("answerInHeading").classList.remove("hidden");
+  textHighlightColumn(-1)
+  highlightFullHeader();
   confettiBurst();
+  playSound("congrats");
 }
 
 function vibrateElement(element) {
@@ -896,7 +959,11 @@ function vibrateOff() {
   });
 }
 function beforeNext() {
-  loadMcqIn(4, next);
+  highlightColumnBorder("unit" + phaseTag);
+  textHighlightColumn(2);
+  nextButton.onclick = () => {
+    loadMcqIn(4, next);
+  };
 }
 function next() {
   updateInstructionText("units1");
@@ -943,6 +1010,7 @@ function checkRow(rowNum) {
 }
 
 function highlightColumnBorder(className) {
+  borderGreen(false);
   const elements = document.querySelectorAll(`.${className}`);
   const box = document.getElementById("highlight-box");
   box.style.display = "block"; // show box
@@ -967,6 +1035,7 @@ function unhighlightColumn() {
 }
 
 function highlightRowBorder(rowNum) {
+  borderGreen(false);
   const elements = document.querySelectorAll(
     `.row-${rowNum}[class*="${phaseTag}"]`
   );
@@ -998,10 +1067,13 @@ function textHighlightColumn(columnNo) {
   spans.forEach((span) => {
     span.classList.add("text-transparent");
   });
+  const columntoColor = ["orange", "blue", "pink"];
   if (columnNo >= 0 && columnNo < 3) {
     spans[columnNo].classList.remove("text-transparent");
+    spans[columnNo].classList.add(columntoColor[columnNo]);
     spans[3].classList.remove("text-transparent");
     spans[4 + columnNo].classList.remove("text-transparent");
+    spans[4 + columnNo].classList.add(columntoColor[columnNo]);
   }
 }
 function textHighlightRow(rowNo) {
@@ -1033,10 +1105,26 @@ function textHighlightRow(rowNo) {
     spans[6].classList.add("pink");
   }
 }
+function highlightFullHeader() {
+  const spans = document.querySelectorAll(".problem-statement h1>span");
+  spans[0].classList.add("orange");
+  spans[1].classList.add("blue");
+  spans[2].classList.add("pink");
+  spans[4].classList.add("orange");
+  spans[5].classList.add("blue");
+  spans[6].classList.add("pink");
+  const internals = spans[7].querySelectorAll("span");
+  internals[0].classList.add("orange");
+  internals[1].classList.add("blue");
+  internals[2].classList.add("pink");
+  console.log(spans);
+  console.log(internals);
+}
+
 function removeColorsFromHeader() {
-  const spans = problemStatement.querySelectorAll("span");
+  const spans = document.querySelectorAll(".problem-statement h1>span");
   spans.forEach((span) => {
-    span.classList.remove("pink", "blue", "orange");
+    span?.classList?.remove("pink", "blue", "orange");
   });
 }
 function initializeBoard() {
@@ -1051,6 +1139,7 @@ function initializeBoard() {
   overflowTens = t1 + t2 + overflowUnits > 9 ? 1 : 0;
   // Set the problem statement in the header
   initializeTextContents();
+
   current_number = [
     [0, 0, 0],
     [0, 0, 0],
@@ -1075,8 +1164,10 @@ function initializeBoard() {
 
   resetVisuals();
   resetNumbers();
-
-  setupForRow1();
+  unhighlightColumn();
+  setTimeout(() => {
+    promptForFirstNumber();
+  }, 400);
 }
 
 // --- START THE APP ---
@@ -1098,16 +1189,17 @@ function handleNext() {
 
 function set1() {
   if (checkRow(1)) {
-    setupForRow2();
-    nextButton.onclick = set2;
+    hideAllSteppers();
+    beforeSettingSecondNumber();
   }
 }
 
 function set2() {
   if (checkRow(2)) {
     hideAllSteppers();
-    if (phase === 1) loadMcqIn(0, beforeNext);
-    else loadMcqIn(0, next);
+    beforeAnimation();
+    // if (phase === 1) loadMcqIn(0, beforeNext);
+    // else loadMcqIn(0, next);
   }
 }
 
@@ -1119,26 +1211,64 @@ function setupForRow1() {
   setSteppersVisibility(1, phaseTag);
   setNextButtonText("set1");
   nextButton.onclick = set1;
-  setTimeout(() => {
-    showOverlayStatement("set1");
-    setTimeout(() => {
-      showOverlayStatement(null);
-    }, 2000);
-  }, 400);
+  document
+    .querySelectorAll(".row-1 .grid-item-content,.row-1 .stepper")
+    .forEach((el) => {
+      el.classList.remove("not-visible");
+    });
+  document.querySelectorAll(".row-1 .stepper-btn").forEach((el) => {
+    el.classList.add("glowing-stepper");
+  });
 }
+function borderGreen(bool) {
+  if (bool) {
+    document.querySelector("#highlight-box").classList.add("green-box");
+  } else {
+    document.querySelector("#highlight-box").classList.remove("green-box");
+  }
+}
+function removeGlowFromSteppers() {
+  document.querySelectorAll(".stepper-btn ").forEach((el) => {
+    el.classList.remove("glowing-stepper");
+  });
+}
+function beforeSettingSecondNumber() {
+  updateInstructionText("set1_success");
+  borderGreen(true);
+  setNextButtonText("_next");
+  nextButton.onclick = promptForSecondNumber;
+}
+
 function setupForRow2() {
+  nextButton.onclick = set2;
   updateInstructionText("set2");
   highlightRowBorder(2);
   textHighlightRow(1);
   hideAllSteppers();
   setSteppersVisibility(2, phaseTag);
   setNextButtonText("set2");
-  setTimeout(() => {
-    showOverlayStatement("set2");
-    setTimeout(() => {
-      showOverlayStatement(null);
-    }, 2000);
-  }, 500);
+  document
+    .querySelectorAll(".row-2 .grid-item-content,.row-2 .stepper")
+    .forEach((el) => {
+      el.classList.remove("not-visible");
+    });
+  document.querySelectorAll(".row-2 .stepper-btn").forEach((el) => {
+    el.classList.add("glowing-stepper");
+  });
+}
+function beforeAnimation() {
+  updateInstructionText("set2_success");
+  borderGreen(true);
+  setNextButtonText("_next");
+  nextButton.onclick = loadQuestionUnits1;
+}
+function loadQuestionUnits1() {
+  const overlayStatement = document.querySelector("#overlayStatement");
+  const mcq = document.querySelector("#mcq");
+  overlayStatement.style.display = "none";
+  mcq.style.display = "block";
+  if (phase === 1) loadMcqIn(0, beforeNext);
+  else loadMcqIn(0, next);
 }
 
 function setNextButtonText(tag) {
@@ -1163,11 +1293,13 @@ function highlightClassOpaque(className) {
 }
 
 function showResult() {
-  const sumText = ` ${h3 * 100} + ${t3 * 10} + ${u3} = ${
-    h3 * 100 + t3 * 10 + u3
-  }`;
-  document.querySelector(".instruction-text").textContent =
-    texts.instructions.result + sumText;
+  const _text = texts.instructions.result;
+  const text = fillPlaceholders(_text, {
+    num1: questions[questionIndex].num1,
+    num2: questions[questionIndex].num2,
+    sum: questions[questionIndex].num1 + questions[questionIndex].num2,
+  });
+  document.querySelector(".instruction-text").textContent = text;
 }
 
 // --------------------------------------------
@@ -1264,19 +1396,48 @@ function handleOptionClick(event) {
 // 3. Attach event listener to the options container
 mcqOptionsEl.addEventListener("click", handleOptionClick);
 
-function showOverlayStatement(name) {
-  const overlayStatement = document.querySelector("#overlayStatement");
-  const mcq = document.querySelector("#mcq");
-  if (name) {
-    overlayStatement.style.display = "flex";
-    mcq.style.display = "none";
-    overlayStatement.textContent = texts.instructions[name];
-    toggleFullScreenOverlay(true);
+// function showOverlayStatement(name) {
+//   const overlayStatement = document.querySelector("#overlayStatement");
+//   const mcq = document.querySelector("#mcq");
+//   if (name) {
+//     overlayStatement.style.display = "flex";
+//     mcq.style.display = "none";
+//     overlayStatement.textContent = texts.instructions[name];
+//     toggleFullScreenOverlay(true);
+//   } else {
+//     overlayStatement.style.display = "none";
+//     mcq.style.display = "block";
+//     toggleFullScreenOverlay(false);
+//   }
+// }
+function showOverlayStatement(text, charSrc, instructionImgSrc, callback) {
+  const overlay = document.getElementById("fullscreenOverlay");
+  const statementDiv = document.getElementById("overlayStatement");
+  const mcq = document.getElementById("mcq");
+  const charImg = document.getElementById("overlayCharacter");
+  const textP = document.getElementById("overlayText");
+  const instructionImg = document.getElementById("overlayInstructionImage");
+  const okayBtn = document.getElementById("overlayOkayBtn");
+
+  textP.textContent = text;
+  charImg.src = charSrc || images.char_normal;
+  if (instructionImgSrc) {
+    instructionImg.src = instructionImgSrc;
+    instructionImg.style.display = "block";
   } else {
-    overlayStatement.style.display = "none";
-    mcq.style.display = "block";
-    toggleFullScreenOverlay(false);
+    instructionImg.style.display = "none";
   }
+  mcq.style.display = "none";
+  statementDiv.style.display = "flex";
+  overlay.classList.add("show");
+  const closeHandler = async () => {
+    playSound("click");
+    toggleFullScreenOverlay(false);
+    await wait(400);
+    if (callback) callback();
+    okayBtn.removeEventListener("click", closeHandler);
+  };
+  okayBtn.addEventListener("click", closeHandler);
 }
 
 function confettiBurst() {
@@ -1309,6 +1470,12 @@ function replaceMcqPlaceholders(mcqObject, values) {
     "{{hSum}}": values.hSum,
     "{{overflowUnits}}": values.overflowUnits,
     "{{overflowTens}}": values.overflowTens,
+    "{{uSumMinus}}": values.uSum - 1,
+    "{{tSumMinus}}": values.tSum - 1,
+    "{{hSumMinus}}": values.hSum - 1,
+    "{{uSumPlus}}": values.uSum + 1,
+    "{{tSumPlus}}": values.tSum + 1,
+    "{{hSumPlus}}": values.hSum + 1,
   };
 
   const replaceInText = (text) => {
@@ -1329,4 +1496,30 @@ function replaceMcqPlaceholders(mcqObject, values) {
     ...mcqObject,
     questions: updatedQuestions,
   };
+}
+
+function promptForSecondNumber() {
+  const instructionImgSrc =
+    phase === 0 ? images.set_num_2 : images.set_num_2_phase2;
+  showOverlayStatement(
+    texts.instructions.set1_correct,
+    images.char_excited,
+    instructionImgSrc,
+    setupForRow2
+  );
+}
+function promptForFirstNumber() {
+  const instructionImgSrc =
+    phase === 0 ? images.set_num_1 : images.set_num_1_phase2;
+  showOverlayStatement(
+    texts.instructions.set1,
+    images.char_normal,
+    instructionImgSrc,
+    setupForRow1
+  );
+}
+function fillPlaceholders(template, values) {
+  return template.replace(/{{(\w+)}}/g, (match, key) => {
+    return key in values ? values[key] : match; // Leave placeholder if key not found
+  });
 }
