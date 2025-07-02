@@ -6,16 +6,17 @@ hint1.textContent = texts.button_texts.hint;
 const hint2 = document.querySelector("#hintButton2");
 hint2.textContent = texts.button_texts.another_hint;
 
-let questionIndex = 5;
+let questionIndex = 0;
 let activeBox = null,
   hint1visible = false,
   hint2visible = false;
 let currentAnswer = [0, 0, 0];
 let correctAnswer = [0, 0, 0];
 function setHintSentence(id) {
+  const lejurtag = id === "#pictoralSentence"?1:2;
   const src = document.querySelector("#originalSentence");
   const dest = document.querySelector(id);
-  const lejur = `<div class="badge">${texts.lejur}:</div>`;
+  const lejur = `<div class="badge">${texts.lejur+" "+lejurtag}:</div>`;
   dest.innerHTML = src.innerHTML+lejur;
   const originalSentenceSpans = document.querySelectorAll(
     "#originalSentence>span"

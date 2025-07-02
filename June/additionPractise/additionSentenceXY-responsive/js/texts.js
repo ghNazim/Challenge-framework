@@ -1,7 +1,7 @@
 // texts.js
 //LANGUAGE CHANGE FLAG
 
-const flag = "INDONESIAN"; //<--- change this to change language it can be "ENGLISH" or "INDONESIAN"
+const flag = "ENGLISH"; //<--- change this to change language it can be "ENGLISH" or "INDONESIAN"
 
 // const flag = "ENGLISH";
 // const flag = "INDONESIAN";

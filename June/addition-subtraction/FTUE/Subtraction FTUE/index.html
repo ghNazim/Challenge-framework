@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subtraction Applet FTUE</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="aspect-ratio-container">
+      <!-- Left panel with character and speech bubble -->
+      <div class="left-panel">
+        <div id="context">
+          <p>
+            Let's learn subtraction by 'taking away'. Follow the instructions to
+            get started!
+          </p>
+        </div>
+        <div class="character-container">
+          <img
+            src="assets/JAXnormal.png"
+            id="character"
+            alt="Jax the character"
+            onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/000000?text=Jax';"
+          />
+        </div>
+      </div>
+
+      <!-- App container for the subtraction tool -->
+      <div class="app-container">
+        <header class="app-header">
+          <div class="problem-statement">
+            <h1> </h1>
+          </div>
+        </header>
+
+        <main class="app-main">
+          <div id="subtraction-workspace">
+            <div id="blocks-column">
+              <!-- Block sections will be added here -->
+            </div>
+            <div id="separator-line"></div>
+            <div id="numbers-column">
+              <!-- Number sections will be added here -->
+            </div>
+          </div>
+          <div id="hand-ftue">
+            <img src="" alt="tapping hand" />
+          </div>
+        </main>
+
+        <footer class="app-footer">
+          <button class="next-button btn btn-primary"></button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Template for the block section (left column) -->
+    <template id="block-section-template">
+      <div class="block-section">
+        <div class="grid-item-content">
+          <div class="block-placeholder">
+            <div class="unit-block"></div>
+          </div>
+        </div>
+        <div class="stepper">
+          <button class="stepper-btn plus">+</button
+          ><button class="stepper-btn minus">-</button>
+        </div>
+        <div class="corner-badge">0</div>
+      </div>
+    </template>
+
+    <!-- Template for the number section (right column) -->
+    <template id="number-section-template">
+      <div class="number-section">
+        <span class="number-display">0</span>
+      </div>
+    </template>
+
+    <script src="js/texts.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
