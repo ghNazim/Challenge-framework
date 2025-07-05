@@ -40,7 +40,7 @@ function wait(ms) {
 // --- FTUE FUNCTIONS ---
 function showFtue(element, showHand = true) {
   if (!element) return;
-  hideFtue();
+  // hideFtue();
 
   element.classList.add("ftue-highlight");
 
@@ -52,7 +52,7 @@ function showFtue(element, showHand = true) {
     handFtue.classList.add("hand-animating");
   }
 
-  ftueTimeout = setTimeout(hideFtue, 3000);
+  // ftueTimeout = setTimeout(hideFtue, 3000);
 }
 
 function hideFtue() {
@@ -61,6 +61,34 @@ function hideFtue() {
   document
     .querySelectorAll(".ftue-highlight")
     .forEach((el) => el.classList.remove("ftue-highlight"));
+}
+
+const overlay = document.getElementById("activity-complete-overlay");
+const startOverBtn = document.getElementById("start-over-btn");
+const overlayTitle = document.getElementById("overlay-title");
+const overlayMessage = document.getElementById("overlay-message");
+const leftPanel = document.querySelector(".left-panel");
+
+function showOverlay(titleTag, messageTag, buttonTag, cb) {
+  leftPanel.style.visibility = "hidden";
+  nextButton.style.visibility = "hidden";
+  overlayTitle.innerHTML = texts.context_data[titleTag];
+  overlayMessage.innerHTML = texts.context_data[messageTag];
+  overlay.style.display = "flex";
+  startOverBtn.textContent = texts.buttons[buttonTag];
+  showFtue(startOverBtn, true);
+  startOverBtn.onclick = () => {
+    hideOverlay();
+
+    cb?.();
+  };
+}
+
+function hideOverlay() {
+  leftPanel.style.visibility = "visible";
+  nextButton.style.visibility = "visible";
+  overlay.style.display = "none";
+  hideFtue();
 }
 
 // --- UI & ELEMENT CREATION ---
@@ -244,6 +272,7 @@ function advanceStep() {
     case 5: setupStep3(); break;
     case 6: handleAddunit(); break;
     case 7: setupStep5(); break;
+    case 8: completion(); break;
   }
 }
 
@@ -254,6 +283,7 @@ function setupStep0_a() {
   showFtue(row.blockElement, false);
   nextButton.textContent = texts.buttons.next;
   nextButton.disabled = false;
+  showFtue(nextButton, true);
 }
 
 function setupStep0_b() {
@@ -263,6 +293,7 @@ function setupStep0_b() {
   showFtue(row.stepper, false);
   nextButton.textContent = texts.buttons.next;
   nextButton.disabled = false;
+  showFtue(nextButton, true);
 }
 
 function setupStep0_c() {
@@ -270,10 +301,12 @@ function setupStep0_c() {
   showFtue(rows[0].numberElement, false);
   nextButton.textContent = texts.buttons.start_task;
   nextButton.disabled = false;
+  showFtue(nextButton, true);
 }
 
 function setupStep1() {
   updateSpeechBubble("step1");
+  showFtue(rows[0].plusButton ,true);
 }
 
 function completeStep1() {
@@ -282,16 +315,19 @@ function completeStep1() {
   nextButton.textContent = texts.buttons.next;
   nextButton.disabled = false;
   showFtue(nextButton, true);
+  setJaxpose("pose_happy");
 }
 
 function setupStep2() {
-  setJaxpose("pose_thinking");
+  
   updateSpeechBubble("step2");
   const row = createRow();
   row.stepper.style.visibility = "visible";
+  showFtue(rows[1].plusButton, true);
 }
 
 function completeStep2() {
+  setJaxpose("pose_happy");
   rows[1].stepper.style.visibility = "hidden";
   updateSpeechBubble("step2_complete");
   nextButton.textContent = texts.buttons.next;
@@ -300,6 +336,7 @@ function completeStep2() {
 }
 
 function setupStep3() {
+  setJaxpose("pose_normal");
   updateSpeechBubble("step3");
   createRow();
   rows[2].blockElement.classList.add("third-row");
@@ -310,36 +347,7 @@ function setupStep3() {
   showFtue(nextButton, true);
 }
 
-async function handleTakeAway() {
-  const sourceCubes = Array.from(rows[0].unitBlock.children);
-  const targetPlaceholders = Array.from(rows[1].unitBlock.children);
-  let takeAwayCount = 0;
 
-  for (let i = 0; i < SUBTRAHEND; i++) {
-    await new Promise((resolve) =>
-      animateCloneToTarget(
-        sourceCubes[i],
-        targetPlaceholders[i],
-        () => sourceCubes[i].classList.add("transparent"),
-        () => {
-          takeAwayCount++;
-          const newCube = document.createElement("img");
-          newCube.src = "assets/unit.png";
-          targetPlaceholders[i].replaceWith(newCube);
-
-          // CHANGED: Use the new specific functions to update numbers
-          rows[1].updateBadge(takeAwayCount);
-          rows[1].updateNumberDisplay(takeAwayCount);
-          resolve();
-        }
-      )
-    );
-    await wait(200);
-  }
-  rows[1].count = takeAwayCount;
-  setJaxpose("pose_happy");
-  completeStep3();
-}
 
 function completeStep3() {
   updateSpeechBubble("step3_complete");
@@ -347,39 +355,15 @@ function completeStep3() {
   nextButton.disabled = false;
   showFtue(nextButton, true);
 }
-
-async function handleCollectRemaining() {
-  const remainingCubes = Array.from(rows[0].unitBlock.children).filter(
-    (c) => !c.classList.contains("transparent")
+function completion() {
+  showOverlay(
+    "overlay_final_heading",
+    "overlay_final_message",
+    "start_over",
+    () => {
+      window.location.reload();
+    }
   );
-  let resultCount = 0;
-
-  for (const sourceCube of remainingCubes) {
-    const placeholder = document.createElement("div");
-    placeholder.style.width = getComputedStyle(sourceCube).width;
-    placeholder.style.height = getComputedStyle(sourceCube).height;
-    rows[2].unitBlock.appendChild(placeholder);
-
-    await new Promise((resolve) =>
-      animateCloneToTarget(
-        sourceCube,
-        placeholder,
-        () => sourceCube.classList.add("transparent"),
-        () => {
-          resultCount++;
-          // CHANGED: Use the new specific functions
-          rows[2].updateBlockVisuals(resultCount);
-          rows[2].updateBadge(resultCount);
-          rows[2].updateNumberDisplay(resultCount);
-          placeholder.remove();
-          resolve();
-        }
-      )
-    );
-    await wait(200);
-  }
-  setJaxpose("pose_superHappy");
-  completeStep4();
 }
 async function addUnit(row) {
   const remainingCubes = Array.from(rows[row].unitBlock.children)
@@ -439,7 +423,9 @@ function setupStep5() {
   rows.forEach((row) => {
     row.numberElement.classList.add("ftue-highlight");
   });
-  nextButton.style.visibility = "hidden";
+  // nextButton.style.visibility = "hidden";
+  nextButton.disabled = false;
+  showFtue(nextButton, true);
 }
 
 // --- INITIALIZATION ---

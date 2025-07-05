@@ -753,7 +753,7 @@ body {
 
 #overlayOkayBtn {
   align-self: center;
-  width: 10vw;
+  /* width: 10vw; */
   margin-bottom: 2vw;
 }
 
@@ -777,4 +777,11 @@ body {
 }
 .grid-container{
   grid-template-columns: 1.8fr 1fr;
+}
+
+#completeText{
+  display: none;
+  text-align: center;
+  position: relative;
+  top: 15vh;
 }

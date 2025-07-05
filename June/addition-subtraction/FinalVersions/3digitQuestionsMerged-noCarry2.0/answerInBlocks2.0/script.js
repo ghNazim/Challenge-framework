@@ -180,18 +180,20 @@ function resetNumbers() {
 function setAnsDisplay() {
   ansDisplay.innerHTML = `<span>${current_number[2][0]}</span><span>${current_number[2][1]}</span><span>${current_number[2][2]}</span>`;
 }
-function fillAnswerDisplay(){
+function fillAnswerDisplay() {
   const spans = document.querySelectorAll("#ans-display span");
   spans[0].textContent = current_number[2][0];
   spans[1].textContent = current_number[2][1];
   spans[2].textContent = current_number[2][2];
 }
-function colorHeader(){
-  const problemStatementSpans = document.querySelectorAll(".problem-statement h1 span");
+function colorHeader() {
+  const problemStatementSpans = document.querySelectorAll(
+    ".problem-statement h1 span"
+  );
   const ansSpans = document.querySelectorAll("#ans-display span");
-  problemStatementSpans[0].classList.add("orange")
-  problemStatementSpans[1].classList.add("blue")
-  problemStatementSpans[2].classList.add("pink")
+  problemStatementSpans[0].classList.add("orange");
+  problemStatementSpans[1].classList.add("blue");
+  problemStatementSpans[2].classList.add("pink");
   problemStatementSpans[4].classList.add("orange");
   problemStatementSpans[5].classList.add("blue");
   problemStatementSpans[6].classList.add("pink");
@@ -241,7 +243,7 @@ function handleStepperClick(event) {
   setCornerBadge(rowNum, tag, current_number[rowIndex][colIndex]);
   // Update the main answer display at the top
   // setAnsDisplay();
-  fillAnswerDisplay()
+  fillAnswerDisplay();
 }
 function makeDull(src) {
   src.src = `assets/tenSemi.png`;
@@ -258,7 +260,7 @@ function initializeTextContents() {
 
   const problemStatement = document.querySelector(".problem-statement h1");
   problemStatement.innerHTML = `<span>${h1}</span><span>${t1}</span><span>${u1}</span><span>&nbsp;+&nbsp;</span><span>${h2}</span><span>${t2}</span><span>${u2}</span><span>&nbsp;=&nbsp;</span>`;
-  
+
   // Set Static Buttons
   document.querySelector(".next-button").textContent = texts.buttons.next;
 
@@ -327,9 +329,6 @@ function checkAnswer() {
     setNextButtonText("next");
     nextButton.onclick = handleNext;
     hideAllSteppers();
-    if(questionIndex === questions.length - 1) {
-      setNextButtonText("start_over");
-    }
   } else {
     playSound("wrong");
     setColorToAnsDisplay("red");
@@ -345,12 +344,12 @@ function setNextButtonText(tag) {
 function initializeBoard() {
   const problem = questions[questionIndex];
   if (!problem) {
-    window.location = "../index.html";
+    showCompleteOverlay();
     return;
   }
   nextButton.onclick = checkAnswer;
   setColorToAnsDisplay();
-  
+
   const num1 = problem.num1;
   const num2 = problem.num2;
   const sum = num1 + num2;
@@ -376,8 +375,7 @@ function initializeBoard() {
     [0, 0, 0], // User's answer in row 3 starts at 0
   ];
   setAnsDisplay();
-  colorHeader()
-  
+  colorHeader();
 
   ans = [
     [h1, t1, u1],
@@ -428,4 +426,31 @@ function confettiBurst() {
       requestAnimationFrame(frame);
     }
   })();
+}
+
+function showCompleteOverlay() {
+  const charSrc = "assets/JaxHappy.png";
+  const overlay = document.getElementById("fullscreenOverlay");
+  const statementDiv = document.getElementById("overlayStatement");
+  const mcq = document.getElementById("mcq");
+  const charImg = document.getElementById("overlayCharacter");
+  const textP = document.getElementById("overlayText");
+  textP.textContent = "";
+  const instructionImg = document.getElementById("overlayInstructionImage");
+  instructionImg.style.display = "none";
+  const okayBtn = document.getElementById("overlayOkayBtn");
+  okayBtn.textContent = texts.buttons.start_over;
+  const completeText = document.querySelector("#completeText");
+  completeText.style.display = "block";
+  completeText.innerHTML = `<h2>${texts.instructions.overlay_heading}</h2><p>${texts.instructions.overlay_text}</p>`;
+  charImg.src = charSrc;
+  mcq.style.display = "none";
+  statementDiv.style.display = "flex";
+
+  overlay.classList.add("show");
+  const closeHandler = async () => {
+    playSound("click");
+    window.location = "../index.html";
+  };
+  okayBtn.addEventListener("click", closeHandler);
 }

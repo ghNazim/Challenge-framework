@@ -667,7 +667,7 @@ async function hundredsTopToBottom() {
       },
       () => {
         dest.classList.add("appear");
-        updateDigitLabel("ten");
+        updateDigitLabel("hundred");
       }
     );
   }
@@ -703,14 +703,17 @@ async function hundredsMiddleToBottom() {
       },
       () => {
         dest.classList.add("appear");
+        updateDigitLabel("hundred");
       }
     );
   }
 }
-function popInNumber(tag, num) {
+function popInNumber(tag, num, leftNull = false) {
   // 1. Set the number using your existing function.
   setNumberDisplay(3, tag, num);
-  setCornerBadge(3, tag, num);
+  if (!leftNull) {
+    setCornerBadge(3, tag, num);
+  }
 
   // 2. Find the specific number-display element to animate.
   const cell = document.querySelector(`.row-3.${tag}-number .number-display`);
@@ -808,6 +811,37 @@ async function loadMcqIn(mcqNo, callback) {
   callbackAfterMcq = callback;
 }
 
+function loadQuestionUnits1() {
+  const overlayStatement = document.querySelector("#overlayStatement");
+  const mcq = document.querySelector("#mcq");
+  overlayStatement.style.display = "none";
+  mcq.style.display = "block";
+  if (phase === 1) loadMcqIn(0, beforeNext);
+  else loadMcqIn(0, next);
+}
+
+function beforeNext() {
+  highlightColumnBorder("unit" + phaseTag);
+  textHighlightColumn(2);
+  setNextButtonText("add_unit");
+  nextButton.onclick = () => {
+    loadMcqIn(4, next);
+  };
+}
+function next() {
+  updateInstructionText("units1");
+  highlightColumnBorder("unit" + phaseTag);
+  textHighlightColumn(2);
+  nextButton.onclick = units1;
+  setNextButtonText("add_unit");
+  if (phase === 1) {
+    popInNumber("unit", u1 + u2,true);
+    setTimeout(() => {
+      units1();
+    }, 1000);
+  }
+}
+
 async function units1() {
   nextButton.disabled = true;
   await unitsTopToBottom();
@@ -857,6 +891,7 @@ function toLoadMcqAfterUnits2() {
 function blankAfterUnits2() {
   highlightColumnBorder("ten" + phaseTag);
   textHighlightColumn(1);
+  setNextButtonText("add_ten");
   nextButton.onclick = () => {
     loadMcqIn(5, afterUnits2Mcq);
   };
@@ -868,6 +903,12 @@ function afterUnits2Mcq() {
   nextButton.onclick = tens1;
   setNextButtonText("add_ten");
   nextButton.disabled = false;
+  if (phase === 1) {
+    popInNumber("ten", t1 + t2 + overflowUnits,true);
+    setTimeout(() => {
+      tens1();
+    }, 1000);
+  }
 }
 async function tens1() {
   nextButton.disabled = true;
@@ -889,8 +930,10 @@ async function tens1() {
   if(phase===0){
     afterTens2Mcq();
   }else{
+    highlightColumnBorder("hundred" + phaseTag);
+    textHighlightColumn(0);
     nextButton.onclick = toLoadMcqAfterTens2;
-    setNextButtonText("_next");
+    setNextButtonText("add_hundred");
     updateInstructionText("question");
   }
   nextButton.disabled = false;
@@ -916,9 +959,10 @@ async function tens2() {
   highlightColumnBorder("hundred" + phaseTag);
   textHighlightColumn(0);
   if (phase === 1) {
+    // highlightColumnBorder("hundred" + phaseTag);
     nextButton.onclick = toLoadMcqAfterTens2;
     nextButton.disabled = false;
-    setNextButtonText("_next");
+    setNextButtonText("add_hundred");
     updateInstructionText("question");
   } else {
     afterTens2Mcq();
@@ -934,6 +978,12 @@ function afterTens2Mcq() {
   nextButton.onclick = hundreds1;
   setNextButtonText("add_hundred");
   nextButton.disabled = false;
+  if (phase === 1) {
+    popInNumber("hundred", h1 + h2 + overflowTens,true);
+    setTimeout(() => {
+      hundreds1();
+    }, 1000);
+  }
 }
 async function hundreds1() {
   nextButton.disabled = true;
@@ -953,6 +1003,9 @@ async function hundreds1() {
   highlightFullHeader();
   confettiBurst();
   playSound("congrats");
+  if(questionIndex==questions.length-1){
+    setNextButtonText("_next")
+  }
 }
 
 function vibrateElement(element) {
@@ -963,20 +1016,7 @@ function vibrateOff() {
     element.classList.remove("vibrate-x");
   });
 }
-function beforeNext() {
-  highlightColumnBorder("unit" + phaseTag);
-  textHighlightColumn(2);
-  nextButton.onclick = () => {
-    loadMcqIn(4, next);
-  };
-}
-function next() {
-  updateInstructionText("units1");
-  highlightColumnBorder("unit" + phaseTag);
-  textHighlightColumn(2);
-  nextButton.onclick = units1;
-  setNextButtonText("add_unit");
-}
+
 
 function hideAllSteppers() {
   document.querySelectorAll(".stepper").forEach((stepper) => {
@@ -1187,7 +1227,7 @@ function handleNext() {
     phaseTag = "-number";
   }
   if (questionIndex >= questions.length) {
-    window.location.reload();
+    showCompleteOverlay();
   }
   initializeBoard();
 }
@@ -1238,10 +1278,15 @@ function removeGlowFromSteppers() {
   });
 }
 function beforeSettingSecondNumber() {
+  nextButton.disabled = true;
   updateInstructionText("set1_success");
   borderGreen(true);
   setNextButtonText("_next");
   nextButton.onclick = promptForSecondNumber;
+  setTimeout(() => {
+    nextButton.disabled = false;
+    nextButton.click();
+  }, 1500);
 }
 
 function setupForRow2() {
@@ -1267,14 +1312,7 @@ function beforeAnimation() {
   setNextButtonText("_next");
   nextButton.onclick = loadQuestionUnits1;
 }
-function loadQuestionUnits1() {
-  const overlayStatement = document.querySelector("#overlayStatement");
-  const mcq = document.querySelector("#mcq");
-  overlayStatement.style.display = "none";
-  mcq.style.display = "block";
-  if (phase === 1) loadMcqIn(0, beforeNext);
-  else loadMcqIn(0, next);
-}
+
 
 function setNextButtonText(tag) {
   nextButton.textContent = texts.buttons[tag];
@@ -1423,6 +1461,7 @@ function showOverlayStatement(text, charSrc, instructionImgSrc, callback) {
   const textP = document.getElementById("overlayText");
   const instructionImg = document.getElementById("overlayInstructionImage");
   const okayBtn = document.getElementById("overlayOkayBtn");
+  okayBtn.textContent = texts.buttons.okay;
 
   textP.textContent = text;
   charImg.src = charSrc || images.char_normal;
@@ -1466,21 +1505,21 @@ function replaceMcqPlaceholders(mcqObject, values) {
   const placeholderMap = {
     "{{u1}}": values.u1,
     "{{u2}}": values.u2,
-    "{{t1}}": values.t1,
-    "{{t2}}": values.t2,
-    "{{h1}}": values.h1,
-    "{{h2}}": values.h2,
+    "{{t1}}": values.t1 * 10,
+    "{{t2}}": values.t2 * 10,
+    "{{h1}}": values.h1 * 100,
+    "{{h2}}": values.h2 * 100,
     "{{usum}}": values.uSum,
-    "{{tSum}}": values.tSum,
-    "{{hSum}}": values.hSum,
-    "{{overflowUnits}}": values.overflowUnits,
-    "{{overflowTens}}": values.overflowTens,
+    "{{tSum}}": values.tSum * 10,
+    "{{hSum}}": values.hSum * 100,
+    "{{overflowUnits}}": values.overflowUnits * 10,
+    "{{overflowTens}}": values.overflowTens * 100,
     "{{uSumMinus}}": values.uSum - 1,
-    "{{tSumMinus}}": values.tSum - 1,
-    "{{hSumMinus}}": values.hSum - 1,
+    "{{tSumMinus}}": (values.tSum - 1) * 10,
+    "{{hSumMinus}}": (values.hSum - 1) * 100,
     "{{uSumPlus}}": values.uSum + 1,
-    "{{tSumPlus}}": values.tSum + 1,
-    "{{hSumPlus}}": values.hSum + 1,
+    "{{tSumPlus}}": (values.tSum + 1) * 10,
+    "{{hSumPlus}}": (values.hSum + 1) * 100,
   };
 
   const replaceInText = (text) => {
@@ -1527,4 +1566,32 @@ function fillPlaceholders(template, values) {
   return template.replace(/{{(\w+)}}/g, (match, key) => {
     return key in values ? values[key] : match; // Leave placeholder if key not found
   });
+}
+
+
+function showCompleteOverlay() {
+  const charSrc = "assets/JaxHappy.png";
+  const overlay = document.getElementById("fullscreenOverlay");
+  const statementDiv = document.getElementById("overlayStatement");
+  const mcq = document.getElementById("mcq");
+  const charImg = document.getElementById("overlayCharacter");
+  const textP = document.getElementById("overlayText");
+  textP.textContent = "";
+  const instructionImg = document.getElementById("overlayInstructionImage");
+  instructionImg.style.display = "none";
+  const okayBtn = document.getElementById("overlayOkayBtn");
+  okayBtn.textContent = texts.buttons.start_over;
+  const completeText = document.querySelector("#completeText");
+  completeText.style.display = "block";
+  completeText.innerHTML = `<h2>${texts.instructions.overlay_heading}</h2><p>${texts.instructions.overlay_text}</p>`;
+  charImg.src = charSrc;
+  mcq.style.display = "none";
+  statementDiv.style.display = "flex";
+
+  overlay.classList.add("show");
+  const closeHandler = async () => {
+    playSound("click");
+    window.location.reload();
+  };
+  okayBtn.addEventListener("click", closeHandler);
 }

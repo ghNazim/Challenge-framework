@@ -666,7 +666,7 @@ async function hundredsTopToBottom() {
       },
       () => {
         dest.classList.add("appear");
-        updateDigitLabel("ten");
+        updateDigitLabel("hundred");
       }
     );
   }
@@ -702,6 +702,7 @@ async function hundredsMiddleToBottom() {
       },
       () => {
         dest.classList.add("appear");
+        updateDigitLabel("hundred");
       }
     );
   }
@@ -751,7 +752,7 @@ async function translateNumberOverflow(tag = "unit") {
 
     // 2. Create a temporary '10' element to be animated.
     const overflowClone = document.createElement("span");
-    overflowClone.textContent = tag === "unit" ? "10" : "100";
+    overflowClone.textContent = 1;
     // Apply existing class for font styles and position it absolutely.
     overflowClone.classList.add("number-display");
     overflowClone.style.position = "absolute";
@@ -806,7 +807,35 @@ async function loadMcqIn(mcqNo, callback) {
   loadMcq(mcqNo);
   callbackAfterMcq = callback;
 }
-
+function loadQuestionUnits1() {
+  const overlayStatement = document.querySelector("#overlayStatement");
+  const mcq = document.querySelector("#mcq");
+  overlayStatement.style.display = "none";
+  mcq.style.display = "block";
+  if (phase === 1) loadMcqIn(0, beforeNext);
+  else loadMcqIn(0, next);
+}
+function beforeNext() {
+  highlightColumnBorder("unit" + phaseTag);
+  textHighlightColumn(2);
+  setNextButtonText("add_unit");
+  nextButton.onclick = () => {
+    loadMcqIn(4, next);
+  };
+}
+function next() {
+  updateInstructionText("units1");
+  highlightColumnBorder("unit" + phaseTag);
+  textHighlightColumn(2);
+  nextButton.onclick = units1;
+  setNextButtonText("add_unit");
+  if (phase === 1) {
+    popInNumber("unit", u1 + u2);
+    setTimeout(() => {
+      units1();
+    }, 1000);
+  }
+}
 async function units1() {
   nextButton.disabled = true;
   await unitsTopToBottom();
@@ -856,6 +885,7 @@ function toLoadMcqAfterUnits2() {
 function blankAfterUnits2() {
   highlightColumnBorder("ten" + phaseTag);
   textHighlightColumn(1);
+  setNextButtonText("add_ten");
   nextButton.onclick = () => {
     loadMcqIn(5, afterUnits2Mcq);
   };
@@ -867,6 +897,12 @@ function afterUnits2Mcq() {
   nextButton.onclick = tens1;
   setNextButtonText("add_ten");
   nextButton.disabled = false;
+  if (phase === 1) {
+    popInNumber("ten", t1 + t2 + overflowUnits);
+    setTimeout(() => {
+      tens1();
+    }, 1000);
+  }
 }
 async function tens1() {
   nextButton.disabled = true;
@@ -910,9 +946,10 @@ async function tens2() {
   highlightColumnBorder("hundred" + phaseTag);
   textHighlightColumn(0);
   if (phase === 1) {
+    // highlightColumnBorder("hundred" + phaseTag);
     nextButton.onclick = toLoadMcqAfterTens2;
     nextButton.disabled = false;
-    setNextButtonText("_next");
+    setNextButtonText("add_hundred");
     updateInstructionText("question");
   } else {
     afterTens2Mcq();
@@ -928,6 +965,12 @@ function afterTens2Mcq() {
   nextButton.onclick = hundreds1;
   setNextButtonText("add_hundred");
   nextButton.disabled = false;
+  if (phase === 1) {
+    popInNumber("hundred", h1 + h2 + overflowTens);
+    setTimeout(() => {
+      hundreds1();
+    }, 1000);
+  }
 }
 async function hundreds1() {
   nextButton.disabled = true;
@@ -943,12 +986,12 @@ async function hundreds1() {
   setNextButtonText("next");
   nextButton.disabled = false;
   document.getElementById("answerInHeading").classList.remove("hidden");
-  textHighlightColumn(-1)
+  textHighlightColumn(-1);
   highlightFullHeader();
   confettiBurst();
   playSound("congrats");
-  if(questionIndex === questions.length - 1) {
-    setNextButtonText("start_over");
+  if(questionIndex===questions.length-1){
+    setNextButtonText("_next")
   }
 }
 
@@ -959,20 +1002,6 @@ function vibrateOff() {
   document.querySelectorAll(".vibrate-x").forEach((element) => {
     element.classList.remove("vibrate-x");
   });
-}
-function beforeNext() {
-  highlightColumnBorder("unit" + phaseTag);
-  textHighlightColumn(2);
-  nextButton.onclick = () => {
-    loadMcqIn(4, next);
-  };
-}
-function next() {
-  updateInstructionText("units1");
-  highlightColumnBorder("unit" + phaseTag);
-  textHighlightColumn(2);
-  nextButton.onclick = units1;
-  setNextButtonText("add_unit");
 }
 
 function hideAllSteppers() {
@@ -1176,6 +1205,7 @@ function initializeBoard() {
 initializeBoard();
 const gridContainer = document.querySelector(".grid-container");
 gridContainer.addEventListener("click", handleStepperClick);
+
 function handleNext() {
   playSound("click");
   questionIndex++;
@@ -1184,7 +1214,7 @@ function handleNext() {
     phaseTag = "-number";
   }
   if (questionIndex >= questions.length) {
-    window.location.reload();
+    showCompleteOverlay();
   }
   initializeBoard();
 }
@@ -1235,11 +1265,13 @@ function removeGlowFromSteppers() {
   });
 }
 function beforeSettingSecondNumber() {
+  nextButton.disabled = true;
   updateInstructionText("set1_success");
   borderGreen(true);
   setNextButtonText("_next");
   nextButton.onclick = promptForSecondNumber;
   setTimeout(() => {
+    nextButton.disabled = false;
     nextButton.click();
   }, 1500);
 }
@@ -1266,14 +1298,6 @@ function beforeAnimation() {
   borderGreen(true);
   setNextButtonText("_next");
   nextButton.onclick = loadQuestionUnits1;
-}
-function loadQuestionUnits1() {
-  const overlayStatement = document.querySelector("#overlayStatement");
-  const mcq = document.querySelector("#mcq");
-  overlayStatement.style.display = "none";
-  mcq.style.display = "block";
-  if (phase === 1) loadMcqIn(0, beforeNext);
-  else loadMcqIn(0, next);
 }
 
 function setNextButtonText(tag) {
@@ -1527,4 +1551,32 @@ function fillPlaceholders(template, values) {
   return template.replace(/{{(\w+)}}/g, (match, key) => {
     return key in values ? values[key] : match; // Leave placeholder if key not found
   });
+}
+
+
+function showCompleteOverlay() {
+  const charSrc = "assets/JaxHappy.png";
+  const overlay = document.getElementById("fullscreenOverlay");
+  const statementDiv = document.getElementById("overlayStatement");
+  const mcq = document.getElementById("mcq");
+  const charImg = document.getElementById("overlayCharacter");
+  const textP = document.getElementById("overlayText");
+  textP.textContent = "";
+  const instructionImg = document.getElementById("overlayInstructionImage");
+  instructionImg.style.display = "none";
+  const okayBtn = document.getElementById("overlayOkayBtn");
+  okayBtn.textContent = texts.buttons.start_over;
+  const completeText = document.querySelector("#completeText");
+  completeText.style.display = "block";
+  completeText.innerHTML = `<h2>${texts.instructions.overlay_heading}</h2><p>${texts.instructions.overlay_text}</p>`;
+  charImg.src = charSrc;
+  mcq.style.display = "none";
+  statementDiv.style.display = "flex";
+
+  overlay.classList.add("show");
+  const closeHandler = async () => {
+    playSound("click");
+    window.location.reload();
+  };
+  okayBtn.addEventListener("click", closeHandler);
 }

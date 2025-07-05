@@ -32,6 +32,7 @@ body {
 
 /* 16:9 Aspect Ratio Container */
 .aspect-ratio-container {
+  position: relative;
   width: 100vw;
   height: 56.25vw;
   max-width: 177.78vh;
@@ -440,13 +441,7 @@ body {
   display: block;
   opacity: 1;
 }
-#fullscreenOverlay button {
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  translate: -50% 0;
-  font-size: 1.8rem;
-}
+
 
 /* BUTTONS--------------------------------- */
 
@@ -481,7 +476,7 @@ body {
     inset 0 2px 1px rgba(255, 255, 255, 0.5),
     inset 0 -2px 3px rgba(0, 0, 0, 0.1), 0 4px 0px rgba(206, 141, 0, 0.6);
   text-shadow: 0px 1px 2px rgba(175, 144, 5, 0.89);
-  color: #fff;
+  color: rgb(44, 44, 44);
 }
 .btn-primary:hover {
   background-color: #e67e00;
@@ -496,12 +491,13 @@ body {
   box-shadow: 0 4px 8px rgba(251, 155, 45, 0.3),
     /* Reduce the shadow to make it look closer to the ground */ inset 0 2px 3px
       rgba(0, 0, 0, 0.3); /* Make inner shadow more prominent */
-  color: #fff;
+  
 }
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
+  color: white;
 }
 .op-button {
   background-color: #ffb81e;
@@ -591,4 +587,99 @@ body {
 }
 .orange {
   color: var(--color-hundreds);
+}
+
+#normalOverlay{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.borderedOverlay {
+  width: 80%;
+  height: 80%;
+  background-color: #34495e;
+  border: 4px solid #f1c40f;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: none; /* Controlled by JS */
+  flex-direction: column;
+  gap: 1.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+
+}
+.overlay-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  
+}
+
+.overlay-text-panel img {
+  width: 100%;
+  height: 100%;
+  margin: 0 0 0 0;
+  max-height: 35vh;
+  object-fit: contain;
+}
+
+.overlay-text-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  font-size: 2.25vw;
+  color: #ecf0f1;
+  flex: 1;
+  padding: 0 2vw;
+  height: 100%;
+}
+.overlay-image-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2vh;
+  font-size: 1.5rem;
+  color: #ecf0f1;
+  flex: 3;
+  height: 100%;
+  padding-right: 2vw;
+}
+
+#overlayInstructionImage {
+  width: 100%;
+  max-height: 70%;
+  border-radius: 0.5rem;
+  object-fit: contain;
+  margin-top: 2vw;
+}
+
+#overlayOkayBtn {
+  align-self: center;
+  width: auto;
+  margin-bottom: 2vw;
+}
+
+.glowing-stepper{
+  box-shadow: 0 0 15px 5px #f1c40f;
+}
+#overlayText{
+  position: relative;
+  top: 2.8vw;
+  
+}
+#completeText{
+  display: none;
+  text-align: center;
+  position: relative;
+  top: 15vh;
 }

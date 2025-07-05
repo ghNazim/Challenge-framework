@@ -241,7 +241,7 @@ function makeDull(src) {
 }
 function initializeTextContents() {
   okayBtn.textContent = texts.buttons.okay;
-  setNextButtonText("_next")
+  setNextButtonText("_next");
   // Set Grid Headings
   const headings = document.querySelectorAll(
     ".visual-container .grid-heading, .number-container .grid-heading"
@@ -963,8 +963,8 @@ function afterHundreds() {
   highlightFullHeader();
   confettiBurst();
   playSound("congrats");
-  if(questionIndex===questions.length-1){
-    setNextButtonText("start_over")
+  if (questionIndex === questions.length - 1) {
+    setNextButtonText("_next");
   }
 }
 
@@ -1201,7 +1201,7 @@ function handleNext() {
   questionIndex++;
 
   if (questionIndex >= questions.length) {
-    window.location.reload();
+    showCompleteOverlay();
   }
   initializeBoard();
 }
@@ -1252,11 +1252,13 @@ function removeGlowFromSteppers() {
   });
 }
 function beforeSettingSecondNumber() {
+  nextButton.disabled = true;
   updateInstructionText("set1_success");
   borderGreen(true);
   setNextButtonText("_next");
   nextButton.onclick = promptForSecondNumber;
   setTimeout(() => {
+    nextButton.disabled = false;
     nextButton.click();
   }, 1500);
 }
@@ -1544,4 +1546,30 @@ function fillPlaceholders(template, values) {
   return template.replace(/{{(\w+)}}/g, (match, key) => {
     return key in values ? values[key] : match; // Leave placeholder if key not found
   });
+}
+function showCompleteOverlay() {
+  const charSrc = "assets/JaxHappy.png";
+  const overlay = document.getElementById("fullscreenOverlay");
+  const statementDiv = document.getElementById("overlayStatement");
+  const mcq = document.getElementById("mcq");
+  const charImg = document.getElementById("overlayCharacter");
+  const textP = document.getElementById("overlayText");
+  textP.textContent = "";
+  const instructionImg = document.getElementById("overlayInstructionImage");
+  instructionImg.style.display = "none";
+  const okayBtn = document.getElementById("overlayOkayBtn");
+  okayBtn.textContent = texts.buttons.start_over;
+  const completeText = document.querySelector("#completeText");
+  completeText.style.display = "block";
+  completeText.innerHTML = `<h2>${texts.instructions.overlay_heading}</h2><p>${texts.instructions.overlay_text}</p>`;
+  charImg.src = charSrc;
+  mcq.style.display = "none";
+  statementDiv.style.display = "flex";
+
+  overlay.classList.add("show");
+  const closeHandler = async () => {
+    playSound("click");
+    window.location.reload();
+  };
+  okayBtn.addEventListener("click", closeHandler);
 }

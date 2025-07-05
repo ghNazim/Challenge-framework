@@ -30,7 +30,7 @@
   /* ... your existing colors ... */
   --purple-1: #d8b4fe; /* A light purple */
   --purple-2: #a855f7; /* A medium purple */
-  --purple-3: #9333ea; /* A vibrant purple */
+  --purple-3: #7e22ce; /* A vibrant purple */
   --purple-4: #7e22ce; /* A dark purple */
 }
 .question-number {
@@ -222,8 +222,8 @@
   gap: 0.5rem; /* 12px */
 }
 #hundredThousand-widget .squares-container img {
-  width: 12rem;
-  height: 12rem;
+  width: 15rem;
+  height: 15rem;
 }
 #hundred-widget .squares-container img:nth-child(2) {
   transform: translate(0.6vw, 0.6vw);

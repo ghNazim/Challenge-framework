@@ -14,6 +14,8 @@ const textsEnglish = {
     add_unit: "Add Ones Place",
     add_ten: "Add Tens Place",
     unit_overflow: "Carry Over to Tens",
+    okay: "Okay",
+    start_over: "Start Over",
   },
   ftue: {
     hand_cursor: "assets/tap.png",
@@ -24,32 +26,42 @@ const textsEnglish = {
   },
   context_data: {
     step0_a:
-      "Let's learn addition with carry over!<br><br>These are our TENS and ONES containers.",
-    step0_b: "Use the '+' and '-' buttons to place blocks.",
-    step0_c: "The number cards show the value of the blocks.",
+      "Let's learn addition with carry over!<br><br>These are our TENS and ONES containers.<br><br>Click 'Next' to continue.",
+    step0_b:
+      "Use the '+' and '-' buttons to place blocks inside the containers. <br><br>Click 'Next' to continue.",
+    step0_c:
+      "The number cards show the value of the blocks. <br><br>Click 'Next' to continue.",
     step1_tens:
-      "Let's add 27 with 15. First, make the number 27.<br><br>Tap the '+' on the TENS box 2 times.",
-    step1_ones: "Great! Now set the ones. Tap the '+' on the ONES box 7 times.",
-    step1_complete: "Awesome! You have represented the number 27.",
+      "Let's add 27 with 15.<br><br> First, make the number 27.<br><br>Tap the '+' on the TENS box 2 times.",
+    step1_ones:
+      "Great! Now set the ones.<br><br> Tap the '+' on the ONES box 7 times.",
+    step1_complete: "Awesome! <br><br>You have represented the number 27.",
     step2_tens:
       "Now, let's show the other number, 15.<br><br>Tap the '+' on the TENS box in the second row 1 time.",
-    step2_ones: "Perfect! That's 1 ten. Now for the ones. Tap the '+' 5 times.",
+    step2_ones:
+      "Perfect!<br><br> That's 1 ten.<br><br> Now for the ones. Tap the '+' 5 times.",
     step2_complete: "We have set up the problem: 27 + 15.",
-    add_units1: "Now bring the cubes at ones place together to sum them up. Click the button below.",
+    add_units1:
+      "Now bring the cubes at ones place together.<br><br> Click on 'Next'.",
     unit_overflow:
       "Units place can not hold more than 9 numbers. <br><br>Carry 10 cubes over to tens place.",
     after_overflow: "Great job!<br><br>Now lets bring the rods together.",
     done: "Great! You have found the answer!",
     final_result:
       'We see that 27 plus 15 is 42.<br><br><strong style="text-align: center; width: 100%; display: block; font-size: 1.5rem;">27 + 15 = 42</strong>',
+    overlay_carry_heading: "Well done!",
+    overlay_carry_message:
+      "You have completed your first carry over.<br><br> Whenever ones place has more than 9 cubes, we combine them to form one rod and carry them over to the tens place.",
+    overlay_final_heading: "Activity Complete!",
+    overlay_final_message: `If you want to try again, click on the "Start Over" button.`,
   },
 };
-const tagsEnglish ={
-  ones:"Ones",
-  tens:"Tens",
-  o:"O",
-  t:"T"
-}
+const tagsEnglish = {
+  ones: "Ones",
+  tens: "Tens",
+  o: "O",
+  t: "T",
+};
 const tagsIndonesian = {
   ones: "Satuan",
   tens: "Puluhan",
@@ -62,14 +74,16 @@ const textsIndonesian = {
     start: "Mulai",
     next: "Berikutnya",
     borrow: "Pinjam",
-    take_away_ones: "Ambil Satuan",
-    take_away_tens: "Ambil Puluhan",
+    take_away_ones: "Kurangi Satuan",
+    take_away_tens: "Kurangi Puluhan",
     collect_ones: "Kumpulkan Satuan",
     collect_tens: "Kumpulkan Puluhan",
     start_task: "Berikutnya",
-    add_unit: "Tambah Tempat Satuan",
-    add_ten: "Tambah Tempat Puluhan",
+    add_unit: "Tambahkan Satuan",
+    add_ten: "Tambahkan Puluhan",
     unit_overflow: "Bawa ke Puluhan",
+    okay: "Oke",
+    start_over: "Mulai Lagi",
   },
   ftue: {
     hand_cursor: "assets/tap.png",
@@ -80,28 +94,35 @@ const textsIndonesian = {
   },
   context_data: {
     step0_a:
-      "Ayo belajar penjumlahan dengan teknik menyimpan!<br><br>Ini adalah wadah PULUHAN dan SATUAN kita.",
-    step0_b: "Gunakan tombol '+' dan '-' untuk menempatkan balok.",
-    step0_c: "Kartu angka menunjukkan nilai dari balok.",
+      "Ayo belajar penjumlahan dengan menyimpan!<br><br>Ini adalah wadah PULUHAN dan SATUAN kita.<br><br>Klik 'Berikutnya' untuk melanjutkan.",
+    step0_b:
+      "Gunakan tombol '+' dan '-' untuk menempatkan balok ke dalam wadah.<br><br>Klik 'Berikutnya' untuk melanjutkan.",
+    step0_c:
+      "Kartu angka menunjukkan nilai dari balok.<br><br>Klik 'Berikutnya' untuk melanjutkan.",
     step1_tens:
-      "Ayo jumlahkan 27 dengan 15. Pertama, buat angka 27.<br><br>Klik tombol '+' pada kotak PULUHAN sebanyak 2 kali.",
+      "Mari tambahkan 27 dengan 15.<br><br> Pertama, buat angka 27.<br><br>Ketuk tombol '+' pada kotak PULUHAN sebanyak 2 kali.",
     step1_ones:
-      "Bagus! Sekarang atur satuannya. Klik tombol '+' pada kotak SATUAN sebanyak 7 kali.",
-    step1_complete: "Keren! Kamu telah mewakili angka 27.",
+      "Bagus! Sekarang atur satuannya.<br><br> Ketuk tombol '+' pada kotak SATUAN sebanyak 7 kali.",
+    step1_complete: "Luar biasa!<br><br>Kamu telah merepresentasikan angka 27.",
     step2_tens:
-      "Sekarang, mari tunjukkan angka lainnya, 15.<br><br>Klik tombol '+' pada kotak PULUHAN di baris kedua 1 kali.",
+      "Sekarang, mari tampilkan angka lainnya, yaitu 15.<br><br>Ketuk tombol '+' pada kotak PULUHAN di baris kedua sebanyak 1 kali.",
     step2_ones:
-      "Sempurna! Itu 1 puluhan. Sekarang untuk satuannya. Klik tombol '+' sebanyak 5 kali.",
-    step2_complete: "Kita telah menyusun soal: 27 + 15.",
+      "Sempurna!<br><br> Itu 1 puluhan.<br><br> Sekarang untuk satuannya. Ketuk tombol '+' sebanyak 5 kali.",
+    step2_complete: "Kita sudah menyiapkan soal: 27 + 15.",
     add_units1:
-      "Sekarang gabungkan kubus di tempat satuan untuk menjumlahkannya. Klik tombol di bawah ini.",
+      "Sekarang gabungkan kubus di tempat satuan.<br><br>Klik 'Berikutnya'.",
     unit_overflow:
-      "Tempat satuan tidak bisa menampung lebih dari 9 angka.<br><br>Ubah 10 kubus menjadi 1 batang di tempat puluhan.",
+      "Tempat satuan tidak bisa menampung lebih dari 9 angka.<br><br>Bawa 10 kubus ke tempat puluhan.",
     after_overflow:
-      "Kerja bagus!<br><br>Sekarang mari kita gabungkan batang-batangnya.",
-    done: "Hebat! Kamu telah menemukan jawabannya!",
+      "Kerja bagus!<br><br>Sekarang mari kita gabungkan batangnya.",
+    done: "Bagus! Kamu telah menemukan jawabannya!",
     final_result:
       'Kita lihat bahwa 27 ditambah 15 adalah 42.<br><br><strong style="text-align: center; width: 100%; display: block; font-size: 1.5rem;">27 + 15 = 42</strong>',
+    overlay_carry_heading: "Kerja Bagus!",
+    overlay_carry_message:
+      "Kamu telah menyelesaikan penyimpanan pertama kamu.<br><br>Setiap kali tempat satuan memiliki lebih dari 9 kubus, kita menggabungkannya menjadi satu batang dan membawanya ke tempat puluhan.",
+    overlay_final_heading: "Aktivitas Selesai!",
+    overlay_final_message: `Jika kamu ingin mencoba lagi, klik tombol "Mulai Lagi".`,
   },
 };
 

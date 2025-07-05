@@ -1,4 +1,4 @@
-const flag = "ENGLISH";
+const flag = "ENGLISH";//<<-- change to "INDONESIAN" or "ENGLISH" to change language
 
 const textsEnglish = {
   headings: {
@@ -30,19 +30,23 @@ const textsEnglish = {
       "Great job! You set the first number correctly. Let's set the second one.",
 
     set2: "Use the '+' and '-' buttons to set the second number.",
-    set1_success:"You have set the first number correctly. Let's set the second one.",
-    set2_success:"You have set the second number correctly. Let's add them up.",
-    units1: "Bring the cubes at ones place together to sum them up.",
-    question:"Answer the following question to proceed. Click 'Next'.",
+    set1_success:
+      "You have set the first number correctly. Let's set the second one.",
+    set2_success:
+      "You have set the second number correctly. Let's add them up.",
+    units1: "Bring the cubes at ones place together.",
+    question: "Answer the following question to proceed. Click 'Next'.",
     unitsCarry:
       "Ten ones equal one ten. So, lets carry them over to the tens place.",
-    tens1: "Bring the rods at tens place together to sum them up.",
+    tens1: "Bring the rods at tens place together.",
     tensCarry:
       "Ten tens equal one hundreds. So, lets carry them over to the hundreds place.",
-    hundreds1: "Bring the flats at hundreds place together to sum them up.",
+    hundreds1: "Bring the flats at hundreds place together.",
     result: "Adding {{num1}} and {{num2}}, we get {{sum}}.",
     tryNew: "Congratulations! You have added two numbers successfully.",
     finished: "Congratulations! You have added two numbers successfully.",
+    overlay_heading: "Activity Complete!",
+    overlay_text: "If you want to try again, Click on the 'Start Over' button.",
   },
 };
 
@@ -79,17 +83,17 @@ const mcqObjectEnglish = {
       correctAnswer: 1,
     },
     {
-      question: "What is the sum of {{u1}} and {{u2}}?",
+      question: "{{u1}} + {{u2}} = ",
       options: ["{{usum}}", "{{uSumMinus}}", "{{uSumPlus}}"],
       correctAnswer: 0,
     },
     {
-      question: "What is the sum of {{t1}}, {{t2}} and {{overflowUnits}} ?",
+      question: "{{t1}} + {{t2}} + {{overflowUnits}} =",
       options: ["{{tSumMinus}}", "{{tSum}}", "{{tSumPlus}}"],
       correctAnswer: 1,
     },
     {
-      question: "What is the sum of {{h1}}, {{h2}} and {{overflowTens}}?",
+      question: "{{h1}} + {{h2}} + {{overflowTens}} =",
       options: ["{{hSumMinus}}", "{{hSumPlus}}", "{{hSum}}"],
       correctAnswer: 2,
     },
@@ -110,10 +114,10 @@ const textsIndonesian = {
     set1: "Atur Angka Pertama",
     set2: "Atur Angka Kedua",
     _next: "Berikutnya",
-    next: "Pertanyaan Berikutnya",
-    add_unit: "Tambahkan Tempat Satuan",
-    add_ten: "Tambahkan Tempat Puluhan",
-    add_hundred: "Tambahkan Tempat Ratusan",
+    next: "Soal Berikutnya",
+    add_unit: "Tambah Satuan",
+    add_ten: "Tambah Puluhan",
+    add_hundred: "Tambah Ratusan",
     carryOver_unit: "Bawa ke Puluhan",
     carryOver_ten: "Bawa ke Ratusan",
     start_over: "Mulai Lagi",
@@ -124,23 +128,26 @@ const textsIndonesian = {
     start: "Klik tombol di bagian bawah layar untuk melanjutkan.",
     set1: "Gunakan tombol '+' dan '-' untuk mengatur angka pertama.",
     set1_correct:
-      "Kerja bagus! Kamu sudah mengatur angka pertama dengan benar. Sekarang atur angka kedua.",
-    set1_success:
-      "Kamu sudah mengatur angka pertama dengan benar. Sekarang atur angka kedua.",
+      "Kerja bagus! Kamu telah mengatur angka pertama dengan benar. Sekarang atur angka kedua.",
+
     set2: "Gunakan tombol '+' dan '-' untuk mengatur angka kedua.",
+    set1_success:
+      "Kamu telah mengatur angka pertama dengan benar. Sekarang atur angka kedua.",
     set2_success:
-      "Kamu sudah mengatur angka kedua dengan benar. Sekarang mari kita jumlahkan.",
-    units1: "Gabungkan kubus di tempat satuan untuk menjumlahkannya.",
+      "Kamu telah mengatur angka kedua dengan benar. Sekarang mari kita jumlahkan.",
+    units1: "Gabungkan kubus di tempat satuan.",
     question: "Jawab pertanyaan berikut untuk melanjutkan. Klik 'Berikutnya'.",
     unitsCarry:
-      "Sepuluh satuan sama dengan satu puluhan. Mari kita pindahkan ke tempat puluhan.",
-    tens1: "Gabungkan batang di tempat puluhan untuk menjumlahkannya.",
+      "Sepuluh satuan sama dengan satu puluhan. Jadi, mari kita bawa ke tempat puluhan.",
+    tens1: "Gabungkan batang di tempat puluhan.",
     tensCarry:
-      "Sepuluh puluhan sama dengan satu ratusan. Mari kita pindahkan ke tempat ratusan.",
-    hundreds1: "Gabungkan bidang di tempat ratusan untuk menjumlahkannya.",
+      "Sepuluh puluhan sama dengan satu ratusan. Jadi, mari kita bawa ke tempat ratusan.",
+    hundreds1: "Gabungkan lembaran di tempat ratusan.",
     result: "Menjumlahkan {{num1}} dan {{num2}}, kita mendapatkan {{sum}}.",
-    tryNew: "Selamat! Kamu berhasil menjumlahkan dua angka.",
-    finished: "Selamat! Kamu berhasil menjumlahkan dua angka.",
+    tryNew: "Selamat! Kamu telah berhasil menjumlahkan dua angka.",
+    finished: "Selamat! Kamu telah berhasil menjumlahkan dua angka.",
+    overlay_heading: "Aktivitas Selesai!",
+    overlay_text: "Jika kamu ingin mencoba lagi, klik tombol 'Mulai Lagi'.",
   },
 };
 
@@ -148,7 +155,7 @@ const textsIndonesian = {
 const mcqObjectIndonesian = {
   questions: [
     {
-      question: "Kita mulai menjumlahkan dari tempat yang mana?",
+      question: "Tempat mana yang harus kita jumlahkan terlebih dahulu?",
       options: ["Satuan", "Puluhan", "Ratusan"],
       correctAnswer: 0,
     },
@@ -156,8 +163,8 @@ const mcqObjectIndonesian = {
       question:
         "Tempat satuan tidak dapat menampung lebih dari 9 kubus. Apa yang harus kita lakukan?",
       options: [
-        "Abaikan kubus lebihnya",
-        "Pecahkan jadi kubus lebih kecil",
+        "Abaikan kubus yang berlebih",
+        "Pecah menjadi kubus yang lebih kecil",
         "Bawa 10 kubus ke tempat puluhan.",
       ],
       correctAnswer: 2,
@@ -169,28 +176,26 @@ const mcqObjectIndonesian = {
     },
     {
       question:
-        "Tempat puluhan tidak bisa menampung lebih dari 9 batang. Apa yang harus kita lakukan?",
+        "Tempat puluhan tidak dapat menampung lebih dari 9 batang. Apa yang harus kita lakukan?",
       options: [
-        "Masukkan batang lebih ke tempat satuan.",
+        "Pindahkan batang berlebih ke tempat satuan.",
         "Bawa 10 batang ke tempat ratusan.",
-        "Buang batang lebihnya.",
+        "Buang batang yang berlebih.",
       ],
       correctAnswer: 1,
     },
     {
-      question: "Berapa hasil penjumlahan dari {{u1}} dan {{u2}}?",
+      question: "{{u1}} + {{u2}} = ",
       options: ["{{usum}}", "{{uSumMinus}}", "{{uSumPlus}}"],
       correctAnswer: 0,
     },
     {
-      question:
-        "Berapa hasil penjumlahan dari {{t1}}, {{t2}}, dan {{overflowUnits}}?",
+      question: "{{t1}} + {{t2}} + {{overflowUnits}} =",
       options: ["{{tSumMinus}}", "{{tSum}}", "{{tSumPlus}}"],
       correctAnswer: 1,
     },
     {
-      question:
-        "Berapa hasil penjumlahan dari {{h1}}, {{h2}}, dan {{overflowTens}}?",
+      question: "{{h1}} + {{h2}} + {{overflowTens}} =",
       options: ["{{hSumMinus}}", "{{hSumPlus}}", "{{hSum}}"],
       correctAnswer: 2,
     },

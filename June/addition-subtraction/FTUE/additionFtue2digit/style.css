@@ -25,6 +25,7 @@ body {
   color: #ecf0f1;
 }
 .aspect-ratio-container {
+  position: relative;
   width: 100vw;
   height: 56.25vw;
   max-width: 177.78vh;
@@ -110,7 +111,7 @@ body {
   height: 4vw;
 }
 .problem-statement h1 {
-  font-size: 2vw;
+  font-size: 2.6vw;
   margin: 0;
   color: #e79003;
   display: inline-block;
@@ -417,13 +418,17 @@ body {
 .ftue-highlight {
   outline: 0.2vw solid var(--color-highlight);
   outline-offset: 0.1vw;
-  border-radius: 1.5vw; /* Match the border-radius of the section */
+  border-radius: 1.5vw;
   box-shadow: 0 0 1vw 0.5vh var(--color-highlight);
   transition: all 0.3s ease-in-out;
 }
-.plus.ftue-highlight,
-.minus.ftue-highlight {
+.plus.ftue-highlight, .minus.ftue-highlight, .stepper.ftue-highlight {
   border-radius: 5%;
+}
+.next-button.ftue-highlight, #start-over-btn.ftue-highlight {
+  border-radius: 50px;
+  outline: none;
+  box-shadow: none;
 }
 
 .is-overflowing {
@@ -500,4 +505,56 @@ body {
   box-sizing: border-box;
 
   /* Position and dimensions are set by JS */
+}
+
+
+/* Overlay  */
+
+.overlay-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: none; /* Initially hidden */
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+}
+.overlay-content {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, #ffefc1 0%, #ffe6b3 100%);
+  border-radius: 2vw;
+  border: 0.3vw solid #fbc658;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  color: var(--black-text);
+  width: 70%;
+  text-align: center;
+}
+.overlay-character {
+  flex: 1;
+  align-self: flex-end;
+}
+.overlay-character img {
+  height: 40vh;
+  padding-left: 1vw;
+  max-width: 100%;
+}
+.overlay-text {
+  flex: 2;
+  padding: 2vw;
+}
+.overlay-text h1 {
+  font-size: 3vw;
+  color: #e79003;
+  margin-bottom: 1.5vw;
+}
+.overlay-text p {
+  font-size: 1.9vw;
+  margin-bottom: 2.5vw;
+}
+#start-over-btn {
+  font-size: 1.8vw;
 }

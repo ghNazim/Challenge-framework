@@ -70,20 +70,21 @@ function wait(ms) {
 // --- FTUE FUNCTIONS ---
 function showFtue(element, showHand = true) {
   if (!element) return;
-  hideFtue();
   element.classList.add("ftue-highlight");
   if (showHand && handFtue) {
-    const rect = element.getBoundingClientRect();
-    handFtue.querySelector("img").src = texts.ftue.hand_cursor;
-    handFtue.style.top = `${rect.top + rect.height / 2}px`;
-    handFtue.style.left = `${rect.left + rect.width / 2}px`;
-    handFtue.classList.add("hand-animating");
+    handFtue.classList.remove("hand-animating");
+    element.classList.remove("ftue-highlight");
+    setTimeout(() => {
+      const rect = element.getBoundingClientRect();
+      handFtue.querySelector("img").src = texts.ftue.hand_cursor;
+      handFtue.style.top = `${rect.top + rect.height / 2}px`;
+      handFtue.style.left = `${rect.left + rect.width / 2}px`;
+      handFtue.classList.add("hand-animating");
+    }, 10);
   }
-  ftueTimeout = setTimeout(hideFtue, 4000);
 }
 
 function hideFtue() {
-  clearTimeout(ftueTimeout);
   if (handFtue) handFtue.classList.remove("hand-animating");
   document
     .querySelectorAll(".ftue-highlight")
@@ -202,7 +203,8 @@ function addMinusSign(targetRow) {
   minusBlock.style.top = `${
     targetRect.top - containerRect.top + targetRect.height / 2
   }px`;
-  const leftoffsetBlock =targetRect.left - containerRect.left - minusBlock.offsetWidth;
+  const leftoffsetBlock =
+    targetRect.left - containerRect.left - minusBlock.offsetWidth;
   minusBlock.style.left = `calc(${leftoffsetBlock}px - 0.5vw)`;
   const minusNumber = minusBlock.cloneNode(true);
   appContainer.appendChild(minusNumber);
@@ -213,7 +215,6 @@ function addMinusSign(targetRow) {
   const leftOffset =
     targetNumRect.left - containerRect.left - minusNumber.offsetWidth;
   minusNumber.style.left = `calc(${leftOffset}px - 0.5vw)`;
-
 }
 
 // --- CORE INTERACTION LOGIC ---
@@ -365,14 +366,18 @@ function advanceStep() {
     case 9:
       setupFinalStep();
       break;
+    case 10:
+      completion();
+      break;
   }
 }
 
 function setupStep0_a() {
   updateSpeechBubble("step0_a");
   const row = createRow();
-  row.tens.element.classList.add("ftue-highlight");
-  row.ones.element.classList.add("ftue-highlight");
+  showFtue(row.tens.element, false);
+  showFtue(row.ones.element, false);
+  showFtue(nextButton, true);
   nextButton.textContent = texts.buttons.next;
   nextButton.disabled = false;
 }
@@ -382,22 +387,25 @@ function setupStep0_b() {
   const row = rows[0];
   row.tens.stepper.style.visibility = "visible";
   row.ones.stepper.style.visibility = "visible";
-
-  row.tens.plusButton.disabled = true;
-  row.tens.minusButton.disabled = true;
-  row.ones.plusButton.disabled = true;
-  row.ones.minusButton.disabled = true;
-
+  [
+    row.tens.plusButton,
+    row.tens.minusButton,
+    row.ones.plusButton,
+    row.ones.minusButton,
+  ].forEach((b) => (b.disabled = true));
   showFtue(row.tens.stepper, false);
+  showFtue(row.ones.stepper, false);
+  showFtue(nextButton, true);
   nextButton.disabled = false;
 }
 
 function setupStep0_c() {
   updateSpeechBubble("step0_c");
-  nextButton.textContent = texts.buttons.start_task;
   const row = rows[0];
   showFtue(row.tensNumber.element, false);
   showFtue(row.onesNumber.element, false);
+  showFtue(nextButton, true);
+  nextButton.textContent = texts.buttons.start_task;
   nextButton.disabled = false;
 }
 
@@ -433,6 +441,7 @@ function completeStep1() {
 }
 
 function setupStep2_tens() {
+  setJaxpose("pose_normal");
   updateSpeechBubble("step2_tens");
   const row = createRow();
   row.tens.stepper.style.visibility = "visible";
@@ -455,6 +464,7 @@ function setupStep2_ones() {
 }
 
 function completeStep2() {
+  setJaxpose("pose_happy");
   updateSpeechBubble("step2_complete");
   const row = rows[1];
   row.tens.stepper.style.visibility = "hidden";
@@ -485,136 +495,32 @@ function setupStep3() {
   // }
   showFtue(nextButton, true);
 }
+const overlay = document.getElementById("activity-complete-overlay");
+const startOverBtn = document.getElementById("start-over-btn");
+const overlayTitle = document.getElementById("overlay-title");
+const overlayMessage = document.getElementById("overlay-message");
+const leftPanel = document.querySelector(".left-panel");
 
-async function handleBorrowAnimation() {
-  const minuend = rows[0];
-  const sourceTenRod =
-    minuend.tens.blockContainer.querySelector("img:last-child");
-  if (!sourceTenRod) return;
-
-  const onesContainer = minuend.ones.blockContainer;
-  const tempTarget = document.createElement("div");
-  Object.assign(tempTarget.style, {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    width: "1px",
-    height: "1px",
-    visibility: "hidden",
-  });
-  onesContainer.appendChild(tempTarget);
-
-  // minuend.tensNumber.element.innerHTML = `<del>${
-  //   minuend.tens.count * 10
-  // }</del> ${(minuend.tens.count - 1) * 10}`;
-  // minuend.onesNumber.element.innerHTML = `<del>${minuend.ones.count}</del> ${
-  //   minuend.ones.count + 10
-  // }`;
-  // minuend.tens.badge.innerHTML = `<del>${minuend.tens.count}</del> ${
-  //   minuend.tens.count - 1
-  // }`;
-  // minuend.ones.badge.innerHTML = `<del>${minuend.ones.count}</del> ${
-  //   minuend.ones.count + 10
-  // }`;
-
-  await new Promise((resolve) => {
-    // Animate the ten-rod to the new, tiny target
-    animateCloneToTarget(
-      sourceTenRod,
-      tempTarget,
-      () => minuend.updateVisuals("tens", minuend.tens.count - 1),
-      async () => {
-        tempTarget.remove(); // Clean up the temporary target
-        minuend.ones.count += 10;
-        minuend.ones.blockContainer.innerHTML = "";
-        for (let i = 0; i < minuend.ones.count; i++) {
-          const block = document.createElement("img");
-          block.src = "assets/unit.png";
-          minuend.ones.blockContainer.appendChild(block);
-          playSound("click");
-          await wait(30);
-        }
-
-        const allUnits = Array.from(minuend.ones.blockContainer.children);
-        const overflowUnits = allUnits.slice(10);
-        if (overflowUnits.length > 0) {
-          const overflowContainer = document.createElement("div");
-          overflowContainer.className = "blocks-grid unit-block";
-          overflowUnits.forEach((unit) => overflowContainer.appendChild(unit));
-          minuend.ones.blockContainer.parentNode.appendChild(overflowContainer);
-          minuend.ones.blockContainer.classList.add(
-            "is-overflowing",
-            "unit-block-overflow"
-          );
-        }
-        resolve();
-      }
-    );
-  });
-
-  updateSpeechBubble("step_borrow_complete");
-  nextButton.textContent = texts.buttons.take_away_ones;
-  nextButton.disabled = false;
-  showFtue(nextButton);
+function showOverlay(titleTag, messageTag, buttonTag, cb) {
+  leftPanel.style.visibility = "hidden";
+  nextButton.style.visibility = "hidden";
+  overlayTitle.innerHTML = texts.context_data[titleTag];
+  overlayMessage.innerHTML = texts.context_data[messageTag];
+  overlay.style.display = "flex";
+  startOverBtn.textContent = texts.buttons[buttonTag];
+  showFtue(startOverBtn, true);
+  startOverBtn.onclick = () => {
+    hideOverlay();
+    
+    cb?.();
+  };
 }
 
-async function takeAway(place, count) {
-  const sourceBlockElements = rows[0][place].element;
-  const sourceBlocks = Array.from(
-    sourceBlockElements.querySelectorAll(".blocks-grid img")
-  );
-  const targetPlaceholders = Array.from(rows[1][place].blockContainer.children);
-  let takenAwayCount = 0;
-
-  for (let i = 0; i < count; i++) {
-    await new Promise((resolve) =>
-      animateCloneToTarget(
-        sourceBlocks[i],
-        targetPlaceholders[i],
-        () => sourceBlocks[i].classList.add("transparent"),
-        () => {
-          takenAwayCount++;
-          const newBlock = document.createElement("img");
-          newBlock.src = `assets/${place === "tens" ? "ten" : "unit"}.png`;
-          targetPlaceholders[i].replaceWith(newBlock);
-          rows[1].updateNumbers(place, takenAwayCount);
-          resolve();
-        }
-      )
-    );
-    await wait(150);
-  }
-}
-
-async function collect(place) {
-  const sourceBlockElements = rows[0]["ones"].element;
-  const remainingBlocks = Array.from(
-    sourceBlockElements.querySelectorAll(".blocks-grid img")
-  );
-
-  let resultCount = 0;
-  for (const sourceBlock of remainingBlocks) {
-    const placeholder = document.createElement("div");
-    placeholder.style.width = `${sourceBlock.offsetWidth}px`;
-    placeholder.style.height = `${sourceBlock.offsetHeight}px`;
-    placeholder.style.visibility = "hidden";
-    rows[2][place].blockContainer.appendChild(placeholder);
-
-    await new Promise((resolve) =>
-      animateCloneToTarget(
-        sourceBlock,
-        placeholder,
-        () => sourceBlock.classList.add("transparent"),
-        () => {
-          resultCount++;
-          rows[2].updateVisuals(place, resultCount);
-          rows[2].updateNumbers(place, resultCount);
-          resolve();
-        }
-      )
-    );
-    await wait(150);
-  }
+function hideOverlay() {
+  leftPanel.style.visibility = "visible";
+  nextButton.style.visibility = "visible";
+  overlay.style.display = "none";
+  hideFtue();
 }
 
 async function unitsTopToBottom(place = "ones") {
@@ -777,6 +683,7 @@ async function handleunits1() {
   updateSpeechBubble("unit_overflow");
   setNext("unit_overflow");
   setJaxpose("pose_thinking");
+  showFtue(nextButton, true);
 }
 async function handleUnits2() {
   const sourceBlockElements = rows[1]["tens"].element;
@@ -793,10 +700,21 @@ async function handleUnits2() {
   unitstack.remove();
   rows[2].updateVisuals("tens", 1);
   rows[2].updateNumbers("tens", 1);
-  nextButton.disabled = false;
+  // nextButton.disabled = false;
   updateSpeechBubble("after_overflow");
   setNext("add_ten");
   setJaxpose("pose_normal");
+  setTimeout(() => {
+    showOverlay(
+      "overlay_carry_heading",
+      "overlay_carry_message",
+      "okay",
+      ()=>{
+        nextButton.disabled = false;
+        showFtue(nextButton, true);
+      }
+    );
+  }, 400);
 }
 async function handleTens() {
   await tensTopToBottom();
@@ -806,48 +724,7 @@ async function handleTens() {
   setNext("next");
   updateSpeechBubble("done");
   setJaxpose("pose_superHappy");
-}
-async function handleTakeAwayOnes() {
-  updateSpeechBubble("take_away_ones");
-  await takeAway("ones", SUBTRAHEND_ONES);
-  nextButton.textContent = texts.buttons.take_away_tens;
-  nextButton.disabled = false;
-  const minuend = rows[0];
-  minuend.ones.blockContainer.classList.remove("unit-block-overflow");
-  showFtue(nextButton);
-}
-
-async function handleTakeAwayTens() {
-  updateSpeechBubble("take_away_tens");
-  await takeAway("tens", SUBTRAHEND_TENS);
-  nextButton.textContent = texts.buttons.collect_ones;
-  nextButton.disabled = false;
-  showFtue(nextButton);
-}
-
-async function handleCollectRemainingOnes() {
-  updateSpeechBubble("collect_ones");
-  await collect("ones");
-  nextButton.textContent = texts.buttons.collect_tens;
-  nextButton.disabled = false;
-  showFtue(nextButton);
-}
-
-async function handleCollectRemainingTens() {
-  updateSpeechBubble("collect_tens");
-  await collect("tens");
-
-  // Cleanup overflow classes and containers
-  const minuend = rows[0];
-  const overflowContainer = minuend.ones.element.querySelector(
-    ".unit-block-overflow"
-  );
-
-  setJaxpose("pose_superHappy");
-  updateSpeechBubble("collect_done");
-  nextButton.disabled = false;
-  nextButton.textContent = texts.buttons.next;
-  showFtue(nextButton);
+  showFtue(nextButton, true);
 }
 
 function setupFinalStep() {
@@ -860,7 +737,14 @@ function setupFinalStep() {
     row.onesNumber.element.classList.add("ftue-highlight");
   });
   setJaxpose("pose_happy");
-  nextButton.style.visibility = "hidden";
+  // nextButton.style.visibility = "hidden";
+  nextButton.disabled = false;
+  showFtue(nextButton, true);
+}
+function completion(){
+  showOverlay("overlay_final_heading", "overlay_final_message", "start_over",()=>{
+    window.location.reload();
+  });
 }
 
 // --- INITIALIZATION ---

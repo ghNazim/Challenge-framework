@@ -4,9 +4,9 @@ const flag = "ENGLISH"; //<--Language flag
 localStorage.setItem("flag", flag);
 const textsEnglish = {
   headings: {
-    hundreds: "H",
-    tens: "T",
-    ones: "O",
+    hundreds: "Hundreds",
+    tens: "Tens",
+    ones: "Ones",
   },
   buttons: {
     set: "Set",
@@ -31,9 +31,9 @@ const textsEnglish = {
 
 textsIndonesian = {
   headings: {
-    hundreds: "R", // Ratusan
-    tens: "P", // Puluhan
-    ones: "S", // Satuan
+    hundreds: "Ratusan", // Ratusan
+    tens: "Puluhan", // Puluhan
+    ones: "Satuan", // Satuan
   },
   buttons: {
     set: "Atur",

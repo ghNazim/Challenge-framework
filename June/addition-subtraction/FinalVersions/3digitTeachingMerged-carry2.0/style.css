@@ -688,7 +688,7 @@ body {
   position: absolute;
 }
 
-#overlayStatement {
+.borderedOverlay {
   width: 80%;
   height: 80%;
   background-color: #34495e;
@@ -709,7 +709,7 @@ body {
   
 }
 
-#overlayCharacter {
+.overlay-text-panel img {
   width: 100%;
   height: 100%;
   margin: 0 0 0 0;
@@ -753,7 +753,7 @@ body {
 
 #overlayOkayBtn {
   align-self: center;
-  width: 10vw;
+  width: auto;
   margin-bottom: 2vw;
 }
 
@@ -763,4 +763,11 @@ body {
 #overlayText{
   position: relative;
   top: 2.8vw;
+  
+}
+#completeText{
+  display: none;
+  text-align: center;
+  position: relative;
+  top: 15vh;
 }

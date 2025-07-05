@@ -2,9 +2,9 @@ const flag = localStorage.getItem("flag");
 
 const textsEnglish = {
   headings: {
-    hundreds: "H",
-    tens: "T",
-    ones: "O",
+    hundreds: "Hundreds",
+    tens: "Tens",
+    ones: "Ones",
   },
   buttons: {
     set: "Set",
@@ -24,34 +24,39 @@ const textsEnglish = {
     correct: "Good job! You have added two numbers.",
     wrong: "Try again. That's not the correct answer.",
     finished: "Congratulations! You have completed all questons.",
+    overlay_heading: "Activity Complete!",
+    overlay_text: "If you want to try again, Click on the 'Start Over' button.",
   },
 };
 
-textsIndonesian = {
+const textsIndonesian = {
   headings: {
-    hundreds: "R", // Ratusan
-    tens: "P", // Puluhan
-    ones: "S", // Satuan
+    hundreds: "Ratusan",
+    tens: "Puluhan",
+    ones: "Satuan",
   },
   buttons: {
     set: "Atur",
     next: "Berikutnya",
     submit: "Kirim",
     start_over: "Mulai Lagi",
-    add_unit: "Tambah Tempat Satuan",
-    add_tens: "Tambah Tempat Puluhan",
-    add_hundreds: "Tambah Tempat Ratusan",
-    carryOver_unit: "Bawa ke Atas",
-    carryOver_tens: "Bawa ke Atas",
+    add_unit: "Tambahkan Tempat Satuan",
+    add_tens: "Tambahkan Tempat Puluhan",
+    add_hundreds: "Tambahkan Tempat Ratusan",
+    carryOver_unit: "Bawa ke Puluhan",
+    carryOver_tens: "Bawa ke Ratusan",
     regroup: "Kelompokkan Ulang",
   },
   instructions: {
-    start: "Klik tombol di bagian bawah layar Anda untuk melanjutkan.",
-    set: "Atur jawabannya menggunakan tombol '+' dan '-'.",
-    correct: "Bagus! Kamu telah menjumlahkan dua angka.",
-    wrong: "Coba lagi. Jawabanmu belum tepat.",
-    finished: "Selamat! Kamu telah menyelesaikan semua soal.",
+    start: "Klik tombol di bagian bawah layar untuk melanjutkan.",
+    set: "Atur jawaban menggunakan tombol '+' dan '-'.",
+    correct: "Kerja bagus! Kamu telah menjumlahkan dua angka.",
+    wrong: "Coba lagi. Jawaban itu belum benar.",
+    finished: "Selamat! Kamu telah menyelesaikan semua pertanyaan.",
+    overlay_heading: "Aktivitas Selesai!",
+    overlay_text: "Jika kamu ingin mencoba lagi, klik tombol 'Mulai Lagi'.",
   },
 };
+
 
 const texts = flag === "ENGLISH" ? textsEnglish : textsIndonesian;

@@ -381,7 +381,7 @@ body {
   margin: 1rem;
   font-size: 2vw;
   position: absolute;
-  left: 15%;
+  right: 25%;
   top: 20%;
   transform: translateY(-50%);
   width: 30%;
