@@ -49,10 +49,11 @@ const textsEnglish = {
     done: "Great! You have found the answer!",
     final_result:
       'We see that 27 plus 15 is 42.<br><br><strong style="text-align: center; width: 100%; display: block; font-size: 1.5rem;">27 + 15 = 42</strong>',
-    overlay_carry_heading: "Well done!",
+    overlay_carry_heading:
+      "Well done! You have completed your first carry over.",
     overlay_carry_message:
-      "You have completed your first carry over.<br><br> Whenever ones place has more than 9 cubes, we combine them to form one rod and carry them over to the tens place.",
-    overlay_final_heading: "Activity Complete!",
+      "Whenever ones place has more than 9 cubes, we combine them to form one rod and carry them over to the tens place.",
+    overlay_final_heading: "Activity Complete! ",
     overlay_final_message: `If you want to try again, click on the "Start Over" button.`,
   },
 };
@@ -118,14 +119,14 @@ const textsIndonesian = {
     done: "Bagus! Kamu telah menemukan jawabannya!",
     final_result:
       'Kita lihat bahwa 27 ditambah 15 adalah 42.<br><br><strong style="text-align: center; width: 100%; display: block; font-size: 1.5rem;">27 + 15 = 42</strong>',
-    overlay_carry_heading: "Kerja Bagus!",
+    overlay_carry_heading:
+      "Kerja Bagus! Kamu telah menyelesaikan penyimpanan pertama kamu.",
     overlay_carry_message:
-      "Kamu telah menyelesaikan penyimpanan pertama kamu.<br><br>Setiap kali tempat satuan memiliki lebih dari 9 kubus, kita menggabungkannya menjadi satu batang dan membawanya ke tempat puluhan.",
+      "Setiap kali tempat satuan memiliki lebih dari 9 kubus, kita menggabungkannya menjadi satu batang dan membawanya ke tempat puluhan.",
     overlay_final_heading: "Aktivitas Selesai!",
     overlay_final_message: `Jika kamu ingin mencoba lagi, klik tombol "Mulai Lagi".`,
   },
 };
-
 
 // --- Language Selection ---
 const texts = flag === "INDONESIAN" ? textsIndonesian : textsEnglish;

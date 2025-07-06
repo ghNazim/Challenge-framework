@@ -1563,6 +1563,7 @@ function promptForSecondNumber() {
 function promptForFirstNumber() {
   const instructionImgSrc =
     phase === 0 ? images.set_num_1 : images.set_num_1_phase2;
+    
   showOverlayStatement(
     texts.instructions.set1,
     images.char_normal,

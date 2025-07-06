@@ -143,6 +143,7 @@ function updateTextDisplay(tag, n) {
 }
 function returnEventListenerForPlusBtn(tag) {
   return () => {
+    plusBtnObject[tag].classList.remove("pulse-highlight");
     playSound("click");
     showStatement(-1);
     if (countObject[tag] < 10) {
@@ -395,6 +396,7 @@ ttLeftDir.addEventListener("click", () => {
     confettiBurst();
     playSound("congrats");
     showControlButtons("hundredThousand", false);
+    plusBtnObject.hundredThousand.classList.remove("pulse-highlight");
   }, 500);
 });
 

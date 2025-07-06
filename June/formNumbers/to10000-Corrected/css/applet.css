@@ -333,6 +333,10 @@
   text-align: center;
   outline: 0.3rem solid var(--glowing-orange);
 }
+.comment b{
+  font-size: 2.4rem;
+  font-weight: 700;
+}
 .green {
   background-color: rgba(111, 255, 92, 0.3);
 }
@@ -371,7 +375,7 @@
 }
 @keyframes pulse-highlight {
   0% {
-    box-shadow: 0 0 0 0 var(--button-pulse-color);
+    box-shadow: 0 0 0 0 white;
   }
   70% {
     box-shadow: 0 0 0 2vw rgba(219, 39, 119, 0);

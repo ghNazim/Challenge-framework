@@ -12,6 +12,7 @@ const textsEnglish = {
   top_question: `Click on the '+' in the box to add cubes and make the number <span class="numberInQuestion">157</span> .`,
 
   comments: {
+    _overflow:"Click on the arrow to see the magic happen!",
     unit_overflow:
       "Whoa! Did you see that? The number disappeared! The pink jar is wiggling, it can’t hold more than 9 cubes!",
     ten_overflow:
@@ -20,12 +21,12 @@ const textsEnglish = {
       "The orange jar is wiggling again, it can’t hold more than 9 flats!",
     thousand_overflow:
       "The green jar is wiggling, it can’t hold more than 9 cubes!",
-    ten: "10 Ones = 1 Ten",
-    hundred: "10 Ones = 1 Ten | 10 Tens = 1 Hundred",
+    ten: "<b>10 Ones = 1 Ten</b>",
+    hundred: "10 Ones = 1 Ten | <b>10 Tens = 1 Hundred</b>",
     thousand:
-      "10 Ones = 1 Ten | 10 Tens = 1 Hundred | 10 Hundreds = 1 Thousand",
+      "10 Ones = 1 Ten | 10 Tens = 1 Hundred | <b>10 Hundreds = 1 Thousand</b>",
     tenThousand:
-      "10 Ones = 1 Ten | 10 Tens = 1 Hundred | 10 Hundreds = 1 Thousand | 10 Thousands = 1 Ten Thousand",
+      "10 Ones = 1 Ten | 10 Tens = 1 Hundred | 10 Hundreds = 1 Thousand | <b>10 Thousands = 1 Ten Thousand</b>",
   },
   left_panel: {
     general: "Use '+' or '-' buttons to add or remove elements in the jar.",
@@ -91,40 +92,41 @@ const textsIndonesian = {
   button_texts: {
     prev: "Sebelumnya",
     next: "Berikutnya",
-    add_jar: "Tambahkan Toples Lagi", // Teks untuk tombol saat berada di bentuk terakhir
+    add_jar: "Tambah Toples Lagi", // Teks untuk tombol ketika berada di bentuk terakhir
     start_over: "Mulai Lagi", // Teks untuk tombol di halaman ringkasan
     submit: "Kirim",
     okay: "Oke",
   },
   overlay_text:
-    "Halo! Pernahkah kamu bertanya-tanya bagaimana angka dibuat?<br><br> Ayo bersenang-senang dan cari tahu bersama!",
-  top_question: `Klik tombol '+' di dalam kotak untuk menambahkan kubus dan membuat angka <span class="numberInQuestion">157</span> .`,
+    "Halo! Pernah bertanya-tanya bagaimana angka dibuat?<br><br> Ayo bersenang-senang dan cari tahu bersama-sama!",
+  top_question: `Klik tanda '+' di kotak untuk menambahkan kubus dan membuat angka <span class="numberInQuestion">157</span> .`,
 
   comments: {
+    _overflow: "Klik panah untuk melihat keajaiban terjadi!",
     unit_overflow:
       "Wah! Apakah kamu melihat itu? Angkanya menghilang! Toples merah muda bergoyang, tidak bisa menampung lebih dari 9 kubus!",
     ten_overflow:
       "Wah! Angkanya menghilang! Toples biru bergoyang, tidak bisa menampung lebih dari 9 batang!",
     hundred_overflow:
-      "Toples oranye bergoyang lagi, tidak bisa menampung lebih dari 9 bidang!",
+      "Toples oranye bergoyang lagi, tidak bisa menampung lebih dari 9 lempeng!",
     thousand_overflow:
       "Toples hijau bergoyang, tidak bisa menampung lebih dari 9 kubus!",
-    ten: "10 Satuan = 1 Puluhan",
-    hundred: "10 Satuan = 1 Puluhan | 10 Puluhan = 1 Ratusan",
+    ten: "<b>10 Satuan = 1 Puluhan</b>",
+    hundred: "10 Satuan = 1 Puluhan | <b>10 Puluhan = 1 Ratusan</b>",
     thousand:
-      "10 Satuan = 1 Puluhan | 10 Puluhan = 1 Ratusan | 10 Ratusan = 1 Ribuan",
+      "10 Satuan = 1 Puluhan | 10 Puluhan = 1 Ratusan | <b>10 Ratusan = 1 Ribuan</b>",
     tenThousand:
-      "10 Satuan = 1 Puluhan | 10 Puluhan = 1 Ratusan | 10 Ratusan = 1 Ribuan | 10 Ribuan = 1 Sepuluh Ribu",
+      "10 Satuan = 1 Puluhan | 10 Puluhan = 1 Ratusan | 10 Ratusan = 1 Ribuan | <b>10 Ribuan = 1 Puluh Ribu</b>",
   },
   left_panel: {
     general:
-      "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi elemen di dalam toples.",
+      "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi elemen dalam toples.",
     unit_heading:
       "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi kubus di tempat satuan.",
     ten_heading:
       "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi batang di tempat puluhan.",
     hundred_heading:
-      "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi bidang di tempat ratusan.",
+      "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi lempeng di tempat ratusan.",
     thousand_heading:
       "Gunakan tombol '+' atau '-' untuk menambah atau mengurangi kubus di tempat ribuan.",
     tenThousand_heading: "Selamat! Kamu telah membuat angka Sepuluh Ribu!",
@@ -134,18 +136,19 @@ const textsIndonesian = {
       "Wah! Apakah kamu melihat itu?<br><br> Angkanya menghilang!<br><br> Toples merah muda bergoyang, tidak bisa menampung lebih dari 9 kubus!",
     click_arrow: "Klik panah untuk melihat keajaiban terjadi!",
     ten_general:
-      "10 Satuan menjadi 1 Puluhan!<br><br> Sekarang kita akan menambahkan puluhan dan lihat apa yang terjadi saat toples penuh.",
+      "10 Satuan menjadi 1 Puluhan!<br><br> Sekarang kita akan menambahkan puluhan dan lihat apa yang terjadi saat toples itu penuh.",
     ten_overflow:
       "Wah! Apakah kamu melihat itu?<br><br> Angkanya menghilang!<br><br> Toples biru bergoyang, tidak bisa menampung lebih dari 9 batang!",
     hundred_general:
-      "Sepuluh Puluhan menjadi satu Ratusan!<br><br> Sekarang kita akan menambahkan ratusan dan lihat apa yang terjadi saat toples penuh.",
+      "Sepuluh Puluhan menjadi satu Ratusan!<br><br> Sekarang kita akan menambahkan ratusan dan lihat apa yang terjadi saat toples itu penuh.",
     hundred_overflow:
-      "Toples oranye bergoyang lagi, tidak bisa menampung lebih dari 9 bidang!",
+      "Toples oranye bergoyang lagi, tidak bisa menampung lebih dari 9 lempeng!",
     thousand_general:
-      "Sepuluh Ratusan menjadi satu Ribuan!<br><br> Sekarang kita akan menambahkan ribuan dan lihat apa yang terjadi saat toples penuh.",
+      "Sepuluh Ratusan menjadi satu Ribuan!<br><br> Sekarang kita akan menambahkan ribuan dan lihat apa yang terjadi saat toples itu penuh.",
     thousand_overflow:
       "Toples hijau bergoyang, tidak bisa menampung lebih dari 9 kubus!",
     tenThousand_general: "Selamat! Kamu telah membuat angka Sepuluh Ribu!",
     magic: "Klik panah kuning untuk melihat keajaiban terjadi!",
   },
 };
+

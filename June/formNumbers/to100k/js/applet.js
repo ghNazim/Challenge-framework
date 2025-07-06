@@ -24,7 +24,7 @@ function onHitting10() {
   wiggle(tagMap[currentContainer]);
   setNextText("add_jar");
   nextButton.disabled = false;
-  showComment(tagMap[currentContainer] + "_overflow");
+  showComment("_overflow");
 }
 function reverse10() {
   wiggle(tagMap[currentContainer], false);
@@ -47,15 +47,17 @@ function addContainer() {
 }
 function extraAfterClickingDir() {
   showComment(tagMap[currentContainer]);
+  plusBtnObject[tagMap[currentContainer]].classList.add("pulse-highlight");
+
 }
 
-unitsPlus.addEventListener("click", clickingPlusFirstTime);
-tensPlus.addEventListener("click", clickTensPlusFirstTime);
+// unitsPlus.addEventListener("click", clickingPlusFirstTime);
+// tensPlus.addEventListener("click", clickTensPlusFirstTime);
 
 function handleStart() {
   startButton.classList.remove("pulse-highlight-btn");
   showWidgetContainer(currentContainer);
-
+  plusBtnObject[tagMap[currentContainer]].classList.add("pulse-highlight");
   showControlButtons(tagMap[currentContainer], true);
   nextButton.disabled = true;
   updateHeader("general");

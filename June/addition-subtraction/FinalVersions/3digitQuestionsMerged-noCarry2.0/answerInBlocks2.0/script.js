@@ -454,3 +454,4 @@ function showCompleteOverlay() {
   };
   okayBtn.addEventListener("click", closeHandler);
 }
+showCompleteOverlay();
