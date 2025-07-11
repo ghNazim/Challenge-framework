@@ -21,7 +21,7 @@ const speechBubbleDataEnglish = {
     mcq_2_feedback_correct:
       'Good! You got it right.<br><br>The word "total" indicates that the numbers should be added in this question.<br>Now, let\'s solve this question.<br>Click "Next".',
     expression_hint:
-      "Let's look at the story again.<br><br>Can you find the numbers that need to be added?<br><br>5 butterflies on the flower. 4 butterflies on the leaves.<br><br> Use this information.",
+      "Let's look at the story again.<br><br>Can you find the numbers that need to be added?<br><br>5 butterflies on the flower. 4 butterflies on the leaves. Use this information.",
     final_summary:
       "You solved the question correctly.<br><br> There are 5 + 4 = 9 butterflies in total.<br><br> Let's solve another story. Click 'Next'.",
   },

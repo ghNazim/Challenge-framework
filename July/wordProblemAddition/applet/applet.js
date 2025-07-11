@@ -74,6 +74,7 @@ function loadMCQ(mcqData) {
   } else if (currentStage === 3) {
     // When moving to MCQ 2, show the success message from MCQ 1
     fillContextWithTag(-1, "mcq_1_feedback_correct"); // Use common tag
+    updateQuestionStage3();
   }
 
   bottomOptions.classList.remove("disabled");
@@ -104,6 +105,7 @@ function checkAnswer(selectedIndex, correctIndex, optionElement) {
 
   // MCQ 2's "correct" feedback is problem-specific, all others are common.
   if (stageNum === 2 && isCorrect) {
+    updateQuestionCorrectStage3();
     fillContextWithTag(currentProblemIndex + 1, feedbackTag);
   } else {
     fillContextWithTag(-1, feedbackTag);
@@ -255,6 +257,7 @@ function handleCheckClick() {
     } else {
       // "expression_hint" is problem-specific
       fillContextWithTag(currentProblemIndex + 1, "expression_hint");
+      updateQuestionHintStage4();
       playSound("wrong");
       setJAXpose("sad");
       setActiveBox(findNextAvailableBox(0));
@@ -347,3 +350,60 @@ hintButton.addEventListener("click", () => {
 });
 // Initial load
 initiateProblem(currentProblemIndex);
+
+
+function highlightLastOccurance(words, sentence) {
+  let result = sentence;
+
+  words.forEach((word) => {
+    const regex = new RegExp(`\\b${word}\\b`, "gi");
+    const matches = [...result.matchAll(regex)];
+
+    if (matches.length > 0) {
+      const last = matches[matches.length - 1];
+      const matchedText = last[0];
+      const index = last.index;
+
+      result =
+        result.slice(0, index) +
+        `<span class='text-highlight'>${matchedText}</span>` +
+        result.slice(index + matchedText.length);
+    }
+  });
+
+  return result;
+}
+function updateQuestionStage3() {
+  const updatedQuestion = highlightLastOccurance(
+    problems[currentProblemIndex].mcq_2.options,
+    problems[currentProblemIndex].problem_statement
+  );
+  console.log(updatedQuestion);
+
+  questionSection.innerHTML = `<p>${updatedQuestion}</p>`;
+}
+function updateQuestionCorrectStage3() {
+  const correct_answer = problems[currentProblemIndex].mcq_2.correct_answer;
+  const updatedQuestion = highlightLastOccurance(
+    [problems[currentProblemIndex].mcq_2.options[correct_answer]],
+    problems[currentProblemIndex].problem_statement
+  );
+  console.log(updatedQuestion);
+
+  questionSection.innerHTML = `<p>${updatedQuestion}</p>`;
+}
+function updateQuestionHintStage4() {
+  const correct_answer = problems[currentProblemIndex].mcq_2.correct_answer;
+  const expressionArray = problems[currentProblemIndex].correct_answer;
+  const updatedQuestion = highlightLastOccurance(
+    [
+      problems[currentProblemIndex].mcq_2.options[correct_answer],
+      expressionArray[0],
+      expressionArray[2],
+    ],
+    problems[currentProblemIndex].problem_statement
+  );
+  console.log(updatedQuestion);
+
+  questionSection.innerHTML = `<p>${updatedQuestion}</p>`;
+}
