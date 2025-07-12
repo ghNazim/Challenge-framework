@@ -1,9 +1,9 @@
 const leftInstructionsEnglish = {};
 const speechBubbleDataEnglish = {
   hint_1:
-    "There are some words and phrases like difference, left, in all, altogether, more, remain, etc., that tell whether we need to add or subtract.",
+    "There are some words and phrases like 'difference', 'left', 'in all', 'altogether', 'how many more', 'remain', etc., that tell whether we need to add or subtract.",
   hint_2:
-    "Some words that indicate subtraction are left, less, taken away, remain, more, etc.",
+    "Some words and phrases that indicate subtraction are 'left', 'less', 'taken away', 'remain', 'how many more', etc.",
   stage_1_prompt:
     "Hey!!<br>Let’s read the word problem out loud.<br><br>Use this information to solve the upcoming question.<br>Click 'Next'.",
   initial_prompt:
@@ -12,6 +12,8 @@ const speechBubbleDataEnglish = {
     "This question does not require addition.<br><br>Try again.",
   mcq_1_feedback_correct:
     "Well done.<br><br>Now let’s see which part of the question hinted that subtraction needs to be done here.",
+  mcq_2_initial:
+    "Read the full story again.<br><br>Find the word which indicates that subtraction is required.",
   mcq_2_feedback_incorrect:
     "Ohh, that’s not correct.<br><br>Try to find the clue word that tells us to do subtraction here.",
   expression_prompt:
@@ -37,7 +39,7 @@ const speechBubbleDataEnglish = {
 
   problem_3: {
     mcq_2_feedback_correct:
-      "Good. You got it right.<br><br>The word “more” indicates that numbers should be subtracted in this question.<br><br>Now, let’s solve this question. Click 'Next'.",
+      "Good. You got it right.<br><br>The phrase “how many more” indicates that numbers should be subtracted in this question.<br><br>Now, let’s solve this question. Click 'Next'.",
     expression_hint:
       "Putri has 9 chocolates. Budi has 6 chocolates.<br><br>Use this information.",
     final_summary:
@@ -97,8 +99,8 @@ const questionDataEnglish = {
       hint: "Some phrases that indicate subtraction are difference, how many less, left, takes away.",
     },
     mcq_2: {
-      question: "Which of these words here refer to subtraction?",
-      options: ["chocolates", "how many", "more"],
+      question: "Which of these phrase here refer to subtraction?",
+      options: ["chocolates", "have", "how many more"],
       correct_answer: 2,
       hint: "Some phrases that indicate subtraction are difference, how many less, left, takes away.",
     },

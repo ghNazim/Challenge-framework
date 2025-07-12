@@ -12,6 +12,7 @@ const speechBubbleDataEnglish = {
     "This question does not require subtraction.<br><br>Try again.",
   mcq_1_feedback_correct:
     "Well done!<br><br>Now let's see which part of the question hinted that addition needs to be done here.",
+  mcq_2_initial:"Read the full story again.<br><br>Find the word which indicates that addition is required.",
   mcq_2_feedback_incorrect:
     "Oh, that's not correct.<br><br>Try to find the clue word that tells us to do addition here.",
   expression_prompt:

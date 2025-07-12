@@ -65,8 +65,8 @@
 #image-section img {
   height: 12rem;
   border-radius: 15px; /* Adjust the value to control the roundness of the corners */
-  border: .4rem solid #fff; /* A solid white border to act as the outer frame */
-  box-shadow: inset 3px 3px 10px rgba(0, 0, 0, 0.5); /* Inner shadow to give a sense of depth */
+  border: .4rem solid #fdbf74; /* A solid white border to act as the outer frame */
+  box-shadow: inset 10px 10px 0px rgba(0, 0, 0, 0.5); /* Inner shadow to give a sense of depth */
   object-fit: cover; /* Ensures the image fills the frame without distortion */
 }
 
@@ -180,11 +180,14 @@
   font-weight: 700;
 }
 .equation .box {
-  width: 15%;
-  aspect-ratio: 1/1;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: .6rem;
 }
 
+.two-digit{
+  width: 4rem !important;
+}
 .digit-box {
   color: black !important;
   cursor: pointer;

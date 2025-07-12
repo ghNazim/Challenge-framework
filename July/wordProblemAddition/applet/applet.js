@@ -19,13 +19,14 @@ const problems = [
   questionData.problem_2,
   questionData.problem_3,
 ];
-const numpad_data = [
-  [1, 11],
-  [4, 14],
-  [3, 13],
-];
+const twoDigitData = [-1, 4, 4];
+function setUpTwoDigit(index) {
+  document.querySelector(".two-digit")?.classList.remove("two-digit");
+  if (index < 0) return;
+  digitBoxes[index].classList.add("two-digit");
+}
 
-function populateNumberPad(startNum, endNum) {
+function populateNumberPad(startNum = 0, endNum = 9) {
   const container = document.querySelector(".num-container");
   container.innerHTML = "";
   for (let i = startNum; i <= endNum; i++) {
@@ -49,23 +50,25 @@ function initiateProblem(problemIndex) {
   setJAXpose("normal");
   diagramImage.src = `assets/problem_${problemIndex + 1}.jpg`;
   fillContextWithTag(-1, "stage_1_prompt"); // Use common tag
-  populateNumberPad(...numpad_data[problemIndex]);
+  populateNumberPad();
   digitBoxes.forEach((box) => {
     box.textContent = "";
     box.classList.remove("correct", "incorrect");
   });
+  setUpTwoDigit(twoDigitData[problemIndex]);
   const problem = problems[problemIndex];
-  currentStage = 1;
+  currentStage = 2;
   expression_array = [null, null, null, null, null];
   activeBoxIndex = 0;
 
   questionSection.innerHTML = `<p>${problem.problem_statement}</p>`;
   imageSection.style.display = "flex";
   appletRightPanel.style.display = "none";
-  bottomSection.style.visibility = "hidden";
-  hintButton.style.display = "none";
-  nextButton.disabled = false;
-  showFtue(nextButton);
+  // bottomSection.style.visibility = "hidden";
+  // hintButton.style.display = "none";
+  // nextButton.disabled = false;
+  // showFtue(nextButton);
+  loadMCQ(problem.mcq_1);
 }
 
 function loadMCQ(mcqData) {
@@ -73,7 +76,7 @@ function loadMCQ(mcqData) {
     fillContextWithTag(-1, "initial_prompt"); // Use common tag
   } else if (currentStage === 3) {
     // When moving to MCQ 2, show the success message from MCQ 1
-    fillContextWithTag(-1, "mcq_1_feedback_correct"); // Use common tag
+    fillContextWithTag(-1, "mcq_2_initial"); // Use common tag
     updateQuestionStage3();
   }
 
@@ -156,18 +159,46 @@ function loadExpressionStage() {
     number.onclick = () => {
       playSound("click");
       const value = number.dataset.num;
-      if (activeBoxIndex < digitBoxes.length) {
-        digitBoxes[activeBoxIndex].classList.remove("incorrect");
-        digitBoxes[activeBoxIndex].textContent = value;
-        expression_array[activeBoxIndex] = value;
-        activeBoxIndex++;
-        if (
-          activeBoxIndex < digitBoxes.length &&
-          findNextAvailableBox(activeBoxIndex) !== null
-        ) {
-          setActiveBox(findNextAvailableBox(activeBoxIndex));
+
+      if (activeBoxIndex >= digitBoxes.length) return; // Exit if no active box
+
+      const currentBox = digitBoxes[activeBoxIndex];
+      const isTwoDigitBox = currentBox.classList.contains("two-digit");
+      const currentContent = currentBox.textContent;
+      let shouldMoveToNext = false;
+
+      // Logic for filling the box
+      if (isTwoDigitBox) {
+        if (currentContent.length < 2) {
+          // If the box is a two-digit box and has less than 2 digits, append the number
+          currentBox.textContent += value;
+        }
+        else{
+          currentBox.textContent = value;
+        }
+        // If it now has 2 digits, it's time to move to the next box
+        if (currentBox.textContent.length === 2) {
+          shouldMoveToNext = true;
+        }
+      } else {
+        // If it's a single-digit box, just set the content and plan to move
+        currentBox.textContent = value;
+        shouldMoveToNext = true;
+      }
+
+      // Update the expression array with the final content of the box
+      expression_array[activeBoxIndex] = currentBox.textContent;
+      currentBox.classList.remove("incorrect");
+
+      // Decide whether to move to the next box
+      if (shouldMoveToNext) {
+        const nextIndex = findNextAvailableBox(activeBoxIndex + 1);
+        if (nextIndex !== null) {
+          setActiveBox(nextIndex);
         } else {
+          // All boxes are filled, disable active state and enable check button
           digitBoxes.forEach((box) => box.classList.remove("box-active"));
+          activeBoxIndex = -1; // Invalidate index
           nextButton.disabled = false;
         }
       }
@@ -224,7 +255,8 @@ function checkExpression() {
           (correct1 &&
             String(expression_array[2]) === String(correctAnswer[2])) ||
           (!correct1 &&
-            String(expression_array[2]) === String(correctAnswer[0]));
+            (String(expression_array[2]) === String(correctAnswer[0]) ||
+              String(expression_array[2]) === String(correctAnswer[2])));
 
         if (correct2) {
           digitBoxes[2].classList.add("correct");
@@ -247,7 +279,7 @@ function handleCheckClick() {
   if (currentStage === 4) {
     if (checkExpression()) {
       // "final_summary" is problem-specific
-      fillContextWithTag(currentProblemIndex + 1, "final_summary","green");
+      fillContextWithTag(currentProblemIndex + 1, "final_summary", "green");
       playSound("correct");
       setJAXpose("happy");
       showFtue(nextButton);
@@ -285,7 +317,10 @@ function findNextAvailableBox(startIndex) {
       const correct2 =
         (correct1 &&
           String(expression_array[2]) === String(correctAnswer[2])) ||
-        (!correct1 && String(expression_array[2]) === String(correctAnswer[0]));
+        (!correct1 &&
+          (String(expression_array[2]) === String(correctAnswer[0]) ||
+            String(expression_array[2]) === String(correctAnswer[2])));
+
       if (correct2) {
         continue;
       } else {
@@ -305,7 +340,7 @@ function findNextAvailableBox(startIndex) {
 
 nextButton.addEventListener("click", () => {
   playSound("click");
-  hideFtue()
+  hideFtue();
   if (currentStage === 4) {
     const isCorrect = handleCheckClick();
     if (!isCorrect) {
@@ -350,7 +385,6 @@ hintButton.addEventListener("click", () => {
 });
 // Initial load
 initiateProblem(currentProblemIndex);
-
 
 function highlightLastOccurance(words, sentence) {
   let result = sentence;
