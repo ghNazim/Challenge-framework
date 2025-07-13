@@ -1,0 +1,305 @@
+#bottom-statement {
+  color: white;
+  height: 15%;
+  border: 1px solid #fdbe35;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+  z-index: 30;
+}
+
+.main-container {
+  width: 100%;
+  display: flex;
+  padding: 0.5rem;
+  gap: 2rem;
+  position: relative;
+}
+
+.panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vw 2vw;
+  color: #333333; /* Changed from white */
+  height: 100%;
+}
+
+/* --- Unified Styling for Both Panels --- */
+.addition-container {
+  display: grid;
+  font-size: 3vw; /* Adjusted font size for more columns */
+  gap: 0.6vw 0.5vw; /* row-gap column-gap */
+  text-align: right;
+  width: 100%;
+  border-radius: .5rem;
+  
+}
+.addition-container div {
+  /* border: 1px solid blue; */
+}
+.item {
+  padding: 0.5vw;
+  box-sizing: border-box;
+  min-height: 3.5vw; /* Adjusted min-height */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.row-result.item {
+  min-height: 8vw;
+  align-items: flex-start;
+}
+.line-item {
+  height: 0.2vw;
+  background-color: #333333; /* Changed from white */
+  grid-column: 1 / -1;
+  align-self: center;
+  /* margin: 0.3vw 0; */
+}
+
+/* --- Left Panel Specifics --- */
+.left-panel {
+  border-radius: 1rem;
+  width: 30%;
+  background: linear-gradient(180deg, #ffefc1 0%, #ffe6b3 100%);
+  box-shadow: inset 0px 0px 0px 0.25rem #fbc658, 0px 0px 0px 0.6rem #e58a2d;
+  display: flex;
+}
+.left-panel .addition-container {
+  width: 85%;
+  grid-template-columns: repeat(6, 1.2rem);
+  column-gap: 0rem;
+  row-gap: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  padding:.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Right Panel Specifics --- */
+.right-panel {
+  background: linear-gradient(180deg, #ffefc1 0%, #ffe6b3 100%);
+  box-shadow: inset 0px 0px 0px 0.25rem #fbc658, 0px 0px 0px 0.6rem #e58a2d;
+  flex: 1;
+  border-radius: 1rem;
+}
+.right-panel .addition-container {
+  /* Proportional column widths: TTh > Th > H > T > O */
+  grid-template-columns: 2.5fr 2fr 1.5fr 1fr 1fr;
+  column-gap: 0;
+  row-gap: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  padding:.5rem
+}
+
+.right-panel .item {
+  justify-content: center;
+  text-align: center;
+  border: 1px dashed #333333;
+}
+.left-panel .item{
+  justify-content: center;
+  text-align: center;
+}
+.right-panel .header {
+  font-weight: bold;
+}
+
+.carry-over {
+  font-size: 2vw; /* Adjusted carry-over font size */
+  color: #555555; /* Changed from #bdc3c7 */
+  align-items: flex-end;
+  padding-bottom: 0.5vw;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+/* Color definitions for place values */
+.tth-color {
+  color: #2ecc71;
+} /* Green */
+.th-color {
+  color: #ffc000;
+} /* Yellow */
+.h-color {
+  color: #e56d30;
+} /* Orange */
+.t-color {
+  color: #00b4f1;
+} /* Blue */
+.o-color {
+  color: #ce088c;
+} /* Red */
+#mcq-overlay {
+  position: fixed;
+}
+/* --- MCQ Styles (Reverted to Dark Theme) --- */
+#mcq-container {
+  height: 70%;
+  padding: 0.5rem;
+  color: #f0f0f0; /* Light text for dark overlay */
+  font-family: Arial, sans-serif;
+  width: 60%;
+  /* margin: auto; */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid pink; */
+}
+#left-info {
+  width: 50%;
+  height: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  display: none;
+  color: #f0f0f0;
+  text-align: center;
+  /* padding-left: 1rem; */
+  padding: 0 1rem;
+  border-right: 1px solid #555;
+}
+#mcq-overlay.split #left-info {
+  display: flex;
+}
+#mcq-container p {
+  font-size: 1.8rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+#mcq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 50%;
+}
+
+.option {
+  background-color: #2c2c2c; /* Dark grey background */
+  color: #f0f0f0; /* Light text */
+  border: 0.1rem solid #555;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.6rem;
+  background-color: #34495e;
+  border: 2px solid #7f8c8d;
+  color: #ecf0f1;
+  padding: 0.5rem;
+}
+
+.option:hover {
+  background-color: #4a6278;
+  border-color: #f1c40f;
+
+  transform: translateY(-2px);
+}
+
+.option.correct {
+  background-color: #28a745;
+  color: #ffffff;
+  border-color: #28a745;
+}
+
+.option.wrong {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-color: #dc3545;
+  pointer-events: none;
+}
+/* --- End of Reverted MCQ Styles --- */
+
+#highlight-box {
+  position: fixed;
+  border: 3px solid rgb(193, 6, 193);
+  z-index: 10;
+  display: none;
+  transition: all 0.35s ease-in-out;
+  box-sizing: border-box;
+}
+.green-box {
+  border-color: #2ecc71 !important;
+}
+.clickable {
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+#highlight-box button {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2rem;
+  height: 2rem;
+  background-color: rgb(193, 6, 193);
+  color: white;
+  border: 2px solid white;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: none;
+}
+#highlight-box button:hover {
+  background-color: rgb(127, 3, 127);
+  scale: 1.1;
+}
+#next-button {
+  z-index: 30;
+}
+/* --- Border Fixes for Right Panel --- */
+
+/* Override the original rule that creates a border on all four sides of each cell */
+.right-panel .item {
+  border: none;
+}
+
+/* Add a border to the container, which will act as the top and left outlines of the grid */
+
+/* Add borders to the bottom and right of each cell to create the inner grid lines */
+.right-panel .item {
+  border-bottom: 1px dashed #333333;
+  border-right: 1px dashed #333333;
+}
+
+/* --- Exceptions for the horizontal line separator --- */
+
+/* The row before the line (.row-num2) should not have a bottom border,
+   as the .line-item itself will serve as the separator. */
+.right-panel .row-num2.item {
+  border-bottom: none;
+}
+/* --- Final Border Adjustments --- */
+
+/* Remove the right border from the rightmost column in the right panel.
+   The 'o-color' class is used for the 'Ones' column, which is the last one. */
+.right-panel .col-5 {
+  border-right: none;
+}
+
+/* Remove the bottom border from the final result row in the right panel. */
+.right-panel .row-result.item {
+  border-bottom: none;
+}
+/* .right-panel .row-carry.item {
+  border-right: none;
+} */
+
+.text-transparent {
+  color: transparent;
+}

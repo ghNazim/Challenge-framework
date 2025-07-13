@@ -8,27 +8,22 @@ const leftInstructionsEnglish = {
   final_correct_top: "Great!",
   final_correct:
     "{{count}} {{item_plural}} taken {{group}} times is:<br><b> {{questionString}} {{answer}}</b> {{item_plural}} in {{group}} {{group_name_plural}}.",
-  question_1: "How many pencils are there in 3 such boxes?",
-  question_2: "Can you count the number of flowers in 5 bushes?",
-  question_3: "How many dumplings are there in 3 such bowls?",
-  question_4: "How many candies are there in 3 such bags?",
   question:
     "How many {{item_plural}} are there in {{group}} such {{group_name_plural}}?",
   tap: "Tap each {{item_in_group}}.",
   tap_next: "Tap the next {{item_in_group}}.",
-  tap_1: "Tap each pencil box.",
-  tap_2: "Tap each flower bush.",
-  tap_3: "Tap each bowl of dumpling.",
-  tap_4: "Tap each bag of candy.",
-  tap_next_1: "Tap the next pencil box.",
-  tap_next_2: "Tap the next flower bush.",
-  tap_next_3: "Tap the next bowl of dumpling.",
-  tap_next_4: "Tap the next bag of candy.",
   correct_mid: "That's correct!",
   mid_step_top:
     "How many {{item_plural}} are there in {{current_image}} {{group_name_neutral}}?<br><b>{{currentQuestionString}}?</b>",
   click_buttons:
     "Enter your answer in the yellow box by clicking the buttons below.",
+  question_before_tap1: "How many {{group_name_plural}} are there?",
+  question_before_tap2:
+    "How many {{item_plural}} are there in each {{group_name}} ?",
+  correct_1_top:"Thats correct! There are {{group}} {{group_name_plural}} in total.",
+  correct_1_bottom:"Click 'Next' to continue.",
+  correct_2_top:"That's correct! There are {{count}} {{item_plural}} in each {{group_name}}.",
+  correct_2_bottom:"Click 'Next' to continue.",
 };
 const dataForQuestionsEnglish = {
   1: {
@@ -36,9 +31,10 @@ const dataForQuestionsEnglish = {
     count: 3,
     item: "pencil",
     item_plural: "pencils",
-    group_name:"box",
+    group_name: "box",
     group_name_plural: "boxes",
     answer: 9,
+    item_in_group: "pencil box",
   },
   2: {
     group: 5,
@@ -48,6 +44,7 @@ const dataForQuestionsEnglish = {
     group_name_plural: "bushes",
     group_name: "bush",
     answer: 20,
+    item_in_group: "flower bush",
   },
   3: {
     group: 4,
@@ -57,6 +54,7 @@ const dataForQuestionsEnglish = {
     group_name: "bowl",
     answer: 12,
     item_plural: "dumplings",
+    item_in_group: "bowl of dumpling",
   },
   4: {
     group: 3,
@@ -66,6 +64,7 @@ const dataForQuestionsEnglish = {
     group_name: "bag",
     answer: 15,
     item_plural: "candies",
+    item_in_group: "bag of candy",
   },
 };
 const overlayDataEnglish = {

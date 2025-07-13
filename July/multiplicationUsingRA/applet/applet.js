@@ -18,9 +18,9 @@ const numberAnswer = document.querySelector("#number-box .a");
 const hintButton = document.getElementById("hint-button");
 hintButton.onclick = () => {
   playSound("click");
-  updateInstructionWithData("hint", "tap_" + phase);
+  updateInstructionWithData("hint", "question_before_tap1");
   context.querySelector("p:first-child").classList.add("blue");
-  afterAnswer();
+  loadMcq1();
 };
 const numpad = document.getElementById("numpad");
 const answerBox = document.querySelector("#number-box .a");
@@ -102,13 +102,13 @@ function initiate() {
   nextButton.textContent = buttonText.submit;
   nextButton.disabled = true;
   resetNumberText();
-  updateInstructionWithData("question_" + phase, "click_buttons");
   currentQuestion = dataForQuestions[phase];
   bringSingleImage();
   nextButton.onclick = checkAnswer;
   hintButton.style.display = "block";
   numpad.classList.remove("disabled");
   fillNumpad();
+  updateInstructionWithData("question", "click_buttons");
 }
 initiate();
 
@@ -160,16 +160,16 @@ function checkAnswer() {
   if (currentAnswer === currentQuestion.answer) {
     playSound("correct");
     setJAXpose("happy");
-    updateInstructionWithData("correct", "tap_" + phase);
+    updateInstructionWithData("correct", "question_before_tap1");
     context.querySelector("p:first-child").classList.add("green");
     nextButton.disabled = true;
   } else {
     playSound("wrong");
     setJAXpose("sad");
-    updateInstructionWithData("wrong", "tap_" + phase);
+    updateInstructionWithData("wrong", "question_before_tap1");
     context.querySelector("p:first-child").classList.add("red");
   }
-  afterAnswer();
+  loadMcq1();
 }
 function checkAnswerMid() {
   const answer = clickedImageCount * currentQuestion.count;
@@ -177,7 +177,7 @@ function checkAnswerMid() {
     nextButton.disabled = true;
     playSound("correct");
     setJAXpose("happy");
-    updateInstructionWithData("correct_mid", "tap_next_" + phase);
+    updateInstructionWithData("correct_mid", "tap_next");
     numpad.classList.add("disabled");
     answerBox.classList.remove("vibrate-x", "incorrect");
     answerBox.classList.add("correct");
@@ -192,12 +192,11 @@ function checkAnswerMid() {
     answerBox.classList.add("vibrate-x", "incorrect");
   }
 }
+
 function afterAnswer() {
   setImagePanel();
-  hintButton.style.display = "none";
-  numpad.classList.add("disabled");
-  nextButton.disabled = true;
-  answerBox.style.display = "none";
+  
+  
 
   // Use a setTimeout to allow the GSAP animation to start first
   setTimeout(() => {
@@ -239,24 +238,25 @@ function handleImageClick(event) {
   //   allImages[currentIndex + 1].classList.add("clickable-image");
   //   showFtue(allImages[currentIndex + 1]);
   // }
+  if(clickedImageCount===1){
+    fillNumpad();
+  }
   if (clickedImageCount === totalImages) {
     nextButton.onclick = checkAnswer2;
     numpad.classList.remove("disabled");
     answerBox.style.display = "inline-block";
     answerBox.classList.remove("correct");
     answerBox.textContent = "";
-    updateInstruction(filledText("hmm"), leftInstructions.try_answering);
+    updateInstructionWithData("hmm", "try_answering");
   } else if (clickedImageCount >= 1) {
     nextButton.onclick = checkAnswerMid;
     numpad.classList.remove("disabled");
     answerBox.style.display = "inline-block";
     answerBox.classList.remove("correct");
     answerBox.textContent = "";
-    updateInstruction(
-      filledText("mid_step_top"),
-      leftInstructions.try_answering
-    );
+    updateInstructionWithData("mid_step_top", "try_answering");
   }
+  
 }
 function fillPlaceholders(template, data) {
   return template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
@@ -268,6 +268,8 @@ function fillPlaceholders(template, data) {
 function filledText(tag) {
   const template = leftInstructions[tag];
   const data = {
+    item_in_group: currentQuestion.item_in_group,
+    group_name: currentQuestion.group_name,
     current_image: clickedImageCount,
     currentQuestionString: generateQuestionString(
       clickedImageCount,
@@ -303,10 +305,7 @@ function checkAnswer2() {
     playSound("correct");
     showFtue(nextButton);
     confettiBurst();
-    updateInstruction(
-      leftInstructions["final_correct_top"],
-      filledText("final_correct")
-    );
+    updateInstructionWithData("final_correct_top", "final_correct");
     context.querySelector("p:first-child").classList.add("green");
     context.querySelector("p:last-child").classList.add("green");
 
@@ -316,7 +315,7 @@ function checkAnswer2() {
     setJAXpose("sad");
     playSound("wrong");
     answerBox.classList.add("vibrate-x", "incorrect");
-    updateInstruction(filledText("hmm"), leftInstructions.try_answering_again);
+    updateInstructionWithData("hmm","try_answering_again");
     context.querySelector("p:first-child").classList.add("red");
     context.querySelector("p:last-child").classList.add("red");
   }
@@ -332,4 +331,105 @@ function handleNextClick() {
   phase++;
   answerBox.classList.remove("correct");
   initiate();
+}
+
+function updateInstructionWithData(tag1, tag2) {
+  const text1 = filledText(tag1);
+  const text2 = filledText(tag2);
+  updateInstruction(text1, text2);
+}
+
+
+function loadMcq1(){
+  answerBox.innerHTML = "";
+  fillNumpadShort();
+  setImagePanel();
+  nextButton.disabled = false;
+  nextButton.onclick = checkMcq1;
+  hintButton.style.display = "none";
+  nextButton.disabled = true;
+}
+function checkMcq1() {
+  const answer = currentQuestion.group;
+  if (currentAnswer === answer) {
+    nextButton.disabled = true;
+    playSound("correct");
+    setJAXpose("happy");
+    updateInstructionWithData("correct_1_top","question_before_tap2");
+    numpad.classList.add("disabled");
+    answerBox.classList.remove("vibrate-x", "incorrect");
+    answerBox.classList.add("correct");
+    setTimeout(() => {
+      loadMcq2();
+    }, 1500);
+  } else {
+    playSound("wrong");
+    setJAXpose("sad");
+    answerBox.classList.add("vibrate-x", "incorrect");
+  }
+}
+function loadMcq2(){
+  fillNumpadShort();
+  nextButton.disabled = false;
+  answerBox.innerHTML = "";
+  answerBox.classList.remove("correct");
+  numpad.classList.remove("disabled");
+  nextButton.onclick= checkMcq2;
+}
+
+function checkMcq2(){
+const answer = currentQuestion.count;
+if (currentAnswer === answer) {
+  nextButton.disabled = true;
+  playSound("correct");
+  setJAXpose("happy");
+  updateInstructionWithData("correct_2_top", "tap");
+  numpad.classList.add("disabled");
+  answerBox.classList.remove("vibrate-x", "incorrect");
+  answerBox.classList.add("correct");
+  setupImageClick();
+} else {
+  playSound("wrong");
+  setJAXpose("sad");
+  answerBox.classList.add("vibrate-x", "incorrect");
+}
+}
+
+function fillNumpadShort() {
+  numpad.innerHTML = ""; // Clear existing numbers
+  const num = currentQuestion.count;
+  // const groups = currentQuestion.group;
+  const correctAnswer = currentQuestion.answer;
+  // const startNumber = correctAnswer - 5;
+
+  for (let i = 0; i < 10; i++) {
+    const numberValue = i+1;
+    const numberElement = document.createElement("div");
+
+    numberElement.classList.add("number");
+    numberElement.dataset.value = numberValue;
+    numberElement.textContent = numberValue;
+
+    numpad.appendChild(numberElement);
+  }
+  gsap.from("#numpad .number", {
+    duration: 0.5,
+    scale: 0.5,
+    opacity: 0,
+    y: -40, // Animate from 40px above
+    ease: "back.out(1.7)", // This ease creates a nice bounce effect
+    stagger: 0.05, // Delay between each number's animation
+  });
+}
+
+function setupImageClick(){
+  answerBox.style.display = "none";
+  numpad.classList.add("disabled");
+  const firstImage = imagePanel.firstElementChild;
+  if (firstImage) {
+    // Check if the image exists
+    firstImage.classList.add("clickable-image");
+    imagePanel.addEventListener("click", handleImageClick);
+    showFtue(firstImage);
+  }
 }

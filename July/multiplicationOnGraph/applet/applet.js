@@ -10,15 +10,20 @@ const appletContainer = document.querySelector(".applet-container");
 const appletH1 = document.querySelector("#applet>h1");
 const leftAnimationBox = document.getElementById("left-animation-box");
 const rightAnimationBox = document.getElementById("right-animation-box");
-appletH1.innerHTML = leftInstructions.h1Text;
+
 const cornerText = document.getElementById("corner-text");
-cornerText.innerHTML = leftInstructions.cornerText;
 
 // --- Constants ---
 const MAX_ROWS = 8;
 const MAX_COLS = 8;
 const max_cols_actual = 6;
-const question = {
+const questions = [
+  { col: 5, row: 4 },
+  { col: 6, row: 3 },
+  { col: 8, row: 2 },
+];
+
+let question = {
   col: 5,
   row: 4,
 };
@@ -28,11 +33,66 @@ let xAxisSpans = [];
 let yAxisSpans = [];
 let duplicateCells = [];
 let stage = 0;
+let templateData = null;
+let questionIndex = 0;
 
 /**
- * Initializes the applet by creating the grid, labels, and setting initial state.
+ * Initializes or resets the applet for a new question.
+ * This function now includes a full reset of the UI and state.
  */
 function initialize() {
+  // --- Full Reset Section ---
+
+  // 1. Clear dynamically created DOM elements from previous run
+  grid.innerHTML = "";
+  xAxisLabels.innerHTML = "";
+  yAxisLabels.innerHTML = "";
+  vSliderLabels.innerHTML = "";
+  hSliderLabels.innerHTML = "";
+  leftAnimationBox.innerHTML = "";
+  rightAnimationBox.innerHTML = "";
+
+  // 2. Remove any leftover '.duplicate-cell' elements from the body
+  const oldDuplicates = document.querySelectorAll(".duplicate-cell");
+  oldDuplicates.forEach((cell) => cell.remove());
+
+  // 3. Reset sliders to their initial values
+  colSlider.value = 0;
+  rowSlider.value = 1;
+
+  // 4. Reset UI element visibility to the initial state
+  appletH1.style.display = "block";
+  appletContainer.style.display = "none";
+  colSlider.parentElement.style.display = "none";
+  rowSlider.parentElement.style.display = "none";
+  leftAnimationBox.style.display = "none";
+  rightAnimationBox.style.display = "none";
+  document.getElementById("bottom-text").style.display = "none";
+  cornerText.style.display = "block";
+
+  // 5. Reset buttons to their initial state
+  nextButton.disabled = false;
+  previousButton.style.display = "none";
+  setNext("start"); // Resets the Next button text
+
+  // 6. Clear the MCQ options from the context panel
+  const contextDiv = document.getElementById("context");
+  let optionsContainer = document.getElementById("context-options");
+  if (optionsContainer) {
+    optionsContainer.remove();
+  }
+
+  // --- Reset State Variables ---
+  cells = [];
+  xAxisSpans = [];
+  yAxisSpans = [];
+  duplicateCells = [];
+  stage = 0;
+  templateData = null;
+  question = questions[questionIndex];
+
+  // --- Re-creation and Setup Section (from original code) ---
+
   // Create all 64 grid cells and store their references
   for (let r = 0; r < MAX_ROWS; r++) {
     cells[r] = [];
@@ -53,10 +113,26 @@ function initialize() {
 
   // Initial UI update based on default slider values
   updateUI();
-  atStage0();
-  // atStage1();
-  // rowSlider.parentElement.style.display = "flex";
   setUpAnimationBox();
+
+  templateData = {
+    row_count: question.row,
+    col_count: question.col,
+    ans: question.row * question.col,
+    repeated_addition_string: repeatedAdditionString(
+      question.col,
+      question.row
+    ),
+  };
+
+  appletH1.innerHTML = fillPlaceholders(leftInstructions.h1Text, templateData);
+  cornerText.innerHTML = fillPlaceholders(
+    leftInstructions.cornerText,
+    templateData
+  );
+
+  // Start the sequence for the new question
+  atStage0();
 }
 
 /**
@@ -143,6 +219,11 @@ function updateUI() {
  * Event handler for when either slider's value changes.
  */
 function handleSliderChange() {
+  const fadedCell = document.querySelector(".grid-cell.faded");
+  if (fadedCell) {
+    fadedCell.classList.remove("faded");
+  }
+  setJAXpose("thinking");
   playSound("click");
   updateUI();
 }
@@ -190,22 +271,33 @@ function removeHighlight() {
 initialize();
 
 function atStage0() {
+  setJAXpose("normal");
   updateInstructionWithTag("start");
   setNext("start");
   stage++;
 }
 function atStage1() {
+  setJAXpose("thinking");
   appletH1.style.display = "none";
   appletContainer.style.display = "flex";
   updateInstructionWithTag("set_horizontal");
   setNext("set");
   colSlider.parentElement.style.display = "flex";
+
+  const firstCell = cells[MAX_ROWS - 1][0]; // Get the bottom-left cell
+  if (firstCell) {
+    firstCell.classList.add("visible");
+    firstCell.classList.add("faded"); // Apply the faded class
+    firstCell.innerHTML = "";
+  }
+
   stage++;
 }
 
 function checkSetColumn() {
   const correct = colSlider.value == question.col;
   if (!correct) {
+    setJAXpose("sad");
     playSound("wrong");
     vibrateElement(grid);
     updateInstructionWithTag("set_horizontal", "red");
@@ -213,6 +305,7 @@ function checkSetColumn() {
   }
   if (correct) {
     playSound("correct");
+    setJAXpose("happy");
     updateInstructionWithTag("set_vertical");
     rowSlider.parentElement.style.display = "flex";
     colSlider.parentElement.style.display = "none";
@@ -223,11 +316,13 @@ function checkSetColumn() {
 function checkSetRow() {
   const correct = rowSlider.value == question.row;
   if (!correct) {
+    setJAXpose("sad");
     playSound("wrong");
     vibrateElement(grid);
     return;
   }
   if (correct) {
+    setJAXpose("happy");
     playSound("correct");
     updateInstructionWithTag("complete_setting");
     rowSlider.parentElement.style.display = "none";
@@ -238,14 +333,16 @@ function checkSetRow() {
   }
 }
 function mcq1() {
+  setJAXpose("normal");
   // This will ask the user to identify the number of columns (5)
-  loadContextMcq("column_question", 5);
+  loadContextMcq("column_question", question.col);
   nextButton.disabled = true;
 }
 
 function mcq2() {
+  setJAXpose("normal");
   // This will ask the user to identify the number of rows (4)
-  loadContextMcq("row_question", 4);
+  loadContextMcq("row_question", question.row);
 }
 function mcqCompleted() {
   nextButton.disabled = false;
@@ -253,17 +350,29 @@ function mcqCompleted() {
   stage++;
 }
 function animateStage() {
+  setJAXpose("thinking");
+  cornerText.style.display = "none";
   animateRows();
   stage++;
 }
-function lastStage(){
+function lastStage() {
   updateInstructionWithTag("completion");
   setNext("summary");
   previousButton.style.display = "none";
-  document.getElementById("bottom-text").style.display = "block";
+  const bottomText = document.getElementById("bottom-text");
+  bottomText.innerHTML = fillPlaceholders(
+    leftInstructions.bottom_text,
+    templateData
+  );
+  bottomText.style.display = "block";
   stage++;
 }
-function summary(){
+function summary() {
+  if (questionIndex < questions.length - 1) {
+    overlayButton.textContent = buttonText.next_question;
+  } else {
+    overlayButton.textContent = buttonText.start_over;
+  }
   triggerFullScreenOverlay(true);
   return;
 }
@@ -293,7 +402,7 @@ const stepQ = [
   mcqCompleted,
   animateStage,
   lastStage,
-  summary
+  summary,
 ];
 
 nextButton.addEventListener("click", () => {
@@ -320,7 +429,7 @@ function loadContextMcq(questionTag, correctAnswer) {
   optionsContainer.className = "context-options-container";
 
   // Generate and add the option buttons from the fixed list
-  const options = [5, 4, 20];
+  const options = [question.col, question.row, question.row * question.col];
   options.forEach((optionValue) => {
     const optionButton = document.createElement("button");
     optionButton.className = "context-option"; // Use this class for styling
@@ -383,11 +492,12 @@ function repeatedAdditionString(num, i) {
 
 // Function 2: Returns a string in the format "num * i"
 function multiplicationString(num, i) {
-  return `${num} * ${i}`;
+  return `${i} × ${num}`;
 }
 
 function setUpAnimationBox() {
-  leftAnimationBox.innerHTML = rightAnimationBox.innerHTML = "";
+  leftAnimationBox.innerHTML = leftInstructions.shortData.leftBadge;
+  rightAnimationBox.innerHTML = leftInstructions.shortData.rightBadge;
   for (let i = question.row; i > 0; i--) {
     p1 = document.createElement("p");
     p1.innerHTML = repeatedAdditionString(question.col, i);
@@ -442,6 +552,7 @@ function sleep(ms) {
  * It highlights the duplicate cells, the y-axis label, and the text in the animation boxes for each row.
  */
 async function animateRows() {
+  setJAXpose("thinking");
   // Disable the next button during animation to prevent conflicts
   nextButton.disabled = true;
   previousButton.disabled = true;
@@ -473,11 +584,11 @@ async function animateRows() {
     for (let j = start; j < end; j++) {
       if (duplicateCells[j]) {
         duplicateCells[j].classList.add("show");
-        if(j===end-1){
-          if(i>0){
-            duplicateCells[j+5].textContent = "";
+        if (j === end - 1) {
+          if (i > 0) {
+            duplicateCells[j + question.col].textContent = "";
           }
-          duplicateCells[j].textContent = question.col*(i+1);
+          duplicateCells[j].textContent = question.col * (i + 1);
         }
       }
     }
@@ -523,9 +634,10 @@ function afterAnimation() {
   biggestCell().classList.remove("de-highlighted");
   previousButton.disabled = false;
   previousButton.style.display = "block";
+  setJAXpose("normal");
 }
 
-previousButton.onclick = ()=>{
+previousButton.onclick = () => {
   const leftP = leftAnimationBox.querySelector("p");
   const rightP = rightAnimationBox.querySelector("p");
   leftP.classList.remove("fullShow");
@@ -541,3 +653,15 @@ function setOverlayCurrent() {
   paragraph.innerHTML = leftInstructions.summary;
 }
 setOverlayCurrent();
+
+function updateInstructionWithTag(tag, colorClass) {
+  const finalText = fillPlaceholders(leftInstructions[tag], templateData);
+  updateInstruction(finalText, colorClass);
+}
+
+function goToNext() {
+  questionIndex = (questionIndex + 1) % questions.length;
+  initialize();
+  triggerFullScreenOverlay(false);
+}
+overlayButton.onclick = goToNext;

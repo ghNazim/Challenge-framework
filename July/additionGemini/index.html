@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Digit Addition Layout</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Prevents scrollbars from the full-width container */
+        }
+
+        .main-container {
+            width: 100vw;
+            /* Using aspect-ratio from your version for better responsiveness */
+            aspect-ratio: 16/6.5;
+            background-color: #2c3e50;
+            display: flex;
+            padding: 2vw;
+            box-sizing: border-box;
+            gap: 2rem;
+        }
+
+        .panel {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            padding: 1vw 2vw;
+            color: white;
+        }
+
+        /* --- Unified Styling for Both Panels --- */
+        .addition-container {
+            display: grid;
+            font-size: 3.5vw; /* Adjusted font size for more columns */
+            gap: 1vw .5vw; /* row-gap column-gap */
+            text-align: right;
+            width: 100%;
+        }
+
+        .item {
+            padding: 0.5vw;
+            box-sizing: border-box;
+            min-height: 5vw; /* Adjusted min-height */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        
+        .line-item {
+            height: 0.2vw;
+            background-color: white;
+            grid-column: 1 / -1; 
+            align-self: center;
+            margin: 1vw 0;
+        }
+
+        /* --- Left Panel Specifics --- */
+        .left-panel {
+            width: 30%;
+        }
+        .left-panel .addition-container {
+            width: 85%;
+            grid-template-columns: repeat(6, 1fr);
+            column-gap: 0rem; 
+        }
+
+        /* --- Right Panel Specifics --- */
+        .right-panel {
+            /* Let the right panel take the remaining space */
+            flex: 1;
+        }
+        .right-panel .addition-container {
+            /* Proportional column widths: TTh > Th > H > T > O */
+            grid-template-columns: 2.5fr 2fr 1.5fr 1fr 1fr;
+        }
+        
+        .right-panel .item {
+             justify-content: center;
+             text-align: center;
+        }
+
+        .right-panel .header {
+            font-weight: bold;
+        }
+        
+        .carry-over {
+            font-size: 2vw; /* Adjusted carry-over font size */
+            color: #bdc3c7; 
+            align-items: flex-end;
+            padding-bottom: 0.5vw;
+        }
+
+        .invisible {
+            visibility: hidden;
+        }
+
+        /* Color definitions for place values */
+        .tth-color { color: #2ecc71; } /* Green */
+        .th-color { color: #f1c40f; } /* Yellow */
+        .h-color { color: #e67e22; } /* Orange */
+        .t-color { color: #3498db; } /* Blue */
+        .o-color { color: #e74c3c; } /* Red */
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <!-- Left Panel: Standard Addition -->
+        <div class="panel left-panel">
+            <div class="addition-container">
+                <!-- Placeholder Row -->
+                <div class="item invisible header">H</div>
+                <div class="item invisible header">H</div>
+                <div class="item invisible header">T</div>
+                <div class="item invisible header">O</div>
+                <div class="item invisible header">P</div>
+                <div class="item invisible header">P</div>
+
+                <!-- Carry-Over Row -->
+                <div class="item carry-over"></div>
+                <div class="item carry-over tth-color">1</div>
+                <div class="item carry-over th-color">1</div>
+                <div class="item carry-over h-color">1</div>
+                <div class="item carry-over t-color">1</div>
+                <div class="item carry-over"></div>
+
+                <!-- Row 1 -->
+                <div class="item"></div>
+                <div class="item">5</div>
+                <div class="item">3</div>
+                <div class="item">6</div>
+                <div class="item">8</div>
+                <div class="item">2</div>
+
+                <!-- Row 2 -->
+                <div class="item">+</div>
+                <div class="item">3</div>
+                <div class="item">8</div>
+                <div class="item">7</div>
+                <div class="item">4</div>
+                <div class="item">9</div>
+
+                <!-- Horizontal Line -->
+                <div class="line-item"></div>
+
+                <!-- Result Row -->
+                <div class="item"></div>
+                <div class="item tth-color">9</div>
+                <div class="item th-color">2</div>
+                <div class="item h-color">4</div>
+                <div class="item t-color">3</div>
+                <div class="item o-color">1</div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Expanded Form Addition -->
+        <div class="panel right-panel">
+            <div class="addition-container">
+                <!-- Header Row -->
+                <div class="item header tth-color">TTh</div>
+                <div class="item header th-color">Th</div>
+                <div class="item header h-color">H</div>
+                <div class="item header t-color">T</div>
+                <div class="item header o-color">O</div>
+                
+                <!-- Carry-Over Row -->
+                <div class="item carry-over tth-color">+10000</div>
+                <div class="item carry-over th-color">+1000</div>
+                <div class="item carry-over h-color">+100</div>
+                <div class="item carry-over t-color">+10</div>
+                <div class="item carry-over"></div>
+
+                <!-- Row 1 -->
+                <div class="item tth-color">50000</div>
+                <div class="item th-color">3000</div>
+                <div class="item h-color">600</div>
+                <div class="item t-color">80</div>
+                <div class="item o-color">2</div>
+
+                <!-- Row 2 -->
+                <div class="item tth-color">30000</div>
+                <div class="item th-color">8000</div>
+                <div class="item h-color">700</div>
+                <div class="item t-color">40</div>
+                <div class="item o-color">9</div>
+
+                <!-- Horizontal Line -->
+                <div class="line-item"></div>
+
+                <!-- Result Row -->
+                <div class="item tth-color">90000</div>
+                <div class="item th-color">2000</div>
+                <div class="item h-color">400</div>
+                <div class="item t-color">30</div>
+                <div class="item o-color">1</div>
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+</html>

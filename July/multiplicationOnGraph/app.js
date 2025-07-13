@@ -1,7 +1,7 @@
 const nextButton = document.getElementById("next-button");
 const previousButton = document.getElementById("previous-button");
 const overlayButton = document.getElementById("overlay-button");
-overlayButton.onclick = () => location.reload();
+// overlayButton.onclick = () => location.reload();
 const stepCounterElement = document.querySelector("#stepCounter");
 nextButton.textContent = buttonText.next;
 previousButton.textContent = buttonText.replay;

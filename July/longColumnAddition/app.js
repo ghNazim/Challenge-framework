@@ -90,7 +90,7 @@ function updateStepCounter(stepIndex) {
   dots[stepIndex].classList.add("active");
 }
 
-function updateInstruction(text1, text2) {
+function updateInstruction(text1, colorClass) {
   const context = document.querySelector("#context");
   context.animate(
     [
@@ -103,17 +103,13 @@ function updateInstruction(text1, text2) {
       fill: "forwards", // Keeps final state after animation
     }
   );
-  context.querySelector("p:first-child").innerHTML = text1;
-  context.querySelector("p:last-child").innerHTML = text2;
-  context
-    .querySelector("p:first-child")
-    .classList.remove("red", "green", "blue");
-  context
-    .querySelector("p:last-child")
-    .classList.remove("red", "green", "blue");
+  colorClass = colorClass || "";
+  context.innerHTML = `<p class="${colorClass}">${text1}</p>`;
 }
 
-
+function updateInstructionWithData(tag1, tag2) {
+  updateInstruction(leftInstructions[tag1], leftInstructions[tag2]);
+}
 
 function setOverlay() {
   const heading = document.querySelector("#fullscreen-overlay h1");
@@ -125,3 +121,36 @@ setOverlay();
 // updateInstructionWithData("general");
 // createStepCounter(maxStep);
 // updateStepCounter(0);
+function updateContext() {
+  const context = document.querySelector("#context");
+}
+
+function fillPlaceholders(template, data) {
+  return template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
+    const trimmedKey = key.trim();
+
+    return data.hasOwnProperty(trimmedKey) ? data[trimmedKey] : match;
+  });
+}
+
+function fillContextWithTag(problemIndex, tag, colorClass) {
+  if (problemIndex === -1) {
+    updateInstruction(speechBubbleData[tag], colorClass);
+    return;
+  }
+  updateInstruction(
+    speechBubbleData["problem_" + problemIndex][tag],
+    colorClass
+  );
+}
+function triggerMCQoverlay(show) {
+  const display = show ? "flex" : "none";
+  const overlay = document.getElementById("mcq-overlay");
+  overlay.style.display = display;
+}
+
+function showText(text, colorClass) {
+  const el = document.getElementById("bottom-statement");
+  el.innerHTML = `<p class="${colorClass || ""}">${text}</p>`;
+}
+
