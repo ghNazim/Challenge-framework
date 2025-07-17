@@ -1,0 +1,349 @@
+/* CSS 1 Updated with styles from CSS 2 */
+#bottom-statement {
+  color: white;
+  height: 15%;
+  border: 1px solid rgba(168, 85, 247, 0.4); /* Updated */
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+  z-index: 30;
+  text-align: center;
+  backdrop-filter: blur(7px); /* Updated */
+}
+
+.main-container {
+  width: 100%;
+  display: flex;
+  padding: 0.5rem;
+  gap: 2rem;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.15); /* Updated */
+  backdrop-filter: blur(7px); /* Updated */
+}
+
+.panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vw 2vw;
+  color: white;
+  height: 100%;
+  border-radius: 1rem; /* Added from CSS 2 .panel */
+  border: 1px solid rgba(168, 85, 247, 0.4); /* Updated */
+  box-shadow: 0 0 1rem rgba(168, 85, 247, 0.3), 0 0 .5rem rgba(0, 194, 255, 0.2); /* Updated */
+}
+
+/* --- Unified Styling for Both Panels --- */
+.addition-container {
+  display: grid;
+  font-size: 3vw;
+  gap: 0.6vw 0.5vw;
+  text-align: right;
+  width: 100%;
+  border-radius: .5rem;
+}
+
+.addition-container div {
+  /* border: 1px solid blue; */
+}
+
+.item {
+  padding: 0.5vw;
+  box-sizing: border-box;
+  min-height: 3.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.row-result.item {
+  min-height: 8vw;
+  align-items: flex-start;
+}
+
+.line-item {
+  height: 0.2vw;
+  background-color: rgba(168, 85, 247, 0.5); /* Updated color */
+  grid-column: 1 / -1;
+  align-self: center;
+}
+
+/* --- Left Panel Specifics --- */
+.left-panel {
+  border-radius: 1rem;
+  width: 50%;
+  display: flex;
+}
+
+.left-panel .addition-container {
+  width: 85%;
+  grid-template-columns: repeat(6, 1.2rem);
+  column-gap: 0rem;
+  row-gap: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  padding: .5rem;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+/* --- Right Panel Specifics --- */
+.right-panel {
+  flex: 1;
+  border-radius: 1rem;
+}
+
+.right-panel .addition-container {
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 0;
+  row-gap: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  padding: .5rem;
+  position: relative;
+}
+
+.right-panel .item {
+  justify-content: center;
+  text-align: center;
+}
+
+.left-panel .item {
+  justify-content: center;
+  text-align: center;
+}
+
+.right-panel .header {
+  font-weight: bold;
+}
+
+.carry-over {
+  font-size: 2vw;
+  color: #a0a0a0; /* Updated color */
+  align-items: flex-end;
+  padding-bottom: 0.5vw;
+  height: 2.5rem;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+/* Color definitions for place values - Kept from original */
+.tth-color { color: #2ecc71; }
+.th-color { color: #ffc000; }
+.h-color { color: #e56d30; }
+.t-color { color: #00b4f1; }
+.o-color { color: #ce088c; }
+
+#mcq-overlay {
+  position: fixed;
+}
+
+/* --- MCQ Styles (Updated to match CSS 2) --- */
+#mcq-container {
+  height: 70%;
+  padding: 0.5rem;
+  color: white; /* Updated */
+  font-family: Arial, sans-serif;
+  width: 90%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+#left-info {
+  width: 50%;
+  height: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  display: none;
+  color: white; /* Updated */
+  text-align: center;
+  padding: 0 1rem;
+  border-right: 1px solid rgba(240, 232, 255, 0.4); /* Updated */
+}
+
+#mcq-overlay.split #left-info {
+  display: flex;
+}
+
+#mcq-container p {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin-bottom: 1.6rem;
+  color: white; /* Updated */
+}
+
+#mcq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 90%;
+}
+
+.option {
+  color: white; /* Updated */
+  border: 1px solid rgba(168, 85, 247, 0.5); /* Updated */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); /* Updated */
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease; /* Updated */
+  font-size: 1.1rem;
+}
+
+.option:hover {
+  border-color: #a855f7; /* Purple glow color */
+  box-shadow: 0 0 15px #a855f7; /* Purple glow effect */
+  transform: translateY(-2px);
+}
+
+.option.correct {
+  background: rgba(52, 211, 153, 0.2) !important; /* Green glow background */
+  color: #34d399 !important; /* Green glow text */
+  border-color: #34d399 !important; /* Green glow border */
+}
+
+.option.wrong {
+  background: rgba(248, 113, 113, 0.2) !important; /* Red glow background */
+  color: #f87171 !important; /* Red glow text */
+  border-color: #f87171 !important; /* Red glow border */
+  pointer-events: none;
+}
+/* --- End of MCQ Styles --- */
+
+#highlight-box {
+  position: fixed;
+  border: 3px solid rgb(193, 6, 193);
+  z-index: 10;
+  display: none;
+  transition: all 0.35s ease-in-out;
+  box-sizing: border-box;
+}
+
+.green-box {
+  border-color: #2ecc71 !important;
+}
+
+.red-box {
+  border-color: rgb(255, 12, 12) !important;
+}
+
+.clickable {
+  cursor: pointer;
+  pointer-events: all !important;
+}
+
+.right-panel .item.clickable {
+  cursor: pointer !important;
+  pointer-events: all !important;
+  background-color: rgba(255, 255, 255, 0.01) !important;
+}
+
+#highlight-box button {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2rem;
+  height: 2rem;
+  background-color: rgb(193, 6, 193);
+  color: white;
+  border: 2px solid white;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: none;
+}
+
+#highlight-box button:hover {
+  background-color: rgb(127, 3, 127);
+  scale: 1.1;
+}
+
+#next-button {
+  z-index: 30;
+}
+
+/* --- Border Fixes for Right Panel (Colors Updated) --- */
+.right-panel .item {
+  border: none;
+  border-bottom: 1px dashed rgba(168, 85, 247, 1); /* Updated */
+  border-right: 1px dashed rgba(168, 85, 247, 1); /* Updated */
+}
+
+.right-panel .row-num2.item {
+  border-bottom: none;
+}
+
+.right-panel .col-5 {
+  border-right: none;
+}
+
+.right-panel .row-result.item {
+  border-bottom: none;
+}
+
+.text-transparent {
+  color: transparent;
+}
+
+.selected {
+  /* Applied hover style from CSS 2 .option */
+  border-color: #a855f7;
+  /* box-shadow: 0 0 15px #a855f7; */
+  background: linear-gradient(145deg, rgba(185, 114, 251, 0.3), rgba(169, 88, 246, 0.1));
+  color: white;
+  cursor: pointer;
+  pointer-events: all !important;
+}
+
+.strike-through {
+  text-decoration: line-through;
+}
+
+.right-panel .addition-container.simplified-mode {
+  grid-template-columns: repeat(5, 2rem) !important;
+  width: 60% !important;
+  padding-left: 2rem;
+}
+
+.right-panel .addition-container.simplified-mode .row-header {
+  display: none;
+}
+
+.right-panel .addition-container.simplified-mode .item {
+  border: none !important;
+}
+
+.right-panel .addition-container.simplified-mode .row-num1.item,
+.right-panel .addition-container.simplified-mode .row-num2.item {
+  color: white !important; /* Updated */
+}
+
+#plus {
+  position: absolute;
+  top: 57%;
+  left: 4%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.addition-container.simplified-mode #plus {
+  top: 52%;
+  left: 10%;
+  display: block;
+}
