@@ -265,7 +265,7 @@ body {
 .overlay-content {
   position: absolute;
   top: 50%;
-  right: 10%; /* Centered horizontally */
+  right: 20%; /* Centered horizontally */
   transform: translate(0%, -50%); /* Ensures perfect centering */
   width: 60%;
   height: auto; /* Auto height to fit content */
@@ -467,26 +467,7 @@ body {
   display: none;
 }
 
-@keyframes vibrate-x {
-  0% {
-    translate: 0;
-  }
-  20% {
-    translate: -2px 0;
-  }
-  40% {
-    translate: 2px 0;
-  }
-  60% {
-    translate: -2px 0;
-  }
-  80% {
-    translate: 2px 0;
-  }
-  100% {
-    left: 0;
-  }
-}
+
 
 .vibrate-x {
   animation: vibrate-x 0.5s ease-in-out infinite;

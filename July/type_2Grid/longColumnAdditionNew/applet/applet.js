@@ -43,8 +43,8 @@ const highlightBox = document.getElementById("highlight-box");
 const addButton = document.querySelector("#highlight-box>button");
 
 const questions = [
-  [67576, 15157],
   [12341, 23432],
+  [67576, 15157],
   [33344, 41414],
   [78787, 11445],
 ];
@@ -450,6 +450,7 @@ function onesMcq2() {
     borderGreen(true);
     if (oOverflow) {
       vibrateElementWithTag(resultRow.o);
+      // highlightColumnBorder(RCmap.oColumn);
       nextButton.onclick = afterMcq2;
       showTextWithTag("ones_carryover");
     } else {
@@ -522,7 +523,7 @@ function animateCarry(q1, q2, tag) {
   floating.style.transition = "transform 0.5s ease, opacity 0.5s ease";
   floating.style.opacity = "1";
   floating.style.fontSize = "2rem";
-  floating.style.color = "black";
+  floating.style.color = "white";
 
   // Get positions
   const srcRect = source.getBoundingClientRect();
@@ -554,6 +555,8 @@ function animateCarry(q1, q2, tag) {
     document.body.removeChild(floating);
     target.innerHTML = `<span>${text}</span>`;
     document.querySelector(resultRow[tag]).textContent = tagToResult[tag];
+    // highlightColumnBorder(RCmap[tag]);
+
   }, 500);
 }
 function splitOverlay(tag) {
@@ -585,6 +588,7 @@ function tensMcq2() {
     showFtue(nextButton);
     if (tOverflow) {
       vibrateElementWithTag(resultRow.t);
+      // highlightColumnBorder()
       nextButton.onclick = afterTensMcq2;
       showTextWithTag("tens_carryover");
     } else {

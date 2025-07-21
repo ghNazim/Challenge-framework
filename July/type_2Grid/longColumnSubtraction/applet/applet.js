@@ -51,10 +51,10 @@ const addButton = document.querySelector("#highlight-box>button");
 const q = document.querySelector.bind(document);
 
 const questions = [
+  [78787, 11445],
   [63333, 18888],
   [52341, 23432],
-  [63344, 41414],
-  [78787, 11445],
+  [63344, 41466],
 ];
 
 let o1,
@@ -462,6 +462,8 @@ function onesMcq1() {
   });
 }
 function onesMinusClickBorrow() {
+  playSound("wrong")
+  vibrateElement(highlightBox,true);
   showTextWithTag("topLesser_one");
   splitOverlay("ones_mcq1");
   hideFtue();
@@ -475,6 +477,7 @@ function onesMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_ones");
+      vibrateElement(highlightBox,false);
     });
   }, 1200);
 }
@@ -533,6 +536,8 @@ function moveToTens() {
 }
 
 function tensMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   showTextWithTag("topLesser_ten");
   splitOverlay("tens_mcq1");
   hideFtue();
@@ -546,6 +551,7 @@ function tensMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_tens");
+      vibrateElement(highlightBox, false);
     });
   }, 1200);
 }
@@ -613,6 +619,8 @@ function moveToHundreds() {
 }
 
 function hundredsMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   showTextWithTag("topLesser_hundred");
   splitOverlay("hundreds_mcq1");
   hideFtue();
@@ -626,6 +634,7 @@ function hundredsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_hundreds");
+      vibrateElement(highlightBox, false);
     });
   }, 1200);
 }
@@ -693,6 +702,8 @@ function moveToThousands() {
 }
 
 function thousandsMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   showTextWithTag("topLesser_thousand");
   splitOverlay("thousands_mcq1");
   hideFtue();
@@ -706,6 +717,7 @@ function thousandsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_thousands");
+      vibrateElement(highlightBox, false);
     });
   }, 1200);
 }
@@ -786,7 +798,7 @@ function highLightResultStage() {
   nextButton.disabled = true;
   showTextWithTag("combine");
   showAddButton(false);
-  highlightRowBorder(RCmap.resultRow, 2);
+  highlightRowBorder(RCmap.resultRow);
   borderGreen(true);
   highlightBox.classList.add("clickable");
   highlightBox.onclick = endStage;

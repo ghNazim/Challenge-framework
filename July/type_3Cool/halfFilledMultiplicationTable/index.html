@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiplication</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="applet/applet.css" />
+    <script src="packages/confetti.min.js"></script>
+    <script src="packages/gsap.min.js"></script>
+    <script src="applet/rootText.js"></script>
+    <script src="applet/texts.js"></script>
+  </head>
+  <body>
+    <div id="aspect-container">
+      <div id="hand-ftue">
+        <img src="assets/tap.png" alt="tapping hand" />
+      </div>
+      <div class="overlay" id="fullscreen-overlay">
+        <img src="assets/JAXhappy.png" />
+        <div class="overlay-content">
+          <h1>Congrats Activity complete</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,
+            facere.
+          </p>
+          <button class="btn btn-primary" id="overlay-button"></button>
+        </div>
+      </div>
+      <div id="main-content">
+        <div id="left-panel">
+          <div id="context">
+            <p></p>
+            <p></p>
+          </div>
+          <div id="character">
+            <img src="assets/JAXnormal.png" />
+          </div>
+        </div>
+        <div id="right-panel">
+          <div id="app-container" class="app-container">
+            <div id="main-content" class="main-content">
+              <div class="problem-grid-container">
+                <div id="problem-grid" class="problem-grid"></div>
+                <!-- The level-next-btn has been removed -->
+              </div>
+            </div>
+
+            <div id="numpad" class="numpad">
+              <div class="numpad-inner">
+                <div class="numpad-grid">
+                  <button class="numpad-btn" data-key="1">1</button>
+                  <button class="numpad-btn" data-key="2">2</button>
+                  <button class="numpad-btn" data-key="3">3</button>
+                  <button class="numpad-btn" data-key="4">4</button>
+                  <button class="numpad-btn" data-key="5">5</button>
+                  <button class="numpad-btn" data-key="6">6</button>
+                  <button class="numpad-btn" data-key="7">7</button>
+                  <button class="numpad-btn" data-key="8">8</button>
+                  <button class="numpad-btn" data-key="9">9</button>
+                  <button class="numpad-btn clear" data-key="clear" id="numpad-clear">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"
+                      ></path>
+                      <line x1="18" y1="9" x2="12" y2="15"></line>
+                      <line x1="12" y1="9" x2="18" y2="15"></line>
+                    </svg>
+                  </button>
+                  <button class="numpad-btn" data-key="0">0</button>
+                  <button class="numpad-btn submit" data-key="submit" id="numpad-submit">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M20 6 9 17l-5-5"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="strap" id="lower-controls">
+            <button class="btn btn-secondary fade-in" id="previous-button">
+              Previous
+            </button>
+            <div class="step-counter fade-in" id="stepCounter"></div>
+            <button class="btn btn-primary fade-in" id="next-button">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="applet/applet.js"></script>
+  </body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Multiplication Applet - Flashcard Theme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Set root font size to be responsive relative to viewport width */
+        html {
+            font-size: 1.7vw;
+        }
+
+        /* Cap font size on larger screens to prevent it from becoming too large */
+
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #FDF6E3; /* Warm beige background */
+            /* Use flexbox to center the main app container */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .app-container {
+            width: 75vw;
+            aspect-ratio: 16 / 9;
+            /* Add max values to prevent container from becoming overly large on big screens,
+               while maintaining the aspect ratio. */
+            max-width: 1200px;
+            max-height: 675px;
+
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Hide anything that spills out */
+            border-radius: 1.5rem;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,0.1);
+            background-color: #fff; /* Give a background to distinguish from body */
+        }
+
+        .main-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .problem-grid-container {
+            width: 100%;
+            max-width: 90%; /* Use percentage for better scaling within container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .problem-grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.25rem;
+        }
+
+        .problem-row {
+            display: grid;
+            grid-template-columns: 1fr 0.2fr 1fr 0.2fr 1.2fr;
+            gap: 1rem;
+            /* Use rem for responsive font size */
+            font-size: 1.5rem;
+            align-items: center;
+            text-align: center;
+            font-weight: 800;
+            color: #5D4037; /* Soft dark brown */
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 2.7rem; /* Use rem for scalable height */
+            border-radius: 0.75rem; /* Softer corners */
+            transition: all 0.3s ease;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+            color: #1E3A8A; /* Darker blue text for contrast */
+            background-color: #D1E3FF; /* Uniform Light Blue */
+        }
+
+        .missing-cell {
+            background-color: #FFF9C4; /* Soft yellow */
+            color: #795548;
+            cursor: pointer;
+            border: 0.15rem dashed #FFC107; /* Use rem for border */
+            animation: pulse-yellow 2s infinite;
+        }
+
+        @keyframes pulse-yellow {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08), 0 0 0.5rem rgba(255, 193, 7, 0.4);
+            }
+            50% { 
+                transform: scale(1.03); 
+                box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.1), 0 0 1.25rem rgba(255, 193, 7, 0.8);
+            }
+            100% { 
+                transform: scale(1); 
+                box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08), 0 0 0.5rem rgba(255, 193, 7, 0.4);
+            }
+        }
+
+        .missing-cell.active {
+            transform: scale(1.05);
+            animation: none;
+            border: 0.2rem solid #FFA000;
+            box-shadow: 0 0 1.25rem rgba(255, 160, 0, 0.5);
+        }
+        
+        .missing-cell.correct {
+            background-color: #C8E6C9; /* Soft green */
+            color: #2E7D32;
+            cursor: default;
+            animation: none;
+            border: 0.15rem solid #4CAF50;
+        }
+
+        .missing-cell.wrong {
+            background-color: #FFCDD2; /* Soft red */
+            color: #C62828;
+            animation: shake 0.5s ease-in-out;
+            border: 0.15rem solid #F44336;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-0.5rem); }
+            75% { transform: translateX(0.5rem); }
+        }
+
+        /* Numpad Styling */
+        .numpad {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 18rem; /* Responsive width */
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            z-index: 20;
+        }
+        
+        .numpad-inner {
+            width: 100%;
+            background-color: #F8F0D9;
+            border-radius: 1.25rem;
+            padding: 1rem;
+            box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .numpad.visible {
+            transform: translateX(0);
+        }
+
+        .numpad-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .numpad-btn {
+            background-color: #fff;
+            color: #5D4037;
+            border: 1px solid #E0E0E0;
+            border-bottom: 0.2rem solid #BDBDBD; /* Responsive border */
+            border-radius: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            height: 3.5rem; /* Responsive height */
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .numpad-btn:hover {
+            background-color: #F5F5F5;
+        }
+        
+        .numpad-btn:active {
+            transform: translateY(0.1rem);
+            border-bottom-width: 0.1rem;
+        }
+
+        .numpad-btn.submit {
+            background-color: #81C784;
+            color: white;
+            border-bottom: 0.2rem solid #4CAF50;
+        }
+        .numpad-btn.submit:hover {
+            background-color: #66BB6A;
+        }
+
+        .numpad-btn.clear {
+            background-color: #E0E0E0;
+        }
+        
+        /* Next Level Button */
+        .level-next-btn {
+            background-color: #E0E0E0;
+            color: #BDBDBD;
+            border: none;
+            padding: 0.75rem 2.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            cursor: not-allowed;
+            border-bottom: 0.2rem solid #BDBDBD;
+            transition: all 0.2s ease;
+        }
+
+        .level-next-btn:not(:disabled) {
+            background-color: #FFB74D;
+            color: white;
+            border-bottom: 0.2rem solid #FB8C00;
+            cursor: pointer;
+        }
+        
+        .level-next-btn:not(:disabled):hover {
+            background-color: #FFA726;
+        }
+
+        .level-next-btn:not(:disabled):active {
+            transform: translateY(0.1rem);
+            border-bottom-width: 0.1rem;
+        }
+
+        /* Custom style for the completion message */
+        .completion-message {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: #5D4037; /* Using theme color for consistency */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container" class="app-container">
+        <div id="main-content" class="main-content">
+            <div class="problem-grid-container">
+                <div id="problem-grid" class="problem-grid"></div>
+                <button id="level-next-btn" class="level-next-btn" disabled>Next Level</button>
+            </div>
+        </div>
+        
+        <div id="numpad" class="numpad">
+            <div class="numpad-inner">
+                <div class="numpad-grid">
+                    <button class="numpad-btn" data-key="1">1</button>
+                    <button class="numpad-btn" data-key="2">2</button>
+                    <button class="numpad-btn" data-key="3">3</button>
+                    <button class="numpad-btn" data-key="4">4</button>
+                    <button class="numpad-btn" data-key="5">5</button>
+                    <button class="numpad-btn" data-key="6">6</button>
+                    <button class="numpad-btn" data-key="7">7</button>
+                    <button class="numpad-btn" data-key="8">8</button>
+                    <button class="numpad-btn" data-key="9">9</button>
+                    <button class="numpad-btn clear" data-key="clear">C</button>
+                    <button class="numpad-btn" data-key="0">0</button>
+                    <button class="numpad-btn submit" data-key="submit">✓</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const levels = [
+                // Level 1
+                [
+                    { num1: 30, num2: 5, missing: 'product' },
+                    { num1: 200, num2: 3, missing: 'num2' },
+                    { num1: 70, num2: 8, missing: 'product' },
+                    { num1: 600, num2: 10, missing: 'num1' },
+                    { num1: 60, num2: 7, missing: 'product' },
+                ],
+                // Level 2
+                [
+                    { num1: 800, num2: 4, missing: 'product' },
+                    { num1: 400, num2: 5, missing: 'num2' },
+                    { num1: 700, num2: 2, missing: 'num1' },
+                    { num1: 6000, num2: 3, missing: 'num2' },
+                    { num1: 100, num2: 9, missing: 'product' },
+                ],
+                // Level 3
+                [
+                    { num1: 300, num2: 7, missing: 'num1' },
+                    { num1: 1000, num2: 5, missing: 'num2' },
+                    { num1: 500, num2: 6, missing: 'product' },
+                    { num1: 90, num2: 9, missing: 'num2' },
+                    { num1: 800, num2: 10, missing: 'num1' },
+                ]
+            ];
+
+            const problemGrid = document.getElementById('problem-grid');
+            const numpad = document.getElementById('numpad');
+            const numpadButtons = document.querySelectorAll('.numpad-btn');
+            const levelNextButton = document.getElementById('level-next-btn');
+
+            let activeCell = null;
+            let currentLevel = 0;
+            let correctAnswers = 0;
+
+            function loadLevel(levelIndex) {
+                const problems = levels[levelIndex];
+                problemGrid.innerHTML = '';
+                correctAnswers = 0;
+                levelNextButton.disabled = true;
+                
+                if (!problems) {
+                    // Use the custom CSS class for the completion message
+                    problemGrid.innerHTML = `<h2 class="completion-message">All levels completed! Great job!</h2>`;
+                    levelNextButton.style.display = 'none';
+                    return;
+                }
+
+                problems.forEach((p) => {
+                    const product = p.num1 * p.num2;
+                    const row = document.createElement('div');
+                    row.className = 'problem-row';
+
+                    const cellsData = [
+                        { value: p.num1, type: 'num1' },
+                        { value: '×', type: 'operator' },
+                        { value: p.num2, type: 'num2' },
+                        { value: '=', type: 'operator' },
+                        { value: product, type: 'product' },
+                    ];
+
+                    cellsData.forEach((c) => {
+                        const cellEl = document.createElement('div');
+                        cellEl.textContent = c.value;
+                        if (c.type === 'operator') {
+                            cellEl.className = 'operator-cell';
+                        } else {
+                            cellEl.className = 'cell';
+                            if (c.type === p.missing) {
+                                cellEl.classList.add('missing-cell');
+                                cellEl.dataset.answer = c.value;
+                                cellEl.textContent = '';
+                                cellEl.addEventListener('click', handleCellClick);
+                            }
+                        }
+                        row.appendChild(cellEl);
+                    });
+                    problemGrid.appendChild(row);
+                });
+            }
+
+            function showNumpad() {
+                numpad.classList.add('visible');
+            }
+
+            function hideNumpad() {
+                numpad.classList.remove('visible');
+                if (activeCell) {
+                    activeCell.classList.remove('active');
+                    activeCell = null;
+                }
+            }
+
+            function handleCellClick(event) {
+                const clickedCell = event.currentTarget;
+                if (clickedCell.classList.contains('correct')) {
+                    return;
+                }
+
+                if (activeCell && activeCell !== clickedCell) {
+                    activeCell.classList.remove('active');
+                }
+                
+                activeCell = clickedCell;
+                activeCell.classList.add('active');
+                showNumpad();
+            }
+
+            function handleNumpadClick(event) {
+                if (!activeCell) {
+                    return;
+                }
+                const key = event.currentTarget.dataset.key;
+
+                if (key === 'submit') {
+                    checkAnswer();
+                } else if (key === 'clear') {
+                    activeCell.textContent = '';
+                } else if (activeCell.textContent.length < 7) {
+                    activeCell.textContent += key;
+                }
+            }
+
+            function checkAnswer() {
+                if (!activeCell) {
+                    return;
+                }
+                const userAnswer = activeCell.textContent;
+                const correctAnswer = activeCell.dataset.answer;
+
+                if (userAnswer === correctAnswer) {
+                    activeCell.classList.remove('active', 'wrong');
+                    activeCell.classList.add('correct');
+                    activeCell.textContent = correctAnswer;
+                    // Make cell unclickable
+                    activeCell.removeEventListener('click', handleCellClick);
+                    
+                    correctAnswers++;
+                    hideNumpad();
+                    
+                    if (correctAnswers === levels[currentLevel].length) {
+                        levelNextButton.disabled = false;
+                    }
+                } else {
+                    activeCell.classList.add('wrong');
+                    activeCell.textContent = '';
+                    setTimeout(() => {
+                        if (activeCell) {
+                            activeCell.classList.remove('wrong');
+                        }
+                    }, 500);
+                }
+            }
+            
+            levelNextButton.addEventListener('click', () => {
+                if (!levelNextButton.disabled) {
+                    currentLevel++;
+                    loadLevel(currentLevel);
+                }
+            });
+
+            loadLevel(currentLevel); // Load the first level initially
+
+            numpadButtons.forEach(button => {
+                button.addEventListener('click', handleNumpadClick);
+            });
+
+            // Logic to hide numpad when clicking outside
+            document.body.addEventListener('click', (e) => {
+                // Check if the click is outside the app container and the numpad itself
+                const isClickInsideApp = e.target.closest('.app-container');
+                const isClickInsideNumpad = e.target.closest('.numpad');
+
+                if (!isClickInsideApp && !isClickInsideNumpad) {
+                     hideNumpad();
+                } else {
+                    // if click is inside app but not on a missing cell, hide numpad
+                    const isMissingCell = e.target.closest('.missing-cell');
+                     if(!isMissingCell && !isClickInsideNumpad){
+                        hideNumpad();
+                     }
+                }
+            }, true); // Use capture phase to catch click early
+        });
+    </script>
+</body>
+</html>

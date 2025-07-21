@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Multiplication Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FDF6E3; /* Warm beige background */
+            --table-bg: #ffffff;
+            --table-border-color: #F0EBE3;
+            --header-bg: #F9F5F0;
+            --header-text-color: #A97155;
+            --text-color: #5D4037; /* Soft dark brown */
+            --highlight-bg: #FFF9C4;
+            --highlight-header-bg: #FFF176;
+            --target-border: #FFA000;
+            --correct-bg: #E8F5E9;
+            --correct-text: #2E7D32;
+            --wrong-bg: #FFEBEE;
+            --wrong-text: #C62828;
+            --numpad-bg: #F8F0D9;
+        }
+        html{
+            font-size: 1.7vw;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .app-wrapper {
+            width: 100vw;
+            aspect-ratio: 16/9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1400px;
+            aspect-ratio: 16 / 9;
+            max-height: 100vh;
+        }
+
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            flex-basis: 15%;
+        }
+
+        .instructions {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            color: var(--text-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .instructions h2 {
+            font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .instructions p {
+            font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+        }
+        
+        .grid-container {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            border: 1px solid #DFD8CC;
+            background-color: var(--table-bg);
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .grid-cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1rem, 2vw, 2.2rem);
+            font-weight: 700;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            position: relative;
+            border-right: 1px solid var(--table-border-color);
+            border-bottom: 1px solid var(--table-border-color);
+            background-color: var(--table-bg);
+        }
+        .grid-cell:nth-child(10n) { border-right: none; }
+        .grid-cell:nth-last-child(-n+10) { border-bottom: none; }
+
+
+        .grid-cell.header {
+            background-color: var(--header-bg);
+            color: var(--header-text-color);
+            font-weight: 800;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+        }
+        
+        .grid-cell.prefilled {
+            color: #BCAAA4;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .grid-cell.highlight {
+            background-color: var(--highlight-bg);
+        }
+        
+        .grid-cell.header.highlight {
+            background-color: var(--highlight-header-bg);
+            color: #AF601A;
+            font-weight: 900;
+        }
+
+        .grid-cell.target {
+            cursor: pointer;
+            animation: pulse-glow 1.5s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 160, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 160, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 160, 0, 0); }
+        }
+
+        .grid-cell.active {
+            transform: scale(1.1);
+            animation: none;
+            border: 3px solid var(--target-border) !important;
+            box-shadow: 0 0 25px rgba(255, 160, 0, 0.5);
+            z-index: 10;
+            border-radius: 0.5rem;
+        }
+
+        .grid-cell.correct {
+            background-color: var(--correct-bg);
+            color: var(--correct-text);
+            animation: none;
+            cursor: default;
+            font-weight: 800;
+        }
+
+        .grid-cell.wrong {
+            background-color: var(--wrong-bg);
+            color: var(--wrong-text);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Numpad Styling */
+        .numpad {
+            flex-basis: 25%;
+            max-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .numpad-inner {
+            width: 100%;
+            background-color: var(--numpad-bg);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .numpad-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .numpad-btn {
+            background-color: #fff;
+            color: #5D4037;
+            border: 1px solid #E0E0E0;
+            border-bottom: 4px solid #BDBDBD;
+            border-radius: 1rem;
+            font-size: clamp(1.5rem, 2vw, 2rem);
+            font-weight: 700;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .numpad-btn:hover { background-color: #F5F5F5; }
+        .numpad-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+        .numpad-btn.submit { background-color: #81C784; color: white; border-bottom-color: #4CAF50; }
+        .numpad-btn.submit:hover { background-color: #66BB6A; }
+
+        .numpad-btn.clear { background-color: #FF8A65; color: white; border-bottom-color: #F4511E; }
+        .numpad-btn.clear:hover { background-color: #FF7043; }
+        
+        /* Feedback Modal */
+        .feedback-modal {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
+            z-index: 100;
+        }
+        .feedback-modal.visible { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        .feedback-content {
+            background-color: #fff; 
+            padding: 3rem 4rem; 
+            border-radius: 1.5rem;
+            text-align: center; 
+            transform: scale(0.7); 
+            transition: all 0.3s ease;
+            border: 2px solid #A5D6A7;
+        }
+        .feedback-modal.visible .feedback-content { 
+            transform: scale(1); 
+        }
+        .feedback-content h2 { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            color: #388E3C; 
+            margin-bottom: 0.5rem; 
+        }
+        .feedback-content p { 
+            font-size: 1.25rem; 
+            color: #4CAF50; 
+            margin-bottom: 2rem; 
+        }
+        .feedback-content .next-btn {
+            background-color: #FFB74D; 
+            color: white; 
+            border: none; 
+            padding: 1rem 2.5rem;
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            border-radius: 1rem; 
+            cursor: pointer;
+            border-bottom: 4px solid #FB8C00; 
+            transition: all 0.2s ease;
+        }
+        .feedback-content .next-btn:hover { 
+            background-color: #FFA726; 
+        }
+        .feedback-content .next-btn:active { 
+            transform: translateY(2px); 
+            border-bottom-width: 2px; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <div id="app-container" class="app-container">
+            <div class="left-panel">
+                <div class="instructions">
+                    <h2 id="instruction-title">Let's Multiply!</h2>
+                    <p id="instruction-text">Use the keypad to enter the answer.</p>
+                </div>
+            </div>
+
+            <div id="grid-container" class="grid-container"></div>
+
+            <div id="numpad" class="numpad">
+                <div class="numpad-inner">
+                    <div class="numpad-grid">
+                        <button class="numpad-btn" data-key="1">1</button>
+                        <button class="numpad-btn" data-key="2">2</button>
+                        <button class="numpad-btn" data-key="3">3</button>
+                        <button class="numpad-btn" data-key="4">4</button>
+                        <button class="numpad-btn" data-key="5">5</button>
+                        <button class="numpad-btn" data-key="6">6</button>
+                        <button class="numpad-btn" data-key="7">7</button>
+                        <button class="numpad-btn" data-key="8">8</button>
+                        <button class="numpad-btn" data-key="9">9</button>
+                        <button class="numpad-btn clear" data-key="clear">C</button>
+                        <button class="numpad-btn" data-key="0">0</button>
+                        <button class="numpad-btn submit" data-key="submit">✓</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedback-modal" class="feedback-modal">
+        <div class="feedback-content">
+            <h2>Great Job!</h2>
+            <p>You've completed all the questions!</p>
+            <button id="restart-btn" class="next-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DOM ELEMENTS ---
+        const gridContainer = document.getElementById('grid-container');
+        const numpadButtons = document.querySelectorAll('.numpad-btn');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const restartButton = document.getElementById('restart-btn');
+        const instructionTitle = document.getElementById('instruction-title');
+        const instructionText = document.getElementById('instruction-text');
+
+        // --- GAME CONFIG ---
+        const gridSize = 10;
+        const questions = [
+            { num1: 3, num2: 6, answer: 18 }, { num1: 4, num2: 7, answer: 28 },
+            { num1: 5, num2: 8, answer: 40 }, { num1: 6, num2: 9, answer: 54 },
+            { num1: 6, num2: 7, answer: 42 }, { num1: 8, num2: 6, answer: 48 },
+            { num1: 9, num2: 7, answer: 63 }, { num1: 3, num2: 8, answer: 24 },
+            { num1: 4, num2: 9, answer: 36 }, { num1: 5, num2: 9, answer: 45 },
+            { num1: 6, num2: 6, answer: 36 }, { num1: 7, num2: 7, answer: 49 },
+            { num1: 8, num2: 8, answer: 64 }, { num1: 9, num2: 9, answer: 81 },
+            { num1: 7, num2: 8, answer: 56 }, { num1: 2, num2: 8, answer: 16 },
+            { num1: 3, num2: 7, answer: 21 }, { num1: 4, num2: 5, answer: 20 },
+            { num1: 5, num2: 6, answer: 30 }, { num1: 4, num2: 4, answer: 16 }
+        ];
+        const questionCoords = new Set(questions.map(q => `${q.num1}-${q.num2}`));
+
+        // --- GAME STATE ---
+        let currentQuestionIndex = 0;
+        let activeCell = null;
+        let gridCells = [];
+
+        /**
+         * Initializes and creates the multiplication grid.
+         */
+        function createGrid() {
+            gridContainer.innerHTML = '';
+            gridCells = [];
+            for (let row = 0; row < gridSize; row++) {
+                const rowCells = [];
+                for (let col = 0; col < gridSize; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('grid-cell');
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+
+                    if (row === 0 && col > 0) {
+                        cell.textContent = col;
+                        cell.classList.add('header');
+                    } else if (col === 0 && row > 0) {
+                        cell.textContent = row;
+                        cell.classList.add('header');
+                    } else if (row > 0 && col > 0) {
+                        cell.dataset.answer = row * col;
+                    }
+                    
+                    gridContainer.appendChild(cell);
+                    rowCells.push(cell);
+                }
+                gridCells.push(rowCells);
+            }
+        }
+        
+        /**
+         * Pre-fills some cells with answers that are not part of the main questions.
+         */
+        function prefillGrid() {
+            const prefillCount = 10;
+            let filled = 0;
+            while(filled < prefillCount) {
+                const r = Math.floor(Math.random() * 9) + 1;
+                const c = Math.floor(Math.random() * 9) + 1;
+                const coord = `${r}-${c}`;
+                const cell = gridCells[r][c];
+
+                if (!questionCoords.has(coord) && !cell.classList.contains('prefilled')) {
+                    cell.textContent = r * c;
+                    cell.classList.add('prefilled');
+                    filled++;
+                }
+            }
+        }
+
+        /**
+         * Loads the current question and sets up the UI for it.
+         */
+        function loadQuestion() {
+            // Clear previous highlights and states
+             document.querySelectorAll('.highlight, .target, .active').forEach(el => {
+                el.classList.remove('highlight', 'target', 'active');
+            });
+            
+            if (activeCell) {
+                activeCell.classList.remove('active', 'target');
+                activeCell = null;
+            }
+
+            if (currentQuestionIndex >= questions.length) {
+                instructionTitle.textContent = "All Done!";
+                instructionText.textContent = "Amazing work!";
+                setTimeout(() => feedbackModal.classList.add('visible'), 500);
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const { num1, num2 } = question;
+            
+            instructionTitle.textContent = `Question ${currentQuestionIndex + 1}`;
+            instructionText.textContent = `What is ${num1} × ${num2}?`;
+
+            // Highlight row up to (and including) the target
+            for (let i = 1; i <= num2; i++) {
+                gridCells[num1][i].classList.add('highlight');
+            }
+            // Highlight column up to (and including) the target
+            for (let i = 1; i <= num1; i++) {
+                gridCells[i][num2].classList.add('highlight');
+            }
+            // Highlight the specific headers
+            gridCells[0][num2].classList.add('highlight');
+            gridCells[num1][0].classList.add('highlight');
+
+
+            // Set target cell and make it active immediately
+            activeCell = gridCells[num1][num2];
+            activeCell.textContent = ''; // Clear for input
+            activeCell.classList.add('target', 'active');
+        }
+
+        /**
+         * Handles numpad button clicks for input.
+         */
+        function handleNumpadClick(event) {
+            if (!activeCell) return;
+
+            const key = event.currentTarget.dataset.key;
+
+            if (key === 'submit') {
+                checkAnswer();
+            } else if (key === 'clear') {
+                activeCell.textContent = '';
+            } else if (activeCell.textContent.length < 4) {
+                activeCell.textContent += key;
+            }
+        }
+
+        /**
+         * Checks if the user's answer is correct.
+         */
+        function checkAnswer() {
+            if (!activeCell) return;
+
+            const userAnswer = activeCell.textContent;
+            const correctAnswer = questions[currentQuestionIndex].answer.toString();
+
+            if (userAnswer === correctAnswer) {
+                activeCell.classList.remove('target', 'active', 'wrong');
+                activeCell.classList.add('correct');
+                activeCell.textContent = correctAnswer;
+                
+                const { num1, num2 } = questions[currentQuestionIndex];
+                 // Remove highlights after correct answer
+                for (let i = 1; i <= num2; i++) {
+                    gridCells[num1][i].classList.remove('highlight');
+                }
+                for (let i = 1; i <= num1; i++) {
+                    gridCells[i][num2].classList.remove('highlight');
+                }
+                gridCells[0][num2].classList.remove('highlight');
+                gridCells[num1][0].classList.remove('highlight');
+                
+                activeCell = null;
+                currentQuestionIndex++;
+                
+                setTimeout(loadQuestion, 1000);
+            } else {
+                activeCell.classList.add('wrong');
+                setTimeout(() => {
+                    if (activeCell) {
+                        activeCell.classList.remove('wrong');
+                        activeCell.textContent = '';
+                    }
+                }, 500);
+            }
+        }
+        
+        /**
+         * Starts or restarts the game.
+         */
+        function startGame() {
+            currentQuestionIndex = 0;
+            activeCell = null;
+            feedbackModal.classList.remove('visible');
+            createGrid();
+            prefillGrid();
+            loadQuestion();
+        }
+
+        // --- EVENT LISTENERS ---
+        numpadButtons.forEach(button => button.addEventListener('click', handleNumpadClick));
+        restartButton.addEventListener('click', startGame);
+
+        // --- INITIALIZE GAME ---
+        startGame();
+    </script>
+</body>
+</html>

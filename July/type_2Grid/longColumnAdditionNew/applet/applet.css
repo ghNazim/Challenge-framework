@@ -1,7 +1,8 @@
+/* CSS 2 Modified to Match Colors of CSS 1 */
 #bottom-statement {
   color: white;
   height: 15%;
-  border: 1px solid #fdbe35;
+  border: 1px solid rgba(168, 85, 247, 0.4);
   font-size: 1.3rem;
   display: flex;
   justify-content: center;
@@ -10,42 +11,47 @@
   border-radius: 0.5rem;
   z-index: 30;
   text-align: center;
+  backdrop-filter: blur(7px);
 }
-
 .main-container {
   width: 100%;
   display: flex;
   padding: 0.5rem;
   gap: 2rem;
   position: relative;
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(7px);
 }
-
+.main-container.last-step .row-result.item {
+  min-height: 5vw;
+}
+.no-backdrop {
+  backdrop-filter: none !important;
+}
 .panel {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1vw 2vw;
-  color: #333333; /* Changed from white */
+  color: white;
   height: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 1rem rgba(168, 85, 247, 0.3), 0 0 0.5rem rgba(0, 194, 255, 0.2);
 }
-
 /* --- Unified Styling for Both Panels --- */
 .addition-container {
   display: grid;
-  font-size: 3vw; /* Adjusted font size for more columns */
-  gap: 0.6vw 0.5vw; /* row-gap column-gap */
+  font-size: 3vw;
+  gap: 0.6vw 0.5vw;
   text-align: right;
   width: 100%;
-  border-radius: .5rem;
-  
-}
-.addition-container div {
-  /* border: 1px solid blue; */
+  border-radius: 0.5rem;
 }
 .item {
   padding: 0.5vw;
   box-sizing: border-box;
-  min-height: 3.5vw; /* Adjusted min-height */
+  min-height: 3.5vw;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -54,20 +60,17 @@
   min-height: 8vw;
   align-items: flex-start;
 }
+
 .line-item {
-  height: 0.2vw;
-  background-color: #333333; /* Changed from white */
+  height: 0.35vw;
+  background-color: rgba(168, 85, 247, 0.5);
   grid-column: 1 / -1;
   align-self: center;
-  /* margin: 0.3vw 0; */
 }
-
 /* --- Left Panel Specifics --- */
 .left-panel {
   border-radius: 1rem;
   width: 30%;
-  background: linear-gradient(180deg, #ffefc1 0%, #ffe6b3 100%);
-  box-shadow: inset 0px 0px 0px 0.25rem #fbc658, 0px 0px 0px 0.6rem #e58a2d;
   display: flex;
 }
 .left-panel .addition-container {
@@ -76,84 +79,67 @@
   column-gap: 0rem;
   row-gap: 0;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  padding:.5rem;
+  padding: 0.5rem;
   align-items: center;
   justify-content: center;
 }
-
 /* --- Right Panel Specifics --- */
 .right-panel {
-  background: linear-gradient(180deg, #ffefc1 0%, #ffe6b3 100%);
-  box-shadow: inset 0px 0px 0px 0.25rem #fbc658, 0px 0px 0px 0.6rem #e58a2d;
   flex: 1;
   border-radius: 1rem;
 }
 .right-panel .addition-container {
-  /* Proportional column widths: TTh > Th > H > T > O */
   grid-template-columns: 2.5fr 2fr 1.5fr 1fr 1fr;
   column-gap: 0;
   row-gap: 0;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  padding:.5rem
+  /* padding: 0.5rem; */
+  border: 1px dashed rgba(168, 85, 247, 1);
 }
-
 .right-panel .item {
   justify-content: center;
   text-align: center;
-  border: 1px dashed #333333;
 }
-.left-panel .item{
+.left-panel .item {
   justify-content: center;
   text-align: center;
 }
 .right-panel .header {
   font-weight: bold;
 }
-
 .carry-over {
-  font-size: 2vw; /* Adjusted carry-over font size */
-  color: #555555; /* Changed from #bdc3c7 */
+  font-size: 2vw;
+  color: #a0a0a0;
   align-items: flex-end;
   padding-bottom: 0.5vw;
 }
-
 .invisible {
   visibility: hidden;
 }
+/* --- Color definitions for place values --- */
+.tth-color { color: #2ecc71; }
+.th-color { color: #ffc000; }
+.h-color { color: #e56d30; }
+.t-color { color: #00b4f1; }
+.o-color { color: #ce088c; }
 
-/* Color definitions for place values */
-.tth-color {
-  color: #2ecc71;
-} /* Green */
-.th-color {
-  color: #ffc000;
-} /* Yellow */
-.h-color {
-  color: #e56d30;
-} /* Orange */
-.t-color {
-  color: #00b4f1;
-} /* Blue */
-.o-color {
-  color: #ce088c;
-} /* Red */
 #mcq-overlay {
   position: fixed;
 }
-/* --- MCQ Styles (Reverted to Dark Theme) --- */
+
+
+/* --- MCQ Styles --- */
 #mcq-container {
   height: 70%;
   padding: 0.5rem;
-  color: #f0f0f0; /* Light text for dark overlay */
+  color: white;
   font-family: Arial, sans-serif;
   width: 60%;
-  /* margin: auto; */
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* border: 1px solid pink; */
 }
 #left-info {
   width: 50%;
@@ -164,11 +150,10 @@
   align-items: center;
   font-size: 1.8rem;
   display: none;
-  color: #f0f0f0;
+  color: white;
   text-align: center;
-  /* padding-left: 1rem; */
   padding: 0 1rem;
-  border-right: 1px solid #555;
+  border-right: 1px solid rgba(168, 85, 247, 0.5);
 }
 #mcq-overlay.split #left-info {
   display: flex;
@@ -177,51 +162,42 @@
   font-size: 1.8rem;
   line-height: 1.5;
   margin-bottom: 2rem;
+  color: white;
 }
-
 #mcq-options {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
   width: 50%;
 }
-
 .option {
-  background-color: #2c2c2c; /* Dark grey background */
-  color: #f0f0f0; /* Light text */
-  border: 0.1rem solid #555;
+  color: white;
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   padding: 0.5rem;
   border-radius: 0.4rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
   font-size: 1.6rem;
-  background-color: #34495e;
-  border: 2px solid #7f8c8d;
-  color: #ecf0f1;
-  padding: 0.5rem;
 }
-
 .option:hover {
-  background-color: #4a6278;
-  border-color: #f1c40f;
-
+  border-color: #a855f7;
+  box-shadow: 0 0 15px #a855f7;
   transform: translateY(-2px);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
 }
-
 .option.correct {
-  background-color: #28a745;
-  color: #ffffff;
-  border-color: #28a745;
+  background: rgba(52, 211, 153, 0.2) !important;
+  color: #34d399 !important;
+  border-color: #34d399 !important;
 }
-
 .option.wrong {
-  background-color: #dc3545;
-  color: #ffffff;
-  border-color: #dc3545;
+  background: rgba(248, 113, 113, 0.2) !important;
+  color: #f87171 !important;
+  border-color: #f87171 !important;
   pointer-events: none;
 }
-/* --- End of Reverted MCQ Styles --- */
-
+/* --- End of MCQ Styles --- */
 #highlight-box {
   position: fixed;
   border: 3px solid rgb(193, 6, 193);
@@ -229,7 +205,6 @@
   display: none;
   transition: all 0.35s ease-in-out;
   box-sizing: border-box;
-  /* pointer-events: none; */
 }
 .green-box {
   border-color: #2ecc71 !important;
@@ -270,43 +245,22 @@
   z-index: 30;
 }
 /* --- Border Fixes for Right Panel --- */
-
-/* Override the original rule that creates a border on all four sides of each cell */
 .right-panel .item {
   border: none;
 }
-
-/* Add a border to the container, which will act as the top and left outlines of the grid */
-
-/* Add borders to the bottom and right of each cell to create the inner grid lines */
 .right-panel .item {
-  border-bottom: 1px dashed #333333;
-  border-right: 1px dashed #333333;
+  border-bottom: 1px dashed rgba(168, 85, 247, 1);
+  border-right: 1px dashed rgba(168, 85, 247, 1);
 }
-
-/* --- Exceptions for the horizontal line separator --- */
-
-/* The row before the line (.row-num2) should not have a bottom border,
-   as the .line-item itself will serve as the separator. */
 .right-panel .row-num2.item {
   border-bottom: none;
 }
-/* --- Final Border Adjustments --- */
-
-/* Remove the right border from the rightmost column in the right panel.
-   The 'o-color' class is used for the 'Ones' column, which is the last one. */
 .right-panel .col-5 {
   border-right: none;
 }
-
-/* Remove the bottom border from the final result row in the right panel. */
 .right-panel .row-result.item {
   border-bottom: none;
 }
-/* .right-panel .row-carry.item {
-  border-right: none;
-} */
-
 .text-transparent {
   color: transparent;
 }

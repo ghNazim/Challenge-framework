@@ -1,0 +1,255 @@
+#applet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+#applet-left {
+  width: 55%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#applet-right {
+  width: 45%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-stack-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.card-stack {
+  position: relative;
+  width: 80%;
+  height: 60%;
+}
+
+/* --- Flip Card Styling --- */
+.card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.card-front {
+  background-color: #fffbeb;
+  color: #a55c00;
+  border: 2px solid #fdbf74;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1), 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card-back {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+  transform: rotateY(180deg);
+}
+
+.card.wrong .card-front {
+  background-color: #ffdddd;
+  border-color: #d9534f;
+}
+#lower-controls {
+  display: none;
+}
+
+/* --- Numpad Styling to Match Theme --- */
+.numpad-container {
+  width: 80%;
+  /* max-width: 300px; */
+  height: auto;
+  background-color: #fdf2d1; /* Match card theme */
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border: 2px solid #fdbf74;
+}
+
+.numpad-display {
+  width: 100%;
+  height: 3rem;
+  background-color: #fffbeb;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  text-align: right;
+  padding: 0.5rem;
+  color: #a55c00;
+  border: 2px solid #fdbf74;
+}
+
+.numpad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.numpad-btn {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 0.5rem; /* Rounded square edges */
+  border: 2px solid transparent;
+  background-color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a55c00;
+  box-shadow: 0 4px #e0c8a0; /* Add a subtle shadow */
+}
+
+.numpad-btn:hover {
+  background-color: #fdbf74;
+  color: white;
+  transform: translateY(-2px); /* Lift on hover */
+  box-shadow: 0 6px #d9a362;
+}
+
+.numpad-btn:active {
+  transform: translateY(2px); /* Press down on click */
+  box-shadow: 0 2px #d9a362;
+}
+
+#numpad-clear {
+  background-color: #ffebee;
+  color: #c62828;
+  box-shadow: 0 4px #e57373;
+}
+#numpad-clear:hover {
+  background-color: #ef9a9a;
+  color: white;
+  box-shadow: 0 6px #d32f2f;
+}
+#numpad-clear:active {
+  box-shadow: 0 2px #d32f2f;
+}
+
+#numpad-submit {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  box-shadow: 0 4px #81c784;
+}
+#numpad-submit:hover {
+  background-color: #a5d6a7;
+  color: white;
+  box-shadow: 0 6px #388e3c;
+}
+#numpad-submit:active {
+  box-shadow: 0 2px #388e3c;
+}
+
+.numpad-btn svg {
+  stroke: currentColor;
+}
+.shape {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: rgb(255, 199, 130);
+}
+.green-shape{
+  background-color: #34d399;
+}
+.red-shape{
+  background-color: #f87171;
+}
+.number-above{
+  z-index: 2;
+}
+
+#review-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+#review-modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background-color: #fffbeb;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  color: #a55c00;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+#review-okay-btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

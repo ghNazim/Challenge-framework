@@ -1,0 +1,278 @@
+/* Resetting default applet styles and adding new ones */
+#applet {
+  /* Overriding root variables for a new theme */
+  --glow-primary: #fdbf74;
+  --panel-bg: #fdf2d1; /* Dark, warm brown background */
+  --text-color: #a55c00; /* Soft, creamy white for text */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  overflow: hidden;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  border-radius: 8px; /* Match the right-panel radius */
+}
+
+.top-heading-applet {
+  width: 100%;
+  padding: 0.5rem;
+  border: 0.25rem solid var(--glow-primary);
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: var(--panel-bg);
+  /* box-shadow: 0 0 15px rgba(253, 191, 116, 0.4); */
+  color: var(--text-color);
+}
+
+.step-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 7rem;
+  width: 100%;
+}
+
+.step-item {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: default;
+  color: rgba(255, 251, 235, 0.6); /* Dimmed text color */
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.step-item.highlighted {
+  color: #3a2e1c; /* Dark text for contrast */
+  font-weight: bold;
+  background-color: var(--glow-primary);
+  box-shadow: 0 0 10px var(--glow-primary);
+}
+
+.main-box {
+  flex-grow: 1;
+  width: 100%;
+  background-color: var(--panel-bg);
+  border: 0.25rem solid var(--glow-primary);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  /* box-shadow: 0 0 20px rgba(253, 191, 116, 0.5); */
+}
+
+.step-heading {
+  font-size: 1.4rem;
+  color: var(--text-color);
+  font-weight: 500;
+  /* text-align: center; */
+  align-self: flex-start;
+}
+
+.math-container {
+  width: 100%;
+  position: relative;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+}
+#math-expression {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#step-button {
+  font-size: 1.2rem;
+  padding: 0.5rem 1.5rem;
+  /* The .btn-primary styles from styles.css are already in the correct color scheme */
+}
+
+.answer-box {
+  display: inline-block;
+  /* padding: 0.5rem 1rem; */
+  /* padding: .2rem 1rem; */
+  border: 2px dashed var(--glow-primary);
+  color: var(--text-color);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  min-width: 4rem;
+  transition: all 0.3s ease;
+  height: 3rem;
+  vertical-align: middle;
+}
+
+.answer-box:hover {
+  background-color: var(--glow-primary);
+  color: #3a2e1c;
+}
+
+.answer-box.correct {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.answer-box.incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+    border-color: #c62828;
+    animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+/* Span styling for animations */
+.zero-span {
+  display: inline-block;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.zero-span.hidden {
+  opacity: 0;
+}
+.zero-span.zero-width {
+  width: 0;
+  overflow: hidden;
+}
+
+/* --- New Canvas and Fade Styles --- */
+#scribble-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+  /* border: 2px solid red; */
+}
+
+.fade-out {
+  opacity: 0 !important;
+  transition: opacity 0.5s ease-out;
+}
+
+/* --- Numpad Styling to Match Theme --- */
+.numpad-container {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(100%, -50%);
+  transition: transform 0.5s ease-in-out;
+  width: 12rem;
+  height: auto;
+  background-color: #fdf2d1;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border: 2px solid #fdbf74;
+}
+
+.numpad-container.visible {
+    transform: translate(-5%, -50%);
+}
+
+.numpad-display {
+  width: 100%;
+  height: 3rem;
+  background-color: #fffbeb;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  text-align: right;
+  padding: 0.5rem;
+  color: #a55c00;
+  border: 2px solid #fdbf74;
+  display: none;
+}
+
+.numpad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.numpad-btn {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  background-color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a55c00;
+  box-shadow: 0 4px #e0c8a0;
+}
+
+.numpad-btn:hover {
+  background-color: #fdbf74;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px #d9a362;
+}
+
+.numpad-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px #d9a362;
+}
+
+#numpad-clear {
+  background-color: #ffebee;
+  color: #c62828;
+  box-shadow: 0 4px #e57373;
+}
+#numpad-clear:hover {
+  background-color: #ef9a9a;
+  color: white;
+  box-shadow: 0 6px #d32f2f;
+}
+#numpad-clear:active {
+  box-shadow: 0 2px #d32f2f;
+}
+
+#numpad-submit {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  box-shadow: 0 4px #81c784;
+}
+#numpad-submit:hover {
+  background-color: #a5d6a7;
+  color: white;
+  box-shadow: 0 6px #388e3c;
+}
+#numpad-submit:active {
+  box-shadow: 0 2px #388e3c;
+}
+
+.numpad-btn svg {
+  stroke: currentColor;
+}
+

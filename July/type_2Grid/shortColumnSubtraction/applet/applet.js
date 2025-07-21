@@ -53,9 +53,9 @@ const mcqContainer = document.getElementById("mcq-container");
 
 const questions = [
   [62323, 15548],
+  [85547, 32323],
   [76567, 12819],
   [64231, 15518],
-  [87344, 12879],
 ];
 
 let o1,
@@ -477,12 +477,15 @@ function onesMcq1() {
 }
 function onesMinusClickBorrow() {
   // showTextWithTag("topLesser_one");
+  playSound("wrong");
+  vibrateElement(highlightBox,true)
   splitOverlay("ones_mcq1");
   hideFtue();
   borderRed(true);
   showAddButton(false);
   setTimeout(() => {
     loadMcqIn("ones_borrow", () => {
+      vibrateElement(highlightBox,false)
       const el = selectTopRowCell("t");
       showFtue(el);
       el.onclick = onClickingTenTopCell;
@@ -561,6 +564,8 @@ function moveToTens() {
 
 function tensMinusClickBorrow() {
   // showTextWithTag("topLesser_ten");
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   splitOverlay("tens_mcq1");
   hideFtue();
   borderRed(true);
@@ -573,6 +578,7 @@ function tensMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_tens");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -650,6 +656,8 @@ function moveToHundreds() {
 
 function hundredsMinusClickBorrow() {
   // showTextWithTag("topLesser_hundred");
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   splitOverlay("hundreds_mcq1");
   hideFtue();
   borderRed(true);
@@ -662,6 +670,7 @@ function hundredsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_hundreds");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -738,6 +747,8 @@ function moveToThousands() {
 }
 
 function thousandsMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   // showTextWithTag("topLesser_thousand");
   splitOverlay("thousands_mcq1");
   hideFtue();
@@ -751,6 +762,7 @@ function thousandsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_thousands");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -845,7 +857,7 @@ function highLightResultStage() {
   nextButton.disabled = true;
   showTextWithTag("combine");
   showAddButton(false);
-  highlightRowBorder(RCmap.resultRow, 2);
+  highlightRowBorder(RCmap.resultRow);
   borderGreen(true);
   highlightBox.classList.add("clickable");
   highlightBox.onclick = endStage;

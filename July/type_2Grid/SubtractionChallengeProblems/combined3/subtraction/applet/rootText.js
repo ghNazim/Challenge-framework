@@ -1,7 +1,7 @@
-const firstStageQuestions = [
+const firstStageQuestionsEnglish = [
   {
     question:
-      "A storage facility had 91,000 kg of rice. After distribution, only 57,500 kg remained. How much rice was distributed?",
+      "",
     numbers: [82000, 64500],
     given: ["91,000 kg of rice", "57,500 kg remained"],
     givenFacts: [
@@ -144,6 +144,7 @@ const mcqDataEnglish = {
   },
 };
 const textPoolEnglish = {
+  total_money_spent: "Total money spent",
   first_stage_1: "Read the word problem carefully. Click Next to continue.",
   first_stage_2:
     "Great! Let's identify the important information given in the problem.",
@@ -206,6 +207,7 @@ const textPoolEnglish = {
     "We have subtracted the ten thousands column. Click 'Next' to see the final answer.",
   final_summary:
     "Good work! You have completed the subtraction. The answer is {{answer}}.",
+  conclude:"Rudi is left with Rp{{answer}}.",
   combine:
     "Now we need to compose the answer from results of all column subtractions. Tap on the highlighted part.",
 };
@@ -222,20 +224,43 @@ const overlayDataEnglish = {
   heading: "Activity Complete!",
   paragraph: `If you want to try again, click on the 'Start Over' button. `,
 };
-
+const firstStageQuestionsIndonesian = [
+  {
+    question: "",
+    numbers: [82000, 64500],
+    given: ["91.000 kg beras", "tersisa 57.500 kg"],
+    givenFacts: [
+      "Diketahui:",
+      "Jumlah uang Rudi: 82.000",
+      "Jumlah uang yang dibelanjakan: 64.500",
+    ],
+    toFind: ["Berapa banyak beras yang dibagikan"],
+    toFindFacts: ["Ditanya:", "Sisa uang Rudi"],
+  },
+  {
+    question:
+      "Sebuah kios buku memiliki stok 84.500 buku. Mereka menjual 29.300 buku selama pameran. Berapa banyak buku yang tersisa?",
+    numbers: [84500, 29300],
+    given: ["Stok 84.500 buku", "terjual 29.300 buku"],
+    givenFacts: ["Diketahui:", "Stok buku: 84.500", "Buku terjual: 29.300"],
+    toFind: ["Berapa banyak buku yang tersisa"],
+    toFindFacts: ["Ditanya:", "Jumlah buku yang tersisa"],
+  },
+];
 const mcqDataIndonesian = {
   ones_place: {
-    question: "Tempat mana yang harus kita kurangi terlebih dahulu?",
+    question: "Nilai tempat mana yang kita kurangkan terlebih dahulu?",
     options: ["Puluhan", "Ratusan", "Satuan", "Ribuan"],
     answer_index: 2,
-    correct_feedback: "Benar sekali! Kita mulai dari kanan ke kiri.",
-    wrong_feedback: "Tidak, itu kurang tepat. Kita mulai dari kanan ke kiri.",
+    correct_feedback: "Tepat sekali! Kita menghitung dari kanan ke kiri.",
+    wrong_feedback:
+      "Bukan, itu tidak benar. Kita menghitung dari kanan ke kiri.",
   },
   ones_borrow: {
     question: "Apa yang harus kita lakukan?",
     options: [
       "Tulis 0 dan lanjutkan",
-      "Pinjam dari tempat puluhan",
+      "Meminjam dari nilai tempat puluhan",
       "Kurangkan {{o1}} dari {{o2}} saja",
     ],
     answer_index: 1,
@@ -244,7 +269,7 @@ const mcqDataIndonesian = {
   },
   num_at_ones: {
     question:
-      "Setelah meminjam dari tempat puluhan, angka di tempat satuan menjadi:",
+      "Setelah meminjam dari nilai tempat puluhan, angka di nilai tempat satuan menjadi:",
     options: ["{{oFinal}}", "{{oFinal_minus}}", "{{oFinal_plus}}"],
     answer_index: 0,
     correct_feedback: "Bagus sekali.",
@@ -252,7 +277,7 @@ const mcqDataIndonesian = {
   },
   final_add_ones: {
     question: "{{oFinal}} - {{o2}} =",
-    options: ["{{o3x}}", "{{o3x_plus}}", "{{o3x_minus}}"],
+    options: ["{{o3x}}", "{{o3x_plus}}", "10"],
     answer_index: 0,
     correct_feedback: "Itu benar.",
     wrong_feedback: "Itu tidak benar. Coba lagi.",
@@ -260,7 +285,7 @@ const mcqDataIndonesian = {
   tens_borrow: {
     question: "Apa yang harus kita lakukan?",
     options: [
-      "Pinjam dari tempat ratusan",
+      "Meminjam dari nilai tempat ratusan",
       "Kurangkan {{t1}} dari {{t2}}",
       "Abaikan dan lanjutkan",
     ],
@@ -270,7 +295,7 @@ const mcqDataIndonesian = {
   },
   num_at_tens: {
     question:
-      "Setelah meminjam dari tempat ratusan, angka di tempat puluhan menjadi:",
+      "Setelah meminjam dari nilai tempat ratusan, angka di nilai tempat puluhan menjadi:",
     options: ["{{tFinal_minus}}", "{{tFinal}}", "{{tFinal_plus}}"],
     answer_index: 1,
     correct_feedback: "Luar biasa!",
@@ -278,7 +303,7 @@ const mcqDataIndonesian = {
   },
   final_add_tens: {
     question: "{{tFinal}} - {{t2}} =",
-    options: ["{{t3x_plus}}", "{{t3x_minus}}", "{{t3x}}"],
+    options: ["{{t3x_plus}}", "10", "{{t3x}}"],
     answer_index: 2,
     correct_feedback: "Itu benar.",
     wrong_feedback: "Itu tidak benar. Coba lagi.",
@@ -286,17 +311,17 @@ const mcqDataIndonesian = {
   hundreds_borrow: {
     question: "Apa yang harus kita lakukan?",
     options: [
-      "Pinjam dari tempat sepuluh ribuan",
+      "Meminjam dari nilai tempat ribuan",
       "Kurangkan {{h1}} dari {{h2}}",
       "Tidak mungkin",
     ],
     answer_index: 0,
-    correct_feedback: "Kamu benar!",
+    correct_feedback: "Kamu berhasil!",
     wrong_feedback: "Itu tidak benar. Coba lagi.",
   },
   num_at_hundreds: {
     question:
-      "Setelah meminjam dari tempat ribuan, angka di tempat ratusan menjadi:",
+      "Setelah meminjam dari nilai tempat ribuan, angka di nilai tempat ratusan menjadi:",
     options: ["{{hFinal}}", "{{hFinal_minus}}", "{{hFinal_plus}}"],
     answer_index: 0,
     correct_feedback: "Sempurna!",
@@ -312,9 +337,9 @@ const mcqDataIndonesian = {
   thousands_borrow: {
     question: "Apa yang harus kita lakukan?",
     options: [
-      "Pinjam dari tempat sepuluh ribuan",
-      "Mulai dari awal",
-      "Tebak jawabannya",
+      "Meminjam dari nilai tempat puluh ribuan",
+      "Tukar {{th1}} dan {{th2}}",
+      "Abaikan dan lanjutkan",
     ],
     answer_index: 0,
     correct_feedback: "Benar!",
@@ -322,7 +347,7 @@ const mcqDataIndonesian = {
   },
   num_at_thousands: {
     question:
-      "Setelah meminjam dari tempat sepuluh ribuan, angka di tempat ribuan menjadi:",
+      "Setelah meminjam dari nilai tempat puluh ribuan, angka di nilai tempat ribuan menjadi:",
     options: ["{{thFinal_plus}}", "{{thFinal}}", "{{thFinal_minus}}"],
     answer_index: 1,
     correct_feedback: "Luar biasa!",
@@ -346,77 +371,79 @@ const mcqDataIndonesian = {
 
 const textPoolIndonesian = {
   first_stage_1:
-    "Baca soal cerita dengan seksama. Klik Berikutnya untuk melanjutkan.",
+    "Baca soal cerita dengan saksama. Klik Lanjut untuk meneruskan.",
   first_stage_2:
     "Bagus! Mari kita identifikasi informasi penting yang diberikan dalam soal.",
   first_stage_3:
     "Kerja bagus. Sekarang, mari kita cari tahu apa yang perlu kita temukan.",
-  first_stage_4: "Kita perlu mengurangkan untuk menemukan jawabannya.",
-  mcqIn: "Klik pada opsi yang benar.",
+  first_stage_4: "Kita perlu mengurangkan untuk menemukan sisa uang.",
+  mcqIn: "Klik pada pilihan yang benar.",
   start:
-    "Mari belajar pengurangan dengan peminjaman. Klik 'Berikutnya' untuk memulai.",
+    "Mari belajar pengurangan dengan meminjam. Klik 'Lanjut' untuk memulai.",
   split_number1:
-    "Pisahkan angka ke dalam nilai tempatnya. Ketuk angka pertama.",
-  split_number2: "Pisahkan angka ke dalam nilai tempatnya. Ketuk angka kedua.",
+    "Pisahkan bilangan menjadi nilai-nilai tempatnya. Ketuk bilangan pertama.",
+  split_number2:
+    "Pisahkan bilangan menjadi nilai-nilai tempatnya. Ketuk bilangan kedua.",
   after_split:
-    "Kita punya 5 tempat untuk dikurangkan. Ingat kita mulai dari kanan ke kiri.",
+    "Ada 5 nilai tempat yang harus dikurangkan. Ingatlah bahwa kita menghitung dari kanan ke kiri.",
   ones_1:
-    "Ingat kita mengurangkan berdasarkan nilai tempat. Mari kurangi kolom satuan.",
+    "Ingat kita mengurangkan berdasarkan nilai tempat. Mari kurangkan kolom satuan.",
   topLesser_one:
     "{{o1x}} lebih kecil dari {{o2x}}. Kita tidak bisa mengurangkan {{o2x}} dari {{o1x}}.",
-  split_ones: "Klik {{t1}} untuk membaginya.",
-  splitted_for_ones: "{{t1}} dibagi menjadi {{tCorrect}} + 1.",
+  split_ones: "Klik {{t1}} untuk memisahkannya.",
+  splitted_for_ones: "{{t1}} dipisahkan menjadi {{tCorrect}} + 1.",
   enough_ones:
     "Sekarang kita punya cukup untuk mengurangkan. Ketuk tombol '-' sekarang.",
   subtracted_ones:
-    "Kita telah mengurangkan kolom satuan. Klik 'Berikutnya' untuk lanjut.",
+    "Kita telah mengurangkan kolom satuan. Klik 'Lanjut' untuk meneruskan.",
   ones_mcq1: "Kita tidak bisa mengurangkan {{o2x}} dari {{o1x}}.",
   ones_mcq2:
-    "Kita punya {{o1}} di tempat satuan dan meminjam 1 dari tempat puluhan.",
-  tens_1: "Sekarang mari kurangi kolom puluhan. Ketuk tombol '-'.",
+    "Kita punya {{o1}} di nilai tempat satuan dan meminjam 1 dari nilai tempat puluhan.",
+  tens_1: "Sekarang mari kurangkan kolom puluhan. Ketuk tombol '-'.",
   topLesser_ten:
     "{{tCorrect}} lebih kecil dari {{t2x}}. Kita tidak bisa mengurangkan {{t2x}} dari {{tCorrect}}.",
-  split_tens: "Klik {{h1}} untuk membaginya.",
-  splitted_for_tens: "{{h1}} dibagi menjadi {{hCorrect}} + 1.",
+  split_tens: "Klik {{h1}} untuk memisahkannya.",
+  splitted_for_tens: "{{h1}} dipisahkan menjadi {{hCorrect}} + 1.",
   enough_tens:
     "Sekarang kita punya cukup untuk mengurangkan. Ketuk tombol '-' sekarang.",
   subtracted_tens:
-    "Kita telah mengurangkan kolom puluhan. Klik 'Berikutnya' untuk lanjut.",
+    "Kita telah mengurangkan kolom puluhan. Klik 'Lanjut' untuk meneruskan.",
   tens_mcq1: "Kita tidak bisa mengurangkan {{t2x}} dari {{tCorrect}}.",
   tens_mcq2:
-    "Kita punya {{tCorrect}} di tempat puluhan dan meminjam 1 dari tempat ratusan.",
-  hundreds_1: "Sekarang mari kurangi kolom ratusan. Ketuk tombol '-'.",
+    "Kita punya {{tCorrect}} di nilai tempat puluhan dan meminjam 1 dari nilai tempat ratusan.",
+  hundreds_1: "Sekarang mari kurangkan kolom ratusan. Ketuk tombol '-'.",
   topLesser_hundred:
     "{{hCorrect}} lebih kecil dari {{h2x}}. Kita tidak bisa mengurangkan {{h2x}} dari {{hCorrect}}.",
-  split_hundreds: "Klik {{th1}} untuk membaginya.",
-  splitted_for_hundreds: "{{th1}} dibagi menjadi {{thCorrect}} + 1.",
+  split_hundreds: "Klik {{th1}} untuk memisahkannya.",
+  splitted_for_hundreds: "{{th1}} dipisahkan menjadi {{thCorrect}} + 1.",
   enough_hundreds:
     "Sekarang kita punya cukup untuk mengurangkan. Ketuk tombol '-' sekarang.",
   subtracted_hundreds:
-    "Kita telah mengurangkan kolom ratusan. Klik 'Berikutnya' untuk lanjut.",
+    "Kita telah mengurangkan kolom ratusan. Klik 'Lanjut' untuk meneruskan.",
   hundreds_mcq1: "Kita tidak bisa mengurangkan {{h2x}} dari {{hCorrect}}.",
   hundreds_mcq2:
-    "Kita punya {{hCorrect}} di tempat ratusan dan meminjam 1 dari tempat ribuan.",
-  thousands_1: "Sekarang mari kurangi kolom ribuan. Ketuk tombol '-'.",
+    "Kita punya {{hCorrect}} di nilai tempat ratusan dan meminjam 1 dari nilai tempat ribuan.",
+  thousands_1: "Sekarang mari kurangkan kolom ribuan. Ketuk tombol '-'.",
   topLesser_thousand:
     "{{thCorrect}} lebih kecil dari {{th2x}}. Kita tidak bisa mengurangkan {{th2x}} dari {{thCorrect}}.",
-  split_thousands: "Klik {{tt1}} untuk membaginya.",
-  splitted_for_thousands: "{{tt1}} dibagi menjadi {{ttCorrect}} + 1.",
+  split_thousands: "Klik {{tt1}} untuk memisahkannya.",
+  splitted_for_thousands: "{{tt1}} dipisahkan menjadi {{ttCorrect}} + 1.",
   enough_thousands:
     "Sekarang kita punya cukup untuk mengurangkan. Ketuk tombol '-' sekarang.",
   subtracted_thousands:
-    "Kita telah mengurangkan kolom ribuan. Klik 'Berikutnya' untuk lanjut.",
+    "Kita telah mengurangkan kolom ribuan. Klik 'Lanjut' untuk meneruskan.",
   thousands_mcq1: "Kita tidak bisa mengurangkan {{th2x}} dari {{thCorrect}}.",
   thousands_mcq2:
-    "Kita punya {{thCorrect}} di tempat ribuan dan meminjam 1 dari tempat sepuluh ribuan.",
+    "Kita punya {{thCorrect}} di nilai tempat ribuan dan meminjam 1 dari nilai tempat puluh ribuan.",
   ten_thousands_1:
-    "Terakhir, mari kurangi kolom sepuluh ribuan. Ketuk tombol '-'.",
+    "Terakhir, mari kurangkan kolom puluh ribuan. Ketuk tombol '-'.",
   subtracted_ten_thousands:
-    "Kita telah mengurangkan kolom sepuluh ribuan. Klik 'Berikutnya' untuk melihat jawaban akhir.",
+    "Kita telah mengurangkan kolom puluh ribuan. Klik 'Lanjut' untuk melihat jawaban akhir.",
   final_summary:
     "Kerja bagus! Kamu telah menyelesaikan pengurangan. Jawabannya adalah {{answer}}.",
+  conclude: "Sisa uang Rudi adalah Rp{{answer}}.",
   combine:
-    "Sekarang kita perlu menyusun jawaban dari hasil semua pengurangan kolom. Ketuk bagian yang disorot.",
+    "Sekarang kita perlu menyusun jawaban dari hasil pengurangan semua kolom. Ketuk bagian yang disorot.",
 };
 
 const headerArrayIndonesian = ["PRi", "Ri", "R", "P", "S"];

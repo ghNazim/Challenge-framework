@@ -160,15 +160,15 @@ function getDataFromQuestion() {
     h3x: h3,
     th3x: th3,
     tt3x: tt3,
-    o3x_minus: o3 - 1,
+    o3x_minus: o3 + 2,
     o3x_plus: o3 + 1,
-    t3x_minus: t3 - 1,
+    t3x_minus: t3 + 2,
     t3x_plus: t3 + 1,
-    h3x_minus: h3 - 1,
+    h3x_minus: h3 + 2,
     h3x_plus: h3 + 1,
-    th3x_minus: th3 - 1,
+    th3x_minus: th3 + 2,
     th3x_plus: th3 + 1,
-    tt3x_minus: tt3 - 1,
+    tt3x_minus: tt3 + 2,
     tt3x_plus: tt3 + 1,
   };
 }
@@ -494,17 +494,17 @@ function firstStage_step4() {
 
     if (lines.length >= 4) {
       const fact1Text = currentProblem.givenFacts[1].split(":")[0].trim();
-      lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
+      lines[0].querySelector(".awp-text").textContent = fact1Text;
       lines[0].querySelector(".awp-number").textContent =
         currentProblem.numbers[0];
 
       const fact2Text = currentProblem.givenFacts[2].split(":")[0].trim();
-      lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
+      lines[1].querySelector(".awp-text").textContent = fact2Text;
       lines[1].querySelector(".awp-number").textContent =
         "- " + currentProblem.numbers[1];
 
       const toFindText = currentProblem.toFindFacts[1];
-      lines[3].querySelector(".awp-text").textContent = toFindText + " =";
+      lines[3].querySelector(".awp-text").textContent = toFindText;
     }
   }
 
@@ -594,6 +594,8 @@ function onesMcq1() {
   });
 }
 function onesMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   splitOverlay("ones_mcq1");
   hideFtue();
   borderRed(true);
@@ -606,6 +608,7 @@ function onesMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_ones");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -674,6 +677,8 @@ function moveToTens() {
 }
 
 function tensMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   splitOverlay("tens_mcq1");
   hideFtue();
   borderRed(true);
@@ -686,6 +691,7 @@ function tensMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_tens");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -762,6 +768,8 @@ function moveToHundreds() {
 }
 
 function hundredsMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   splitOverlay("hundreds_mcq1");
   hideFtue();
   borderRed(true);
@@ -774,6 +782,7 @@ function hundredsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_hundreds");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -850,6 +859,8 @@ function moveToThousands() {
 }
 
 function thousandsMinusClickBorrow() {
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   splitOverlay("thousands_mcq1");
   hideFtue();
   borderRed(true);
@@ -862,6 +873,7 @@ function thousandsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_thousands");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -958,7 +970,7 @@ function endStage() {
   nextButton.disabled = false;
   hideFtue();
   unhighlightColumn();
-  highlightRowBorder(".right-panel .row-result", 2);
+  highlightRowBorder(".right-panel .row-result");
   borderGreen(true);
   const leftResultItems = document.querySelectorAll(
     ".left-panel .row-result.item"
@@ -992,18 +1004,18 @@ function finalSummaryStage() {
   const lines = additionWordProblem.querySelectorAll(".awp-line");
 
   if (lines.length >= 4) {
-    const fact1Text = currentProblem.givenFacts[1].split(":")[0].trim();
-    lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
-    lines[0].querySelector(".awp-number").textContent =
-      currentProblem.numbers[0];
+    // const fact1Text = currentProblem.givenFacts[1].split(":")[0].trim();
+    // lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
+    // lines[0].querySelector(".awp-number").textContent =
+    //   currentProblem.numbers[0];
 
-    const fact2Text = currentProblem.givenFacts[2].split(":")[0].trim();
-    lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
-    lines[1].querySelector(".awp-number").textContent =
-      "- " + currentProblem.numbers[1];
+    // const fact2Text = currentProblem.givenFacts[2].split(":")[0].trim();
+    // lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
+    // lines[1].querySelector(".awp-number").textContent =
+    //   "- " + currentProblem.numbers[1];
 
-    const toFindText = currentProblem.toFindFacts[1];
-    lines[3].querySelector(".awp-text").textContent = toFindText + " =";
+    // const toFindText = currentProblem.toFindFacts[1];
+    // lines[3].querySelector(".awp-text").textContent = toFindText + " =";
 
     const answerBox = lines[3].querySelector(".awp-box");
     if (answerBox) {
@@ -1012,16 +1024,21 @@ function finalSummaryStage() {
     }
   }
 
-  showTextWithTag("final_summary");
+  showTextWithTag("conclude");
 
   playSound("congrats");
   confettiBurst();
-  nextButton.disabled = true;
+  // nextButton.disabled = true;
   // nextButton.textContent = buttonText.try_new;
-  // nextButton.onclick = loadNextQuestion;
+  nextButton.onclick = finalScreen;
 }
-
+function finalScreen(){
+  triggerFullScreenOverlay(true);
+  overlayButton.onclick = () => location="../index.html";
+}
+// finalScreen()
 function onClickingNextCell(tag) {
+  playSound("click");
   hideFtue();
   const topRowEl = document.querySelector(topRow[tag]);
   const carryRowEl = document.querySelector(carryRow[tag]);

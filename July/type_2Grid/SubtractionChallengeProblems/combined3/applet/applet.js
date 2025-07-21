@@ -154,15 +154,15 @@ function getDataFromQuestion() {
     ttsumx_plus: ttsum + 1,
 
     // Variations for MCQ options (result digits)
-    o3x_minus: o3 - 1,
+    o3x_minus: o3 + 2,
     o3x_plus: o3 + 1,
-    t3x_minus: t3 - 1,
+    t3x_minus: t3 + 2,
     t3x_plus: t3 + 1,
-    h3x_minus: h3 - 1,
+    h3x_minus: h3 + 2,
     h3x_plus: h3 + 1,
-    th3x_minus: th3 - 1,
+    th3x_minus: th3 + 2,
     th3x_plus: th3 + 1,
-    tt3x_minus: tt3 - 1,
+    tt3x_minus: tt3 + 2,
     tt3x_plus: tt3 + 1,
     oOverflowStr: oOverflow ? " + 1" : "",
     tOverflowStr: tOverflow ? " + 1" : "",
@@ -404,6 +404,7 @@ function highlightText(fullText, partsToHighlight, className) {
 }
 
 function firstStage_step1() {
+  populateDnd(dndData);
   mainContainer.classList.add("first-stage");
   const currentProblem = firstStageQuestions[questionIndex];
   bigQuestion.innerHTML = currentProblem.question;
@@ -455,6 +456,23 @@ function firstStage_step3() {
   showTextWithTag("first_stage_3");
   showFtue(nextButton);
   nextButton.onclick = dragAndDropStage;
+}
+function populateDnd(data) {
+  // Set the main equation title
+  document.querySelector(
+    ".dnd-equation .dnd-text"
+  ).textContent = `${data.mainTitle} =`;
+
+  // Set the text for the draggable cards
+  document.getElementById("money-at-start").textContent =
+    data.cards.moneyAtStart;
+  document.getElementById("toy-robot-cost").textContent =
+    data.cards.toyRobotCost;
+  document.getElementById("spinning-top-cost").textContent =
+    data.cards.spinningTopCost;
+
+  // Set the title for the combined cost section
+  document.querySelector(".dnd-title").textContent = data.combinedTitle;
 }
 function dragAndDropStage() {
   hideFtue();
@@ -523,8 +541,8 @@ function dragAndDropStage() {
         correctlyPlacedCount++;
 
         if (correctlyPlacedCount === cards.length) {
-          showText("Great! Now let's first calculate the total money spent.");
-          showMoneyValues()
+          showText(textPool.afterdnd);
+          showMoneyValues();
           nextButton.disabled = false;
           showFtue(nextButton);
         }
@@ -547,32 +565,39 @@ function dragAndDropStage() {
     firstStage_step4();
   };
 }
-    function showMoneyValues() {
-      // --- Get the elements for the new frame ---
-      const title = document.querySelector(".dnd-title");
-      const valuesContainer = document.querySelector(".dnd-values");
-      const startMoneyEl = document.getElementById("start-money-value");
-      const cost1El = document.getElementById("cost1-value");
-      const cost2El = document.getElementById("cost2-value");
+function showMoneyValues() {
+  // --- Get the elements for the new frame ---
+  const title = document.querySelector(".dnd-title");
+  const valuesContainer = document.querySelector(".dnd-values");
+  const startMoneyEl = document.getElementById("start-money-value");
+  const cost1El = document.getElementById("cost1-value");
+  const cost2El = document.getElementById("cost2-value");
 
-      // --- Populate with numbers from the current question ---
-      // NOTE: This assumes the first number is the start money,
-      // and the second is one of the costs. The third number is
-      // hardcoded from your image as the data isn't available.
-      // You can adjust this logic to match your data structure.
-      const startMoney = firstStageQuestions[questionIndex].total; // e.g., 25700
-      const cost1 = currentQuestion[0]; // e.g., 38400
-      const cost2 = currentQuestion[1]; // Placeholder from image
+  // --- Data for the values ---
+  const problemData = firstStageQuestions[questionIndex];
+  const startMoney = problemData.total;
+  const costs = {
+    "toy-robot-cost": problemData.numbers[0],
+    "spinning-top-cost": problemData.numbers[1],
+  };
 
-      startMoneyEl.textContent = startMoney;
-      cost1El.textContent = cost1;
-      cost2El.textContent = cost2;
+  // --- Get the dropped cards in the combined zone ---
+  const combinedDropzones = document.querySelectorAll(
+    ".dnd-combined-zone .dnd-dropzone"
+  );
+  const firstCardId = combinedDropzones[0].firstChild.id;
+  const secondCardId = combinedDropzones[1].firstChild.id;
 
-      // --- Make the new frame visible with animations ---
-      title.classList.add("visible");
-      valuesContainer.classList.add("visible");
-    }
-    
+  // --- Populate with numbers based on the drop order ---
+  startMoneyEl.textContent = startMoney;
+  cost1El.textContent = costs[firstCardId];
+  cost2El.textContent = costs[secondCardId];
+
+  // --- Make the new frame visible with animations ---
+  title.classList.add("visible");
+  valuesContainer.classList.add("visible");
+}
+
 function firstStage_step4() {
   hideFtue();
 
@@ -591,19 +616,19 @@ function firstStage_step4() {
     if (lines.length >= 4) {
       // Line 1: First given fact and number
       const fact1Text = currentProblem.givenFacts[2].split(":")[0].trim();
-      lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
+      lines[0].querySelector(".awp-text").textContent = fact1Text;
       lines[0].querySelector(".awp-number").textContent =
         currentProblem.numbers[0];
 
       // Line 2: Second given fact and number
       const fact2Text = currentProblem.givenFacts[3].split(":")[0].trim();
-      lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
+      lines[1].querySelector(".awp-text").textContent = fact2Text;
       lines[1].querySelector(".awp-number").textContent =
         "+ " + currentProblem.numbers[1];
 
       // Line 4: "To Find" text, adapted from the image and problem context
-      const toFindText = "Total money spent"
-      lines[3].querySelector(".awp-text").textContent = toFindText + " =";
+      const toFindText = textPool.total_money_spent;
+      lines[3].querySelector(".awp-text").textContent = toFindText;
     }
   }
 
@@ -1045,7 +1070,7 @@ function tenThousandsMcq2() {
 function endStage() {
   nextButton.disabled = false;
   hideFtue();
-  highlightRowBorder(".right-panel .row-result", 2);
+  highlightRowBorder(".right-panel .row-result");
   // unhighlightColumn();
   document.querySelector(".left-panel .addition-container").style.display =
     "grid";

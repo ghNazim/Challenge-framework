@@ -1,4 +1,4 @@
-const firstStageQuestions = [
+const firstStageQuestionsEnglish = [
   {
     question:
       "Rudi has Rp82,000. He buys a toy robot for Rp45,600 and a spinning top for Rp18,900. How much money is left with Rudi?",
@@ -19,46 +19,21 @@ const firstStageQuestions = [
     total: "82000",
     total_money_spent: "Total money spent",
   },
-  {
-    question:
-      "SD Harapan received 42,570 textbooks from the Ministry. The next week, they received 29,260 more. How many textbooks did they receive in total?",
-    numbers: [42570, 29260],
-    given: ["42,570 textbooks", "29,260 more"],
-    givenFacts: [
-      "Given:",
-      "Textbooks from the Ministry: 42,570",
-      "Textbooks received next week: 29,260",
-    ],
-    toFind: ["textbooks did they receive in total"],
-    toFindFacts: ["To find:", "The total number of textbooks received"],
-  },
-  {
-    question:
-      "Kelurahan Tunas Jaya allocated Rp45,850 for decorations and Rp39,550 for performances. How much was the total budget?",
-    numbers: [45850, 39550],
-    given: ["Rp45,850 for decorations", "Rp39,550 for performances"],
-    givenFacts: [
-      "Given:",
-      "Budget for decorations: Rp45,850",
-      "Budget for performances: Rp39,550",
-    ],
-    toFind: ["total budget"],
-    toFindFacts: ["To find:", "The total budget"],
-  },
-  {
-    question:
-      "Class 5A collected Rp28,780 from the food sale and Rp17,950 from a donation drive. How much money did they collect?",
-    numbers: [28780, 17950],
-    given: ["Rp28,780 from the food sale", "Rp17,950 from a donation drive"],
-    givenFacts: [
-      "Given:",
-      "Money from food sale: Rp28,780",
-      "Money from donation drive: Rp17,950",
-    ],
-    toFind: ["How much money did they collect"],
-    toFindFacts: ["To find:", "The total amount of money collected"],
-  },
 ];
+const dndDataEnglish = {
+  mainTitle: "Money Left",
+  cards: {
+    moneyAtStart: "Money at Start",
+    toyRobotCost: "Toy Robot Cost",
+    spinningTopCost: "Spinning Top Cost",
+  },
+  combinedTitle: "Total money spent",
+  values: {
+    "money-at-start": 82000,
+    "toy-robot-cost": 45600,
+    "spinning-top-cost": 18900,
+  },
+};
 
 const mcqDataEnglish = {
   add_or_subtract: {
@@ -128,7 +103,7 @@ const mcqDataEnglish = {
   hundreds_split: {
     question:
       "We can't have {{hsumx}} in the hundreds place.<br> Which digit should we carry forward??",
-    options: ["1", "0", "{{hsum}}"],
+    options: ["1", "{{h3}}", "{{hsum}}"],
     answer_index: 0,
     correct_feedback: "Well done!",
     wrong_feedback: "That's not the one to carry. Try again.",
@@ -136,7 +111,7 @@ const mcqDataEnglish = {
   thousands_split: {
     question:
       "We can't have {{thsumx}} in the thousands place.<br> Which digit should we carry forward??",
-    options: ["1", "0", "{{thsum}}"],
+    options: ["1", "{{th3}}", "{{thsum}}"],
     answer_index: 0,
     correct_feedback: "Perfect!",
     wrong_feedback: "That's not the one to carry. Try again.",
@@ -144,12 +119,14 @@ const mcqDataEnglish = {
 };
 
 const textPoolEnglish = {
+  afterdnd: "Great! Now let's first calculate the total money spent.",
   answer_of_question: `<span>Answer: Total number of books received: {{answer}} </span>`,
   first_stage_1: "Read the word problem carefully. Click Next to continue.",
   first_stage_2:
     "Great! Let's identify the important information given in the problem.",
-  first_stage_3: "Good job. Now, let's figure out what we need to find.",
-  first_stage_4: "We need to add to find the total money spent.",
+  first_stage_3: "This is what we need to calculate.",
+  first_stage_4:
+    "We need to <span class='em'>add</span> to find the total money spent.",
   mcqIn: "Click on the correct option.",
   start: "We have an addition challenge. Let's solve it.",
   split_number1:
@@ -192,7 +169,8 @@ const textPoolEnglish = {
     "We have completed adding the numbers in all the columns.",
   final_summary:
     "You have completed the addition. Total money spent is Rp{{answer}}.",
-  move_to_subtraction:"Let's now move to subtraction to find how much money is left.",
+  move_to_subtraction:
+    "Rudi spent Rp{{answer}}. Let's now move to subtraction to find how much money is left with Rudi.",
   combine:
     "Now we need to compose the answer from results of all column additions. Tap on the highlighted part.",
   mcq_one:
@@ -223,34 +201,72 @@ const overlayDataEnglish = {
 // NOTE: Indonesian translations for the new first stage are placeholders.
 // You can replace them with accurate translations.
 
+const firstStageQuestionsIndonesian = [
+  {
+    question:
+      "Rudi mempunyai uang Rp82.000. Ia membeli sebuah robot mainan seharga Rp45.600 dan sebuah gasing seharga Rp18.900. Berapa sisa uang Rudi?",
+    numbers: [45600, 18900],
+    given: [
+      "Rudi mempunyai uang Rp82.000",
+      "robot mainan seharga Rp45.600",
+      "gasing seharga Rp18.900",
+    ],
+    givenFacts: [
+      "Diketahui:",
+      "Jumlah uang Rudi: Rp82.000",
+      "Harga robot mainan: Rp45.600",
+      "Harga gasing: Rp18.900",
+    ],
+    toFind: ["Berapa sisa uang"],
+    toFindFacts: ["Ditanya:", "Sisa uang Rudi"],
+    total: "82000",
+    total_money_spent: "Jumlah uang yang dibelanjakan",
+  },
+];
+
+const dndDataIndonesian = {
+  mainTitle: "Sisa Uang",
+  cards: {
+    moneyAtStart: "Uang Awal",
+    toyRobotCost: "Harga Robot Mainan",
+    spinningTopCost: "Harga Gasing",
+  },
+  combinedTitle: "Jumlah uang yang dibelanjakan",
+  values: {
+    "money-at-start": 82000,
+    "toy-robot-cost": 45600,
+    "spinning-top-cost": 18900,
+  },
+};
+
 const mcqDataIndonesian = {
   add_or_subtract: {
     question:
-      "Apakah Anda harus menambah atau mengurangi untuk menyelesaikan pertanyaan?",
-    options: ["Tambah", "Kurangi"],
+      "Apakah kamu harus menjumlahkan atau mengurangkan untuk menyelesaikan soal ini?",
+    options: ["Menjumlahkan", "Mengurangkan"],
     answer_index: 0,
   },
   ones_place: {
-    question: "Nilai tempat manakah yang kita tambahkan terlebih dahulu?",
+    question: "Nilai tempat manakah yang kita jumlahkan terlebih dahulu?",
     options: ["Puluhan", "Ratusan", "Satuan", "Ribuan"],
     answer_index: 2,
-    correct_feedback: "Tepat sekali! Kita mengerjakannya dari kanan ke kiri.",
+    correct_feedback: "Tepat sekali! Kita menghitung dari kanan ke kiri.",
     wrong_feedback:
-      "Bukan, itu tidak benar. Ingat, kita selalu mulai dari nilai tempat paling kanan.",
+      "Kurang tepat. Ingat, kita selalu mulai dari nilai tempat paling kanan.",
   },
   add_ones: {
     question: "{{o1x}} + {{o2x}} =",
-    options: ["{{osumx_minus}}", "{{osumx_plus}}", "{{osumx}}"],
+    options: ["10", "{{osumx_plus}}", "{{osumx}}"],
     answer_index: 2,
     correct_feedback: "Kerja bagus!",
-    wrong_feedback: "Bukan, itu tidak benar. Coba lagi.",
+    wrong_feedback: "Kurang tepat. Coba lagi.",
   },
   add_tens: {
     question: "{{t1x}} + {{t2x}} {{oOverflowStr}} =",
-    options: ["{{tsumx_plus}}", "{{tsumx}}", "{{tsumx_minus}}"],
+    options: ["{{tsumx_plus}}", "{{tsumx}}", "10"],
     answer_index: 1,
     correct_feedback: "Bagus sekali!",
-    wrong_feedback: "Ups, itu tidak benar. Ayo coba lagi.",
+    wrong_feedback: "Ups, bukan itu. Mari coba lagi.",
   },
   add_hundreds: {
     question: "{{h1x}} + {{h2x}} {{tOverflowStr}} =",
@@ -264,18 +280,18 @@ const mcqDataIndonesian = {
     options: ["{{thsumx_minus}}", "{{thsumx_plus}}", "{{thsumx}}"],
     answer_index: 2,
     correct_feedback: "Luar biasa!",
-    wrong_feedback: "Bukan, itu tidak benar. Coba lagi.",
+    wrong_feedback: "Kurang tepat. Coba lagi.",
   },
   add_ten_thousands: {
     question: "{{tt1x}} + {{tt2x}} {{thOverflowStr}} =",
     options: ["{{ttsumx}}", "{{ttsumx_plus}}", "{{ttsumx_minus}}"],
     answer_index: 0,
     correct_feedback: "Kamu berhasil!",
-    wrong_feedback: "Ups, itu tidak benar. Ayo coba lagi.",
+    wrong_feedback: "Ups, bukan itu. Mari coba lagi.",
   },
   ones_split: {
     question:
-      "Kita tidak bisa memiliki {{osumx}} di tempat satuan.<br> Angka mana yang harus kita simpan?",
+      "Kita tidak bisa memiliki {{osumx}} di tempat satuan.<br> Angka mana yang harus kita simpan??",
     options: ["1", "{{o3}}", "{{osum}}"],
     answer_index: 0,
     correct_feedback: "Benar!",
@@ -283,7 +299,7 @@ const mcqDataIndonesian = {
   },
   tens_split: {
     question:
-      "Kita tidak bisa memiliki {{tsumx}} di tempat puluhan.<br> Angka mana yang harus kita simpan?",
+      "Kita tidak bisa memiliki {{tsumx}} di tempat puluhan.<br> Angka mana yang harus kita simpan??",
     options: ["1", "{{t3}}", "{{tsum}}"],
     answer_index: 0,
     correct_feedback: "Kerja bagus!",
@@ -291,7 +307,7 @@ const mcqDataIndonesian = {
   },
   hundreds_split: {
     question:
-      "Kita tidak bisa memiliki {{hsumx}} di tempat ratusan.<br> Angka mana yang harus kita simpan?",
+      "Kita tidak bisa memiliki {{hsumx}} di tempat ratusan.<br> Angka mana yang harus kita simpan??",
     options: ["1", "{{h3}}", "{{hsum}}"],
     answer_index: 0,
     correct_feedback: "Bagus sekali!",
@@ -299,7 +315,7 @@ const mcqDataIndonesian = {
   },
   thousands_split: {
     question:
-      "Kita tidak bisa memiliki {{thsumx}} di tempat ribuan.<br> Angka mana yang harus kita simpan?",
+      "Kita tidak bisa memiliki {{thsumx}} di tempat ribuan.<br> Angka mana yang harus kita simpan??",
     options: ["1", "{{th3}}", "{{thsum}}"],
     answer_index: 0,
     correct_feedback: "Sempurna!",
@@ -308,67 +324,72 @@ const mcqDataIndonesian = {
 };
 
 const textPoolIndonesian = {
+  afterdnd:
+    "Bagus! Sekarang, mari kita hitung dulu jumlah uang yang dibelanjakan.",
+  answer_of_question: `<span>Jawaban: Jumlah total buku yang diterima: {{answer}} </span>`,
   first_stage_1:
-    "Baca soal cerita dengan seksama. Klik Berikutnya untuk melanjutkan.",
+    "Baca soal cerita dengan saksama. Klik Lanjut untuk meneruskan.",
   first_stage_2:
     "Bagus! Mari kita identifikasi informasi penting yang diberikan dalam soal.",
-  first_stage_3:
-    "Kerja bagus. Sekarang, mari kita cari tahu apa yang perlu kita temukan.",
+  first_stage_3: "Inilah yang perlu kita hitung.",
   first_stage_4:
-    "Untuk mencari jumlah total, operasi apa yang harus kita gunakan?",
-  mcqIn: "Klik pada opsi yang benar.",
-  start:
-    "Ayo belajar penjumlahan bersusun panjang. Klik 'Berikutnya' untuk memulai.",
+    "Kita perlu <span class='em'>menjumlahkan</span> untuk menemukan total uang yang dibelanjakan.",
+  mcqIn: "Klik pada pilihan yang benar.",
+  start: "Kita punya tantangan penjumlahan. Ayo kita selesaikan.",
   split_number1:
-    "Uraikan bilangan menjadi nilai-nilai tempatnya. Ketuk pada bilangan pertama.",
+    "Pisahkan bilangan menjadi nilai-nilai tempatnya. Ketuk bilangan pertama.",
   split_number2:
-    "Uraikan bilangan menjadi nilai-nilai tempatnya. Ketuk pada bilangan kedua.",
+    "Pisahkan bilangan menjadi nilai-nilai tempatnya. Ketuk bilangan kedua.",
   after_split:
-    "Kita punya 5 tempat untuk ditambahkan. Ingat kita mulai dari kanan ke kiri.",
-  ones_1: "Ayo jumlahkan angka di kolom satuan. Ketuk tombol '+'.",
+    "Ada 5 nilai tempat yang harus dijumlahkan. Klik 'Lanjut' untuk menjumlahkan nilai tempat satuan.",
+  ones_1: "Mari jumlahkan angka-angka di kolom satuan. Ketuk tombol '+'.",
   ones_carryover:
-    "Oh! Kita punya lebih dari 9 di tempat satuan. Kita perlu melakukan simpanan.",
+    "Oh! Hasil di tempat satuan lebih dari 9. Kita perlu melakukan simpanan.",
   ones_carryover2:
-    "Hebat! Kita telah menguraikan {{osumx}} dengan benar. Klik 'Simpan'.",
+    "Bagus! Kamu telah memisahkan {{osumx}} dengan benar. Klik 'Simpan'.",
   ones_complete:
-    "Kita telah selesai menjumlahkan satuan. Sekarang ayo jumlahkan angka di kolom puluhan.",
-  tens_1: "Untuk menjumlahkan angka di kolom puluhan, ketuk tombol '+'.",
+    "Kita sudah selesai menjumlahkan satuan. Sekarang, mari jumlahkan angka-angka di kolom puluhan.",
+  tens_1: "Untuk menjumlahkan angka-angka di kolom puluhan, ketuk tombol '+'.",
   tens_carryover:
-    "Oh! Kita punya lebih dari 90 di tempat puluhan. Kita perlu melakukan simpanan.",
+    "Oh! Hasil di tempat puluhan lebih dari 9. Kita perlu melakukan simpanan.",
   tens_carryover2:
-    "Hebat! Kita telah menguraikan {{tsumx}} dengan benar. Klik 'Berikutnya' untuk melakukan simpanan.",
+    "Bagus! Kamu telah memisahkan {{tsumx}} dengan benar. Klik 'Lanjut' untuk menyimpan.",
   tens_complete:
-    "Kita telah selesai menjumlahkan puluhan. Sekarang ayo jumlahkan angka di kolom ratusan.",
-  hundreds_1: "Untuk menjumlahkan angka di kolom ratusan, ketuk tombol '+'.",
+    "Kita sudah selesai menjumlahkan puluhan. Sekarang, mari jumlahkan angka-angka di kolom ratusan.",
+  hundreds_1:
+    "Untuk menjumlahkan angka-angka di kolom ratusan, ketuk tombol '+'.",
   hundreds_carryover:
-    "Uh oh! Kita punya lebih dari 900 di tempat ratusan. Waktunya melakukan simpanan.",
+    "Uh oh! Hasil di tempat ratusan lebih dari 9. Saatnya melakukan simpanan.",
   hundreds_carryover2:
-    "Kamu telah menguraikan {{hsumx}} dengan benar. Klik 'Berikutnya' untuk melanjutkan.",
+    "Kamu telah memisahkan {{hsumx}} dengan benar. Klik 'Lanjut' untuk meneruskan.",
   hundreds_complete:
-    "Kita telah selesai menjumlahkan ratusan. Ayo pindah ke kolom ribuan sekarang.",
-  thousands_1: "Untuk menjumlahkan angka di kolom ribuan, ketuk tombol '+'.",
+    "Kita sudah selesai menjumlahkan ratusan. Sekarang, mari kita pindah ke kolom ribuan.",
+  thousands_1:
+    "Untuk menjumlahkan angka-angka di kolom ribuan, ketuk tombol '+'.",
   thousands_carryover:
-    "Uh oh! Kita punya lebih dari 9000 di tempat ribuan. Ayo lakukan simpanan.",
+    "Uh oh! Hasil di tempat ribuan lebih dari 9. Mari kita lakukan simpanan.",
   thousands_carryover2:
-    "Penguraian Sempurna. Klik 'Berikutnya' untuk melakukan simpanan.",
+    "Pemisahan yang sempurna. Klik 'Lanjut' untuk menyimpan.",
   thousands_complete:
-    "Kita telah selesai menjumlahkan ribuan. Ayo pindah ke kolom terakhir sekarang.",
+    "Kita sudah selesai menjumlahkan ribuan. Sekarang, mari kita pindah ke kolom terakhir.",
   ten_thousands_1:
-    "Terakhir, ayo jumlahkan angka di kolom puluh ribuan. Ketuk tombol '+'.",
+    "Terakhir, mari jumlahkan angka-angka di kolom puluh ribuan. Ketuk tombol '+'.",
   ten_thousands_complete:
-    "Kita telah selesai menjumlahkan angka di semua kolom.",
+    "Kita telah selesai menjumlahkan angka-angka di semua kolom.",
   final_summary:
-    "Kamu telah menyelesaikan penjumlahan. Jawaban akhirmu adalah {{answer}}.",
+    "Kamu telah menyelesaikan penjumlahan. Jumlah uang yang dibelanjakan adalah Rp{{answer}}.",
+  move_to_subtraction:
+    "Rudi membelanjakan Rp{{answer}}. Sekarang, mari kita lakukan pengurangan untuk mencari tahu sisa uang Rudi.",
   combine:
-    "Sekarang kita perlu menyusun jawaban dari hasil semua penjumlahan kolom. Ketuk pada bagian yang disorot.",
+    "Sekarang kita perlu menyusun jawaban dari hasil penjumlahan semua kolom. Ketuk bagian yang disorot.",
   mcq_one:
-    "{{osumx}} > 9,<br>Kita perlu menguraikan {{osumx}} untuk melakukan simpanan kelebihan 10-an ke tempat puluhan.",
+    "{{osumx}} > 9,<br>Kita perlu memisahkan {{osumx}} untuk menyimpan kelebihan 10-an ke tempat puluhan. ",
   mcq_ten:
-    "{{tsumx}} > 90,<br>Kita perlu menguraikan {{tsumx}} untuk melakukan simpanan kelebihan 100-an ke tempat ratusan.",
+    "{{tsumx}} > 9,<br>Kita perlu memisahkan {{tsumx}} untuk menyimpan kelebihan 100-an ke tempat ratusan. ",
   mcq_hundred:
-    "{{hsumx}} > 900,<br>Kita perlu menguraikan {{hsumx}} untuk melakukan simpanan kelebihan 1000-an ke tempat ribuan.",
+    "{{hsumx}} > 9,<br>Kita perlu memisahkan {{hsumx}} untuk menyimpan kelebihan 1000-an ke tempat ribuan. ",
   mcq_thousand:
-    "{{thsumx}} > 9000,<br>Kita perlu menguraikan {{thsumx}} untuk melakukan simpanan kelebihan 10000-an ke tempat puluh ribuan.",
+    "{{thsumx}} > 9,<br>Kita perlu memisahkan {{thsumx}} untuk menyimpan kelebihan 10000-an ke tempat puluh ribuan. ",
 };
 
 const headerArrayIndonesian = ["PRi", "Ri", "R", "P", "S"];

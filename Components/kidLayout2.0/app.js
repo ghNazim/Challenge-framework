@@ -95,6 +95,4 @@ function updateInstructionWithData(tag) {
   updateInstruction(leftInstructions[tag].heading, leftInstructions[tag].text);
 }
 
-updateInstructionWithData("general");
-createStepCounter(maxStep);
-updateStepCounter(0);
+

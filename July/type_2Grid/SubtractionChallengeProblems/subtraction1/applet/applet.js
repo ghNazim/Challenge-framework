@@ -445,13 +445,14 @@ function firstStage_step3() {
   nextButton.onclick = firstStage_stepMcq;
 }
 function firstStage_stepMcq() {
+  showTextWithTag("select_operation");
   hideFtue();
   facts.innerHTML = `
     <div id="step3-mcq-container">
-      <p id="step3-mcq-question">Should we add or subtract to solve this question?</p>
+      <p id="step3-mcq-question">${textPool.mcq.question}</p>
       <div id="step3-mcq-options">
-        <div class="option">Add</div>
-        <div class="option">Subtract</div>
+        <div class="option">${textPool.mcq.options[0]}</div>
+        <div class="option">${textPool.mcq.options[1]}</div>
       </div>
     </div>
   `;
@@ -494,21 +495,23 @@ function firstStage_step4() {
 
     if (lines.length >= 4) {
       const fact1Text = currentProblem.givenFacts[1].split(":")[0].trim();
-      lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
+      lines[0].querySelector(".awp-text").textContent = fact1Text;
       lines[0].querySelector(".awp-number").textContent =
         currentProblem.numbers[0];
 
       const fact2Text = currentProblem.givenFacts[2].split(":")[0].trim();
-      lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
+      lines[1].querySelector(".awp-text").textContent = fact2Text;
       lines[1].querySelector(".awp-number").textContent =
         "- " + currentProblem.numbers[1];
 
       const toFindText = currentProblem.toFindFacts[1];
-      lines[3].querySelector(".awp-text").textContent = toFindText + " =";
+      lines[3].querySelector(".awp-text").textContent = toFindText;
     }
   }
 
-  showTextWithTag("first_stage_4");
+  // showTextWithTag("first_stage_4");
+  const stage4Fb = firstStageQuestions[questionIndex].first_stage_4;
+  showText(stage4Fb);
   nextButton.disabled = false;
   showFtue(nextButton);
   nextButton.onclick = startMainApplet;
@@ -598,6 +601,8 @@ function onesMinusClickBorrow() {
   hideFtue();
   borderRed(true);
   showAddButton(false);
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   setTimeout(() => {
     loadMcqIn("ones_borrow", () => {
       const el = selectTopRowCell("t");
@@ -606,6 +611,7 @@ function onesMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_ones");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -615,6 +621,7 @@ function onClickingTenTopCell() {
   q(topRow.t).onclick = null;
   nextButton.disabled = false;
   nextButton.onclick = howManyOnes;
+  
 }
 function howManyOnes() {
   splitOverlay("ones_mcq2");
@@ -678,6 +685,8 @@ function tensMinusClickBorrow() {
   hideFtue();
   borderRed(true);
   showAddButton(false);
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   setTimeout(() => {
     loadMcqIn("tens_borrow", () => {
       const el = selectTopRowCell("h");
@@ -686,6 +695,7 @@ function tensMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_tens");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -766,6 +776,8 @@ function hundredsMinusClickBorrow() {
   hideFtue();
   borderRed(true);
   showAddButton(false);
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   setTimeout(() => {
     loadMcqIn("hundreds_borrow", () => {
       const el = selectTopRowCell("th");
@@ -774,6 +786,7 @@ function hundredsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_hundreds");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -854,6 +867,8 @@ function thousandsMinusClickBorrow() {
   hideFtue();
   borderRed(true);
   showAddButton(false);
+  playSound("wrong");
+  vibrateElement(highlightBox, true);
   setTimeout(() => {
     loadMcqIn("thousands_borrow", () => {
       const el = selectTopRowCell("tth");
@@ -862,6 +877,7 @@ function thousandsMinusClickBorrow() {
       nextButton.disabled = true;
       splitOverlay(false);
       showTextWithTag("split_thousands");
+      vibrateElement(highlightBox, false);
     });
   }, 100);
 }
@@ -958,7 +974,7 @@ function endStage() {
   nextButton.disabled = false;
   hideFtue();
   unhighlightColumn();
-  highlightRowBorder(".right-panel .row-result", 2);
+  highlightRowBorder(".right-panel .row-result");
   borderGreen(true);
   const leftResultItems = document.querySelectorAll(
     ".left-panel .row-result.item"
@@ -992,18 +1008,18 @@ function finalSummaryStage() {
   const lines = additionWordProblem.querySelectorAll(".awp-line");
 
   if (lines.length >= 4) {
-    const fact1Text = currentProblem.givenFacts[1].split(":")[0].trim();
-    lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
-    lines[0].querySelector(".awp-number").textContent =
-      currentProblem.numbers[0];
+    // const fact1Text = currentProblem.givenFacts[1].split(":")[0].trim();
+    // lines[0].querySelector(".awp-text").textContent = fact1Text + " =";
+    // lines[0].querySelector(".awp-number").textContent =
+    //   currentProblem.numbers[0];
 
-    const fact2Text = currentProblem.givenFacts[2].split(":")[0].trim();
-    lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
-    lines[1].querySelector(".awp-number").textContent =
-      "- " + currentProblem.numbers[1];
+    // const fact2Text = currentProblem.givenFacts[2].split(":")[0].trim();
+    // lines[1].querySelector(".awp-text").textContent = fact2Text + " =";
+    // lines[1].querySelector(".awp-number").textContent =
+    //   "- " + currentProblem.numbers[1];
 
-    const toFindText = currentProblem.toFindFacts[1];
-    lines[3].querySelector(".awp-text").textContent = toFindText + " =";
+    // const toFindText = currentProblem.toFindFacts[1];
+    // lines[3].querySelector(".awp-text").textContent = toFindText + " =";
 
     const answerBox = lines[3].querySelector(".awp-box");
     if (answerBox) {
@@ -1011,8 +1027,7 @@ function finalSummaryStage() {
       answerBox.style.border = "none";
     }
   }
-
-  showTextWithTag("final_summary");
+  showText(firstStageQuestions[questionIndex].conclude_text);
 
   playSound("congrats");
   confettiBurst();
@@ -1022,6 +1037,8 @@ function finalSummaryStage() {
 }
 
 function onClickingNextCell(tag) {
+  playSound("click");
+ 
   hideFtue();
   const topRowEl = document.querySelector(topRow[tag]);
   const carryRowEl = document.querySelector(carryRow[tag]);

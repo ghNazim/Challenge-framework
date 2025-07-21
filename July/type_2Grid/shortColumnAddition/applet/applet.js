@@ -44,8 +44,8 @@ const addButton = document.querySelector("#highlight-box>button");
 const mcqContainer = document.getElementById("mcq-container");
 
 const questions = [
-  [67576, 15157],
   [12341, 23432],
+  [67576, 15157],
   [33344, 41414],
   [78787, 11445],
 ];

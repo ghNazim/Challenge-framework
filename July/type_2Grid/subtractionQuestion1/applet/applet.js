@@ -187,6 +187,7 @@ function handleStage2OptionClick(event) {
       if (typeof showFtue !== "undefined") showFtue(nextButton);
       optionsGrid.removeEventListener("click", handleStage2OptionClick);
       updateOptionsFooter("excellent", "green");
+      updateBottomStatement("decomposed_correctly");
     }
   } else {
     clickedButton.classList.add("vibrate", "red-bg");
@@ -211,6 +212,7 @@ function handleStage3OptionClick(event) {
   if (isFillingFinalAnswer) {
     correctValue = correctAnswers[5]; // The final answer
     activeBox = finalAnswerBox;
+    placeValueResultBoxes.forEach((box) => box.classList.add("active"));
   } else {
     correctValue = correctAnswers[currentActiveResultBoxIndex];
     activeBox = placeValueResultBoxes[currentActiveResultBoxIndex];
@@ -250,7 +252,10 @@ function processSubtractionForColumn(columnIndex) {
     // All columns done, move to final answer
     isFillingFinalAnswer = true;
     setActiveResultBox(-1, true); // Highlight final answer box
-    updateBottomStatement("final_sum");
+
+    placeValueResultBoxes.forEach((box) => box.classList.add("active"));
+    
+    updateBottomStatement("compose_answer")
     populateOptionsForFinalAnswer();
     optionsContainer.classList.remove("options-container-disabled");
     return;

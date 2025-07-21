@@ -484,7 +484,7 @@ body {
     translate: 2px 0;
   }
   100% {
-    left: 0;
+    translate: 0;
   }
 }
 

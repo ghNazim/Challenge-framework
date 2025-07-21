@@ -54,9 +54,9 @@
   line-height: 1.5;
 }
 #big-question span {
-  display: inline-block;
+  /* display: inline-block; */
   padding: 0.2rem;
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem; */
 }
 #facts {
   display: flex;
@@ -94,48 +94,69 @@
   display: none;
 }
 #addition-word-problem {
-  display: none;
-  flex-direction: column;
-  font-size: 1.5rem;
-  color: var(--text-color);
-  width: 70%;
-  gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px dashed var(--glow-primary);
-  padding: 1rem;
-  border-radius: 1rem;
+    display: none;
+    /* Hidden by default */
+    flex-direction: column;
+    font-size: 1.3rem;
+    color: var(--text-color);
+    width: 65%; /* Increased width slightly for better spacing */
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px dashed var(--glow-primary);
+    padding: 1rem;
+    border-radius: 1rem;
 }
+
 .awp-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 0;
 }
+
 .awp-text {
-  flex-basis: 70%;
+    flex-basis: 50%; /* Adjusted basis */
+    text-align: left; /* Text is on the right, aligned left */
 }
+
 .awp-number {
-  flex-basis: 30%;
-  text-align: right;
+    flex-basis: 25%; /* Adjusted basis */
+    text-align: right;
+    font-size: 2.2rem; /* Made numbers bigger */
+    font-weight: 700;
 }
+
 .awp-line-divider {
-  width: 30%;
-  align-self: flex-end;
-  padding: 0;
-  justify-content: flex-end;
+    width: 25%; /* Match the width of the numbers column */
+    align-self: flex-start; /* Align to the left side */
+    padding: 0;
+    justify-content: flex-start;
+    /* padding-left: 1rem; */
+    margin-left: 3rem;
 }
+
 .awp-line-divider hr {
-  width: 100%;
-  border: 1px solid var(--text-color);
+    width: 100%;
+    border: 1px solid var(--text-color);
 }
+
 .awp-box {
-  border: 2px solid var(--text-color);
-  width: 7.5rem;
-  height: 2.5rem;
-  align-self: flex-end;
-  text-align: right;
-  
+    border: 2px dashed var(--text-color);
+    width: 25%; /* Make box fill its container */
+    /* max-width: 8rem; */
+    align-self: flex-end;
+    height: 3.2rem; /* Increased height */
+    text-align: right;
+    font-size: 2.2rem; /* Match number font size */
+    font-weight: 700;
+    color: var(--text-color);
+    /* padding: 0 0.5rem; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: .5rem;
 }
 /* --- End First Stage Styles --- */
 
@@ -197,7 +218,7 @@
   column-gap: 0;
   row-gap: 0;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   position: relative;
 }
 
@@ -437,13 +458,6 @@
   color: white !important;
 }
 
-#plus {
-  position: absolute;
-  top: 57%;
-  left: 4%;
-  transform: translate(-50%, -50%);
-  display: none;
-}
 
 .addition-container.simplified-mode #plus {
   top: 52%;
@@ -473,4 +487,51 @@
 #step3-mcq-options .option {
   padding: 0.8rem 1.5rem;
   font-size: 1.2rem;
+}
+
+/* FIx */
+
+#plus {
+  position: absolute;
+  top: 67%;
+  left: -6%;
+  transform: translate(-50%, -50%);
+  /* display: none; */
+}
+
+.right-panel .addition-container {
+  position: relative;
+  /* Proportional column widths: TTh > Th > H > T > O */
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 0;
+  row-gap: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  /* padding: 0.5rem; */
+  border: 1px dashed rgba(168, 85, 247, 0.8);
+  margin-left: 1.5rem;
+}
+
+.row-result.item {
+  min-height: 4.8vw;
+  align-items: flex-start;
+}
+
+.yellow-bg {
+  background-color: #fdff88;
+  color: black;
+}
+.green-bg {
+  background-color: #4dffbe;
+  color: black;
+}
+.em{
+  color: var(--glow-secondary);
+}
+
+.line-item {
+  height: 0.3vw;
+  background-color: rgba(168, 85, 247, 0.8); /* Changed from white */
+  grid-column: 1 / -1;
+  align-self: center;
+  /* margin: 0.3vw 0; */
 }

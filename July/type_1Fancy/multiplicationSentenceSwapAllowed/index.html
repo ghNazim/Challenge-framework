@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiplication Sentence</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="applet/applet.css" />
+    <script src="packages/confetti.min.js"></script>
+    <script src="packages/gsap.min.js"></script>
+    <script src="applet/rootText.js"></script>
+    <script src="applet/texts.js"></script>
+  </head>
+  <body>
+    <div id="aspect-container">
+      <div id="hand-ftue">
+        <img src="assets/tap.png" alt="tapping hand" />
+      </div>
+      <div class="overlay" id="fullscreen-overlay">
+        <img src="assets/JAXhappy.png" />
+        <div class="overlay-content">
+          <h1>Congrats Activity complete</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,
+            facere.
+          </p>
+          <button class="btn btn-primary" id="overlay-button"></button>
+        </div>
+      </div>
+      <div class="overlay" id="mid-overlay">
+        <div class="info">
+          <p></p>
+          <div id="images-in-overlay">
+            <img src="assets/flower.png" />
+            <img src="assets/flower.png" />
+            <img src="assets/flower.png" />
+          </div>
+          <div id="boxes-in-overlay">
+            <div class="aBox">3</div>
+            <div class="aBox">&times;</div>
+            <div class="aBox">4</div>
+            <div class="aBox">=</div>
+            <div class="aBox">12</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary"></button>
+      </div>
+      <!-- <div id="top-heading">
+            <p>Applet Name Optional</p>
+        </div> -->
+      <div id="main-content">
+        <div id="left-panel">
+          <div id="context"></div>
+          <div id="character">
+            <img src="assets/JAXnormal.png" />
+          </div>
+        </div>
+        <div id="right-panel">
+          <!-- <div class="strap" id="upper-controls">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla dolore obcaecati adipisci rem, tempora quisquam! Totam non nostrum odio. </div> -->
+          <div id="applet">
+            <button id="hint-button" class="btn"></button>
+            <div id="applet-left-panel">
+              <div id="question-section">
+                <!-- Question content will go here -->
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id
+                  dolores necessitatibus, cumque iure exercitationem natus error
+                  obcaecati repellendus earum reprehenderit.
+                </p>
+              </div>
+              <div id="image-section"></div>
+              <div id="input-section">
+                <div id="qsn1" class="qsn">
+                  <p>
+                    <span class="question-text"></span>
+                    <span class="input-span"></span>
+                  </p>
+                </div>
+                <div id="qsn2" class="qsn">
+                  <p>
+                    <span class="question-text"></span>
+                    <span class="input-span"></span>
+                  </p>
+                </div>
+              </div>
+              <div id="bottom-section">
+                <p id="bottom-question">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </p>
+                <div id="bottom-options">
+                  <button class="option">option 1</button>
+                  <button class="option">option 2</button>
+                  <button class="option">option 3</button>
+                </div>
+                <div class="equation" id="bottom-expression">
+                  <div class="box digit-box" data-index="0"></div>
+                  <div class="box digit-box" data-index="0"></div>
+                  <div class="box digit-box" data-index="1"></div>
+                  <div class="box digit-box" data-index="1"></div>
+                  <div class="box digit-box" data-index="2"></div>
+                </div>
+              </div>
+            </div>
+            <div id="applet-right-panel">
+              <!-- Right panel content will go here -->
+              <div class="num-container">
+                <div class="number" data-num="1">1</div>
+                <div class="number" data-num="2">2</div>
+                <div class="number" data-num="3">3</div>
+                <div class="number" data-num="4">4</div>
+                <div class="number" data-num="5">5</div>
+                <div class="number" data-num="6">6</div>
+                <div class="number" data-num="7">7</div>
+                <div class="number" data-num="8">8</div>
+                <div class="number" data-num="9">9</div>
+                <div class="number" data-num="+">+</div>
+                <div class="number" data-num="-">-</div>
+                <div class="number" data-num="=">=</div>
+              </div>
+            </div>
+          </div>
+          <div class="strap" id="lower-controls">
+            <button class="btn btn-secondary fade-in" id="previous-button">
+              Previous
+            </button>
+            <div class="step-counter fade-in" id="stepCounter"></div>
+            <button class="btn btn-primary fade-in" id="next-button">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="applet/applet.js"></script>
+  </body>
+</html>
