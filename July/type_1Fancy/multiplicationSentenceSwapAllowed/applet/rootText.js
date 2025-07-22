@@ -99,105 +99,105 @@ const questionDataEnglish = {
 
 
 const speechBubbleDataIndonesian = {
-  problem_1: {
-    initial_prompt:
-      "Hei!! Ayo baca soal cerita ini dengan lantang. Bisakah kamu memberitahu apakah kamu perlu menambah atau mengurangi untuk menemukan jawabannya?",
-    mcq_1_feedback_correct:
-      "Bagus sekali... Sekarang mari kita lihat bagian mana dari pertanyaan yang mengisyaratkan bahwa pengurangan perlu dilakukan di sini..",
-    mcq_2_prompt:
-      "Baca kembali cerita dan pertanyaan lengkapnya. Temukan kata yang menunjukkan bahwa penjumlahan diperlukan.",
-    mcq_2_feedback_incorrect:
-      "Ohh itu tidak benar... Coba temukan kata petunjuk yang memberitahu kita untuk melakukan Pengurangan di sini.",
-    mcq_2_feedback_correct:
-      'Bagus.. Jawabanmu benar. Kata "total" menunjukkan bahwa angka-angka harus dijumlahkan dalam pertanyaan ini. Sekarang,, ayo selesaikan pertanyaan ini. Klik BERIKUTNYA.',
-    expression_prompt:
-      "Susun soal cerita ini ke dalam ekspresi matematika. Tambahkan untuk menemukan jawaban dan PERIKSA.",
-    expression_hint:
-      "Mari kita lihat ceritanya lagi. Bisakah kamu menemukan angka-angka yang perlu ditambahkan? 5 Kupu-kupu di atas bunga. 4 Kupu-kupu di atas daun. Gunakan informasi ini",
-    final_summary:
-      "Juga, kamu menyelesaikan pertanyaan dengan benar. Ada 5 + 4 = 9 kupu-kupu secara TOTAL. Ayo Selesaikan cerita lain. Klik Berikutnya",
-  },
-  problem_2: {
-    initial_prompt:
-      "Hei!! Ayo baca soal cerita ini dengan lantang. Bisakah kamu memberitahu apakah kamu perlu menambah atau mengurangi untuk menemukan jawabannya?",
-    mcq_1_feedback_correct:
-      "Bagus sekali... Sekarang mari kita lihat bagian mana dari pertanyaan yang mengisyaratkan bahwa pengurangan perlu dilakukan di sini..",
-    mcq_2_prompt:
-      "Baca kembali cerita dan pertanyaan lengkapnya. Temukan kata yang menunjukkan bahwa penjumlahan diperlukan.",
-    mcq_2_feedback_incorrect:
-      "Ohh itu tidak benar... Coba temukan kata petunjuk yang memberitahu kita untuk melakukan Pengurangan di sini.",
-    mcq_2_feedback_correct:
-      'Bagus.. Jawabanmu benar. Kata "semuanya" menunjukkan bahwa angka-angka harus dijumlahkan dalam pertanyaan ini. Sekarang,, ayo selesaikan pertanyaan ini. Klik BERIKUTNYA.',
-    expression_prompt:
-      "Susun soal cerita ini ke dalam ekspresi matematika. Tambahkan untuk menemukan jawaban dan PERIKSA.",
-    expression_hint:
-      "Mari kita lihat ceritanya lagi. Bisakah kamu menemukan angka-angka yang perlu ditambahkan? Lina memiliki 7 balon merah. Dia mendapat 5 balon lagi. Gunakan informasi ini",
-    final_summary:
-      "Juga, kamu menyelesaikan pertanyaan dengan benar. Lina sekarang memiliki 7 + 5 = 12 balon secara TOTAL. Ayo Selesaikan cerita lain. Klik Berikutnya",
-  },
+  expression_incorrect:
+    "Itu tidak sepenuhnya benar. Kamu bisa menggunakan tombol 'Petunjuk' di pojok kanan atas untuk mendapatkan petunjuk.",
+  hintText:
+    "Untuk menulis kalimat perkalian, tulislah seperti ini:<br> jumlah kelompok × jumlah benda dalam satu kelompok. Untuk 3 kelompok yang masing-masing berisi 4 benda, kita tulis 3 × 4 = 12",
+  first_screen:
+    "Hei! Tidak perlu menghitung setiap benda satu per satu jika sudah dikelompokkan. Ayo kita lihat bagaimana cara menggunakan perkalian untuk menghitung benda dalam jumlah besar dengan lebih cepat.",
+  qsn1: "Isi dan periksa jumlah kelompok pada gambar.",
+  qsn2: "Isi dan periksa jumlah benda di setiap kelompok.",
+  hint_1:
+    "Ada beberapa kata dan frasa seperti 'selisih', 'tersisa', 'semuanya', 'total', 'berapa banyak lagi', 'sisa', dll., yang memberitahu apakah kita perlu menambah atau mengurangi.",
+  hint_2:
+    "Beberapa kata dan frasa yang menunjukkan pengurangan adalah 'tersisa', 'kurang', 'diambil', 'sisa', 'berapa banyak lagi', dll.",
+  stage_1_prompt:
+    "Hei!!<br>Ayo baca soal cerita ini dengan keras.<br><br>Gunakan informasi ini untuk menyelesaikan pertanyaan berikutnya.<br>Klik 'Berikutnya'.",
+  initial_prompt:
+    "Hei!!<br>Ayo baca soal cerita ini dengan keras.<br><br>Bisakah kamu menebak apakah kamu perlu menambah atau mengurangi untuk menemukan jawabannya?",
+  qsn_1_feedback_incorrect:
+    "Pertanyaan ini tidak memerlukan penjumlahan.<br><br>Coba lagi.",
+  qsn_1_feedback_correct:
+    "Bagus sekali.<br><br>Sekarang mari kita lihat bagian mana dari pertanyaan yang memberi petunjuk bahwa pengurangan perlu dilakukan di sini.",
+  mcq_2_initial:
+    "Baca kembali ceritanya secara lengkap.<br><br>Temukan kata yang menunjukkan bahwa diperlukan pengurangan.",
+  qsn_2_feedback_incorrect:
+    "Oh, itu tidak benar.<br><br>Coba temukan kata kunci yang memberitahu kita untuk melakukan pengurangan di sini.",
+  expression_prompt:
+    "Ubahlah soal cerita ini menjadi ekspresi matematika.<br><br>Tulis ekspresinya dan klik 'Periksa'.",
 };
+
 const questionDataIndonesian = {
   expression: "Tulis ekspresi matematika dan klik 'Periksa'.",
+
   problem_1: {
-    problem_statement:
-      "Ada 5 Kupu-kupu di atas bunga. Ada 4 kupu-kupu di atas daun. Berapa banyak kupu-kupu seluruhnya?",
-    mcq_1: {
-      question:
-        "Haruskah kita Menambah atau Mengurangi untuk menyelesaikan pertanyaan ini?",
-      options: ["Tambah", "Kurangi"],
-      correct_answer: 0,
-      hint: "Ada beberapa kata dan frasa seperti selisih, sisa, seluruhnya, semuanya, dll. yang memberitahu apakah kita perlu menambah atau mengurangi.",
-    },
-    mcq_2: {
-      question: "Manakah dari kata-kata ini yang merujuk pada Penjumlahan?",
-      options: ["banyak", "total", "ada"],
-      correct_answer: 1,
-      hint: "Beberapa kata yang menunjukkan PENJUMLAHAN adalah total, seluruhnya, semuanya, dll.",
-    },
-    solution: "Ada 5 + 4 = 9 kupu-kupu secara TOTAL.",
+    problem_statement: "",
+    qsn_1_initial: "Isi dan periksa jumlah kelompok pada gambar.",
+    qsn_2_initial: "Benar… Isi dan periksa jumlah benda di setiap kelompok.",
+    qsn_1_feedback_correct:
+      "Benar… Isi dan periksa jumlah benda di setiap kelompok.",
+    qsn_1_feedback_incorrect:
+      "Ooh... Hitung ada berapa banyak ikat bunga pada gambar.",
+    qsn_2_feedback_incorrect:
+      "Ooh! Hitung ada berapa banyak bunga di setiap kelompok.",
+    qsn_2_feedback_correct:
+      "Benar… Ada 8 kelompok berisi 4 bunga. Secara matematis, ada 8 kali 4 bunga. Tulis informasi ini ke dalam kalimat perkalian. Klik 'Berikutnya'.",
+    expression_text:
+      "Ada 8 kelompok berisi 4 bunga. Secara matematis, ada 8 kali 4 bunga. Tulis informasi ini ke dalam kalimat perkalian di bawah dan periksa.",
+    expression_correct:
+      "Bagus sekali. 8 kali 4 ditulis sebagai 8 × 4. Ayo kita tulis untuk pertanyaan lain. Klik Berikutnya.",
+    correct_answer: ["8", "×", "4", "=", "32"],
+    image: "assets/flower.png",
+    qsn1: "Ada berapa kelompok bunga?",
+    qsn2: "Ada berapa bunga di setiap kelompok?",
   },
+
   problem_2: {
-    problem_statement:
-      "Lina memiliki 7 balon merah. Temannya memberinya 5 balon hijau lagi. Berapa banyak balon yang dimiliki Lina semuanya?",
-    mcq_1: {
-      question:
-        "Haruskah kita Menambah atau Mengurangi untuk menyelesaikan pertanyaan ini?",
-      options: ["Tambah", "Kurangi"],
-      correct_answer: 0,
-      hint: "Ada beberapa kata dan frasa seperti selisih, sisa, seluruhnya, semuanya, dll. yang memberitahu apakah kita perlu menambah atau mengurangi.",
-    },
-    mcq_2: {
-      question: "Manakah dari kata-kata ini yang merujuk pada Penjumlahan?",
-      options: ["balon", "semuanya", "hijau"],
-      correct_answer: 1,
-      hint: "Beberapa kata yang menunjukkan PENJUMLAHAN adalah total, seluruhnya, semuanya, dll.",
-    },
-    solution: "Lina sekarang memiliki 7 + 5 = 12 balon secara TOTAL.",
+    problem_statement: "",
+    qsn_1_initial: "Isi dan periksa jumlah kelompok pada gambar.",
+    qsn_2_initial: "Benar… Isi dan periksa jumlah benda di setiap kelompok.",
+    qsn_1_feedback_correct:
+      "Benar… Isi dan periksa jumlah benda di setiap kelompok.",
+    qsn_1_feedback_incorrect:
+      "Ooh... Hitung ada berapa mangkuk pangsit pada gambar.",
+    qsn_2_feedback_incorrect:
+      "Ooh! Hitung ada berapa pangsit di setiap mangkuk.",
+    qsn_2_feedback_correct:
+      "Benar… Ada 4 kelompok berisi 3 pangsit. Secara matematis, ada 4 kali 3 pangsit. Tulis informasi ini ke dalam kalimat perkalian. Klik 'Berikutnya'.",
+    expression_text:
+      "Ada 4 kelompok berisi 3 pangsit. Secara matematis, ada 4 kali 3 pangsit. Tulis informasi ini ke dalam kalimat perkalian di bawah dan periksa.",
+    expression_correct:
+      "Bagus sekali. 4 kali 3 ditulis sebagai 4 × 3. Ayo kita tulis untuk pertanyaan lain. Klik Berikutnya.",
+    correct_answer: ["4", "×", "3", "=", "12"],
+    image: "assets/dumpling.png",
+    qsn1: "Ada berapa mangkuk pangsit?",
+    qsn2: "Ada berapa pangsit di setiap mangkuk?",
+  },
+
+  problem_3: {
+    problem_statement: "",
+    qsn_1_initial: "Isi dan periksa jumlah kelompok pada gambar.",
+    qsn_2_initial: "Benar… Isi dan periksa jumlah benda di setiap kelompok.",
+    qsn_1_feedback_correct:
+      "Benar… Isi dan periksa jumlah benda di setiap kelompok.",
+    qsn_1_feedback_incorrect:
+      "Ooh... Hitung ada berapa kantong permen pada gambar.",
+    qsn_2_feedback_incorrect:
+      "Ooh! Hitung ada berapa permen di setiap kantong.",
+    qsn_2_feedback_correct:
+      "Benar… Ada 3 kelompok berisi 5 permen. Secara matematis, ada 3 kali 5 permen. Tulis informasi ini ke dalam kalimat perkalian. Klik 'Berikutnya'.",
+    expression_text:
+      "Ada 3 kelompok berisi 5 permen. Secara matematis, ada 3 kali 5 permen. Tulis informasi ini ke dalam kalimat perkalian di bawah dan periksa.",
+    expression_correct:
+      "Bagus sekali. 3 kali 5 ditulis sebagai 3 × 5. Ayo kita tulis untuk pertanyaan lain. Klik Berikutnya.",
+    correct_answer: ["3", "×", "5", "=", "15"],
+    image: "assets/candy.png",
+    qsn1: "Ada berapa kantong permen?",
+    qsn2: "Ada berapa permen di setiap kantong?",
   },
 };
 
 const leftInstructionsIndonesian = {
-  hmm: "Hmm... Kita perlu menambahkan {{count}} sebanyak {{group}} kali.<br><br><b>{{questionString}}&nbsp;?</b>",
-  try_answering: "Coba jawab ini menggunakan tombol-tombol di bawah.",
-  try_answering_again: "Coba jawab lagi menggunakan tombol-tombol di bawah.",
-  hint: "Kita mendapatkan jawabannya dengan melakukan <b>penjumlahan berulang</b>.",
-  wrong: "Ups! Kita mendapatkan jawabannya dengan <b>penjumlahan berulang</b>.",
-  correct:
-    "Kerja bagus! Kita mendapatkan jawabannya dengan <b>penjumlahan berulang</b>.",
-  final_correct_top: "Hebat!",
-  final_correct:
-    "{{count}} {{item}} ditambahkan {{group}} kali adalah:<br><b> {{questionString}} {{answer}}</b> {{item}} dalam {{group}} {{group_name_plural}}.",
-  question_1: "Berapa banyak pensil yang ada di 3 kotak seperti itu?",
-  question_2: "Bisakah kamu menghitung jumlah bunga di 5 semak?",
-  tap_1: "Ketuk setiap kotak pensil.",
-  tap_2: "Ketuk setiap semak bunga.",
-  tap_next_1: "Ketuk kotak pensil berikutnya.",
-  tap_next_2: "Ketuk semak bunga berikutnya.",
-  correct_mid: "Jawabanmu benar!",
-  mid_step_top:
-    "Berapa banyak {{item}} yang ada di {{current_image}} {{group_name_plural}}?<br><b>{{currentQuestionString}}?</b>",
-  click_buttons:
-    "Masukkan jawabanmu di kotak kuning dengan mengeklik tombol-tombol di bawah.",
 };
 
 const buttonTextsEnglish = {
