@@ -29,8 +29,29 @@ const leftInstructionsEnglish = {
   step3_prompt_second: "Click the button to see the final answer.",
   step3_complete: "And there we have it!",
   step3_final_answer: "The final answer is {finalProduct}.",
+  step1_brief: "Remove {zeroCount} zeroes.",
+  step2_brief: "Find the product.",
+  step3_brief: "Bring back {zeroCount} zeroes.",
 };
-
+const appletTextEnglish = {
+  top_heading: "{m0} × {n}",
+  steps: ["Remove zeroes", "Find the product", "Bring back zeroes"],
+  step_headings: {
+    step1: "Step 1: {m0} has {zeroCount} zeroes. Let's remove them.",
+    step2: "Step 2: Find the product",
+    step3: "Step 3: Bring back {zeroCount} zeroes",
+    step1_singular: "Step 1: {m0} has {zeroCount} zero. Let's remove it.",
+    step3_singular: "Step 3: Bring back {zeroCount} zero.",
+  },
+  math_content: {
+    step1: "<div>{m0_formatted} &times; {n}</div>",
+    step2_q: "What is {m1} &times; {n}?",
+    step2_a:
+      "{m1} &times; {n} = <div class='answer-box' id='answer-box'>?</div>",
+    step3_initial:
+      "<div>{m1}{initial_zeros} &times; {n} = {product}{final_zeros}</div>",
+  },
+};
 const dataForQuestionsEnglish = {
   // This can be used for more complex data later if needed.
 };
@@ -54,35 +75,21 @@ const buttonTextsEnglish = {
 };
 
 // --- Applet Specific Texts ---
-const appletTextEnglish = {
-  top_heading: "{m0} × {n}",
-  steps: ["Step 1", "Step 2", "Step 3"],
-  step_headings: {
-    step1: "Step 1: Ignore the zero in {m0}",
-    step2: "Step 2: Find the product",
-    step3: "Step 3: Bring back the zero",
-  },
-  math_content: {
-    step1: "<div>{m0_formatted} &times; {n}</div>",
-    step2_q: "What is {m1} &times; {n}?",
-    step2_a:
-      "{m1} &times; {n} = <div class='answer-box' id='answer-box'>?</div>",
-    step3_initial:
-      "<div>{m1}{initial_zeros} &times; {n} = {product}{final_zeros}</div>",
-  },
-};
+
 
 // --- INDONESIAN ---
 const leftInstructionsIndonesian = {
-  initial_prompt: "Selesaikan ekspresi di kartu.",
+  // Teks untuk applet asli
+  initial_prompt: "Selesaikan ekspresi pada kartu.",
   solve_the_problem: "Gunakan numpad untuk memasukkan jawabanmu.",
-  correct_feedback: "Benar sekali!",
+  correct_feedback: "Itu benar!",
   good_job: "Kerja bagus!",
   wrong_feedback: "Kurang tepat.",
-  try_again: "Ayo coba yang berikutnya.",
-  activity_complete: "Kamu sudah menyelesaikan semua kartu!",
+  try_again: "Mari kita coba yang berikutnya.",
+  activity_complete: "Kamu telah menyelesaikan semua kartu!",
   well_done: "Bagus sekali!",
 
+  // Teks untuk applet baru
   lets_solve: "Ayo selesaikan soal!",
   click_start: "Klik Mulai untuk memulai.",
   step1_initial: "Ayo kita pecahkan soalnya.",
@@ -90,18 +97,43 @@ const leftInstructionsIndonesian = {
   step1_after_zero_gone: "Bagus! Sekarang soalnya lebih sederhana.",
   step1_prompt_again: "Klik tombol untuk menyelesaikannya.",
 
-  step2_initial: "Ayo kita cari hasil kali dari angka-angka ini.",
+  step2_initial: "Ayo cari hasil kali angka-angka ini.",
   step2_prompt: "Klik pada kotak untuk menjawab perkalian.",
-  step2_after_answer: "Luar biasa! Itu hasil kali yang benar.",
+  step2_after_answer: "Luar biasa! Hasil kalinya benar.",
   step2_prompt_again: "Ayo lanjut ke langkah terakhir.",
-  numpad_1: "Klik angka-angka di papan tombol untuk memasukkan jawabanmu.",
+  numpad_1: "Gunakan papan tombol untuk memasukkan jawabanmu.",
   numpad_2: "Klik tombol centang hijau untuk mengirimkan jawabanmu.",
-  step3_initial: "Sekarang, ayo kembalikan angka nol yang tadi kita abaikan.",
+  step3_initial:
+    "Sekarang, ayo kita kembalikan angka nol yang tadi kita abaikan.",
   step3_prompt_first: "Klik tombol untuk menambahkan kembali angka nol.",
-  step3_after_first_zero: "Bagus! Satu langkah terakhir.",
+  step3_after_first_zero: "Bagus! Satu langkah lagi.",
   step3_prompt_second: "Klik tombol untuk melihat jawaban akhir.",
-  step3_complete: "Dan inilah jawabannya!",
+  step3_complete: "Dan ini dia!",
   step3_final_answer: "Jawaban akhirnya adalah {finalProduct}.",
+  step1_brief: "Hilangkan {zeroCount} angka nol.",
+  step2_brief: "Cari hasil kalinya.",
+  step3_brief: "Kembalikan {zeroCount} angka nol.",
+};
+const appletTextIndonesian = {
+  top_heading: "{m0} × {n}",
+  steps: ["Hilangkan angka nol", "Cari hasil kali", "Kembalikan angka nol"],
+  step_headings: {
+    step1:
+      "Langkah 1: {m0} memiliki {zeroCount} angka nol. Ayo kita hilangkan.",
+    step2: "Langkah 2: Cari hasil kali",
+    step3: "Langkah 3: Kembalikan {zeroCount} angka nol",
+    step1_singular:
+      "Langkah 1: {m0} memiliki {zeroCount} angka nol. Ayo kita hilangkan.",
+    step3_singular: "Langkah 3: Kembalikan {zeroCount} angka nol.",
+  },
+  math_content: {
+    step1: "<div>{m0_formatted} &times; {n}</div>",
+    step2_q: "Berapakah {m1} &times; {n}?",
+    step2_a:
+      "{m1} &times; {n} = <div class='answer-box' id='answer-box'>?</div>",
+    step3_initial:
+      "<div>{m1}{initial_zeros} &times; {n} = {product}{final_zeros}</div>",
+  },
 };
 
 const dataForQuestionsIndonesian = {
@@ -126,20 +158,3 @@ const buttonTextsIndonesian = {
   bring_back_zero: "Kembalikan Nol",
 };
 
-const appletTextIndonesian = {
-  top_heading: "{m0} × {n}",
-  steps: ["Langkah 1", "Langkah 2", "Langkah 3"],
-  step_headings: {
-    step1: "Langkah 1: Abaikan nol di {m0}",
-    step2: "Langkah 2: Cari hasil kalinya",
-    step3: "Langkah 3: Kembalikan nol",
-  },
-  math_content: {
-    step1: "<div>{m0_formatted} &times; {n}</div>",
-    step2_q: "Berapakah {m1} &times; {n}?",
-    step2_a:
-      "{m1} &times; {n} = <div class='answer-box' id='answer-box'>?</div>",
-    step3_initial:
-      "<div>{m1}{initial_zeros} &times; {n} = {product}{final_zeros}</div>",
-  },
-};

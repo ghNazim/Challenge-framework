@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Addition</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="applet/applet.css" />
+    <script src="packages/confetti.min.js"></script>
+    <script src="packages/gsap.min.js"></script>
+    <script src="applet/rootText.js"></script>
+    <script src="applet/texts.js"></script>
+  </head>
+  <body class="light-mode">
+    <div id="aspect-container">
+      <div id="hand-ftue">
+        <img src="assets/tap.png" alt="tapping hand" />
+      </div>
+      <div class="overlay" id="fullscreen-overlay">
+        <img src="" />
+        <div class="overlay-content">
+          <h1>Congrats Activity complete</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,
+            facere.
+          </p>
+          <button class="btn" id="overlay-button"></button>
+        </div>
+      </div>
+      <!-- <div id="top-heading">
+            <p>Applet Name Optional</p>
+        </div> -->
+      <div id="main-content">
+        <div id="left-panel">
+          <div id="context"></div>
+          <div id="character">
+            <img src="" />
+          </div>
+        </div>
+        <div id="right-panel">
+          <!-- <div class="strap" id="upper-controls">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla dolore obcaecati adipisci rem, tempora quisquam! Totam non nostrum odio. </div> -->
+          <main id="applet" class="main-container">
+            <div class="sum-container">
+              <div class="sum-content">
+                <div class="number">12345</div>
+                <div class="number">67890</div>
+                <div class="operation">+ 54321</div>
+                <hr class="line" />
+              </div>
+            </div>
+            <!-- Left Column: Math Problem -->
+            <div class="problem-container">
+              <div class="problem-grid">
+                <div class="row-1 col-1" style="grid-column: span 2"></div>
+                <div class="header-text color-green row-1 col-3">TTh</div>
+                <div></div>
+                <div class="header-text color-purple row-1 col-4">Th</div>
+                <div></div>
+                <div class="header-text color-yellow row-1 col-5">H</div>
+                <div></div>
+                <div class="header-text color-blue row-1 col-6">T</div>
+                <div></div>
+                <div class="header-text color-red row-1 col-7">O</div>
+
+                <div
+                  class="row-2 col-1 carry-over-text"
+                  style="grid-column: span 2"
+                >
+                  Carry Over
+                </div>
+                <div class="dashed-box border-green row-2 col-3"></div>
+                <div></div>
+                <div class="dashed-box border-purple row-2 col-4"></div>
+                <div></div>
+                <div class="dashed-box border-yellow row-2 col-5"></div>
+                <div></div>
+                <div class="dashed-box border-blue row-2 col-6"></div>
+                <div></div>
+                <div class="row-2 col-7"></div>
+
+                <div class="number-label row-3 col-1">21515</div>
+                <div class="equals-sign row-3 col-2">=</div>
+                <div class="number-box border-green row-3 col-3">20000</div>
+                <div class="plus-sign row-3">+</div>
+                <div class="number-box border-purple row-3 col-4">1000</div>
+                <div class="plus-sign row-3">+</div>
+                <div class="number-box border-yellow row-3 col-5">500</div>
+                <div class="plus-sign row-3">+</div>
+                <div class="number-box border-blue row-3 col-6">10</div>
+                <div class="plus-sign row-3">+</div>
+                <div class="number-box border-red row-3 col-7">5</div>
+
+                <div class="number-label row-4 col-1">16823</div>
+                <div class="equals-sign row-4 col-2">=</div>
+                <div class="number-box border-green row-4 col-3">10000</div>
+                <div class="plus-sign row-4">+</div>
+                <div class="number-box border-purple row-4 col-4">6000</div>
+                <div class="plus-sign row-4">+</div>
+                <div class="number-box border-yellow row-4 col-5">800</div>
+                <div class="plus-sign row-4">+</div>
+                <div class="number-box border-blue row-4 col-6">20</div>
+                <div class="plus-sign row-4">+</div>
+                <div class="number-box border-red row-4 col-7">3</div>
+
+                <div class="number-label row-5 col-1">32941</div>
+                <div class="equals-sign row-5 col-2">=</div>
+                <div class="number-box border-green row-5 col-3">30000</div>
+                <div class="plus-sign row-5">+</div>
+                <div class="number-box border-purple row-5 col-4">2000</div>
+                <div class="plus-sign row-5">+</div>
+                <div class="number-box border-yellow row-5 col-5">900</div>
+                <div class="plus-sign row-5">+</div>
+                <div class="number-box border-blue row-5 col-6">40</div>
+                <div class="plus-sign row-5">+</div>
+                <div class="number-box border-red row-5 col-7">1</div>
+
+                <div
+                  class="separator-line row-6 col-1"
+                  style="grid-column: 1 / -1"
+                >
+                  <div></div>
+                </div>
+
+                <div class="number-label row-7 col-1 dashed-box">32941</div>
+                <div class="equals-sign row-7 col-2">=</div>
+                <div class="dashed-box border-green row-7 col-3"></div>
+                <div class="plus-sign row-7">+</div>
+                <div class="dashed-box border-purple row-7 col-4"></div>
+                <div class="plus-sign row-7">+</div>
+                <div class="dashed-box border-yellow row-7 col-5"></div>
+                <div class="plus-sign row-7">+</div>
+                <div class="dashed-box border-blue row-7 col-6"></div>
+                <div class="plus-sign row-7">+</div>
+                <div class="dashed-box border-red row-7 col-7"></div>
+              </div>
+            </div>
+
+            <!-- Right Column: Options -->
+            <div class="options-container">
+              <h2 class="options-title">Pick the correct option</h2>
+              <div class="options-grid">
+                <button class="option-button">71279</button>
+                <button class="option-button">69279</button>
+                <button class="option-button">70279</button>
+                <button class="option-button">71289</button>
+                <button class="option-button">71379</button>
+                <button class="option-button">71269</button>
+                <button class="option-button">71179</button>
+                <button class="option-button">71278</button>
+                <button class="option-button">71279</button>
+                <button class="option-button">81521</button>
+                <button class="option-button">99999</button>
+                <button class="option-button">10000</button>
+                <button class="option-button">54321</button>
+                <button class="option-button">12345</button>
+                <button class="option-button">67890</button>
+              </div>
+              <div class="footer-text"></div>
+            </div>
+          </main>
+          <div id="bottom-statement">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo,
+            architecto.
+          </div>
+          <div class="strap" id="lower-controls">
+            <button class="btn btn-secondary fade-in" id="previous-button">
+              Previous
+            </button>
+            <div class="step-counter fade-in" id="stepCounter"></div>
+            <button class="btn btn-primary fade-in" id="next-button">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="applet/applet.js"></script>
+  </body>
+</html>

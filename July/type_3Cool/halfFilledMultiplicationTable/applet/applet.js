@@ -100,6 +100,10 @@ function loadLevel(levelIndex) {
 
 function showNumpad() {
   numpad.classList.add("visible");
+  const allMissingCells = document.querySelectorAll(".missing-cell");
+  allMissingCells.forEach((cell) => {
+    cell.classList.add("no-animation");
+  });
 }
 
 function hideNumpad() {
@@ -108,6 +112,12 @@ function hideNumpad() {
     activeCell.classList.remove("active");
     activeCell = null;
   }
+  const remainingMissingCells = document.querySelectorAll(
+    ".missing-cell:not(.correct)"
+  );
+  remainingMissingCells.forEach((cell) => {
+    cell.classList.remove("no-animation");
+  });
 }
 
 /**

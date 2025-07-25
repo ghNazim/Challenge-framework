@@ -1,0 +1,425 @@
+:root {
+  --bg-dark: #1a202c;
+  --container-bg: #232a41;
+  --text-light: #e2e8f0;
+  --text-muted: #a0aec0;
+  --text-dark-muted: #4a5568;
+  --border-muted: #4a5568;
+  --button-bg: #2d3748;
+  --button-hover-bg: #4a5568;
+
+  --color-green: #2ecc71;
+  --color-purple: #ffc000;
+  --color-yellow: #e56d30;
+  --color-blue: #00b4f1;
+  --color-red: #ce088c;
+
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.main-container {
+  color: var(--text-light);
+  width: 100%;
+  height: 100%;
+  padding: 1.3rem;
+  border-radius: 1.18rem;
+  display: flex;
+  gap: 3.5rem;
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+  background: var(--panel-bg);
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(7px);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.3), 0 0 15px rgba(0, 194, 255, 0.2);
+}
+
+/* Left and Right Panels */
+.problem-container {
+  flex: 0 0 60%; /* Occupies 60% of the width */
+  z-index: 10;
+}
+
+.options-container {
+  flex: 1; /* Occupies the remaining space (40%) */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.76rem; /* Adjusted from 1.5rem */
+  z-index: 10;
+  background: rgba(10, 5, 20, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Problem Grid Layout (Left Panel) */
+.problem-grid {
+  display: grid;
+  grid-template-columns: auto max-content auto 1rem auto 1rem auto 1rem auto 1rem auto;
+  gap: 0.88rem 0.59rem; /* Adjusted from 0.75rem 0.5rem */
+  align-items: center;
+  font-size: 1.18rem; /* Adjusted from 1rem */
+}
+
+.problem-grid .header-text {
+  text-align: center;
+}
+
+.problem-grid .number-box,
+.problem-grid .dashed-box {
+  border-width: 0.12rem; /* Adjusted from 0.1rem */
+  border-style: solid;
+  background-color: rgba(45, 55, 72, 0.2);
+  padding: 0.24rem; /* Adjusted from 0.2rem */
+  border-radius: 0.4rem; /* Adjusted from 0.5rem */
+  text-align: center;
+  font-weight: 600;
+}
+
+.problem-grid .dashed-box {
+  border-style: dashed;
+  background-color: transparent;
+  height: 2.35rem; /* Adjusted from 2rem */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Specific styles for grid items */
+.carry-over-text {
+  grid-column: span 2;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+}
+.number-label {
+  text-align: right;
+  padding-right: 0.59rem; /* Adjusted from 0.5rem */
+  font-weight: 600;
+}
+.equals-sign {
+  text-align: center;
+  font-weight: 600;
+}
+.separator-line {
+  grid-column: 1 / -1; /* Span all columns */
+  padding: 0.59rem 0; /* Adjusted from 0.5rem */
+}
+.separator-line > div {
+  border-top-width: 0.29rem; /* Adjusted from 0.25rem */
+  border-top-style: double;
+  border-top-color: var(--text-dark-muted);
+}
+
+/* Border Colors */
+.border-green {
+  border-color: var(--color-green);
+}
+.color-green {
+  color: var(--color-green);
+}
+.border-purple {
+  border-color: var(--color-purple);
+}
+.color-purple {
+  color: var(--color-purple);
+}
+.border-yellow {
+  border-color: var(--color-yellow);
+}
+.color-yellow {
+  color: var(--color-yellow);
+}
+.border-blue {
+  border-color: var(--color-blue);
+}
+.color-blue {
+  color: var(--color-blue);
+}
+.border-red {
+  border-color: var(--color-red);
+}
+.color-red {
+  color: var(--color-red);
+}
+
+/* Options Grid (Right Panel) */
+.options-title {
+  font-size: 1.18rem; /* Adjusted from 1rem */
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+}
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem; /* Adjusted from 0.3rem */
+  width: 100%;
+}
+.option-button {
+  color: var(--text-light);
+  font-size: 1.18rem; /* Adjusted from 1rem */
+  font-weight: 700;
+  padding: 0.24rem; /* Adjusted from 0.2rem */
+  border-radius: 0.59rem; /* Adjusted from 0.5rem */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+.option-button:hover {
+  box-shadow: 0 0 20px var(--glow-primary);
+  border-color: var(--glow-primary);
+  background: linear-gradient(
+    145deg,
+    rgba(168, 85, 247, 0.3),
+    rgba(168, 85, 247, 0.1)
+  );
+  transform: translateY(-0.15rem); /* Adjusted from -0.125rem */
+}
+.option-button.correct {
+  background: rgba(
+    52,
+    211,
+    153,
+    0.15
+  ) !important; /* Use important to override other states */
+  border-color: var(--glow-success) !important;
+  color: var(--glow-success) !important;
+  opacity: 0.8 !important;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.5) !important;
+  transform: none !important;
+}
+.footer-text {
+  width: 100%;
+  max-width: 28.2rem; /* Adjusted from 24rem */
+  text-align: center;
+  background-color: rgba(45, 55, 72, 0.5);
+  color: white;
+  padding: 0.3rem; /* Adjusted from 1rem */
+  border-radius: 0.59rem; /* Adjusted from 0.5rem */
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+}
+
+/* Add these styles to your existing applet.css file */
+
+/* Style for the currently active input box */
+
+
+/* Keyframe animation for the vibration effect */
+@keyframes vibrate {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-3px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+/* Class to apply the vibration animation */
+.vibrate {
+  border-color: var(--glow-error);
+  background-color: rgba(248, 113, 113, 0.1);
+  animation: vibrate 0.3s linear;
+}
+
+/* Class for stage 1 to make number boxes appear empty */
+.empty-number-box {
+  border-style: dashed !important;
+  color: transparent !important;
+  user-select: none; /* Prevents text selection */
+}
+
+/* Class for correctly selected option buttons */
+
+/* Utility class to make text transparent */
+.text-transparent {
+  color: transparent !important;
+  user-select: none;
+}
+
+.problem-grid .number-box {
+  min-height: 2.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Prevents hover effect on disabled option buttons */
+.option-button:hover:not([disabled]) {
+  background-color: var(--button-hover-bg);
+  border-color: var(--text-muted);
+  transform: translateY(-0.15rem);
+}
+
+/* Style for disabled option buttons */
+.option-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Style for the currently active input box with a yellow glow */
+.active {
+  border-color: white;
+  box-shadow: 0 0 .5rem white,
+    inset 0 0 .5rem white;
+  border-style: solid;
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer !important;
+}
+
+.red-bg {
+  background-color: rgba(
+    252,
+    129,
+    129,
+    0.7
+  ) !important; /* Semi-transparent red */
+  border-color: #fc8181 !important;
+  cursor: pointer;
+}
+
+.sum-container {
+  border-radius: 1.5vw; /* Border radius scales with the viewport width */
+  color: white;
+  font-size: 5vw; /* Font size scales with the viewport width */
+  font-weight: 500;
+
+  text-align: right; /* Aligns text to the right */
+  /* Added a max-width to prevent it from becoming too large on very wide screens */
+
+  /* Added a min-width to ensure readability on very narrow screens */
+
+  height: auto;
+  display: none;
+}
+.main-container.first-stage .sum-container {
+  display: flex;
+}
+.main-container.first-stage .problem-container {
+  display: none;
+}
+.main-container.first-stage .options-container {
+  display: none;
+}
+/* A wrapper for the content */
+.sum-content {
+  position: relative;
+}
+.main-container.first-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Styling for the numbers and the operator line */
+.number,
+.operation {
+  line-height: 1.3;
+}
+
+/* Adds a little space below the operator line */
+.operation {
+  padding-bottom: 1vw; /* Padding scales with the viewport width */
+}
+
+/* The horizontal line separating the numbers from the result */
+.line {
+  width: 100%;
+  border: 0;
+  height: 0.3vw; /* Height scales with the viewport width */
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.8vw; /* Margin scales with the viewport width */
+  border-radius: 0.2vw; /* Border radius scales with the viewport width */
+}
+
+/* Styling for the result */
+.result {
+  margin-top: 1vw; /* Margin scales with the viewport width */
+  font-weight: 700; /* Make the result bold */
+}
+
+.final-answer-correct {
+  background-color: #2ecc71; /* Green background */
+  color: white;
+  border-color: #27ae60; /* Darker green border */
+  box-shadow: 0 0 5px #2ecc71; /* Green glow */
+  border-width: 3px !important;
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
+  border-style: solid !important;
+  cursor: pointer !important;
+}
+
+/* Style for the currently active input box with a color-specific glow */
+.active.border-green {
+  box-shadow: 0 0 .5rem var(--color-green),
+    inset 0 0 .5rem var(--color-green);
+  border-style: solid;
+  border-color: var(--color-green);
+}
+
+.active.border-purple {
+  box-shadow: 0 0 .5rem var(--color-purple),
+    inset 0 0 .5rem var(--color-purple);
+  border-style: solid;
+  border-color: var(--color-purple);
+}
+
+.active.border-yellow {
+  box-shadow: 0 0 .5rem var(--color-yellow),
+    inset 0 0 .5rem var(--color-yellow);
+  border-style: solid;
+  border-color: var(--color-yellow);
+}
+
+.active.border-blue {
+  box-shadow: 0 0 .5rem var(--color-blue),
+    inset 0 0 .5rem var(--color-blue);
+  border-style: solid;
+  border-color: var(--color-blue);
+}
+
+.active.border-red {
+  box-shadow: 0 0 .5rem var(--color-red),
+    inset 0 0 10px var(--color-red);
+  border-style: solid;
+  border-color: var(--color-red);
+}
+
+.plus-sign {
+  text-align: center;
+  font-weight: 600;
+  align-self: center;
+  font-size: 1.5rem;
+}
+/* .problem-grid{
+  grid-template-columns: auto max-content 1fr auto 1fr auto 1fr auto 1fr auto;
+} */
+ .row-3.plus-sign,.row-4.plus-sign,.row-5.plus-sign{
+  color: gray;
+ }

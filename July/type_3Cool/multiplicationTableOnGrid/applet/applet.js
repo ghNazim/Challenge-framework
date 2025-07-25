@@ -51,7 +51,6 @@ let isFirstQuestion = true; // Flag for first question
 function updateFeedbackText(text, className) {
   instruction.innerHTML = text;
   // instruction.classList.remove("red", "green", "blue");
-  
 }
 
 /**
@@ -109,6 +108,10 @@ function prefillGrid() {
  * Loads the current question and sets up the UI for it.
  */
 function loadQuestion() {
+  numpad.style.pointerEvents = "auto";
+  document
+    .querySelectorAll(".bigger-font")
+    .forEach((el) => el.classList.remove("bigger-font"));
   setJAXpose("normal");
   incorrectAttempts = 0;
   isWaitingForProceed = false;
@@ -145,14 +148,19 @@ function loadQuestion() {
   // Highlight row up to (and including) the target
   for (let i = 1; i <= num2; i++) {
     gridCells[num1][i].classList.add("highlight");
+    
   }
   // Highlight column up to (and including) the target
   for (let i = 1; i <= num1; i++) {
     gridCells[i][num2].classList.add("highlight");
+    
   }
   // Highlight the specific headers
   gridCells[0][num2].classList.add("highlight");
+  gridCells[0][num2].classList.add("bigger-font");
+  
   gridCells[num1][0].classList.add("highlight");
+  gridCells[num1][0].classList.add("bigger-font");
 
   // Set target cell
   activeCell = gridCells[num1][num2];
@@ -221,6 +229,7 @@ function checkAnswer() {
   const correctAnswer = answer.toString();
 
   if (userAnswer === correctAnswer) {
+    numpad.style.pointerEvents = "none";
     playSound("correct");
     setJAXpose("happy");
     updateFeedbackText(leftInstructions.correct_feedback, "correct");
@@ -238,6 +247,7 @@ function checkAnswer() {
     currentQuestionIndex++;
 
     setTimeout(() => {
+
       loadQuestion();
     }, 1500);
   } else {

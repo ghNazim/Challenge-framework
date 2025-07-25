@@ -69,7 +69,7 @@ body {
   margin: 0.25rem;
 }
 #left-panel {
-  width: 25%;
+  width: 33%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,6 +108,7 @@ body {
     #fdf2d1
   ); /* Light creamy gradient */
   border: 4px solid #fdbf74;
+  translate: 0px 1rem;
 }
 #context h3 {
   color: var(--blue-text);
@@ -115,7 +116,7 @@ body {
 }
 #context p {
   line-height: 1.3;
-  font-size: 1.1rem;
+  font-size: 1.33rem;
   color: var(--black-text);
   font-weight: 400;
 }
@@ -160,7 +161,7 @@ body {
   position: relative;
   flex: 1;
   background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--glow-primary);
+  /* border: 1px solid var(--glow-primary); */
   display: flex;
   flex-direction: row;
   justify-content: space-around;

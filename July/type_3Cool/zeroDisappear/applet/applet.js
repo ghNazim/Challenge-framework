@@ -8,7 +8,7 @@ let currentQuestionIndex = 0;
 
 let currentStep = 0;
 let subStep = 0; // To handle multi-click steps
-let m0, n, m1, product, finalProduct;
+let m0, n, m1, product, finalProduct, zeroCount;
 
 // Animation variables
 let sparkles = [];
@@ -43,6 +43,7 @@ function setProblemData() {
   m1 = currentQuestion.m1;
   product = currentQuestion.product;
   finalProduct = currentQuestion.finalProduct;
+  zeroCount = m0.toString().match(/0*$/)[0].length;
 }
 
 /**
@@ -152,7 +153,15 @@ function renderStep1() {
     leftInstructions.step1_initial,
     leftInstructions.step1_prompt
   );
-  stepHeading.textContent = appletText.step_headings.step1.replace("{m0}", m0);
+  const step1HeadingText =
+    zeroCount === 1
+      ? appletText.step_headings.step1_singular
+      : appletText.step_headings.step1;
+
+  stepHeading.textContent = step1HeadingText
+    .replace("{m0}", m0)
+    .replace("{zeroCount}", zeroCount);
+
   const m0_formatted = formatNumberWithZeros(m0, "initial-zero");
   mathExpression.innerHTML = appletText.math_content.step1
     .replace("{m0_formatted}", m0_formatted)
@@ -215,12 +224,18 @@ function renderStep2() {
 }
 
 function renderStep3() {
-  setJAXpose("normal")
+  setJAXpose("normal");
   updateInstruction(
     leftInstructions.step3_initial,
     leftInstructions.step3_prompt_first
   );
-  stepHeading.textContent = appletText.step_headings.step3;
+  const step3HeadingText =
+    zeroCount === 1
+      ? appletText.step_headings.step3_singular
+      : appletText.step_headings.step3;
+
+  stepHeading.textContent = step3HeadingText.replace("{zeroCount}", zeroCount);
+  
 
   const initialZerosHTML = m0
     .toString()
@@ -279,7 +294,7 @@ function handleNumpadSubmit() {
   const userAnswer = parseInt(answerBox.textContent, 10);
 
   if (userAnswer === product) {
-    setJAXpose("happy")
+    setJAXpose("happy");
     answerBox.textContent = product;
     answerBox.classList.add("correct");
     playSound("correct");
@@ -293,7 +308,7 @@ function handleNumpadSubmit() {
       leftInstructions.step2_prompt_again
     );
   } else {
-    setJAXpose("sad")
+    setJAXpose("sad");
     playSound("wrong");
     answerBox.classList.add("incorrect");
     answerBox.textContent = "";

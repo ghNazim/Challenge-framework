@@ -48,7 +48,7 @@ function highlightZeros(num, zeroCount) {
  * @param {number} baseNum - The number for the multiplication table (e.g., 1, 10, 100).
  * @returns {HTMLElement} The column element with the table.
  */
-function createStaticTableColumn(baseNum,till=10) {
+function createStaticTableColumn(baseNum, till = 10) {
   const column = document.createElement("div");
   column.classList.add("table-column");
   let content = "";
@@ -138,8 +138,8 @@ function goToStep(step) {
       setJAXpose("normal");
       staticContainer.style.display = "flex";
       staticContainer.innerHTML = "";
-      staticContainer.appendChild(createStaticTableColumn(1,4));
-      staticContainer.appendChild(createStaticTableColumn(10,4));
+      staticContainer.appendChild(createStaticTableColumn(1, 4));
+      staticContainer.appendChild(createStaticTableColumn(10, 4));
       break;
 
     case 2:
@@ -157,9 +157,34 @@ function goToStep(step) {
       setJAXpose("normal");
       staticContainer.style.display = "flex";
       staticContainer.innerHTML = "";
-      staticContainer.appendChild(createStaticTableColumn(1));
-      staticContainer.appendChild(createStaticTableColumn(10));
-      staticContainer.appendChild(createStaticTableColumn(100));
+      const column3 = document.createElement("div");
+      column3.classList.add("table-column");
+      let content3 = "";
+      const multipliers3 = [1, 10, 100, 1000];
+      const number3 = 5;
+      multipliers3.forEach((baseNum) => {
+        const result = baseNum * number3;
+        let zeroCount = 0;
+        if (baseNum >= 10) {
+          let temp = baseNum;
+          while (temp % 10 === 0) {
+            temp /= 10;
+          }
+          zeroCount = String(baseNum).length - String(temp).length;
+        }
+        const baseNumFormatted = highlightZeros(baseNum, zeroCount);
+        const resultFormatted = highlightZeros(result, zeroCount);
+        const entry = `<div class="table-entry">
+                              <span>${baseNumFormatted}</span>
+                              <span>&times;</span>
+                              <span>${number3}</span>
+                              <span>=</span>
+                              <span>${resultFormatted}</span>
+                         </div>`;
+        content3 += entry;
+      });
+      column3.innerHTML = content3;
+      staticContainer.appendChild(column3);
       break;
 
     case 4:
@@ -177,9 +202,34 @@ function goToStep(step) {
       setJAXpose("normal");
       staticContainer.style.display = "flex";
       staticContainer.innerHTML = "";
-      staticContainer.appendChild(createStaticTableColumn(2));
-      staticContainer.appendChild(createStaticTableColumn(20));
-      staticContainer.appendChild(createStaticTableColumn(200));
+      const column5 = document.createElement("div");
+      column5.classList.add("table-column");
+      let content5 = "";
+      const multipliers5 = [2, 20, 200, 2000];
+      const number5 = 4;
+      multipliers5.forEach((baseNum) => {
+        const result = baseNum * number5;
+        let zeroCount = 0;
+        if (baseNum >= 10) {
+          let temp = baseNum;
+          while (temp % 10 === 0) {
+            temp /= 10;
+          }
+          zeroCount = String(baseNum).length - String(temp).length;
+        }
+        const baseNumFormatted = highlightZeros(baseNum, zeroCount);
+        const resultFormatted = highlightZeros(result, zeroCount);
+        const entry = `<div class="table-entry">
+                              <span>${baseNumFormatted}</span>
+                              <span>&times;</span>
+                              <span>${number5}</span>
+                              <span>=</span>
+                              <span>${resultFormatted}</span>
+                         </div>`;
+        content5 += entry;
+      });
+      column5.innerHTML = content5;
+      staticContainer.appendChild(column5);
       break;
 
     case 6:
@@ -201,8 +251,8 @@ function goToStep(step) {
 
     case 7:
       setJAXpose("normal");
-      hideDragFtue(0)
-      hideDragFtue(1)
+      hideDragFtue(0);
+      hideDragFtue(1);
       staticContainer.style.display = "flex";
       staticContainer.style.justifyContent = "center";
       staticContainer.style.alignItems = "center";
@@ -240,7 +290,7 @@ nextButtonApplet.addEventListener("click", () => {
 });
 
 horizontalSlider.addEventListener("input", () => {
-  hideDragFtue(0)
+  hideDragFtue(0);
   handleSliderChange();
   gsap.from(dynamicTableContainer.querySelectorAll(".zero-highlight"), {
     duration: 0.3,
@@ -251,7 +301,7 @@ horizontalSlider.addEventListener("input", () => {
     onComplete: () => {},
   });
 });
-verticalSlider.addEventListener("input", ()=>{
+verticalSlider.addEventListener("input", () => {
   hideDragFtue(1);
   handleSliderChange();
 });
@@ -266,15 +316,14 @@ function initialize() {
   setJAXpose("normal");
 }
 
-const updateHsliderLabels = function (){
-  const labels = document.querySelectorAll('.slider-labels.horizontal span');
-  const num = verticalSlider.value
+const updateHsliderLabels = function () {
+  const labels = document.querySelectorAll(".slider-labels.horizontal span");
+  const num = verticalSlider.value;
   // const zeroes = horizontalSlider.value
   // const finalNum = num * 10 ** zeroes
-labels.forEach((span, index) => {
-  span.textContent = num * 10 ** (index);
-});
-
-}
+  labels.forEach((span, index) => {
+    span.textContent = num * 10 ** index;
+  });
+};
 
 initialize();

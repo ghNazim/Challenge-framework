@@ -40,7 +40,7 @@
 .problem-row {
   display: grid;
   grid-template-columns: 1fr 0.2fr 1fr 0.2fr 1.2fr;
-  gap: .3rem;
+  gap: 0.3rem;
   /* Use rem for responsive font size */
   font-size: 2rem;
   align-items: center;
@@ -67,6 +67,9 @@
   cursor: pointer;
   border: 0.15rem dashed #ffc107; /* Use rem for border */
   animation: pulse-yellow 2s infinite;
+}
+.missing-cell.no-animation {
+  animation: none;
 }
 
 @keyframes pulse-yellow {
@@ -186,7 +189,6 @@
   transform: translateY(2px); /* Press down on click */
   box-shadow: 0 2px #d9a362;
 }
-
 
 #numpad-clear {
   background-color: #ffebee;

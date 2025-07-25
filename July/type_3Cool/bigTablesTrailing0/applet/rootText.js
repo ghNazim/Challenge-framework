@@ -10,7 +10,7 @@ const leftInstructionsEnglish = {
       "Use the slider at the bottom to set the number and see the magic happen!",
   },
   step3: {
-    line1: "Great job! Tables of 1, 10, and 100 all follow the same pattern.",
+    line1: "Great job! Tables of 1, 10, 100, and 1000 all follow the same pattern.",
     line2: "The numbers stay the same; the zeroes grow.",
   },
   step4: {
@@ -19,7 +19,7 @@ const leftInstructionsEnglish = {
     line2: "Use the slider at the bottom to set the number.",
   },
   step5: {
-    line1: "Well done! The 2, 20, and 200 tables follow the same rule too.",
+    line1: "Well done! The 2, 20, 200, and 2000 tables follow the same rule too.",
     line2:
       "The answers look the same, they just grow with more trailing zeroes.",
   },
@@ -57,40 +57,41 @@ const buttonTextsEnglish = {
 // --- INDONESIAN ---
 const leftInstructionsIndonesian = {
   step1: {
-    line1: "Lihatlah tabel untuk 1 dan 10.",
+    line1: "Lihatlah tabel 10 berdampingan dengan tabel 1.",
     line2:
-      "Perhatikan bagaimana tabel 10 hanyalah tabel 1 dengan tambahan nol.",
+      "Setiap jawaban di tabel 10-an terlihat seperti tabel 1-an, dengan satu nol tambahan. Lihat bagaimana keduanya cocok!",
   },
   step2: {
-    line1: "Mari kita jelajahi pola ini.",
+    line1: "Mari kita amati tabel 10, 100, dan 1000.",
     line2:
-      "Gerakkan penggeser untuk menambahkan angka nol dan lihat apa yang terjadi pada tabel.",
+      "Gunakan penggeser di bagian bawah untuk mengatur angka dan lihat keajaibannya terjadi!",
   },
   step3: {
-    line1: "Berikut adalah tabel untuk 1, 10, dan 100.",
-    line2:
-      "Polanya berlanjut! Angka dasarnya sama, hanya dengan lebih banyak angka nol.",
+    line1:
+      "Kerja bagus! Tabel 1, 10, 100, dan 1000 semuanya mengikuti pola yang sama.",
+    line2: "Angka-angkanya tetap sama; nolnya bertambah.",
   },
   step4: {
-    line1: "Apakah ini berfungsi untuk angka lain?",
-    line2:
-      "Mari kita coba dengan tabel 2. Gerakkan penggeser untuk melihatnya.",
+    line1: "Coba ini: Tabel 2, 20, 200, dan 2000 – pola apa yang Anda lihat?",
+    line2: "Gunakan penggeser di bagian bawah untuk mengatur angka.",
   },
   step5: {
-    line1: "Berhasil! Lihatlah tabel untuk 2, 20, dan 200.",
-    line2: "Mengetahui tabel 2 membantumu mengetahui yang lain.",
+    line1:
+      "Bagus sekali! Tabel 2, 20, 200, dan 2000 juga mengikuti aturan yang sama.",
+    line2:
+      "Jawabannya terlihat sama, hanya saja bertambah dengan lebih banyak angka nol di belakangnya.",
   },
   step6: {
-    line1: "Sekarang kamu punya kendali penuh!",
+    line1: "Coba semua tabel!",
     line2:
-      "Gunakan kedua penggeser untuk menjelajahi tabel untuk nomor apa pun.",
+      "Gunakan penggeser vertikal di sebelah kiri untuk mengatur tabel perkalian.",
   },
   step7: {
-    line1: "Kerja bagus!",
-    line2:
-      "Jika kamu tahu tabel perkalian untuk angka apa pun, kamu juga tahu tabel untuk angka itu dikalikan dengan 10, 100, 1000, dan seterusnya! Cukup tambahkan angka nol.",
+    line1:
+      "Jika Anda mengetahui tabel perkalian dari 1 hingga 9, Anda dapat dengan mudah membuat tabel untuk angka yang jauh lebih besar!",
+    line2: "Mari kita praktikkan apa yang telah kita pelajari!",
   },
-  summary: `Kamu Berhasil! Sekarang Kamu Bisa Membuat Tabel Besar dari Tabel Kecil.<br><br>Jika kamu tahu tabel dari 1 hingga 9, kamu bisa membuat:<br><br>✅ 10, 20, 30… hingga 90<br>✅ 100, 200… hingga 900<br>✅ 1000, 2000… hingga 9000<br><br>Cukup tambahkan angka nol dan selesai. Ayo kita praktikkan apa yang telah kita pelajari!`,
+  summary: `Anda Berhasil! Sekarang Anda Dapat Membuat Tabel Besar dari Tabel Kecil.<br><br>Jika Anda tahu tabel dari 1 hingga 9, Anda dapat membuat:<br><br>✅ 10, 20, 30… hingga 90<br>✅ 100, 200… hingga 900<br>✅ 1000, 2000… hingga 9000<br><br>Cukup tambahkan angka nol dan Anda berhasil. Mari kita praktikkan apa yang telah kita pelajari!`,
 };
 
 const dataForQuestionsIndonesian = {

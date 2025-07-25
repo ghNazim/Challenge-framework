@@ -42,19 +42,19 @@ function initialize() {
   updateInstruction("initial_prompt", "solve_the_problem"); // Entry animations using GSAP // 1. Card stack bounces in
 
   gsap.from(".card-stack-container", {
-    duration: 1,
+    duration: 0.2,
     scale: 0.5,
     opacity: 0,
-    ease: "elastic.out(1, 0.75)",
+    ease: "none",
     delay: 0.2,
   }); // 2. Numpad buttons stagger in
 
   gsap.from(".numpad-btn", {
     duration: 0.2,
     opacity: 0,
-    scale: 0.1, // Animate from 20px below
+    scale: 0.1,
     stagger: 0.05, // Stagger the animation for each button
-    ease: "elastic.out(1, 0.75)",
+    ease: "power1.out",
     delay: 0.2, // Start slightly after the card stack
   });
 }
@@ -216,28 +216,88 @@ function handleWrongAnswer(card, questionIndex) {
  * @param {HTMLElement} card - The card to animate.
  * @param {boolean} isCorrect - Whether the answer was correct.
  */
+/**
+ * Animates the card out of the screen. If incorrect, animates it back to the stack.
+ * @param {HTMLElement} card - The card to animate.
+ * @param {boolean} isCorrect - Whether the answer was correct.
+ */
 function animateCardOut(card, isCorrect) {
-  // The GSAP animation now includes rotationY to preserve the flip state.
-  gsap.to(card, {
-    x: isCorrect ? -500 : -500,
-    y: -100,
-    rotation: isCorrect ? 30 : -30, // This is rotationZ
-    opacity: 0,
-    duration: 0.7,
-    ease: "power2.in",
-    onComplete: () => {
-      card.remove();
-      if (isCorrect) {
+  if (isCorrect) {
+    // Correct answers still fly out and get removed
+    gsap.to(card, {
+      x: -500,
+      y: -100,
+      rotation: 30,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power2.in",
+      onComplete: () => {
+        card.remove();
         questionsAnsweredCorrectly++;
-      }
-      if (!firstRoundComplete) {
-        questionsAnsweredInFirstRound++;
-      }
-      prepareNextQuestion(isCorrect);
-    },
-  });
+        if (!firstRoundComplete) {
+          questionsAnsweredInFirstRound++;
+        }
+        prepareNextQuestion(true);
+      },
+    });
+  } else {
+    // Incorrect answers fly out and then fly back to the bottom
+    const existingCards = Array.from(document.querySelectorAll(".card"));
+    const minZIndex =
+      existingCards.length > 1
+        ? Math.min(...existingCards.map((c) => parseInt(c.style.zIndex)))
+        : 0;
+
+    // Create a GSAP timeline for the sequence
+    const tl = gsap.timeline({
+      onComplete: () => {
+        if (!firstRoundComplete) {
+          questionsAnsweredInFirstRound++;
+        }
+        // When the entire sequence is done, prepare for the next question
+        prepareNextQuestion(false);
+      },
+    });
+
+    // 1. Fly out to the right
+    tl.to(card, {
+      x: -300,
+      y: -100,
+      rotation: -30,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.in",
+    });
+
+    // 2. Prepare for re-entry (happens instantly after flying out)
+    tl.add(() => {
+      card.style.zIndex = minZIndex - 1; // Move it to the very back
+      card.classList.remove("wrong");   // Remove the red "wrong" border
+      // Instantly move it off-screen to the bottom to prepare for fly-in
+      gsap.set(card, {
+        x: -300,
+        y: -100,
+        rotation: 0,
+        opacity: 0,
+      });
+    });
+
+    // 3. Fly back in to its new position at the bottom of the stack
+    tl.to(card, {
+      // Re-apply a random jitter to match the other cards
+      x: Math.floor(Math.random() * 10 - 5),
+      y: Math.floor(Math.random() * 10 - 5),
+      rotation: Math.floor(Math.random() * 10 - 5),
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out",
+    });
+  }
 }
 
+/**
+ * Prepares the applet for the next question.
+ */
 /**
  * Prepares the applet for the next question.
  */
@@ -248,52 +308,20 @@ function prepareNextQuestion(isCorrect) {
     if (incorrectQuestionsCount > 0) {
       reviewModal.classList.remove("hidden");
     } else {
-      // If all answers were correct in the first round, go straight to complete
       questionsAnsweredCorrectly = totalQuestions;
-      prepareNextQuestion(true);
+      prepareNextQuestion(true); // Go straight to complete
     }
     return;
   }
 
   if (questionsAnsweredCorrectly >= totalQuestions) {
-    // Activity finished
     updateInstruction("activity_complete", "well_done");
     triggerFullScreenOverlay(true);
     confettiBurst();
     return;
-  } // If the answer was wrong, create a new card at the back
+  }
 
-  if (!isCorrect) {
-    const newCardIndex = questions.length - 1;
-    const q = questions[newCardIndex];
-    const card = document.createElement("div");
-    card.className = "card";
-    card.dataset.questionIndex = newCardIndex;
-
-    const [num1, num2] = q;
-    const answer = num1 * num2;
-
-    card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-front"><span class="number-above">${num1} × ${num2}</span><div class="shape"></div></div>
-        <div class="card-back">${answer}</div>
-      </div>
-    `;
-
-    const randomX = Math.floor(Math.random() * 10 - 5);
-    const randomY = Math.floor(Math.random() * 10 - 5);
-    const randomRotation = Math.floor(Math.random() * 10 - 5);
-    card.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotation}deg)`; // Find the current lowest z-index and place the new card behind it
-
-    const existingCards = Array.from(document.querySelectorAll(".card"));
-    const minZIndex =
-      existingCards.length > 0
-        ? Math.min(...existingCards.map((c) => parseInt(c.style.zIndex)))
-        : 0;
-    card.style.zIndex = minZIndex - 1;
-    cardStack.appendChild(card);
-  } // Make the next card (the one with the highest z-index) straight
-
+  // Make the next card (the one with the highest z-index) straight
   const remainingCards = Array.from(document.querySelectorAll(".card"));
   if (remainingCards.length > 0) {
     const nextCard = remainingCards.reduce((a, b) =>
@@ -311,7 +339,7 @@ function prepareNextQuestion(isCorrect) {
   currentAnswer = "";
   updateNumpadDisplay();
   setJAXpose("normal");
-  updateInstruction("initial_prompt", "solve_the_problem"); // Re-enable numpad for the next question
+  updateInstruction("initial_prompt", "solve_the_problem");
   numpadGrid.style.pointerEvents = "auto";
 }
 
